@@ -32,6 +32,12 @@ export default {
 
   data: () => ({
     code: "",
+    arduino: {
+      methods: [],
+    },
+    components: [],
+    relations: [],
+    methods: [],
   }),
   components: {
     PrismEditor,
@@ -49,13 +55,9 @@ export default {
       );
       let file = fs.readFileSync(diagramFile, "utf8");
       let etree = et.parse(file);
-      console.log(etree.getroot());
-      console.log("---------------");
+      // console.log(etree.getroot());
+      // console.log("---------------");
 
-      let arduino = {};
-      let components = [];
-      let relations = [];
-      let methods = [];
       etree.findall("element").forEach((element) => {
         let coordinates = {};
         // console.log(element._children, element._children[1]._children);
@@ -72,13 +74,11 @@ export default {
         let model = "none";
         let type = "none";
         attributes.forEach((line) => {
-          console.log(line);
+          // console.log(line);
           if (line.includes("digitalPorts")) {
             digitalPorts = line.replace(/[^\d.]/g, "");
-            console.log("------found", digitalPorts);
           } else if (line.includes("analogPorts")) {
             analogPorts = line.replace(/[^\d.]/g, "");
-            console.log("------found", analogPorts);
           } else if (line.includes("group")) {
             group = line.replace(/[^\d.]/g, "");
           } else if (line.includes(")")) {
@@ -99,26 +99,23 @@ export default {
           }
         });
         let name = attributes[0].replace("//", "");
-        console.log("at", attributes);
-        console.log("name", name);
 
         if (type == "method") {
-          methods.push((methodText, group, coordinates));
+          this.methods.push({ methodText, group, coordinates });
         }
 
         if (type == "Arduino") {
-          arduino.name = name;
-          arduino.model = model;
-          arduino.digitalPorts = digitalPorts;
-          arduino.analogPorts = analogPorts;
-          arduino.coordinates = coordinates;
-          arduino.group = group;
+          this.arduino.name = name;
+          this.arduino.model = model;
+          this.arduino.digitalPorts = digitalPorts;
+          this.arduino.analogPorts = analogPorts;
+          this.arduino.coordinates = coordinates;
+          this.arduino.group = group;
         } else if (type == "relation") {
           let additional = element._children[3].text;
-          relations.push({ name, additional, coordinates });
+          this.relations.push({ name, additional, coordinates });
         } else {
-          console.log("adding component, ", name);
-          components.push({
+          this.components.push({
             name,
             model,
             digitalPorts,
@@ -126,17 +123,29 @@ export default {
             lib,
             coordinates,
             group,
+            methods: [],
           });
         }
 
         console.log("--------------------------------------ended element");
       });
       this.code = file;
+    },
+    addMethodsToComponents() {
+      this.methods.forEach((method) => {
+        this.components.forEach((component) => {
+          console.log(method.group, component.group);
 
-      console.log("relations", relations);
-      console.log("methods", methods);
-      console.log("arduino", arduino);
-      console.log("components", components);
+          if (parseInt(method.group) == parseInt(component.group)) {
+            method.parentName = component.name;
+            component.methods.push(method);
+          }
+          if (method.group == this.arduino.group) {
+            method.parentName = this.arduino.name;
+            this.arduino.methods.push(method);
+          }
+        });
+      });
     },
   },
 
@@ -144,15 +153,12 @@ export default {
     console.log("----------------------------------------");
 
     this.readUXF();
-    // let arduino = {};
-
-    // this.code += ("// Code generated for Arduino ", );
-    // p('// with ', totalDigitalPorts, ' digital ports in total with ',
-    //   digitalPorts, ' in use and ', totalDigitalPorts-digitalPorts, ' free')
-    // p('// and  ', totalAnalogPorts, ' analog ports in total')
-
-    // this.code += "void setup(){\n\n}\n";
-    // this.code += "void loop(){\n\n}\n";
+    this.addMethodsToComponents();
+    console.log(this.methods);
+    console.log(this.components);
+    // this.addInfoToRelations();
+    // this.printAll();
+    // this.generateCode();
   },
 };
 </script>
