@@ -241,6 +241,7 @@ export default {
 
     generateCode() {
       let generateDecision = (element) => {
+        console.log("GeneratingDecision for ", element.name, element);
         element.methods.forEach((method) => {
           p(method.methodText, "{\n");
           // print(
@@ -252,9 +253,10 @@ export default {
           // );
 
           this.getToElements(method).forEach((toElement) => {
-            // console.log("element", element);
-            // console.log("method", method);
-            // console.log("toEle", toElement);
+            console.log("method", method);
+            console.log("toEle", toElement);
+            p(toElement.methodText);
+
             let relation;
             this.relations.forEach((rel) => {
               if (rel.toElement == toElement) relation = rel;
@@ -271,24 +273,20 @@ export default {
               } else if (relation.name.includes("False")) {
                 ifFalse = relation.toElement.name;
               }
-              // let check = re.sub(
-              //   r'[0-9]+', '', toElement.name.replace('if', '').replace(' ', ''))
-              // condition = re.sub(
-              //   r'[<>=]+', '', toElement.name.replace(
-              //     'if', '').replace(' ', ''))
-              let check = " check ";
-              let condition = " condition ";
-              let tab = "    ";
-              p(tab, "if (", value, check, " ", condition, "){ \n");
-              p(tab * 2, ifTrue, ";");
-              p(tab, "}");
+
+              let check = toElement.name.replace("if", "").replace(" ", "");
+              let condition = toElement.name.replace("if", "").replace(" ", "");
+
+              p("if (", value, check, " ", condition, "){ \n");
+              p(ifTrue, ";");
+              p("}");
 
               if (ifFalse) {
-                p(tab, "else {");
-                p(tab * 2, ifFalse, ";");
+                p("else {");
+                p(ifFalse, ";");
               }
 
-              p(tab, "}");
+              p("}");
             }
             p("\n}");
           });
@@ -336,14 +334,30 @@ export default {
       // generateDecision(arduino)
     },
 
+    formatCode() {
+      let code = [];
+
+      let level = 0;
+      let tab = "    ";
+      this.code.split("\n").forEach((line) => {
+        if (line.includes("}")) {
+          level--;
+        }
+        code.push(tab.repeat(level) + line);
+        if (line.includes("{")) {
+          level++;
+        }
+      });
+      this.code = code.join("\n");
+    },
+
     setup() {
-      console.log("setup");
       this.readUXF();
       this.addMethodsToComponents();
       this.addInfoToRelations();
       this.generateCode();
 
-      console.log("size", this.code.length);
+      this.formatCode();
     },
     startWatching() {
       fs.watch(this.file, () => {
