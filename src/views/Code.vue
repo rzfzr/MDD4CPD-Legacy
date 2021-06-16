@@ -6,7 +6,7 @@
       :highlight="highlighter"
       line-numbers
     ></prism-editor>
-
+    <br />
     <prism-editor
       class="my-editor"
       v-model="uxf"
@@ -253,42 +253,58 @@ export default {
           // );
 
           this.getToElements(method).forEach((toElement) => {
+            let relation = this.relations.find(
+              (rel) => rel.toElement == toElement
+            );
+
             console.log("method", method);
             console.log("toEle", toElement);
-            p(toElement.methodText);
+            if (
+              toElement.parentName &&
+              toElement.parentName.includes("if") &&
+              relation
+            ) {
+              let value = toElement.methodText;
 
-            let relation;
-            this.relations.forEach((rel) => {
-              if (rel.toElement == toElement) relation = rel;
-            });
-            if (toElement.name && toElement.name.includes("if") && relation) {
-              let value = "";
-              let ifTrue = "";
-              let ifFalse = "";
+              //find relation where fromelement = parentname
+
+              let ifTrue = this.relations.find(
+                (relation) =>
+                  relation.fromElement.name == toElement.parentName &&
+                  relation.name == "True"
+              );
+              let ifFalse = this.relations.find(
+                (relation) =>
+                  relation.fromElement.name == toElement.parentName &&
+                  relation.name == "False"
+              );
+
               // print(relation.name);
-              if (relation.name.includes("getThis")) {
-                value = relation.toElement.name.split(" ", 1)[1];
-              } else if (relation.name.includes("True")) {
-                ifTrue = relation.toElement.name;
-              } else if (relation.name.includes("False")) {
-                ifFalse = relation.toElement.name;
-              }
+              // if (relation.parentName.includes("getThis")) {
+              //   value = relation.toElement.parentName.split(" ", 1)[1];
+              // } else if (relation.parentName.includes("True")) {
+              //   ifTrue = relation.toElement.parentName;
+              // } else if (relation.parentName.includes("False")) {
+              //   ifFalse = relation.toElement.parentName;
+              // }
+              let condition = toElement.parentName
+                .replace("if", "")
+                .replace(" ", "");
 
-              let check = toElement.name.replace("if", "").replace(" ", "");
-              let condition = toElement.name.replace("if", "").replace(" ", "");
-
-              p("if (", value, check, " ", condition, "){ \n");
-              p(ifTrue, ";");
+              p("if (", value, " ", condition, "){ \n");
+              p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
               p("}");
 
               if (ifFalse) {
                 p("else {");
-                p(ifFalse, ";");
+                p(ifFalse.toElement.name || ifFalse.toElement.parentName, ";");
               }
 
               p("}");
+            } else {
+              p(toElement.methodText, ";");
+              p("\n}");
             }
-            p("\n}");
           });
         });
       };
@@ -356,8 +372,12 @@ export default {
       this.addMethodsToComponents();
       this.addInfoToRelations();
       this.generateCode();
-
       this.formatCode();
+
+      console.log(this.components);
+      console.log(this.arduino);
+      console.log(this.methods);
+      console.log(this.relations);
     },
     startWatching() {
       fs.watch(this.file, () => {
@@ -379,9 +399,8 @@ export default {
   mounted() {
     console.log("mounted");
     this.file = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
-    this.startWatching();
-
     this.setup();
+    this.startWatching();
   },
 };
 </script>
