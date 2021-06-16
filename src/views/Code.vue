@@ -10,9 +10,12 @@
 </template>
 
 <script>
-// const fs = require("fs");
-// import { rootPath } from "electron-root-path";
-// import path from "path";
+const fs = require("fs");
+
+const et = require("elementtree");
+
+import { rootPath } from "electron-root-path";
+import path from "path";
 
 // import Prism Editor
 import { PrismEditor } from "vue-prism-editor";
@@ -28,7 +31,7 @@ export default {
   name: "Home",
 
   data: () => ({
-    code: 'console.log("Hello World")',
+    code: "",
   }),
   components: {
     PrismEditor,
@@ -36,16 +39,37 @@ export default {
 
   methods: {
     highlighter(code) {
-      return highlight(code, languages.js); //returns html
+      return highlight(code, languages.clike); //returns html
     },
   },
 
   mounted() {
     console.log("----------------------------------------");
-    // let diagramFile = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
-    // let file = fs.readFileSync(diagramFile, "utf8");
-    // this.code = file;
-    // console.log(file);
+    let diagramFile = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
+    let file = fs.readFileSync(diagramFile, "utf8");
+    let etree = et.parse(file);
+    // let arduino = {};
+
+    console.log(etree.getroot());
+    console.log("---------------");
+    etree.findall("element").forEach((component) => {
+      console.log(component);
+      if (component.tag == "Arduino") {
+        // console.log(component);
+        // console.log(arduino);
+        // arduino = component;
+      }
+    });
+    // this.code += ("// Code generated for Arduino ", );
+    // p('// with ', totalDigitalPorts, ' digital ports in total with ',
+    //   digitalPorts, ' in use and ', totalDigitalPorts-digitalPorts, ' free')
+    // p('// and  ', totalAnalogPorts, ' analog ports in total')
+
+    // this.code += "void setup(){\n\n}\n";
+    // this.code += "void loop(){\n\n}\n";
+
+    this.code = file;
+    // this.code = etree.toString();
   },
 };
 </script>
