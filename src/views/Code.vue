@@ -127,7 +127,6 @@ export default {
           });
         }
       });
-      this.code = file;
     },
     addMethodsToComponents() {
       this.methods.forEach((method) => {
@@ -221,24 +220,104 @@ export default {
         }
       }
     },
+
+    generateCode() {
+      // def generateDecision(element):
+      //     for method in element.methods:
+      //         p(method.name, '{\n')
+      //         print(element.name, ' ', method.name,
+      //               ' ', method.getToElements())
+
+      //         for toElement in method.getToElements():
+      //             for rel in relations:
+      //                 if rel.toElement == toElement:
+      //                     relation = rel
+      //                     print(rel.name)
+      //             if 'if' in toElement.name and relation:
+      //                 value = ''
+      //                 ifTrue = ''
+      //                 ifFalse = ''
+      //                 print(relation.name)
+      //                 if 'getThis' in relation.name:
+      //                     value = relation.toElement.name.split(' ', 1)[
+      //                         1]
+      //                 elif 'True' in relation.name:
+      //                     ifTrue = relation.toElement.name
+      //                 elif 'False' in relation.name:
+      //                     ifFalse = relation.toElement.name
+
+      //                 check = re.sub(
+      //                     r'[0-9]+', '', toElement.name.replace('if', '').replace(' ', ''))
+      //                 condition = re.sub(
+      //                     r'[<>=]+', '', toElement.name.replace(
+      //                         'if', '').replace(' ', ''))
+
+      //                 p(tab, 'if (', value, check, ' ', condition, '){ \n')
+      //                 p(tab*2, ifTrue, ';')
+      //                 p(tab, '}')
+
+      //                 if ifFalse:
+      //                     p(tab, 'else {')
+      //                     p(tab*2, ifFalse, ';')
+
+      //                 p(tab, '}')
+      //             p('\n}')
+
+      //             # else:
+      //             # else:  # just method calling without decision-taking
+      //             #     p(toElement.name)
+
+      let p = (...message) => {
+        this.code += message + "\n";
+      };
+      let usedDigital = 0;
+      let usedAnalog = 0;
+
+      this.components.forEach((component) => {
+        usedDigital += parseInt(component.digitalPorts);
+        usedAnalog += parseInt(component.analogPorts);
+      });
+      console.log(usedDigital, usedAnalog);
+
+      p("// Code generated for Arduino ", this.arduino.model);
+      p(
+        "// with ",
+        this.arduino.digitalPorts,
+        " digital ports in total with ",
+        usedDigital,
+        " in use and ",
+        this.arduino.digitalPorts - usedDigital,
+        " free"
+      );
+      p(
+        "// and ",
+        this.arduino.analogPorts,
+        " analog ports in total with ",
+        usedAnalog,
+        " in use and ",
+        this.arduino.analogPorts - usedAnalog,
+        " free"
+      );
+
+      // generateDecision(arduino)
+    },
   },
 
   mounted() {
     console.log("----------------------------------------");
     // console.log(this.arduino);
-
-    this.readUXF();
-    this.addMethodsToComponents();
-    this.addInfoToRelations();
     // console.log(this.methods);
     // console.log(this.components);
     // console.log(this.relations);
 
-    this.code = JSON.stringify(this.methods);
-    this.code += JSON.stringify(this.components);
-    this.code += JSON.stringify(this.relations);
-    // this.printAll();
-    // this.generateCode();
+    this.readUXF();
+    this.addMethodsToComponents();
+    this.addInfoToRelations();
+
+    // this.code = JSON.stringify(this.methods);
+    // this.code += JSON.stringify(this.components);
+    // this.code += JSON.stringify(this.relations);
+    this.generateCode();
   },
 };
 </script>
