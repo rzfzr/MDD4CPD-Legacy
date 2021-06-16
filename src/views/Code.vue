@@ -126,16 +126,12 @@ export default {
             methods: [],
           });
         }
-
-        console.log("--------------------------------------ended element");
       });
       this.code = file;
     },
     addMethodsToComponents() {
       this.methods.forEach((method) => {
         this.components.forEach((component) => {
-          console.log(method.group, component.group);
-
           if (parseInt(method.group) == parseInt(component.group)) {
             method.parentName = component.name;
             component.methods.push(method);
@@ -147,16 +143,100 @@ export default {
         });
       });
     },
+
+    addInfoToRelations() {
+      this.relations.forEach((relation) => {
+        let additional = relation.additional.split(";");
+        // console.log(additional);
+        let xF = parseInt(additional[0]); //from and to
+        let yF = parseInt(additional[1]);
+        let xT = parseInt(additional[2]);
+        let yT = parseInt(additional[3]);
+        let w = parseInt(relation.coordinates["w"]);
+        let h = parseInt(relation.coordinates["h"]);
+        let x1 = parseInt(relation.coordinates["x"]) + xF;
+        let y1 = parseInt(relation.coordinates["y"]) + yF;
+        let x2 = parseInt(relation.coordinates["x"]) + w - (w - xT);
+        let y2 = parseInt(relation.coordinates["y"]) + h - (h - yT);
+
+        // console.log("trying to add", x1, y1, x2, y2, relation);
+        this.addElementsToRelation(
+          this.getElementAtPosition(x1, y1),
+          this.getElementAtPosition(x2, y2),
+          relation
+        );
+      });
+    },
+
+    addElementsToRelation(from, to, relation) {
+      console.log(
+        "adding  ",
+        from.name || from.methodText,
+        " --- ",
+        to.name || to.methodText,
+        relation
+      );
+      this.relations.forEach((child) => {
+        if (child == relation) {
+          // console.log(from, to, relation);
+          from.parentName = to.name; //link
+          child.fromElement = from;
+          child.toElement = to;
+        }
+      });
+    },
+
+    getElementAtPosition(x, y) {
+      // console.log("looking at ", x, y);
+      let element = null;
+
+      this.components.forEach((component) => {
+        if (!element) element = checkBoundaries(x, y, component);
+        this.methods.forEach((method) => {
+          if (!element) element = checkBoundaries(x, y, method);
+        });
+        if (!element) element = checkBoundaries(x, y, this.arduino);
+        this.arduino.methods.forEach((method) => {
+          if (!element) element = checkBoundaries(x, y, method);
+        });
+      });
+      return element;
+
+      function checkBoundaries(x, y, element) {
+        let x1 = parseInt(element.coordinates["x"]);
+        let y1 = parseInt(element.coordinates["y"]);
+        let x2 = parseInt(x1) + parseInt(element.coordinates["w"]);
+        let y2 = parseInt(y1) + parseInt(element.coordinates["h"]);
+        const range = (min, max) => {
+          const arr = Array(max - min + 1)
+            .fill(0)
+            .map((_, i) => i + min);
+          return arr;
+        };
+        let horizontal = range(x1, x2 + 1);
+        let vertical = range(y1, y2 + 1);
+        if (horizontal.includes(x) && vertical.includes(y)) {
+          // console.log("returning element at ", x, y, element);
+          return element;
+        }
+      }
+    },
   },
 
   mounted() {
     console.log("----------------------------------------");
+    // console.log(this.arduino);
 
     this.readUXF();
     this.addMethodsToComponents();
-    console.log(this.methods);
-    console.log(this.components);
-    // this.addInfoToRelations();
+    this.addInfoToRelations();
+    // console.log(this.methods);
+    // console.log(this.components);
+    // console.log(this.relations);
+
+    this.code = JSON.stringify(this.methods);
+    this.code += JSON.stringify(this.components);
+    this.code += JSON.stringify(this.relations);
     // this.printAll();
     // this.generateCode();
   },
