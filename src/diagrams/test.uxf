@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>210</y>
+      <y>450</y>
       <w>140</w>
       <h>80</h>
     </coordinates>
@@ -20,7 +20,7 @@ group=3</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>180</x>
-      <y>450</y>
+      <y>690</y>
       <w>140</w>
       <h>40</h>
     </coordinates>
@@ -34,7 +34,7 @@ group=4
     <id>UMLClass</id>
     <coordinates>
       <x>470</x>
-      <y>190</y>
+      <y>430</y>
       <w>140</w>
       <h>80</h>
     </coordinates>
@@ -50,7 +50,7 @@ group=1
     <id>UMLSpecialState</id>
     <coordinates>
       <x>340</x>
-      <y>390</y>
+      <y>630</y>
       <w>190</w>
       <h>70</h>
     </coordinates>
@@ -62,7 +62,7 @@ type=decision</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>310</x>
-      <y>450</y>
+      <y>690</y>
       <w>140</w>
       <h>50</h>
     </coordinates>
@@ -75,7 +75,7 @@ lt=-&gt;&gt;
     <id>UMLClass</id>
     <coordinates>
       <x>590</x>
-      <y>490</y>
+      <y>730</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -90,7 +90,7 @@ group=5
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>290</y>
+      <y>530</y>
       <w>140</w>
       <h>40</h>
     </coordinates>
@@ -105,7 +105,7 @@ group=3
     <id>UMLClass</id>
     <coordinates>
       <x>180</x>
-      <y>350</y>
+      <y>590</y>
       <w>140</w>
       <h>100</h>
     </coordinates>
@@ -121,7 +121,7 @@ group=4</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>470</x>
-      <y>270</y>
+      <y>510</y>
       <w>140</w>
       <h>40</h>
     </coordinates>
@@ -136,7 +136,7 @@ group=1
     <id>Relation</id>
     <coordinates>
       <x>130</x>
-      <y>300</y>
+      <y>540</y>
       <w>70</w>
       <h>190</h>
     </coordinates>
@@ -148,7 +148,7 @@ group=1
     <id>UMLClass</id>
     <coordinates>
       <x>590</x>
-      <y>400</y>
+      <y>640</y>
       <w>140</w>
       <h>60</h>
     </coordinates>
@@ -164,7 +164,7 @@ group=5
     <id>UMLClass</id>
     <coordinates>
       <x>590</x>
-      <y>460</y>
+      <y>700</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -177,8 +177,8 @@ group=5
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>250</y>
+      <x>220</x>
+      <y>320</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -191,8 +191,8 @@ group=2
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>160</y>
+      <x>220</x>
+      <y>230</y>
       <w>140</w>
       <h>90</h>
     </coordinates>
@@ -207,8 +207,8 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>320</x>
-      <y>280</y>
+      <x>220</x>
+      <y>350</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -222,20 +222,20 @@ group=2
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>390</x>
-      <y>300</y>
-      <w>60</w>
-      <h>110</h>
+      <x>290</x>
+      <y>370</y>
+      <w>160</w>
+      <h>280</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;
 //relation</panel_attributes>
-    <additional_attributes>10.0;10.0;40.0;90.0</additional_attributes>
+    <additional_attributes>10.0;10.0;140.0;260.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>430</x>
-      <y>450</y>
+      <y>690</y>
       <w>180</w>
       <h>50</h>
     </coordinates>
@@ -248,7 +248,7 @@ lt=-&gt;&gt;
     <id>Relation</id>
     <coordinates>
       <x>440</x>
-      <y>300</y>
+      <y>540</y>
       <w>110</w>
       <h>110</h>
     </coordinates>
@@ -261,12 +261,12 @@ lt=-&gt;
     <id>Relation</id>
     <coordinates>
       <x>130</x>
-      <y>290</y>
-      <w>210</w>
-      <h>40</h>
+      <y>370</y>
+      <w>110</w>
+      <h>190</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;
 //relation</panel_attributes>
-    <additional_attributes>190.0;20.0;10.0;10.0</additional_attributes>
+    <additional_attributes>90.0;10.0;10.0;170.0</additional_attributes>
   </element>
 </diagram>

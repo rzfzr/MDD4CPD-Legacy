@@ -1,12 +1,19 @@
 <template>
-  <!-- <prism language="c-like">{{ code }}</prism> -->
+  <div>
+    <prism-editor
+      class="my-editor"
+      v-model="code"
+      :highlight="highlighter"
+      line-numbers
+    ></prism-editor>
 
-  <prism-editor
-    class="my-editor"
-    v-model="code"
-    :highlight="highlighter"
-    line-numbers
-  ></prism-editor>
+    <prism-editor
+      class="my-editor"
+      v-model="uxf"
+      :highlight="highlighter"
+      line-numbers
+    ></prism-editor>
+  </div>
 </template>
 
 <script>
@@ -32,12 +39,14 @@ export default {
 
   data: () => ({
     code: "",
+    uxf: "",
     arduino: {
       methods: [],
     },
     components: [],
     relations: [],
     methods: [],
+    file: "",
   }),
   components: {
     PrismEditor,
@@ -49,11 +58,7 @@ export default {
     },
 
     readUXF() {
-      let diagramFile = path.resolve(
-        rootPath,
-        "../../../src/diagrams/test.uxf"
-      );
-      let file = fs.readFileSync(diagramFile, "utf8");
+      let file = fs.readFileSync(this.file, "utf8");
       let etree = et.parse(file);
       // console.log(etree.getroot());
       // console.log("---------------");
@@ -126,6 +131,8 @@ export default {
             methods: [],
           });
         }
+
+        this.uxf = file;
       });
     },
     addMethodsToComponents() {
@@ -135,11 +142,11 @@ export default {
             method.parentName = component.name;
             component.methods.push(method);
           }
-          if (method.group == this.arduino.group) {
-            method.parentName = this.arduino.name;
-            this.arduino.methods.push(method);
-          }
         });
+        if (method.group == this.arduino.group) {
+          method.parentName = this.arduino.name;
+          this.arduino.methods.push(method);
+        }
       });
     },
 
@@ -168,13 +175,13 @@ export default {
     },
 
     addElementsToRelation(from, to, relation) {
-      console.log(
-        "adding  ",
-        from.name || from.methodText,
-        " --- ",
-        to.name || to.methodText,
-        relation
-      );
+      // console.log(
+      //   "adding  ",
+      //   from.name || from.methodText,
+      //   " --- ",
+      //   to.name || to.methodText,
+      //   relation
+      // );
       this.relations.forEach((child) => {
         if (child == relation) {
           // console.log(from, to, relation);
@@ -221,54 +228,78 @@ export default {
       }
     },
 
+    getToElements(method) {
+      //method == element?
+      let elements = [];
+      this.relations.forEach((relation) => {
+        if (relation.fromElement == method) {
+          elements.push(relation.toElement);
+        }
+      });
+      return elements;
+    },
+
     generateCode() {
-      // def generateDecision(element):
-      //     for method in element.methods:
-      //         p(method.name, '{\n')
-      //         print(element.name, ' ', method.name,
-      //               ' ', method.getToElements())
+      let generateDecision = (element) => {
+        element.methods.forEach((method) => {
+          p(method.methodText, "{\n");
+          // print(
+          //   element.name,
+          //   " ",
+          //   method.name,
+          //   " ",
+          //   this.getToElements(method)
+          // );
 
-      //         for toElement in method.getToElements():
-      //             for rel in relations:
-      //                 if rel.toElement == toElement:
-      //                     relation = rel
-      //                     print(rel.name)
-      //             if 'if' in toElement.name and relation:
-      //                 value = ''
-      //                 ifTrue = ''
-      //                 ifFalse = ''
-      //                 print(relation.name)
-      //                 if 'getThis' in relation.name:
-      //                     value = relation.toElement.name.split(' ', 1)[
-      //                         1]
-      //                 elif 'True' in relation.name:
-      //                     ifTrue = relation.toElement.name
-      //                 elif 'False' in relation.name:
-      //                     ifFalse = relation.toElement.name
+          this.getToElements(method).forEach((toElement) => {
+            // console.log("element", element);
+            // console.log("method", method);
+            // console.log("toEle", toElement);
+            let relation;
+            this.relations.forEach((rel) => {
+              if (rel.toElement == toElement) relation = rel;
+            });
+            if (toElement.name && toElement.name.includes("if") && relation) {
+              let value = "";
+              let ifTrue = "";
+              let ifFalse = "";
+              // print(relation.name);
+              if (relation.name.includes("getThis")) {
+                value = relation.toElement.name.split(" ", 1)[1];
+              } else if (relation.name.includes("True")) {
+                ifTrue = relation.toElement.name;
+              } else if (relation.name.includes("False")) {
+                ifFalse = relation.toElement.name;
+              }
+              // let check = re.sub(
+              //   r'[0-9]+', '', toElement.name.replace('if', '').replace(' ', ''))
+              // condition = re.sub(
+              //   r'[<>=]+', '', toElement.name.replace(
+              //     'if', '').replace(' ', ''))
+              let check = " check ";
+              let condition = " condition ";
+              let tab = "    ";
+              p(tab, "if (", value, check, " ", condition, "){ \n");
+              p(tab * 2, ifTrue, ";");
+              p(tab, "}");
 
-      //                 check = re.sub(
-      //                     r'[0-9]+', '', toElement.name.replace('if', '').replace(' ', ''))
-      //                 condition = re.sub(
-      //                     r'[<>=]+', '', toElement.name.replace(
-      //                         'if', '').replace(' ', ''))
+              if (ifFalse) {
+                p(tab, "else {");
+                p(tab * 2, ifFalse, ";");
+              }
 
-      //                 p(tab, 'if (', value, check, ' ', condition, '){ \n')
-      //                 p(tab*2, ifTrue, ';')
-      //                 p(tab, '}')
-
-      //                 if ifFalse:
-      //                     p(tab, 'else {')
-      //                     p(tab*2, ifFalse, ';')
-
-      //                 p(tab, '}')
-      //             p('\n}')
-
-      //             # else:
-      //             # else:  # just method calling without decision-taking
-      //             #     p(toElement.name)
+              p(tab, "}");
+            }
+            p("\n}");
+          });
+        });
+      };
 
       let p = (...message) => {
-        this.code += message + "\n";
+        message.forEach((m) => {
+          this.code += m;
+        });
+        this.code += "\n";
       };
       let usedDigital = 0;
       let usedAnalog = 0;
@@ -277,9 +308,10 @@ export default {
         usedDigital += parseInt(component.digitalPorts);
         usedAnalog += parseInt(component.analogPorts);
       });
-      console.log(usedDigital, usedAnalog);
+      // console.log(usedDigital, usedAnalog);
 
       p("// Code generated for Arduino ", this.arduino.model);
+
       p(
         "// with ",
         this.arduino.digitalPorts,
@@ -299,25 +331,43 @@ export default {
         " free"
       );
 
+      generateDecision(this.arduino);
+
       // generateDecision(arduino)
+    },
+
+    setup() {
+      console.log("setup");
+      this.readUXF();
+      this.addMethodsToComponents();
+      this.addInfoToRelations();
+      this.generateCode();
+
+      console.log("size", this.code.length);
+    },
+    startWatching() {
+      fs.watch(this.file, () => {
+        console.log("File changed!");
+        this.components = [];
+        this.arduino = {
+          methods: [],
+        };
+        this.relations = [];
+        this.methods = [];
+        this.code = "";
+        this.uxf = "";
+
+        this.setup();
+      });
     },
   },
 
   mounted() {
-    console.log("----------------------------------------");
-    // console.log(this.arduino);
-    // console.log(this.methods);
-    // console.log(this.components);
-    // console.log(this.relations);
+    console.log("mounted");
+    this.file = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
+    this.startWatching();
 
-    this.readUXF();
-    this.addMethodsToComponents();
-    this.addInfoToRelations();
-
-    // this.code = JSON.stringify(this.methods);
-    // this.code += JSON.stringify(this.components);
-    // this.code += JSON.stringify(this.relations);
-    this.generateCode();
+    this.setup();
   },
 };
 </script>
