@@ -3,10 +3,52 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+        <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
     <link rel="stylesheet" href="index.css">
+    <script defer src="render.js"></script>
+
+
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/highlight.min.js"></script>
+
+
+
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    
+    <h1>Hello Arduino Code!</h1>
+    <pre><code>
+/* Arduino Object Oriented Programming
+ * Crafted on 2016/01/30
+ * This sketch is defining a simple class that can be helpful to treat PINs as ojects. */
+
+#include "digitalPin.h" // to make the code more readable every class should be stored in separate files
+
+DigitalPin builtinLED(13); // instantiating from the DigitalPin class
+
+void setup()
+{
+  builtinLED.begin(); 
+}
+
+void loop()
+{
+  builtinLED.on();
+  delay(10);
+  builtinLED.off();
+  delay(50);
+  builtinLED.on();
+  delay(20);
+  builtinLED.off();
+  delay(500);
+}
+
+
+</code></pre>
+    <p id="code"></p>
   </body>
 </html>
