@@ -1,10 +1,18 @@
 <template>
   <div>
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+      color="primary"
+      height="25"
+    ></v-progress-linear>
+
     <prism-editor
       class="my-editor"
       v-model="code"
       :highlight="highlighter"
       line-numbers
+      style="min-height: 100vh"
     ></prism-editor>
     <br />
     <prism-editor
@@ -46,7 +54,9 @@ export default {
     components: [],
     relations: [],
     methods: [],
+    decisions: [],
     file: "",
+    loading: true,
   }),
   components: {
     PrismEditor,
@@ -101,12 +111,16 @@ export default {
             type = "method";
           } else if (line.includes("relation")) {
             type = "relation";
+          } else if (line.includes("decision")) {
+            type = "decision";
+          } else if (line.includes("component")) {
+            type = "component";
           }
         });
         let name = attributes[0].replace("//", "");
 
         if (type == "method") {
-          this.methods.push({ methodText, group, coordinates });
+          this.methods.push({ methodText, group, coordinates, type });
         }
 
         if (type == "Arduino") {
@@ -120,6 +134,7 @@ export default {
           let additional = element._children[3].text;
           this.relations.push({ name, additional, coordinates });
         } else {
+          // } else if (type == "component") {
           this.components.push({
             name,
             model,
@@ -129,8 +144,22 @@ export default {
             coordinates,
             group,
             methods: [],
+            type,
           });
         }
+        // else if (type == "decision") {
+        //   this.decisions.push({
+        //     name,
+        //     model,
+        //     digitalPorts,
+        //     analogPorts,
+        //     lib,
+        //     coordinates,
+        //     group,
+        //     methods: [],
+        //     type,
+        //   });
+        // }
 
         this.uxf = file;
       });
@@ -175,17 +204,10 @@ export default {
     },
 
     addElementsToRelation(from, to, relation) {
-      // console.log(
-      //   "adding  ",
-      //   from.name || from.methodText,
-      //   " --- ",
-      //   to.name || to.methodText,
-      //   relation
-      // );
+      console.log("adding Elements to Relation:", from, to, relation);
       this.relations.forEach((child) => {
         if (child == relation) {
-          // console.log(from, to, relation);
-          from.parentName = to.name; //link
+          from.parentName = to.name;
           child.fromElement = from;
           child.toElement = to;
         }
@@ -193,19 +215,24 @@ export default {
     },
 
     getElementAtPosition(x, y) {
-      // console.log("looking at ", x, y);
       let element = null;
-
       this.components.forEach((component) => {
         if (!element) element = checkBoundaries(x, y, component);
         this.methods.forEach((method) => {
           if (!element) element = checkBoundaries(x, y, method);
         });
-        if (!element) element = checkBoundaries(x, y, this.arduino);
-        this.arduino.methods.forEach((method) => {
-          if (!element) element = checkBoundaries(x, y, method);
-        });
       });
+      if (!element) element = checkBoundaries(x, y, this.arduino);
+      this.arduino.methods.forEach((method) => {
+        if (!element) element = checkBoundaries(x, y, method);
+      });
+      console.log(
+        "Looking for element at position:",
+        x,
+        y,
+        "founding element:",
+        element
+      );
       return element;
 
       function checkBoundaries(x, y, element) {
@@ -244,29 +271,18 @@ export default {
         console.log("GeneratingDecision for ", element.name, element);
         element.methods.forEach((method) => {
           p(method.methodText, "{\n");
-          // print(
-          //   element.name,
-          //   " ",
-          //   method.name,
-          //   " ",
-          //   this.getToElements(method)
-          // );
 
           this.getToElements(method).forEach((toElement) => {
             let relation = this.relations.find(
               (rel) => rel.toElement == toElement
             );
 
-            console.log("method", method);
-            console.log("toEle", toElement);
             if (
               toElement.parentName &&
               toElement.parentName.includes("if") &&
               relation
             ) {
               let value = toElement.methodText;
-
-              //find relation where fromelement = parentname
 
               let ifTrue = this.relations.find(
                 (relation) =>
@@ -279,14 +295,6 @@ export default {
                   relation.name == "False"
               );
 
-              // print(relation.name);
-              // if (relation.parentName.includes("getThis")) {
-              //   value = relation.toElement.parentName.split(" ", 1)[1];
-              // } else if (relation.parentName.includes("True")) {
-              //   ifTrue = relation.toElement.parentName;
-              // } else if (relation.parentName.includes("False")) {
-              //   ifFalse = relation.toElement.parentName;
-              // }
               let condition = toElement.parentName
                 .replace("if", "")
                 .replace(" ", "");
@@ -317,15 +325,20 @@ export default {
       };
       let usedDigital = 0;
       let usedAnalog = 0;
+      let usedLibraries = [];
 
       this.components.forEach((component) => {
         usedDigital += parseInt(component.digitalPorts);
         usedAnalog += parseInt(component.analogPorts);
+        console.log(component);
+
+        if (component.type == "component") usedLibraries.push(component.name);
       });
-      // console.log(usedDigital, usedAnalog);
 
+      usedLibraries.forEach((lib) => {
+        p("#include <" + lib + ".h>");
+      });
       p("// Code generated for Arduino ", this.arduino.model);
-
       p(
         "// with ",
         this.arduino.digitalPorts,
@@ -346,8 +359,6 @@ export default {
       );
 
       generateDecision(this.arduino);
-
-      // generateDecision(arduino)
     },
 
     formatCode() {
@@ -373,6 +384,7 @@ export default {
       this.addInfoToRelations();
       this.generateCode();
       this.formatCode();
+      this.loading = false;
 
       console.log(this.components);
       console.log(this.arduino);
@@ -382,6 +394,7 @@ export default {
     startWatching() {
       fs.watch(this.file, () => {
         console.log("File changed!");
+        this.loading = true;
         this.components = [];
         this.arduino = {
           methods: [],
