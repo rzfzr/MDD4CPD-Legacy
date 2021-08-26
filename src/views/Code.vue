@@ -254,25 +254,29 @@ export default {
 
             let relation = this.relations.find((rel) => rel.toElement == toElement);
 
-            if (
-              toElement.parentName &&
-              (toElement.parentName.includes("if") || toElement.parentName.includes("while")) &&
-              relation
-            ) {
-              const conditionText = toElement.parentName.includes("if") ? "if" : "while"; //todo add more
+            console.log("method, ", method);
+            console.log("toElement, ", toElement);
+            console.log("relation, ", relation);
+            if (toElement.name && (toElement.name.includes("if") || toElement.name.includes("while")) && relation) {
+              const conditionText = toElement.name.includes("if") ? "if" : "while"; //todo add more
 
-              let value = toElement.methodText;
+              // let value = toElement.methodText;
+
+              let value = this.relations.find(
+                (relation) => relation.fromElement.name == toElement.name && relation.name == "Value"
+              ).toElement.methodText;
+
+              console.log("---------------------------------------value: ", value);
 
               let ifTrues = this.relations.filter(
-                (relation) => relation.fromElement.name == toElement.parentName && relation.name == "True"
+                (relation) => relation.fromElement.name == toElement.name && relation.name == "True"
               );
 
-              console.log("found ifTrues", ifTrues);
               let ifFalses = this.relations.filter(
-                (relation) => relation.fromElement.name == toElement.parentName && relation.name == "False"
+                (relation) => relation.fromElement.name == toElement.name && relation.name == "False"
               );
 
-              let condition = toElement.parentName.replace("if", "").replace("while", "").replace(" ", "");
+              let condition = toElement.name.replace("if", "").replace("while", "").replace(" ", "");
 
               p(conditionText, " (", value, " ", condition, "){ \n");
 
