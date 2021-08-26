@@ -263,23 +263,28 @@ export default {
 
               let value = toElement.methodText;
 
-              let ifTrue = this.relations.find(
+              let ifTrues = this.relations.filter(
                 (relation) => relation.fromElement.name == toElement.parentName && relation.name == "True"
               );
-              let ifFalse = this.relations.find(
+
+              console.log("found ifTrues", ifTrues);
+              let ifFalses = this.relations.filter(
                 (relation) => relation.fromElement.name == toElement.parentName && relation.name == "False"
               );
 
               let condition = toElement.parentName.replace("if", "").replace("while", "").replace(" ", "");
 
               p(conditionText, " (", value, " ", condition, "){ \n");
-              p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
-              p("}");
 
-              if (ifFalse) {
+              ifTrues.forEach((ifTrue) => {
+                p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
+              });
+
+              p("}");
+              ifFalses.forEach((ifFalse) => {
                 p("else {");
                 p(ifFalse.toElement.name || ifFalse.toElement.parentName, ";");
-              }
+              });
 
               p("}");
             } else {
