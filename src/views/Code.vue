@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-progress-linear
-      v-if="loading"
-      indeterminate
-      color="primary"
-      height="25"
-    ></v-progress-linear>
+    <v-progress-linear v-if="loading" indeterminate color="primary" height="25"></v-progress-linear>
 
     <prism-editor
       class="my-editor"
@@ -15,12 +10,7 @@
       style="min-height: 100vh"
     ></prism-editor>
     <br />
-    <prism-editor
-      class="my-editor"
-      v-model="uxf"
-      :highlight="highlighter"
-      line-numbers
-    ></prism-editor>
+    <prism-editor class="my-editor" v-model="uxf" :highlight="highlighter" line-numbers></prism-editor>
   </div>
 </template>
 
@@ -101,10 +91,7 @@ export default {
           } else if (line.includes("lib")) {
             lib = line.replace("lib", "").replace(" ", "").replace("=", "");
           } else if (line.includes("model")) {
-            model = lib = line
-              .replace("model", "")
-              .replace(" ", "")
-              .replace("=", "");
+            model = lib = line.replace("model", "").replace(" ", "").replace("=", "");
           } else if (line.includes("Arduino")) {
             type = "Arduino";
           } else if (line.includes("method")) {
@@ -195,11 +182,7 @@ export default {
         let y2 = parseInt(relation.coordinates["y"]) + h - (h - yT);
 
         // console.log("trying to add", x1, y1, x2, y2, relation);
-        this.addElementsToRelation(
-          this.getElementAtPosition(x1, y1),
-          this.getElementAtPosition(x2, y2),
-          relation
-        );
+        this.addElementsToRelation(this.getElementAtPosition(x1, y1), this.getElementAtPosition(x2, y2), relation);
       });
     },
 
@@ -226,13 +209,7 @@ export default {
       this.arduino.methods.forEach((method) => {
         if (!element) element = checkBoundaries(x, y, method);
       });
-      console.log(
-        "Looking for element at position:",
-        x,
-        y,
-        "founding element:",
-        element
-      );
+      console.log("Looking for element at position:", x, y, "founding element:", element);
       return element;
 
       function checkBoundaries(x, y, element) {
@@ -273,31 +250,19 @@ export default {
           p(method.methodText, "{\n");
 
           this.getToElements(method).forEach((toElement) => {
-            let relation = this.relations.find(
-              (rel) => rel.toElement == toElement
-            );
+            let relation = this.relations.find((rel) => rel.toElement == toElement);
 
-            if (
-              toElement.parentName &&
-              toElement.parentName.includes("if") &&
-              relation
-            ) {
+            if (toElement.parentName && toElement.parentName.includes("if") && relation) {
               let value = toElement.methodText;
 
               let ifTrue = this.relations.find(
-                (relation) =>
-                  relation.fromElement.name == toElement.parentName &&
-                  relation.name == "True"
+                (relation) => relation.fromElement.name == toElement.parentName && relation.name == "True"
               );
               let ifFalse = this.relations.find(
-                (relation) =>
-                  relation.fromElement.name == toElement.parentName &&
-                  relation.name == "False"
+                (relation) => relation.fromElement.name == toElement.parentName && relation.name == "False"
               );
 
-              let condition = toElement.parentName
-                .replace("if", "")
-                .replace(" ", "");
+              let condition = toElement.parentName.replace("if", "").replace(" ", "");
 
               p("if (", value, " ", condition, "){ \n");
               p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
@@ -363,7 +328,6 @@ export default {
 
     formatCode() {
       let code = [];
-
       let level = 0;
       let tab = "    ";
       this.code.split("\n").forEach((line) => {
