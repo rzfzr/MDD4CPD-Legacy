@@ -250,9 +250,17 @@ export default {
           p(method.methodText, "{\n");
 
           this.getToElements(method).forEach((toElement) => {
+            console.log("getToElements:", method, toElement);
+
             let relation = this.relations.find((rel) => rel.toElement == toElement);
 
-            if (toElement.parentName && toElement.parentName.includes("if") && relation) {
+            if (
+              toElement.parentName &&
+              (toElement.parentName.includes("if") || toElement.parentName.includes("while")) &&
+              relation
+            ) {
+              const conditionText = toElement.parentName.includes("if") ? "if" : "while"; //todo add more
+
               let value = toElement.methodText;
 
               let ifTrue = this.relations.find(
@@ -262,9 +270,9 @@ export default {
                 (relation) => relation.fromElement.name == toElement.parentName && relation.name == "False"
               );
 
-              let condition = toElement.parentName.replace("if", "").replace(" ", "");
+              let condition = toElement.parentName.replace("if", "").replace("while", "").replace(" ", "");
 
-              p("if (", value, " ", condition, "){ \n");
+              p(conditionText, " (", value, " ", condition, "){ \n");
               p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
               p("}");
 
