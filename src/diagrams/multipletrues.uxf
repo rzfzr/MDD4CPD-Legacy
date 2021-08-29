@@ -4,8 +4,71 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>130</x>
-      <y>440</y>
+      <x>480</x>
+      <y>760</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>turn(int degrees)
+group=4
+//method
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>530</y>
+      <w>140</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>Temperature Sensor
+------------------------
+digitalPorts = 1
+lib = templib
+group=1
+
+//component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>660</y>
+      <w>140</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Motor
+------------------------
+digitalPorts = 2
+type = Stepper
+lib = stepperlib123
+group=4
+//component</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>610</y>
+      <w>140</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>int getTemp()
+
+group=1
+//method
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>520</y>
       <w>140</w>
       <h>60</h>
     </coordinates>
@@ -20,8 +83,8 @@ group=5
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>130</x>
-      <y>500</y>
+      <x>0</x>
+      <y>580</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -34,8 +97,8 @@ group=5
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>410</y>
+      <x>480</x>
+      <y>460</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -48,8 +111,8 @@ group=2
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>320</y>
+      <x>480</x>
+      <y>370</y>
       <w>140</w>
       <h>90</h>
     </coordinates>
@@ -64,8 +127,8 @@ group=2</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>650</x>
-      <y>440</y>
+      <x>480</x>
+      <y>490</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -79,58 +142,71 @@ group=2
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>480</x>
-      <y>420</y>
+      <x>310</x>
+      <y>500</y>
       <w>190</w>
-      <h>60</h>
+      <h>110</h>
     </coordinates>
     <panel_attributes>lt=-&gt;&gt;
 //relation</panel_attributes>
-    <additional_attributes>170.0;10.0;10.0;40.0</additional_attributes>
+    <additional_attributes>170.0;10.0;10.0;90.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>260</x>
-      <y>480</y>
-      <w>160</w>
-      <h>50</h>
+      <x>320</x>
+      <y>660</y>
+      <w>180</w>
+      <h>150</h>
     </coordinates>
     <panel_attributes>True
 lt=-&gt;&gt;
 //relation</panel_attributes>
-    <additional_attributes>140.0;20.0;10.0;30.0</additional_attributes>
+    <additional_attributes>10.0;10.0;160.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>130</x>
+      <y>610</y>
+      <w>120</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>True
+lt=-&gt;&gt;
+//relation</panel_attributes>
+    <additional_attributes>100.0;20.0;10.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLSpecialState</id>
     <coordinates>
-      <x>400</x>
-      <y>460</y>
+      <x>230</x>
+      <y>590</y>
       <w>190</w>
       <h>80</h>
     </coordinates>
-    <panel_attributes>while &lt;= 25
+    <panel_attributes>if &gt;= 25
 type=decision</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>580</x>
-      <y>490</y>
-      <w>130</w>
-      <h>110</h>
+      <x>410</x>
+      <y>610</y>
+      <w>90</w>
+      <h>40</h>
     </coordinates>
     <panel_attributes>Value
 lt=-&gt;&gt;
 //relation</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;90.0</additional_attributes>
+    <additional_attributes>10.0;20.0;70.0;20.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>130</x>
-      <y>530</y>
+      <x>0</x>
+      <y>610</y>
       <w>140</w>
       <h>30</h>
     </coordinates>
@@ -139,57 +215,5 @@ group=5
 //method
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>690</x>
-      <y>560</y>
-      <w>60</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>int i = 0</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>110</x>
-      <y>700</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Time
-------------------------
-//component
-
-group=6</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>110</x>
-      <y>730</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>delay(int value)
-//method
-group=6</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>260</x>
-      <y>520</y>
-      <w>260</w>
-      <h>40</h>
-    </coordinates>
-    <panel_attributes>True
-lt=-&gt;&gt;
-//relation</panel_attributes>
-    <additional_attributes>240.0;20.0;10.0;20.0</additional_attributes>
   </element>
 </diagram>

@@ -7,8 +7,17 @@
       v-model="code"
       :highlight="highlighter"
       line-numbers
-      style="min-height: 100vh"
+      style="min-height: 50vh"
     ></prism-editor>
+
+    <prism-editor
+      class="my-editor"
+      v-model="tree"
+      :highlight="highlighter"
+      line-numbers
+      style="min-height: 50vh"
+    ></prism-editor>
+
     <br />
     <prism-editor class="my-editor" v-model="uxf" :highlight="highlighter" line-numbers></prism-editor>
   </div>
@@ -37,6 +46,7 @@ export default {
 
   data: () => ({
     code: "",
+    tree: "",
     uxf: "",
     arduino: {
       methods: [],
@@ -53,10 +63,23 @@ export default {
   },
 
   methods: {
+    setup() {
+      this.readUXF();
+      this.addMethodsToComponents();
+      this.addInfoToRelations();
+      this.generateTree();
+      this.generateCode();
+      this.formatCode();
+      this.loading = false;
+
+      console.log(this.components);
+      console.log(this.arduino);
+      console.log(this.methods);
+      console.log(this.relations);
+    },
     highlighter(code) {
       return highlight(code, languages.clike); //returns html
     },
-
     readUXF() {
       let file = fs.readFileSync(this.file, "utf8");
       let etree = et.parse(file);
@@ -165,7 +188,6 @@ export default {
         }
       });
     },
-
     addInfoToRelations() {
       this.relations.forEach((relation) => {
         let additional = relation.additional.split(";");
@@ -185,7 +207,6 @@ export default {
         this.addElementsToRelation(this.getElementAtPosition(x1, y1), this.getElementAtPosition(x2, y2), relation);
       });
     },
-
     addElementsToRelation(from, to, relation) {
       console.log("adding Elements to Relation:", from, to, relation);
       this.relations.forEach((child) => {
@@ -196,7 +217,6 @@ export default {
         }
       });
     },
-
     getElementAtPosition(x, y) {
       let element = null;
       this.components.forEach((component) => {
@@ -231,7 +251,6 @@ export default {
         }
       }
     },
-
     getToElements(method) {
       //method == element?
       let elements = [];
@@ -242,7 +261,22 @@ export default {
       });
       return elements;
     },
+    generateTree() {
+      console.log("GeneratingTree");
 
+      this.tree += "\n" + this.arduino;
+
+      this.components.forEach((c) => {
+        console.log(c);
+        this.tree += "\n" + c.name;
+      });
+      this.tree += "\n -------------------------------";
+
+      this.methods.forEach((m) => {
+        console.log(m);
+        this.tree += "\n" + m.methodText;
+      });
+    },
     generateCode() {
       let generateDecision = (element) => {
         console.log("GeneratingDecision for ", element.name, element);
@@ -266,11 +300,17 @@ export default {
                 (relation) => relation.fromElement.name == toElement.name && relation.name == "Value"
               ).toElement.methodText;
 
-              console.log("---------------------------------------value: ", value);
-
               let ifTrues = this.relations.filter(
                 (relation) => relation.fromElement.name == toElement.name && relation.name == "True"
               );
+              console.log("trues: --------------------------------");
+              ifTrues.forEach((t) => {
+                console.log(t);
+                console.log(t.coordinates.h, t.coordinates.w, t.coordinates.x, t.coordinates.y);
+
+                console.table(t.toElement);
+              });
+              console.log("--------------------------------");
 
               let ifFalses = this.relations.filter(
                 (relation) => relation.fromElement.name == toElement.name && relation.name == "False"
@@ -342,7 +382,6 @@ export default {
 
       generateDecision(this.arduino);
     },
-
     formatCode() {
       let code = [];
       let level = 0;
@@ -357,20 +396,6 @@ export default {
         }
       });
       this.code = code.join("\n");
-    },
-
-    setup() {
-      this.readUXF();
-      this.addMethodsToComponents();
-      this.addInfoToRelations();
-      this.generateCode();
-      this.formatCode();
-      this.loading = false;
-
-      console.log(this.components);
-      console.log(this.arduino);
-      console.log(this.methods);
-      console.log(this.relations);
     },
     startWatching() {
       fs.watch(this.file, () => {
