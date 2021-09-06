@@ -2,7 +2,11 @@
   <div>
     <v-progress-linear v-if="loading" indeterminate color="primary" height="25"></v-progress-linear>
 
-    <div style="min-height: 50vh"></div>
+    <div style="min-height: 50vh">
+      <VueDiagramEditor ref="diagram" :node-color="nodeColor" :node-pulsable="nodePulsable">
+        <pre slot="node" slot-scope="{ node }">{{ format(node) }}</pre>
+      </VueDiagramEditor>
+    </div>
 
     <prism-editor
       class="my-editor"
@@ -43,6 +47,9 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
+import VueDiagramEditor from "vue-diagram-editor";
+import "vue-diagram-editor/dist/vue-diagram-editor.css";
+
 export default {
   name: "Home",
 
@@ -59,12 +66,68 @@ export default {
     decisions: [],
     file: "",
     loading: true,
+    nodes: {
+      "node-1": {
+        id: "node-1",
+        title: "Arduino",
+        size: {
+          width: 200,
+          height: 220,
+        },
+        portsOut: {
+          digital: "output",
+        },
+      },
+      "node-2": {
+        id: "node-2",
+        title: "My node 2",
+        size: {
+          width: 200,
+          height: 220,
+        },
+        coordinates: {
+          x: 280,
+          y: 100,
+        },
+        portsIn: {
+          default: "input",
+        },
+      },
+    },
+    links: {
+      "link-1": {
+        id: "link-1",
+        start_id: "node-1",
+        start_port: "default",
+        end_id: "node-2",
+        end_port: "default",
+      },
+    },
   }),
   components: {
     PrismEditor,
+    VueDiagramEditor,
   },
 
   methods: {
+    format(node) {
+      return JSON.stringify(node, null, 2);
+    },
+    nodeColor(node) {
+      if (node.coordinates.x > 200) {
+        return "#0f0";
+      }
+      if (node.coordinates.y > 200) {
+        return "#f00";
+      }
+
+      return "#00f";
+    },
+
+    nodePulsable(node) {
+      return node.coordinates.y > 200;
+    },
+
     setup() {
       this.readUXF();
       this.addMethodsToComponents();
@@ -425,6 +488,10 @@ export default {
     this.file = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
     this.setup();
     this.startWatching();
+    this.$refs.diagram.setModel({
+      nodes: this.nodes,
+      links: this.links,
+    });
   },
 };
 </script>
