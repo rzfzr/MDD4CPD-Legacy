@@ -4,7 +4,7 @@
 
     <div style="min-height: 50vh">
       <VueDiagramEditor ref="diagram" :node-color="nodeColor" :node-pulsable="nodePulsable">
-        <pre slot="node" slot-scope="{ node }">{{ format(node) }}</pre>
+        <!-- <pre slot="node" slot-scope="{ node }">{{ format(node) }}</pre> -->
       </VueDiagramEditor>
     </div>
 
@@ -66,43 +66,75 @@ export default {
     decisions: [],
     file: "",
     loading: true,
-    nodes: {
-      "node-1": {
-        id: "node-1",
+    nodes: [
+      {
+        id: "arduino",
         title: "Arduino",
-        size: {
-          width: 200,
-          height: 220,
-        },
         portsOut: {
-          digital: "output",
+          setup: "setup()",
+          loop: "loop()",
         },
       },
-      "node-2": {
-        id: "node-2",
-        title: "My node 2",
-        size: {
-          width: 200,
-          height: 220,
-        },
+      {
+        id: "if",
+        title: "If > 20",
         coordinates: {
-          x: 280,
-          y: 100,
+          x: 180,
+          y: 10,
         },
         portsIn: {
-          default: "input",
+          call: "call",
+          value: "value",
+        },
+        portsOut: {
+          true: "true",
+          false: "false",
         },
       },
-    },
-    links: {
-      "link-1": {
-        id: "link-1",
-        start_id: "node-1",
-        start_port: "default",
-        end_id: "node-2",
-        end_port: "default",
+      {
+        id: "temp",
+        title: "Temperature Sensor",
+        coordinates: {
+          x: 10,
+          y: 180,
+        },
+
+        portsOut: {
+          getTemp: "getTemp",
+        },
       },
-    },
+      {
+        id: "led",
+        title: "LED",
+        coordinates: {
+          x: 350,
+          y: 10,
+        },
+        portsIn: {
+          set: "set",
+        },
+      },
+    ],
+    links: [
+      {
+        start_id: "arduino",
+        start_port: "setup",
+        end_id: "if",
+        end_port: "call",
+      },
+      {
+        start_id: "temp",
+        start_port: "getTemp",
+        end_id: "if",
+        end_port: "value",
+      },
+      {
+        start_id: "if",
+        start_port: "true",
+        end_id: "led",
+        end_port: "set",
+      },
+    ],
   }),
   components: {
     PrismEditor,
@@ -113,14 +145,16 @@ export default {
     format(node) {
       return JSON.stringify(node, null, 2);
     },
+    // eslint-disable-next-line no-unused-vars
     nodeColor(node) {
-      if (node.coordinates.x > 200) {
-        return "#0f0";
-      }
-      if (node.coordinates.y > 200) {
-        return "#f00";
-      }
+      // if (node.coordinates.x > 200) {
+      //   return "#0f0";
+      // }
+      // if (node.coordinates.y > 200) {
+      //   return "#f00";
+      // }
 
+      // console.log(node);
       return "#00f";
     },
 
