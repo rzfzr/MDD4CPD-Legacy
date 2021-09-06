@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/mdd4iot/static/css/main.a617e044.chunk.css",
+    "main.js": "/mdd4iot/static/js/main.5b3ecad8.chunk.js",
+    "main.js.map": "/mdd4iot/static/js/main.5b3ecad8.chunk.js.map",
+    "runtime-main.js": "/mdd4iot/static/js/runtime-main.313abc5c.js",
+    "runtime-main.js.map": "/mdd4iot/static/js/runtime-main.313abc5c.js.map",
+    "static/js/2.15fbdcbb.chunk.js": "/mdd4iot/static/js/2.15fbdcbb.chunk.js",
+    "static/js/2.15fbdcbb.chunk.js.map": "/mdd4iot/static/js/2.15fbdcbb.chunk.js.map",
+    "index.html": "/mdd4iot/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/mdd4iot/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.15fbdcbb.chunk.js.LICENSE.txt": "/mdd4iot/static/js/2.15fbdcbb.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.313abc5c.js",
+    "static/js/2.15fbdcbb.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.5b3ecad8.chunk.js"
+  ]
+}
