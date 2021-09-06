@@ -1,12 +1,9 @@
 <template>
   <div>
-    <screen ref="screen">
-      <edge v-for="edge in graph.edges" :data="edge" :nodes="graph.nodes" :key="edge.id"> </edge>
+    <v-progress-linear v-if="loading" indeterminate color="primary" height="25"></v-progress-linear>
 
-      <node v-for="node in graph.nodes" :data="node" :key="node.id">
-        <!-- html can be placed here, defaults to <div>{{node.id}}</div> -->
-      </node>
-    </screen>
+    <div style="min-height: 50vh"></div>
+
     <prism-editor
       class="my-editor"
       v-model="code"
@@ -15,7 +12,6 @@
       style="min-height: 50vh"
     ></prism-editor>
 
-    <v-progress-linear v-if="loading" indeterminate color="primary" height="25"></v-progress-linear>
     <prism-editor
       class="my-editor"
       v-model="tree"
@@ -47,20 +43,17 @@ import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
 import "prismjs/themes/prism-tomorrow.css"; // import syntax highlighting styles
 
-import { Screen, Node, Edge, graph } from "vnodes";
-
 export default {
   name: "Home",
 
   data: () => ({
-    graph: new graph(),
     code: "",
     tree: "",
     uxf: "",
     arduino: {
       methods: [],
     },
-    components: [Screen, Node, Edge],
+    components: [],
     relations: [],
     methods: [],
     decisions: [],
@@ -428,11 +421,6 @@ export default {
   },
 
   mounted() {
-    this.graph.createNode("a");
-    this.graph.createNode("b");
-    this.graph.createEdge("a", "b");
-    this.graph.graphNodes();
-
     console.log("mounted");
     this.file = path.resolve(rootPath, "../../../src/diagrams/test.uxf");
     this.setup();
