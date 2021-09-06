@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>290</x>
+      <y>130</y>
+      <w>150</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>ArduinoUno
+-
+analogPorts
+digitalPorts
+-
++ setup()
++ loop()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>310</y>
+      <w>180</w>
+      <h>210</h>
+    </coordinates>
+    <panel_attributes>Servo
+//https://github.com/arduino-libraries/Servo/blob/master/src/Servo.h
+-
+digitalPorts=1
+-
+Servo()
+-
+uint8_t attach(int)
+uint8_t attach(int,int,int)
+void detach()
+void write(int)
+void writeMicroseconds(int)
+int read()
+int readMicroseconds()
+bool attached()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>310</y>
+      <w>210</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Stepper
+//https://github.com/arduino-libraries/Stepper/blob/master/src/Stepper.h
+-
+digitalPorts=2/5/6
+-
+Stepper(int,int,int)
+Stepper(int,int,int,int,int)
+Stepper(int,int,int,int,int,int)
+-
+void setSpeed(long whatSpeed)
+void step(int number_of_steps)
+int version(void)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>490</x>
+      <y>150</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>LED
+-
+digitalPorts=1
+-
+void set(bool)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>610</x>
+      <y>150</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>Button
+-
+digitalPorts=1
+-
+bool get()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>250</x>
+      <y>250</y>
+      <w>470</w>
+      <h>290</h>
+    </coordinates>
+    <panel_attributes>Motors
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>250</x>
+      <y>100</y>
+      <w>230</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>MicroControllers
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>480</x>
+      <y>100</y>
+      <w>240</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>Basics
+valign=top
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
