@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/mdd4iot/static/css/main.a617e044.chunk.css",
-    "main.js": "/mdd4iot/static/js/main.5b3ecad8.chunk.js",
-    "main.js.map": "/mdd4iot/static/js/main.5b3ecad8.chunk.js.map",
-    "runtime-main.js": "/mdd4iot/static/js/runtime-main.313abc5c.js",
-    "runtime-main.js.map": "/mdd4iot/static/js/runtime-main.313abc5c.js.map",
-    "static/js/2.15fbdcbb.chunk.js": "/mdd4iot/static/js/2.15fbdcbb.chunk.js",
-    "static/js/2.15fbdcbb.chunk.js.map": "/mdd4iot/static/js/2.15fbdcbb.chunk.js.map",
-    "index.html": "/mdd4iot/index.html",
-    "static/css/main.a617e044.chunk.css.map": "/mdd4iot/static/css/main.a617e044.chunk.css.map",
-    "static/js/2.15fbdcbb.chunk.js.LICENSE.txt": "/mdd4iot/static/js/2.15fbdcbb.chunk.js.LICENSE.txt"
+    "main.css": "/MDD4IoT/static/css/main.a617e044.chunk.css",
+    "main.js": "/MDD4IoT/static/js/main.5b3ecad8.chunk.js",
+    "main.js.map": "/MDD4IoT/static/js/main.5b3ecad8.chunk.js.map",
+    "runtime-main.js": "/MDD4IoT/static/js/runtime-main.2d2cec11.js",
+    "runtime-main.js.map": "/MDD4IoT/static/js/runtime-main.2d2cec11.js.map",
+    "static/js/2.15fbdcbb.chunk.js": "/MDD4IoT/static/js/2.15fbdcbb.chunk.js",
+    "static/js/2.15fbdcbb.chunk.js.map": "/MDD4IoT/static/js/2.15fbdcbb.chunk.js.map",
+    "index.html": "/MDD4IoT/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/MDD4IoT/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.15fbdcbb.chunk.js.LICENSE.txt": "/MDD4IoT/static/js/2.15fbdcbb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.313abc5c.js",
+    "static/js/runtime-main.2d2cec11.js",
     "static/js/2.15fbdcbb.chunk.js",
     "static/css/main.a617e044.chunk.css",
     "static/js/main.5b3ecad8.chunk.js"
