@@ -7,11 +7,9 @@ import { AppBar } from '@material-ui/core';
 import history from '../history';
 
 export default function SimpleBottomNavigation() {
-    const [value, setValue]=React.useState('/');
-    let currentPath=history.location.pathname
-
-    console.log('sup', currentPath, value)
-    if (value!==currentPath)
+    const [value, setValue] = React.useState('/');
+    let currentPath = history.location.pathname
+    if (value !== currentPath)
         setValue(currentPath)
     return (
         <AppBar position="fixed" color="primary" style={{ top: "auto", bottom: 0 }}>
