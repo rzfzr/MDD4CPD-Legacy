@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
+import masterDiagram from '../assets/master.svg'
 export default function HomePage() {
-    return <div> Welcome to MDD4IoT!
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/editor">Editor</Link></li>
+    return <div>
+        <h2>
+            Welcome to MDD4IoT!
+        </h2>
+        <div>
+            <img src={masterDiagram} alt="Architecture Diagram" style={{ backgroundColor: "white" }} />
+        </div>
+
     </div>
 }
