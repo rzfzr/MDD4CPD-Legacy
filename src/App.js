@@ -13,10 +13,10 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Router history={history}>
-          <Route path='/' exact component={HomePage} />
-          <Route path='/editor' component={EditorPage} />
+          <Route path='/' exact component={EditorPage} />
+          {/* <Route path='/editor' component={EditorPage} /> */}
         </Router>
-        <NavigationBar />
+        {/* <NavigationBar /> */}
       </header>
     </div>
   );
