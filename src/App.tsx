@@ -7,9 +7,6 @@ import history from './history'
 import EditorPage from './pages/Editor'
 import HomePage from './pages/Home';
 
-import { useState, useMemo } from 'react';
-import { useEffect } from 'react';
-
 export default function App() {
   return (
     <div className="App">

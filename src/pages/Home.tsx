@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import masterDiagram from '../assets/master.svg'
 export default function HomePage() {
     return <div>
