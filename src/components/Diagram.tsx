@@ -45,21 +45,20 @@ export default function SimpleBottomNavigation() {
 
     nextModel.addAll(n0, n2, p00.link(p20), p23.link(p30), p40.link(p21), n3, n4);
     engine.setModel(nextModel);
+
     useEffect(() => {
         console.log('Rendering Diagram')
-
         if (nextModel.serialize() !== model) {
             setModel(nextModel.serialize())
         }
-
     }, [])
 
     return (
         <div style={{ width: '100%', height: '100%' }}>
-            <Button
+            {/* <Button
                 onClick={() => {
                     setModel(nextModel.serialize());
-                }}>Save</Button>
+                }}>Save</Button> */}
             <CanvasWidget className='canvas' engine={engine} />
         </div>
     );

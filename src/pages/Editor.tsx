@@ -5,7 +5,9 @@ import Code from "../components/Code"
 import Diagram from "../components/Diagram";
 
 function generateCode(model: any): string {
-  let code = ''
+
+  console.log('Generating code from model:', model)
+  let code = "Model: " + JSON.stringify(model) + "\n\n\n"
   let links: any[] = []
   Object.entries(model.layers[0].models).forEach((x: any) => {
     links.push(x[1])
@@ -14,17 +16,53 @@ function generateCode(model: any): string {
   Object.entries(model.layers[1].models).forEach((x: any) => {
     nodes.push(x[1])
   })
-
   let controller = nodes.find((x: any) => x.name === 'Arduino')
+  console.log('Controller:', controller, 'Links:', links, 'Nodes:', nodes)
 
 
 
-  console.log(controller, links, nodes)
+  let add = (...message: string[]) => {
+    message.forEach((m) => {
+      code += m;
+    });
+    code += "\n";
+  };
+  let getLink = (linkID: string) => {
+    return links.find(l => l.id === linkID)
+  }
+  let getPort = (nodeID: string, portID: string) => {
+    return nodes.find((n: any) => n.id === nodeID).ports
+      .find((p: any) => p.id === portID);
+  }
+  let getNode = (nodeID: string) => {
+    return nodes.find((n: any) => n.id == nodeID)
+  }
 
-  //   let generateDecision = (element: any) => {
-  //     console.log("GeneratingDecision for ", element.name, element);
+
+
+  controller.ports.forEach((port: any) => {
+    add(port.label, "{\n");
+
+    port.links.forEach((l: any) => {
+      let link = getLink(l);
+
+      let toPort = getPort(link.target, link.targetPort)
+      let toNode = getNode(toPort.parentNode)
+
+      add(toNode.name)
+      add(link.target)
+      add(toPort.name)
+
+
+      // add(getLink(link).target)
+    })
+
+    add("}\n");
+    // getToPorts(port)
+
+  })
+
   //     element.methods.forEach((method) => {
-  //       p(method.methodText, "{\n");
 
   //       console.log("................................", this.getToElements(method));
 
@@ -85,12 +123,7 @@ function generateCode(model: any): string {
   //     });
   //   };
 
-  //   let p = (...message) => {
-  //     message.forEach((m) => {
-  //       code += m;
-  //     });
-  //     code += "\n";
-  //   };
+
   //   let usedDigital = 0;
   //   let usedAnalog = 0;
   //   let usedLibraries = [];
@@ -133,18 +166,13 @@ function generateCode(model: any): string {
 export default function EditorPage() {
   const { model } = useContext(GlobalContext)
   let code = ''
-  console.log(model)
-  if (model != {})
-    code = generateCode(model)
-  // code += JSON.stringify(model);
-  // console.log(model)
 
   return <div className="float-container" >
     <div className="float-child-left">
       <Diagram />
     </div>
     <div className="float-child-right">
-      <Code code={code} language="clike" />
+      {Object.keys(model).length === 0 ? null : <Code code={generateCode(model)} language="clike" />}
     </div>
   </div>
 }
