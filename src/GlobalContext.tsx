@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
 export const GlobalContext = createContext({
-    model: '' as string,
+    model: {} as object,
     setModel: (a: any) => { },
 });

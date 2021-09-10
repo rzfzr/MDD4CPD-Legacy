@@ -10,7 +10,7 @@ import HomePage from './pages/Home';
 import { useMemo, useState } from 'react';
 
 export default function App() {
-  const [model, setModel] = useState('')
+  const [model, setModel] = useState({})
 
   const providerValue = useMemo(() => ({
     model, setModel

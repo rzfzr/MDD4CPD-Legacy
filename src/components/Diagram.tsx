@@ -57,10 +57,9 @@ export default function SimpleBottomNavigation() {
         <div style={{ width: '100%', height: '100%' }}>
             <Button
                 onClick={() => {
-                    setModel(JSON.stringify(model.serialize()));
+                    setModel(model.serialize());
                 }}>Save</Button>
             <CanvasWidget className='canvas' engine={engine} />
-
         </div>
     );
 }
