@@ -7,7 +7,8 @@ import Diagram from "../components/Diagram";
 function generateCode(model: any): string {
 
   console.log('Generating code from model:', model)
-  let code = "Model: " + JSON.stringify(model) + "\n\n\n"
+  let code = ''
+  // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
   let links: any[] = []
   Object.entries(model.layers[0].models).forEach((x: any) => {
     links.push(x[1])
@@ -37,6 +38,16 @@ function generateCode(model: any): string {
   let getNode = (nodeID: string) => {
     return nodes.find((n: any) => n.id == nodeID)
   }
+  let getValue = (conditionNode: any) => {
+    let linkID = conditionNode.ports.find((p: any) => p.name === 'value').links[0]
+    let link = getLink(linkID)
+    return getPort(link.source, link.sourcePort)
+  }
+  let getOutcome = (conditionNode: any) => {
+    let linkID = conditionNode.ports.find((p: any) => p.name === 'True').links[0]
+    let link = getLink(linkID)
+    return getPort(link.target, link.targetPort)
+  }
 
 
 
@@ -45,16 +56,32 @@ function generateCode(model: any): string {
 
     port.links.forEach((l: any) => {
       let link = getLink(l);
-
       let toPort = getPort(link.target, link.targetPort)
       let toNode = getNode(toPort.parentNode)
 
-      add(toNode.name)
-      add(link.target)
-      add(toPort.name)
 
 
-      // add(getLink(link).target)
+      if (toNode.name === "Condition") {
+        let value = getValue(toNode)
+        let outcome = getOutcome(toNode)
+
+        add('if (', value.name, toPort.name.replace('if', ''), ') {')
+
+
+        add(outcome.label)
+
+
+
+        add("}\n");
+
+      }
+      // add(link.target)
+
+
+
+
+
+
     })
 
     add("}\n");
@@ -161,12 +188,27 @@ function generateCode(model: any): string {
 
   //   generateDecision(this.arduino);
 
-  return code;
+
+  function formatCode(original: string) {
+    console.log('formatting ', original)
+    let code: any[] = [];
+    let level = 0;
+    let tab = "    ";
+    original.split("\n").forEach((line) => {
+      if (line.includes("}")) {
+        level--;
+      }
+      code.push(tab.repeat(level) + line);
+      if (line.includes("{")) {
+        level++;
+      }
+    });
+    return code.join("\n");
+  }
+  return formatCode(code);
 }
 export default function EditorPage() {
   const { model } = useContext(GlobalContext)
-  let code = ''
-
   return <div className="float-container" >
     <div className="float-child-left">
       <Diagram />
