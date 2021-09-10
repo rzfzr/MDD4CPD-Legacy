@@ -1,8 +1,11 @@
+import { useContext } from 'react';
+import { GlobalContext } from '../GlobalContext';
 import createEngine, {
     DefaultLinkModel,
     DefaultNodeModel,
     DiagramModel
 } from '@projectstorm/react-diagrams';
+import { Button, TextField } from '@material-ui/core';
 
 import {
     CanvasWidget
@@ -13,6 +16,7 @@ import { EditableLabelFactory } from './react-diagrams/EditableLabelFactory';
 
 export default function SimpleBottomNavigation() {
 
+    const { setModel } = useContext(GlobalContext)
     const engine = createEngine();
 
     engine.getLabelFactories().registerFactory(new EditableLabelFactory());
@@ -48,9 +52,15 @@ export default function SimpleBottomNavigation() {
     model.addAll(n0, n2, p00.link(p20), p23.link(p30), p40.link(p21), n3, n4);
     engine.setModel(model);
 
+
     return (
         <div style={{ width: '100%', height: '100%' }}>
+            <Button
+                onClick={() => {
+                    setModel(JSON.stringify(model.serialize()));
+                }}>Save</Button>
             <CanvasWidget className='canvas' engine={engine} />
+
         </div>
     );
 }
