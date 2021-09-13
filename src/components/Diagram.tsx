@@ -45,18 +45,19 @@ export default function SimpleBottomNavigation() {
 
 
 
-    let nextModel = new DiagramModel() as any;
+    // let nextModel = new DiagramModel() as any;
     // nextModel.deserializeModel(JSON.parse(JSON.stringify(model)), engine)
-    nextModel = nextModel.options.id ? nextModel : getDefaultModel()
+    // nextModel = nextModel.options.id ? nextModel : getDefaultModel()
 
-    console.log('Setting engine with ', nextModel)
-    engine.setModel(nextModel);
+    // console.log('Setting engine with ', nextModel)
+    let model = getDefaultModel()
+    engine.setModel(model);
 
     useEffect(() => {
         console.log('Rendering Diagram')
         setInterval(() => {
-            console.log('Saving to localstorage')
-            localStorage.setItem('model', JSON.stringify(nextModel.serialize()));
+            // console.log('Saving to localstorage')
+            localStorage.setItem('model', JSON.stringify(model.serialize()));
         }, 5000)
 
     }, [])

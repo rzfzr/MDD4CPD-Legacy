@@ -215,11 +215,15 @@ export default function Code() {
     const [code, setCode] = useState('Hello World')
 
     useEffect(() => {
-        console.log('Rendering Code')
+        // console.log('Rendering Code')
         Prism.highlightAll();
         setInterval(() => {
-            console.log('Getting from localstorage')
-            setCode(generateCode(JSON.parse(localStorage.getItem('model') || '{}')));
+            // console.log('Getting from localstorage')
+            try {
+                setCode(generateCode(JSON.parse(localStorage.getItem('model') || '{}')));
+            } catch (error) {
+                console.log(error)
+            }
         }, 5000)
     }, []);
 
