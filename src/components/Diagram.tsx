@@ -1,7 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { GlobalContext } from '../GlobalContext';
 import createEngine, {
-    DefaultLinkModel,
     DefaultNodeModel,
     DiagramModel
 } from '@projectstorm/react-diagrams';
@@ -14,25 +13,19 @@ import { EditableLabelModel } from './react-diagrams/EditableLabelModel';
 import { EditableLabelFactory } from './react-diagrams/EditableLabelFactory';
 
 
-export default function SimpleBottomNavigation() {
 
-    const { model, setModel } = useContext(GlobalContext)
-    const engine = createEngine();
-
-    engine.getLabelFactories().registerFactory(new EditableLabelFactory());
-
-    const nextModel = new DiagramModel();
-
+function getDefaultModel() {
+    const nextModel = new DiagramModel() as any;
+    // console.log(Object.keys(next))
     const n0 = new DefaultNodeModel('Arduino', 'green');
     const p00 = n0.addOutPort('setup()');
-    const p01 = n0.addOutPort('loop()');
+    n0.addOutPort('loop()');
     n0.setPosition(50, 70);
-
     const n2 = new DefaultNodeModel('Condition', 'grey')
     const p20 = n2.addInPort('if <= 20');
     const p21 = n2.addInPort('value');
     const p23 = n2.addOutPort('True');
-    const p24 = n2.addOutPort('False');
+    n2.addOutPort('False');
     n2.setPosition(230, 100)
 
     const n3 = new DefaultNodeModel('Led', 'red');
@@ -44,22 +37,41 @@ export default function SimpleBottomNavigation() {
     n4.setPosition(30, 170);
 
     nextModel.addAll(n0, n2, p00.link(p20), p23.link(p30), p40.link(p21), n3, n4);
+    return nextModel
+}
+export default function SimpleBottomNavigation() {
+
+    const engine = createEngine();
+
+
+
+    let nextModel = new DiagramModel() as any;
+    // nextModel.deserializeModel(JSON.parse(JSON.stringify(model)), engine)
+    nextModel = nextModel.options.id ? nextModel : getDefaultModel()
+
+    console.log('Setting engine with ', nextModel)
     engine.setModel(nextModel);
 
     useEffect(() => {
         console.log('Rendering Diagram')
-        if (nextModel.serialize() !== model) {
-            setModel(nextModel.serialize())
-        }
+        setInterval(() => {
+            console.log('Saving to localstorage')
+            localStorage.setItem('model', JSON.stringify(nextModel.serialize()));
+        }, 5000)
+
     }, [])
 
     return (
-        <div style={{ width: '100%', height: '100%' }}>
-            {/* <Button
-                onClick={() => {
-                    setModel(nextModel.serialize());
-                }}>Save</Button> */}
-            <CanvasWidget className='canvas' engine={engine} />
-        </div>
+        <>
+            <div style={{ width: '100%', height: '100%' }}>
+                <CanvasWidget className='canvas' engine={engine} />
+            </div>
+            {/* <div style={{ width: '100%', height: '5%' }}>
+                <Button variant="contained"
+                    onClick={() => {
+                        // setModel(nextModel.serialize());
+                    }}>Go </Button>
+            </div> */}
+        </>
     );
 }
