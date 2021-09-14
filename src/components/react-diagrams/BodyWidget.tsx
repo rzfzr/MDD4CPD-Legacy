@@ -46,13 +46,15 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 	render() {
 		return (
 			<S.Body>
-				<S.Header>
+				{/* <S.Header>
 					<div className="title">Storm React Diagrams - DnD demo</div>
-				</S.Header>
-				<S.Content>
+				</S.Header> */}
+				<S.Content style={{ width: '100%', height: '100%' }}>
 					<TrayWidget>
-						<TrayItemWidget model={{ type: 'in' }} name="In Node" color="rgb(192,255,0)" />
-						<TrayItemWidget model={{ type: 'out' }} name="Out Node" color="rgb(0,192,255)" />
+						<TrayItemWidget model={{ type: 'Arduino' }} name="Arduino" color="green" />
+						<TrayItemWidget model={{ type: 'Condition' }} name="Condition" color="grey" />
+						<TrayItemWidget model={{ type: 'LED' }} name="LED" color="red" />
+						<TrayItemWidget model={{ type: 'TemperatureSensor' }} name="TemperatureSensor" color="blue" />
 					</TrayWidget>
 					<S.Layer
 						onDrop={(event) => {
@@ -60,12 +62,21 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							var nodesCount = _.keys(this.props.app.getDiagramEngine().getModel().getNodes()).length;
 
 							let node: any = null;//DefaultNodeModel
-							if (data.type === 'in') {
-								node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(192,255,0)');
-								node.addInPort('In');
-							} else {
-								node = new DefaultNodeModel('Node ' + (nodesCount + 1), 'rgb(0,192,255)');
-								node.addOutPort('Out');
+							if (data.type === 'Arduino') {
+								node = new DefaultNodeModel('Arduino', 'green');
+								node.addOutPort('setup()');
+								node.addOutPort('loop()');
+							} else if (data.type === 'Condition') {
+								node = new DefaultNodeModel('Condition', 'grey')
+								node.addInPort('if <= 20');
+								node.addInPort('value');
+								node.addOutPort('True');
+							} else if (data.type === 'LED') {
+								node = new DefaultNodeModel('Led', 'red');
+								node.addInPort('setValue()');
+							} else if (data.type === 'TemperatureSensor') {
+								node = new DefaultNodeModel('TemperatureSensor', 'Blue');
+								node.addOutPort('getValue()');
 							}
 							var point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
 							node.setPosition(point);
@@ -75,9 +86,11 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 						onDragOver={(event) => {
 							event.preventDefault();
 						}}>
-						<DemoCanvasWidget>
-							<CanvasWidget engine={this.props.app.getDiagramEngine()} />
-						</DemoCanvasWidget>
+						<div style={{ width: '100%', height: '100%' }}>
+							<DemoCanvasWidget >
+								<CanvasWidget engine={this.props.app.getDiagramEngine()} />
+							</DemoCanvasWidget>
+						</div>
 					</S.Layer>
 				</S.Content>
 			</S.Body>
