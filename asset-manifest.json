@@ -1,24 +1,25 @@
 {
   "files": {
-    "main.css": "/MDD4IoT/static/css/main.1e65769d.chunk.css",
-    "main.js": "/MDD4IoT/static/js/main.e802d39d.chunk.js",
-    "main.js.map": "/MDD4IoT/static/js/main.e802d39d.chunk.js.map",
+    "main.css": "/MDD4IoT/static/css/main.7195eef9.chunk.css",
+    "main.js": "/MDD4IoT/static/js/main.c14d4156.chunk.js",
+    "main.js.map": "/MDD4IoT/static/js/main.c14d4156.chunk.js.map",
     "runtime-main.js": "/MDD4IoT/static/js/runtime-main.2d2cec11.js",
     "runtime-main.js.map": "/MDD4IoT/static/js/runtime-main.2d2cec11.js.map",
     "static/css/2.15ba1ee3.chunk.css": "/MDD4IoT/static/css/2.15ba1ee3.chunk.css",
-    "static/js/2.947c1631.chunk.js": "/MDD4IoT/static/js/2.947c1631.chunk.js",
-    "static/js/2.947c1631.chunk.js.map": "/MDD4IoT/static/js/2.947c1631.chunk.js.map",
+    "static/js/2.4866c743.chunk.js": "/MDD4IoT/static/js/2.4866c743.chunk.js",
+    "static/js/2.4866c743.chunk.js.map": "/MDD4IoT/static/js/2.4866c743.chunk.js.map",
     "index.html": "/MDD4IoT/index.html",
     "static/css/2.15ba1ee3.chunk.css.map": "/MDD4IoT/static/css/2.15ba1ee3.chunk.css.map",
-    "static/css/main.1e65769d.chunk.css.map": "/MDD4IoT/static/css/main.1e65769d.chunk.css.map",
-    "static/js/2.947c1631.chunk.js.LICENSE.txt": "/MDD4IoT/static/js/2.947c1631.chunk.js.LICENSE.txt",
-    "static/media/master.ed79098a.svg": "/MDD4IoT/static/media/master.ed79098a.svg"
+    "static/css/main.7195eef9.chunk.css.map": "/MDD4IoT/static/css/main.7195eef9.chunk.css.map",
+    "static/js/2.4866c743.chunk.js.LICENSE.txt": "/MDD4IoT/static/js/2.4866c743.chunk.js.LICENSE.txt",
+    "static/media/models.435be54c.png": "/MDD4IoT/static/media/models.435be54c.png",
+    "static/media/state.da9f951e.png": "/MDD4IoT/static/media/state.da9f951e.png"
   },
   "entrypoints": [
     "static/js/runtime-main.2d2cec11.js",
     "static/css/2.15ba1ee3.chunk.css",
-    "static/js/2.947c1631.chunk.js",
-    "static/css/main.1e65769d.chunk.css",
-    "static/js/main.e802d39d.chunk.js"
+    "static/js/2.4866c743.chunk.js",
+    "static/css/main.7195eef9.chunk.css",
+    "static/js/main.c14d4156.chunk.js"
   ]
 }
