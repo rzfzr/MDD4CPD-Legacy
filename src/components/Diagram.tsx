@@ -39,7 +39,7 @@ function getDefaultModel() {
     nextModel.addAll(n0, n2, p00.link(p20), p23.link(p30), p40.link(p21), n3, n4);
     return nextModel
 }
-export default function SimpleBottomNavigation() {
+export default function Diagram() {
 
     const engine = createEngine();
 
@@ -53,26 +53,20 @@ export default function SimpleBottomNavigation() {
     let model = getDefaultModel()
     engine.setModel(model);
 
-    useEffect(() => {
-        console.log('Rendering Diagram')
-        setInterval(() => {
-            // console.log('Saving to localstorage')
-            localStorage.setItem('model', JSON.stringify(model.serialize()));
-        }, 5000)
+    // useEffect(() => {
+    //     console.log('Rendering Diagram')
+    //     setInterval(() => {
+    //         // console.log('Saving to localstorage')
+    //         localStorage.setItem('model', JSON.stringify(model.serialize()));
+    //     }, 5000)
 
-    }, [])
+    // }, [])
 
     return (
         <>
             <div style={{ width: '100%', height: '100%' }}>
                 <CanvasWidget className='canvas' engine={engine} />
             </div>
-            {/* <div style={{ width: '100%', height: '5%' }}>
-                <Button variant="contained"
-                    onClick={() => {
-                        // setModel(nextModel.serialize());
-                    }}>Go </Button>
-            </div> */}
         </>
     );
 }

@@ -1,10 +1,10 @@
 import Code from "../components/Code"
-import Diagram from "../components/Diagram";
+import DiagramWithPalette from '../components/react-diagrams/index';
 
 export default function EditorPage() {
   return <div className="float-container" >
     <div className="float-child-left">
-      <Diagram />
+      <DiagramWithPalette />
     </div>
     <div className="float-child-right">
       <Code />

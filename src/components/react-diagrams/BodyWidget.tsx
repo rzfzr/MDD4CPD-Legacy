@@ -7,6 +7,7 @@ import { DefaultNodeModel } from '@projectstorm/react-diagrams';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
+import { Button } from '@material-ui/core';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -42,7 +43,13 @@ namespace S {
 	`;
 }
 
+
+
+
 export class BodyWidget extends React.Component<BodyWidgetProps> {
+
+	// console.log('rendering bodyWidget')
+
 	render() {
 		return (
 			<S.Body>
@@ -55,7 +62,14 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 						<TrayItemWidget model={{ type: 'Condition' }} name="Condition" color="grey" />
 						<TrayItemWidget model={{ type: 'LED' }} name="LED" color="red" />
 						<TrayItemWidget model={{ type: 'TemperatureSensor' }} name="TemperatureSensor" color="blue" />
+						<div style={{ width: '100%', height: '5%' }}>
+							<Button variant="contained"
+								onClick={() => {
+									localStorage.setItem('model', JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize()));
+								}}>Generate Code </Button>
+						</div>
 					</TrayWidget>
+
 					<S.Layer
 						onDrop={(event) => {
 							var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));

@@ -5,9 +5,10 @@ import "prismjs/themes/prism-tomorrow.css";
 
 
 function generateCode(model: any): string {
+    if (Object.keys(model).length === 0)
+        return 'Empty Diagram?'
 
-
-    // console.log('Generating code from model:', model)
+    console.log('Generating code from model:', model)
     let code = ''
     // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
     let links: any[] = []
@@ -67,14 +68,8 @@ function generateCode(model: any): string {
                 let outcome = getOutcome(toNode)
 
                 add('if (', value.name, toPort.name.replace('if', ''), ') {')
-
-
                 add(outcome.label)
-
-
-
                 add("}\n");
-
             }
             // add(link.target)
 
@@ -224,7 +219,7 @@ export default function Code() {
             } catch (error) {
                 console.log(error)
             }
-        }, 5000)
+        }, 1000)
     }, []);
 
 
