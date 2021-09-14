@@ -5,12 +5,12 @@ import "prismjs/themes/prism-tomorrow.css";
 
 
 function generateCode(model: any): string {
-    if (Object.keys(model).length === 0)
-        return 'Empty Diagram?'
 
-    console.log('Generating code from model:', model)
-    let code = ''
-    // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
+    if (Object.keys(model).length === 0) {
+        return 'Empty Diagram';
+    }
+
+    console.log('generating from ', model)
     let links: any[] = []
     Object.entries(model.layers[0].models).forEach((x: any) => {
         links.push(x[1])
@@ -19,10 +19,26 @@ function generateCode(model: any): string {
     Object.entries(model.layers[1].models).forEach((x: any) => {
         nodes.push(x[1])
     })
+
+
+    // if (links.length === 0) {
+    //     return 'No links'
+    // }
+    if (nodes.length === 0) {
+        return 'No nodes'
+    }
+
+
+    // localStorage.setItem('oldModel', model);
+
+    // setCode(generateCode(JSON.parse(localStorage.getItem('model') || '{}')));
+
+
+    // console.log('Generating code from model:', model)
+    // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
+    let code = ''
     let controller = nodes.find((x: any) => x.name === 'Arduino')
     // console.log('Controller:', controller, 'Links:', links, 'Nodes:', nodes)
-
-
 
     let add = (...message: string[]) => {
         message.forEach((m) => {
@@ -41,14 +57,24 @@ function generateCode(model: any): string {
         return nodes.find((n: any) => n.id === nodeID)
     }
     let getValue = (conditionNode: any) => {
-        let linkID = conditionNode.ports.find((p: any) => p.name === 'value').links[0]
-        let link = getLink(linkID)
-        return getPort(link.source, link.sourcePort)
+        try {
+            let linkID = conditionNode.ports.find((p: any) => p.name === 'value').links[0]
+            let link = getLink(linkID)
+            return getPort(link.source, link.sourcePort)
+        } catch (error) {
+            console.log(error)
+            return 'Lacking Value'
+        }
     }
     let getOutcome = (conditionNode: any) => {
-        let linkID = conditionNode.ports.find((p: any) => p.name === 'True').links[0]
-        let link = getLink(linkID)
-        return getPort(link.target, link.targetPort)
+        try {
+            let linkID = conditionNode.ports.find((p: any) => p.name === 'True').links[0]
+            let link = getLink(linkID)
+            return getPort(link.target, link.targetPort)
+        } catch (error) {
+            console.log(error)
+            return 'Lacking Outcome'
+        }
     }
 
 
@@ -70,6 +96,12 @@ function generateCode(model: any): string {
                 add('if (', value.name, toPort.name.replace('if', ''), ') {')
                 add(outcome.label)
                 add("}\n");
+            } else {
+                console.log(toNode)
+                // let outcome = getOutcome(toNode)
+                add(toNode.ports[0].name)
+
+
             }
             // add(link.target)
 
@@ -183,8 +215,6 @@ function generateCode(model: any): string {
     //   );
 
     //   generateDecision(this.arduino);
-
-
     function formatCode(original: string) {
         // console.log('formatting ', original)
         let code: any[] = [];
@@ -203,26 +233,24 @@ function generateCode(model: any): string {
     }
     return formatCode(code);
 }
-
-
-
 export default function Code() {
     const [code, setCode] = useState('Hello World')
-
     useEffect(() => {
-        // console.log('Rendering Code')
         Prism.highlightAll();
         setInterval(() => {
-            // console.log('Getting from localstorage')
             try {
-                setCode(generateCode(JSON.parse(localStorage.getItem('model') || '{}')));
+                let temp = localStorage.getItem('model')
+                if (temp === localStorage.getItem('oldModel')) {
+                    // console.log('Same as old, skipping code generation')
+                } else {
+                    localStorage.setItem('oldModel', temp || '{}')
+                    setCode(generateCode(JSON.parse(temp || '{}')));
+                }
             } catch (error) {
                 console.log(error)
             }
-        }, 1000)
+        }, 1500)
     }, []);
-
-
     return (
         <div className="Code">
             <pre className="line-numbers">

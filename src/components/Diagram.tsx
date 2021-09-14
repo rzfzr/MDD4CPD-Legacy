@@ -1,5 +1,4 @@
 import { useContext, useEffect } from 'react';
-import { GlobalContext } from '../GlobalContext';
 import createEngine, {
     DefaultNodeModel,
     DiagramModel
@@ -11,8 +10,6 @@ import {
 } from '@projectstorm/react-canvas-core';
 import { EditableLabelModel } from './react-diagrams/EditableLabelModel';
 import { EditableLabelFactory } from './react-diagrams/EditableLabelFactory';
-
-
 
 function getDefaultModel() {
     const nextModel = new DiagramModel() as any;
@@ -40,11 +37,7 @@ function getDefaultModel() {
     return nextModel
 }
 export default function Diagram() {
-
     const engine = createEngine();
-
-
-
     // let nextModel = new DiagramModel() as any;
     // nextModel.deserializeModel(JSON.parse(JSON.stringify(model)), engine)
     // nextModel = nextModel.options.id ? nextModel : getDefaultModel()
@@ -52,21 +45,16 @@ export default function Diagram() {
     // console.log('Setting engine with ', nextModel)
     let model = getDefaultModel()
     engine.setModel(model);
-
     // useEffect(() => {
     //     console.log('Rendering Diagram')
     //     setInterval(() => {
     //         // console.log('Saving to localstorage')
     //         localStorage.setItem('model', JSON.stringify(model.serialize()));
     //     }, 5000)
-
     // }, [])
-
     return (
-        <>
-            <div style={{ width: '100%', height: '100%' }}>
-                <CanvasWidget className='canvas' engine={engine} />
-            </div>
-        </>
+        <div style={{ width: '100%', height: '100%' }}>
+            <CanvasWidget className='canvas' engine={engine} />
+        </div>
     );
 }
