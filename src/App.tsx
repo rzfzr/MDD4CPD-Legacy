@@ -13,7 +13,7 @@ import StatePage from './pages/State';
 import PalettePage from './pages/Palette';
 
 export default function App() {
-  const [model, setModel] = useState({})
+  const [model, setModel] = useState(localStorage.getItem('model') || {})
   const providerValue = useMemo(() => ({
     model, setModel
   }), [model])
