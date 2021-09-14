@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <help_text/>
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>387</x>
+      <y>117</y>
+      <w>135</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Component
+-
+- ports
+-
++ methods</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>117</y>
+      <w>135</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+MicroController
+-
+- ports
+-
++ methods</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>306</x>
+      <y>144</y>
+      <w>99</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=1
+m2=1..*
+</panel_attributes>
+    <additional_attributes>10.0;20.0;90.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>468</x>
+      <y>153</y>
+      <w>117</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1= 1
+m2=0..*
+</panel_attributes>
+    <additional_attributes>10.0;40.0;10.0;70.0;110.0;70.0;110.0;10.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>135</x>
+      <y>99</y>
+      <w>450</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>PIM
+valign=bottom
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>135</x>
+      <y>9</y>
+      <w>639</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>Hardware
+valign=top
+bg=#ededed
+
+layer=-10</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>270</x>
+      <y>36</y>
+      <w>135</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>Arduino
+-
+ metadata</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>513</x>
+      <y>36</y>
+      <w>135</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>HardwareComponent
+-
+ metadata</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>612</x>
+      <y>135</y>
+      <w>135</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>Library
+-
+ methods</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>279</x>
+      <y>72</y>
+      <w>72</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>513</x>
+      <y>135</y>
+      <w>117</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>495</x>
+      <y>72</y>
+      <w>54</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;40.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>585</x>
+      <y>99</y>
+      <w>189</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Documentation
+valign=top
+bg=#ededed
+
+layer=-10</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>180</x>
+      <y>252</y>
+      <w>135</w>
+      <h>99</h>
+    </coordinates>
+    <panel_attributes>ArduinoUno
+-
+analogPorts
+digitalPorts
+-
++ setup()
++ loop()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLObject</id>
+    <coordinates>
+      <x>135</x>
+      <y>225</y>
+      <w>639</w>
+      <h>396</h>
+    </coordinates>
+    <panel_attributes>PSM
+valign=bottom
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>234</x>
+      <y>180</y>
+      <w>27</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>369</x>
+      <y>288</y>
+      <w>135</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+Motor</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>378</y>
+      <w>162</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>Servo
+//https://github.com/arduino-libraries/Servo/blob/master/src/Servo.h
+-
+digitalPorts=1
+-
+Servo()
+-
+uint8_t attach(int)
+uint8_t attach(int,int,int)
+void detach()
+void write(int)
+void writeMicroseconds(int)
+int read()
+int readMicroseconds()
+bool attached()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>387</x>
+      <y>324</y>
+      <w>27</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>387</x>
+      <y>180</y>
+      <w>27</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>495</x>
+      <y>423</y>
+      <w>189</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Stepper
+//https://github.com/arduino-libraries/Stepper/blob/master/src/Stepper.h
+-
+digitalPorts=2/5/6
+-
+Stepper(int,int,int)
+Stepper(int,int,int,int,int)
+Stepper(int,int,int,int,int,int)
+-
+void setSpeed(long whatSpeed)
+void step(int number_of_steps)
+int version(void)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>477</x>
+      <y>324</y>
+      <w>45</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>180</y>
+      <w>144</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>140.0;120.0;140.0;90.0;10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>540</x>
+      <y>288</y>
+      <w>90</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>LED
+-
+digitalPorts=1
+-
+void set(bool)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>648</x>
+      <y>288</y>
+      <w>90</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>Button
+-
+digitalPorts=1
+-
+bool get()
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>450</x>
+      <y>180</y>
+      <w>234</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>240.0;120.0;240.0;70.0;10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>
