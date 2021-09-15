@@ -134,7 +134,8 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 		return (
 			<S.Body>
 				<S.Content style={{ width: '100%', height: '100%' }}>
-					<TrayWidget>
+					{/* <div style={{ width: '10%', height: '100%' }}>  */}
+					<TrayWidget >
 
 						{paletteNodes.map(node =>
 							// <Favorite key={favorite.position} favorite={favorite} />
@@ -148,8 +149,9 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								onClick={() => {
 									localStorage.setItem('model', JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize()));
 								}}>Save</Button>
-						</div> */}
+							</div> */}
 					</TrayWidget>
+					{/* </div> */}
 
 					<S.Layer
 						onDrop={(event) => {
