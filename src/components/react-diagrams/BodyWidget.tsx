@@ -42,6 +42,85 @@ namespace S {
 		flex-grow: 1;
 	`;
 }
+
+let paletteNodes = [
+	{
+		name: 'Arduino Uno',
+		color: 'green',
+		analogPorts: 6,
+		digitalPorts: 14,
+		ins: [],
+		outs: [
+			'setup()',
+			'loop()'
+		]
+	}, {
+		name: 'Condition',
+		color: 'grey',
+		outs: [
+			'True',
+			'False'
+		],
+		ins: [
+			'if <= 20',
+			'value'
+		]
+	}, {
+		name: 'Led',
+		color: 'red',
+		ins: [
+			'setValue()'
+		],
+		outs: []
+
+	}, {
+		name: 'TemperatureSensor',
+		color: 'blue',
+		ins: [],
+		outs: [
+			'getValue()'
+		]
+	}, {
+		name: 'Button',
+		color: 'blue',
+		ins: [],
+		outs: [
+			'getValue()'
+		]
+	}, {
+		name: 'Servo',
+		color: 'orange',
+		ins: [
+			'void detach()',
+			'void write(int)',
+			'void writeMicroseconds(int)',
+		],
+		outs: [
+			'uint8_t attach(int)',
+			'uint8_t attach(int, int, int)',
+			'int read()',
+			'int readMicroseconds()',
+			'bool attached()',
+		]
+	}, {
+		name: 'Stepper',
+		color: 'orange',
+		ins: [
+			'Stepper(int, int, int)',
+			'Stepper(int, int, int, int, int)',
+			'Stepper(int, int, int, int, int, int)',
+			'-',
+			'void setSpeed(long whatSpeed)',
+			'void step(int number_of_steps)',
+		],
+		outs: [
+			'int version(void)',
+		]
+	}
+]
+
+
+
 export class BodyWidget extends React.Component<BodyWidgetProps> {
 	componentDidMount() {
 		setInterval(() => {
@@ -56,10 +135,14 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 			<S.Body>
 				<S.Content style={{ width: '100%', height: '100%' }}>
 					<TrayWidget>
-						<TrayItemWidget model={{ type: 'Arduino' }} name="Arduino" color="green" />
-						<TrayItemWidget model={{ type: 'Condition' }} name="Condition" color="grey" />
-						<TrayItemWidget model={{ type: 'LED' }} name="LED" color="red" />
-						<TrayItemWidget model={{ type: 'TemperatureSensor' }} name="TemperatureSensor" color="blue" />
+
+						{paletteNodes.map(node =>
+							// <Favorite key={favorite.position} favorite={favorite} />
+							<TrayItemWidget model={node} name={node.name} color={node.color} />
+						)}
+
+
+						{/* <TrayItemWidget model={{ type: 'Condition' }} name="Condition" color="grey" /> */}
 						{/* <div style={{ width: '100%', height: '5%' }}>
 							<Button variant="contained"
 								onClick={() => {
@@ -74,21 +157,16 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							// var nodesCount = _.keys(this.props.app.getDiagramEngine().getModel().getNodes()).length;
 
 							let node: any = null;//DefaultNodeModel
-							if (data.type === 'Arduino') {
-								node = new DefaultNodeModel('Arduino', 'green');
-								node.addOutPort('setup()');
-								node.addOutPort('loop()');
-							} else if (data.type === 'Condition') {
-								node = new DefaultNodeModel('Condition', 'grey')
-								node.addInPort('if <= 20');
-								node.addInPort('value');
-								node.addOutPort('True');
-							} else if (data.type === 'LED') {
-								node = new DefaultNodeModel('Led', 'red');
-								node.addInPort('setValue()');
-							} else if (data.type === 'TemperatureSensor') {
-								node = new DefaultNodeModel('TemperatureSensor', 'Blue');
-								node.addOutPort('getValue()');
+							if (data) {
+								// console.log('node', node)
+								node = new DefaultNodeModel(data.name, data.color);
+								data.outs.forEach((method: string) => {
+									node.addOutPort(method)
+								});
+								data.ins.forEach((method: string) => {
+									node.addInPort(method)
+
+								});
 							}
 							var point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
 							node.setPosition(point);
