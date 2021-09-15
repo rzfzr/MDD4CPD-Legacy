@@ -37,7 +37,7 @@ function generateCode(model: any): string {
     // console.log('Generating code from model:', model)
     // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
     let code = ''
-    let controller = nodes.find((x: any) => x.name === 'Arduino')
+
     // console.log('Controller:', controller, 'Links:', links, 'Nodes:', nodes)
 
     let add = (...message: string[]) => {
@@ -62,8 +62,8 @@ function generateCode(model: any): string {
             let link = getLink(linkID)
             return getPort(link.source, link.sourcePort)
         } catch (error) {
-            console.log(error)
-            return 'Lacking Value'
+            // console.log(error)
+            return { name: '/* Lacking Value */' }
         }
     }
     let getOutcome = (conditionNode: any) => {
@@ -72,11 +72,15 @@ function generateCode(model: any): string {
             let link = getLink(linkID)
             return getPort(link.target, link.targetPort)
         } catch (error) {
-            console.log(error)
-            return 'Lacking Outcome'
+            // console.log(error)
+            return { label: '//Lacking Outcome' }
         }
     }
+    let controller = nodes.find((x: any) => x.name.includes('Arduino'))
 
+
+
+    if (!controller) return 'No Arduino'
 
 
     controller.ports.forEach((port: any) => {
