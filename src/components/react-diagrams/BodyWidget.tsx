@@ -49,13 +49,16 @@ let paletteNodes = [
 		color: 'green',
 		analogPorts: 6,
 		digitalPorts: 14,
+		extras: { type: 'controller' },
 		ins: [],
 		outs: [
 			'setup()',
 			'loop()'
 		]
-	}, {
+	},
+	{
 		name: 'Condition',
+		extras: { type: 'logic' },
 		color: 'grey',
 		outs: [
 			'True',
@@ -65,32 +68,39 @@ let paletteNodes = [
 			'if <= 20',
 			'value'
 		]
-	}, {
+	},
+	{
 		name: 'Led',
 		color: 'red',
+		extras: { type: 'component', library: 'Setter.h' },
 		ins: [
 			'setValue()'
 		],
 		outs: []
 
-	}, {
+	},
+	{
 		name: 'TemperatureSensor',
 		color: 'blue',
+		extras: { type: 'component', library: 'Getter.h' },
 		ins: [],
 		outs: [
 			'getValue()'
 		]
-	}, {
+	},
+	{
 		name: 'Button',
 		color: 'blue',
+		extras: { type: 'component', library: 'Getter.h' },
 		ins: [],
 		outs: [
 			'getValue()'
 		]
-	}, {
+	},
+	{
 		name: 'Servo',
 		color: 'orange',
-		extras: { library: 'Servo.h' },
+		extras: { type: 'component', library: 'Servo.h' },
 		ins: [
 			'void detach()',
 			'void write(int)',
@@ -103,9 +113,11 @@ let paletteNodes = [
 			'int readMicroseconds()',
 			'bool attached()',
 		]
-	}, {
+	},
+	{
 		name: 'Stepper',
 		color: 'orange',
+		extras: { type: 'component', library: 'Stepper.h' },
 		ins: [
 			'Stepper(int, int, int)',
 			'Stepper(int, int, int, int, int)',

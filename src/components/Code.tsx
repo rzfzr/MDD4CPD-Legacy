@@ -5,36 +5,56 @@ import "prismjs/themes/prism-tomorrow.css";
 
 
 function generateCode(model: any): string {
-
+    let code = ''
     if (Object.keys(model).length === 0) {
-        return 'Empty Diagram';
+        return 'Empty Diagram!';
     }
-
-    console.log('generating from ', model)
     let links: any[] = []
     Object.entries(model.layers[0].models).forEach((x: any) => {
         links.push(x[1])
     })
     let nodes: any[] = []
+    let logics: any[] = []
+    let components: any[] = []
+    let controllers: any[] = []
+    let libraries: any[] = []
+
     Object.entries(model.layers[1].models).forEach((x: any) => {
-        nodes.push(x[1])
+        const n = x[1]
+        nodes.push(n)
+        switch (n.extras.type) {
+            case 'component':
+                components.push(n)
+                if (!libraries.includes(n.extras.library))
+                    libraries.push(n.extras.library)
+                break
+            case 'controller':
+                controllers.push(n)
+                break
+            case 'logic':
+                logics.push(n)
+                break
+        }
     })
 
-    if (nodes.length === 0) {
-        return 'No nodes'
-    }
 
 
-    // localStorage.setItem('oldModel', model);
 
-    // setCode(generateCode(JSON.parse(localStorage.getItem('model') || '{}')));
+    // let controller = nodes.find((x: any) => x.name.includes('Arduino'))
+    console.log('Generating from model:', model, 'Parsed ', nodes, logics, components, controllers)
 
 
-    // console.log('Generating code from model:', model)
-    // let code = "Model: " + JSON.stringify(model) + "\n\n\n"
-    let code = ''
 
-    // console.log('Controller:', controller, 'Links:', links, 'Nodes:', nodes)
+
+    if (nodes.length === 0) return 'You need at least one Node!'
+    if (controllers.length === 0) return 'You need an Arduino!'
+    if (controllers.length > 1) return 'Only one Arduino allowed!'
+
+    let controller = controllers[0]
+
+
+
+
 
     let add = (...message: string[]) => {
         message.forEach((m) => {
@@ -72,14 +92,22 @@ function generateCode(model: any): string {
             return { label: '//Lacking Outcome' }
         }
     }
-    let controller = nodes.find((x: any) => x.name.includes('Arduino'))
-    if (!controller) return 'No Arduino'
 
 
 
-    nodes.forEach(node => {
-        console.log('node', node)
+
+
+
+    libraries.forEach(lib => {
+        add('#include <' + lib + '>')
+        components.forEach(comp => {
+            if (comp.extras.library === lib)
+                add(comp.name + ' ' + comp.name.toLowerCase())
+        });
     });
+
+    add('')
+
 
 
 
