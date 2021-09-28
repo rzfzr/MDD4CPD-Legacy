@@ -176,25 +176,11 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 		return (
 			<S.Body>
 				<S.Content style={{ width: '100%', height: '100%' }}>
-					{/* <div style={{ width: '10%', height: '100%' }}>  */}
 					<TrayWidget >
-
 						{paletteNodes.map(node =>
-							// <Favorite key={favorite.position} favorite={favorite} />
-							<TrayItemWidget model={node} name={node.name} color={node.color} />
+							<TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
 						)}
-
-
-						{/* <TrayItemWidget model={{ type: 'Condition' }} name="Condition" color="grey" /> */}
-						{/* <div style={{ width: '100%', height: '5%' }}>
-							<Button variant="contained"
-								onClick={() => {
-									localStorage.setItem('model', JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize()));
-								}}>Save</Button>
-							</div> */}
 					</TrayWidget>
-					{/* </div> */}
-
 					<S.Layer
 						onDrop={(event) => {
 							var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
