@@ -128,9 +128,9 @@ function generateCode(model: any): string {
                 add(outcome.label)
                 add("}\n");
             } else {
-                console.log(toNode)
+                console.log('here', toNode, toPort)
                 // let outcome = getOutcome(toNode)
-                add(toNode.ports[0].name)
+                add(toPort.name)
 
 
             }
