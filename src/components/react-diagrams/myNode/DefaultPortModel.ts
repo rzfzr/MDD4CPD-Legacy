@@ -59,9 +59,9 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
-		if (port instanceof DefaultPortModel) {
-			return this.options.in !== port.getOptions().in;
-		}
+		// if (port instanceof DefaultPortModel) {
+		// 	return this.options.in !== port.getOptions().in;
+		// }
 		return true;
 	}
 

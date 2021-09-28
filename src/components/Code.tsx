@@ -104,9 +104,9 @@ function generateCode(model: any): string {
             if (comp.extras.library === lib)
                 add(comp.name + ' ' + comp.name.toLowerCase())
         });
+        add('')
     });
 
-    add('')
 
 
 
@@ -265,7 +265,7 @@ function generateCode(model: any): string {
     return formatCode(code);
 }
 export default function Code() {
-    const [code, setCode] = useState('Hello World')
+    const [code, setCode] = useState('Initializing Generator')
     useEffect(() => {
         Prism.highlightAll();
         setInterval(() => {
