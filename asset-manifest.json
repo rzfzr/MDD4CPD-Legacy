@@ -1,25 +1,22 @@
 {
   "files": {
-    "main.css": "/MDD4IoT/static/css/main.475897e7.chunk.css",
-    "main.js": "/MDD4IoT/static/js/main.52595277.chunk.js",
-    "main.js.map": "/MDD4IoT/static/js/main.52595277.chunk.js.map",
+    "main.css": "/MDD4IoT/static/css/main.55d2924a.chunk.css",
+    "main.js": "/MDD4IoT/static/js/main.58167b2e.chunk.js",
+    "main.js.map": "/MDD4IoT/static/js/main.58167b2e.chunk.js.map",
     "runtime-main.js": "/MDD4IoT/static/js/runtime-main.2d2cec11.js",
     "runtime-main.js.map": "/MDD4IoT/static/js/runtime-main.2d2cec11.js.map",
-    "static/css/2.15ba1ee3.chunk.css": "/MDD4IoT/static/css/2.15ba1ee3.chunk.css",
-    "static/js/2.3d78dbb2.chunk.js": "/MDD4IoT/static/js/2.3d78dbb2.chunk.js",
-    "static/js/2.3d78dbb2.chunk.js.map": "/MDD4IoT/static/js/2.3d78dbb2.chunk.js.map",
+    "static/js/2.b27615df.chunk.js": "/MDD4IoT/static/js/2.b27615df.chunk.js",
+    "static/js/2.b27615df.chunk.js.map": "/MDD4IoT/static/js/2.b27615df.chunk.js.map",
     "index.html": "/MDD4IoT/index.html",
-    "static/css/2.15ba1ee3.chunk.css.map": "/MDD4IoT/static/css/2.15ba1ee3.chunk.css.map",
-    "static/css/main.475897e7.chunk.css.map": "/MDD4IoT/static/css/main.475897e7.chunk.css.map",
-    "static/js/2.3d78dbb2.chunk.js.LICENSE.txt": "/MDD4IoT/static/js/2.3d78dbb2.chunk.js.LICENSE.txt",
+    "static/css/main.55d2924a.chunk.css.map": "/MDD4IoT/static/css/main.55d2924a.chunk.css.map",
+    "static/js/2.b27615df.chunk.js.LICENSE.txt": "/MDD4IoT/static/js/2.b27615df.chunk.js.LICENSE.txt",
     "static/media/models.d4b41b6f.png": "/MDD4IoT/static/media/models.d4b41b6f.png",
     "static/media/state.da9f951e.png": "/MDD4IoT/static/media/state.da9f951e.png"
   },
   "entrypoints": [
     "static/js/runtime-main.2d2cec11.js",
-    "static/css/2.15ba1ee3.chunk.css",
-    "static/js/2.3d78dbb2.chunk.js",
-    "static/css/main.475897e7.chunk.css",
-    "static/js/main.52595277.chunk.js"
+    "static/js/2.b27615df.chunk.js",
+    "static/css/main.55d2924a.chunk.css",
+    "static/js/main.58167b2e.chunk.js"
   ]
 }
