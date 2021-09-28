@@ -7,7 +7,7 @@ import "prismjs/themes/prism-tomorrow.css";
 function generateCode(model: any): string {
     let code = ''
     if (Object.keys(model).length === 0) {
-        return 'Empty Diagram!';
+        return '// Empty Diagram!';
     }
     let links: any[] = []
     Object.entries(model.layers[0].models).forEach((x: any) => {
@@ -47,9 +47,9 @@ function generateCode(model: any): string {
 
 
 
-    if (nodes.length === 0) return 'You need at least one Node!'
-    if (controllers.length === 0) return 'You need an Arduino!'
-    if (controllers.length > 1) return 'Only one Arduino allowed!'
+    if (nodes.length === 0) return '// You need at least one Node!'
+    if (controllers.length === 0) return '// You need an Arduino!'
+    if (controllers.length > 1) return '// Only one Arduino allowed!'
 
     let controller = controllers[0]
 
@@ -90,17 +90,17 @@ function generateCode(model: any): string {
             return getPort(link.target, link.targetPort)
         } catch (error) {
             // console.log(error)
-            return { label: '//Lacking Outcome' }
+            return { label: '// Lacking Outcome' }
         }
     }
     let getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
-
-
-
-
-
+    add("/* Code generated for ", controller.name);
+    add('Analog ports N/' + controller.extras.analogPorts)
+    add('Digital ports M/' + controller.extras.digitalPorts)
+    add("*/")
+    add('')
 
     libraries.forEach(lib => {
         add('#include <' + lib + '>')
@@ -111,149 +111,36 @@ function generateCode(model: any): string {
         add('')
     });
 
-
-
-
-
-
-
-
     controller.ports.forEach((port: any) => {
         add(port.label, "{\n");
         port.links.forEach((l: any) => {
             let link = getLink(l);
             let toPort = getPort(link.target, link.targetPort)
             let toNode = getNode(toPort.parentNode)
+            let fromPort = getPort(link.source, link.sourcePort)
+            let fromNode = getNode(fromPort.parentNode)
             if (toNode.name === "Condition") {
                 let value = getValue(toNode)
                 let outcome = getOutcome(toNode)
-
-                add('if (', value.name, toPort.name.replace('if', ''), ') {')
+                add('if (', getParent(value)?.instance + '.' + value.name, toPort.name.replace('if', ''), ') {')
                 add(getParent(outcome)?.instance + '.' + outcome.label)
-                console.log(toNode, getParent(toNode), outcome)
                 add("}\n");
             } else {
-                console.log('here', toNode, toPort)
+                console.log('here', link, toNode, toPort)
                 // let outcome = getOutcome(toNode)
-
-                add(toNode.instance + '.' + toPort.name)
+                if (toNode.instance) {
+                    add(toNode.instance + '.' + toPort.name)
+                } else {
+                    add(fromNode.instance + '.' + fromPort.name)
+                }
 
 
             }
-            // add(link.target)
-
-
-
-
-
-
         })
-
         add("}\n");
-        // getToPorts(port)
-
     })
 
-    //     element.methods.forEach((method) => {
-
-    //       console.log("................................", this.getToElements(method));
-
-    //       this.getToElements(method).forEach((toElement) => {
-    //         console.log("getToElements:", method, toElement);
-
-    //         let relation = this.relations.find((rel) => rel.toElement == toElement);
-
-    //         console.log("-------------------------------------method, ", method);
-    //         console.log("toElement, ", toElement);
-    //         console.log("relation, ", relation);
-    //         if (toElement.name && (toElement.name.includes("if") || toElement.name.includes("while")) && relation) {
-    //           const conditionText = toElement.name.includes("if") ? "if" : "while"; //todo add more
-
-    //           // let value = toElement.methodText;
-
-    //           let value = this.relations.find(
-    //             (relation) => relation.fromElement.name == toElement.name && relation.name == "Value"
-    //           ).toElement.methodText;
-
-    //           let ifTrues = this.relations.filter(
-    //             (relation) => relation.fromElement.name == toElement.name && relation.name == "True"
-    //           );
-    //           console.log("trues: --------------------------------");
-    //           ifTrues.forEach((t) => {
-    //             console.log(t);
-    //             console.log(t.coordinates.h, t.coordinates.w, t.coordinates.x, t.coordinates.y);
-
-    //             console.table(t.toElement);
-    //           });
-    //           console.log("--------------------------------");
-
-    //           let ifFalses = this.relations.filter(
-    //             (relation) => relation.fromElement.name == toElement.name && relation.name == "False"
-    //           );
-
-    //           let condition = toElement.name.replace("if", "").replace("while", "").replace(" ", "");
-
-    //           p(conditionText, " (", value, " ", condition, "){ \n");
-
-    //           ifTrues.forEach((ifTrue) => {
-    //             p(ifTrue.toElement.name || ifTrue.toElement.parentName, ";");
-    //           });
-
-    //           ifFalses.forEach((ifFalse) => {
-    //             p("else {");
-    //             p(ifFalse.toElement.name || ifFalse.toElement.parentName, ";");
-    //           });
-
-    //           p("}");
-    //         } else {
-    //           p(toElement.methodText, ";");
-    //           p("\n}");
-    //         }
-    //       });
-
-    //       p("}\n");
-    //     });
-    //   };
-
-
-    //   let usedDigital = 0;
-    //   let usedAnalog = 0;
-    //   let usedLibraries = [];
-
-    //   this.components.forEach((component) => {
-    //     usedDigital += parseInt(component.digitalPorts);
-    //     usedAnalog += parseInt(component.analogPorts);
-    //     console.log(component);
-
-    //     if (component.type == "component") usedLibraries.push(component.name);
-    //   });
-
-    //   usedLibraries.forEach((lib) => {
-    //     p("#include <" + lib + ".h>");
-    //   });
-    //   p("// Code generated for Arduino ", this.arduino.model);
-    //   p(
-    //     "// with ",
-    //     this.arduino.digitalPorts,
-    //     " digital ports in total with ",
-    //     usedDigital,
-    //     " in use and ",
-    //     this.arduino.digitalPorts - usedDigital,
-    //     " free"
-    //   );
-    //   p(
-    //     "// and ",
-    //     this.arduino.analogPorts,
-    //     " analog ports in total with ",
-    //     usedAnalog,
-    //     " in use and ",
-    //     this.arduino.analogPorts - usedAnalog,
-    //     " free"
-    //   );
-
-    //   generateDecision(this.arduino);
     function formatCode(original: string) {
-        // console.log('formatting ', original)
         let code: any[] = [];
         let level = 0;
         let tab = "    ";

@@ -47,9 +47,25 @@ let paletteNodes = [
 	{
 		name: 'Arduino Uno',
 		color: 'green',
-		analogPorts: 6,
-		digitalPorts: 14,
-		extras: { type: 'controller' },
+		extras: {
+			type: 'controller',
+			analogPorts: 6,
+			digitalPorts: 14,
+		},
+		ins: [],
+		outs: [
+			'setup()',
+			'loop()'
+		]
+	},
+	{
+		name: 'Arduino Mega',
+		color: 'green',
+		extras: {
+			type: 'controller',
+			analogPorts: 16,
+			digitalPorts: 54,
+		},
 		ins: [],
 		outs: [
 			'setup()',
@@ -66,6 +82,19 @@ let paletteNodes = [
 		],
 		ins: [
 			'if <= 20',
+			'value'
+		]
+	},
+	{
+		name: 'Loop',
+		extras: { type: 'logic' },
+		color: 'grey',
+		outs: [
+			'True',
+			'False'
+		],
+		ins: [
+			'for',
 			'value'
 		]
 	},
