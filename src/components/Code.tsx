@@ -24,6 +24,7 @@ function generateCode(model: any): string {
         nodes.push(n)
         switch (n.extras.type) {
             case 'component':
+                n.instance = n.name.toLowerCase()
                 components.push(n)
                 if (!libraries.includes(n.extras.library))
                     libraries.push(n.extras.library)
@@ -92,6 +93,9 @@ function generateCode(model: any): string {
             return { label: '//Lacking Outcome' }
         }
     }
+    let getParent = (childNode: any) => {
+        return nodes.find((n: any) => n.id === childNode.parentNode)
+    }
 
 
 
@@ -102,7 +106,7 @@ function generateCode(model: any): string {
         add('#include <' + lib + '>')
         components.forEach(comp => {
             if (comp.extras.library === lib)
-                add(comp.name + ' ' + comp.name.toLowerCase())
+                add(comp.name + ' ' + comp.instance)
         });
         add('')
     });
@@ -125,12 +129,14 @@ function generateCode(model: any): string {
                 let outcome = getOutcome(toNode)
 
                 add('if (', value.name, toPort.name.replace('if', ''), ') {')
-                add(outcome.label)
+                add(getParent(outcome)?.instance + '.' + outcome.label)
+                console.log(toNode, getParent(toNode), outcome)
                 add("}\n");
             } else {
                 console.log('here', toNode, toPort)
                 // let outcome = getOutcome(toNode)
-                add(toPort.name)
+
+                add(toNode.instance + '.' + toPort.name)
 
 
             }
