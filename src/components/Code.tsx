@@ -38,24 +38,13 @@ function generateCode(model: any): string {
         }
     })
 
-
-
-
-    // let controller = nodes.find((x: any) => x.name.includes('Arduino'))
     console.log('Generating from model:', model, 'Parsed ', nodes, logics, components, controllers)
-
-
-
 
     if (nodes.length === 0) return '// You need at least one Node!'
     if (controllers.length === 0) return '// You need an Arduino!'
     if (controllers.length > 1) return '// Only one Arduino allowed!'
 
     let controller = controllers[0]
-
-
-
-
 
     let add = (...message: string[]) => {
         message.forEach((m) => {
@@ -79,7 +68,6 @@ function generateCode(model: any): string {
             let link = getLink(linkID)
             return getPort(link.source, link.sourcePort)
         } catch (error) {
-            // console.log(error)
             return { name: '/* Lacking Value */' }
         }
     }
@@ -89,7 +77,6 @@ function generateCode(model: any): string {
             let link = getLink(linkID)
             return getPort(link.target, link.targetPort)
         } catch (error) {
-            // console.log(error)
             return { label: '// Lacking Outcome' }
         }
     }
@@ -112,7 +99,7 @@ function generateCode(model: any): string {
     });
 
     controller.ports.forEach((port: any) => {
-        add(port.label, "{\n");
+        add(port.label, "{");
         port.links.forEach((l: any) => {
             let link = getLink(l);
             let toPort = getPort(link.target, link.targetPort)
@@ -127,14 +114,11 @@ function generateCode(model: any): string {
                 add("}\n");
             } else {
                 console.log('here', link, toNode, toPort)
-                // let outcome = getOutcome(toNode)
                 if (toNode.instance) {
                     add(toNode.instance + '.' + toPort.name)
                 } else {
                     add(fromNode.instance + '.' + fromPort.name)
                 }
-
-
             }
         })
         add("}\n");
@@ -164,9 +148,7 @@ export default function Code() {
         setInterval(() => {
             try {
                 let temp = localStorage.getItem('model')
-                if (temp === localStorage.getItem('oldModel')) {
-                    // console.log('Same as old, skipping code generation')
-                } else {
+                if (temp !== localStorage.getItem('oldModel')) {
                     localStorage.setItem('oldModel', temp || '{}')
                     setCode(generateCode(JSON.parse(temp || '{}')));
                     Prism.highlightAll();
