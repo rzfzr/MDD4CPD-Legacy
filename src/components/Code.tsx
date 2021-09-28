@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
-// import "./prism.css";
+// import "prismjs/themes/prism-tomorrow.css";
+import "./prism.css";
 
 
 function generateCode(model: any): string {
@@ -169,6 +169,7 @@ export default function Code() {
                 } else {
                     localStorage.setItem('oldModel', temp || '{}')
                     setCode(generateCode(JSON.parse(temp || '{}')));
+                    Prism.highlightAll();
                 }
             } catch (error) {
                 console.log(error)
@@ -177,8 +178,8 @@ export default function Code() {
     }, []);
     return (
         <div className="Code">
-            <pre className="line-numbers">
-                <code className={`language-clike`}>{code}</code>
+            <pre >
+                <code className="language-clike">{code}</code>
             </pre>
         </div>
     );

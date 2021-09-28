@@ -1,12 +1,12 @@
+// LabelModel,
 import {
-	LabelModel,
 	LinkModel,
 	LinkModelGenerics,
 	LinkModelListener,
 	PortModel,
 	PortModelAlignment
 } from '@projectstorm/react-diagrams-core';
-import { DefaultLabelModel } from './DefaultLabelModel';
+// import { DefaultLabelModel } from './DefaultLabelModel';
 import { BezierCurve } from '@projectstorm/geometry';
 import { BaseModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
 
@@ -90,14 +90,14 @@ export class DefaultLinkModel extends LinkModel<DefaultLinkModelGenerics> {
 		this.options.selectedColor = event.data.selectedColor;
 	}
 
-	addLabel(label: LabelModel | string) {
-		if (label instanceof LabelModel) {
-			return super.addLabel(label);
-		}
-		let labelOb = new DefaultLabelModel();
-		labelOb.setLabel(label);
-		return super.addLabel(labelOb);
-	}
+	// addLabel(label: LabelModel | string) {
+	// 	if (label instanceof LabelModel) {
+	// 		return super.addLabel(label);
+	// 	}
+	// 	let labelOb = new DefaultLabelModel();
+	// 	labelOb.setLabel(label);
+	// 	return super.addLabel(labelOb);
+	// }
 
 	setWidth(width: number) {
 		this.options.width = width;
