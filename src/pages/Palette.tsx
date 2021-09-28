@@ -1,4 +1,3 @@
-import Diagram from "../components/Diagram";
 export default function PalettePage() {
     return <div>
         <h3>

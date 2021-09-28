@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as _ from 'lodash';
 import { TrayWidget } from './TrayWidget';
 import { Application } from './Application';
 import { TrayItemWidget } from './TrayItemWidget';
@@ -7,7 +6,6 @@ import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
-import { Button } from '@material-ui/core';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -184,8 +182,6 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 					<S.Layer
 						onDrop={(event) => {
 							var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-							// var nodesCount = _.keys(this.props.app.getDiagramEngine().getModel().getNodes()).length;
-
 							let node: any = null;//DefaultNodeModel
 							if (data) {
 								node = new MyNodeModel(data.name, data.color);

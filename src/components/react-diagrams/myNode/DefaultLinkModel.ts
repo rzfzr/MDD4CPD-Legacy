@@ -1,5 +1,4 @@
 import {
-	DiagramEngine,
 	LabelModel,
 	LinkModel,
 	LinkModelGenerics,
@@ -9,7 +8,7 @@ import {
 } from '@projectstorm/react-diagrams-core';
 import { DefaultLabelModel } from './DefaultLabelModel';
 import { BezierCurve } from '@projectstorm/geometry';
-import { BaseEntityEvent, BaseModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
+import { BaseModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
 
 export interface DefaultLinkModelListener extends LinkModelListener {
 	// colorChanged?(event: BaseEntityEvent<DefaultLinkModel> & { color: null | string }): void;
@@ -55,7 +54,7 @@ export class DefaultLinkModel extends LinkModel<DefaultLinkModelGenerics> {
 	}
 
 	getSVGPath(): string | undefined {
-		if (this.points.length == 2) {
+		if (this.points.length === 2) {
 			const curve = new BezierCurve();
 			curve.setSource(this.getFirstPoint().getPosition());
 			curve.setTarget(this.getLastPoint().getPosition());
