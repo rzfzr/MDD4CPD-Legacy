@@ -90,7 +90,7 @@ let paletteNodes = [
 	}, {
 		name: 'Servo',
 		color: 'orange',
-		extras: 'Servo.h',
+		extras: { library: 'Servo.h' },
 		ins: [
 			'void detach()',
 			'void write(int)',
@@ -163,11 +163,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							if (data) {
 								node = new MyNodeModel(data.name, data.color);
 
-								node.extras = 'any test'
-								console.log('node:', node);
-								console.log('node.extras:', node.extras);
-								// node.extras = { test: 'testee' }
-								// console.log('node', node)
+								node.extras = data.extras
 								data.outs.forEach((method: string) => {
 									node.addOutPort(method)
 								});
