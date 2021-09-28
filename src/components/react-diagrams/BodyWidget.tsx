@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { TrayWidget } from './TrayWidget';
 import { Application } from './Application';
 import { TrayItemWidget } from './TrayItemWidget';
-import { DefaultNodeModel } from '@projectstorm/react-diagrams';
+import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
@@ -90,6 +90,7 @@ let paletteNodes = [
 	}, {
 		name: 'Servo',
 		color: 'orange',
+		extras: 'Servo.h',
 		ins: [
 			'void detach()',
 			'void write(int)',
@@ -160,8 +161,13 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 
 							let node: any = null;//DefaultNodeModel
 							if (data) {
+								node = new MyNodeModel(data.name, data.color);
+
+								node.extras = 'any test'
+								console.log('node:', node);
+								console.log('node.extras:', node.extras);
+								// node.extras = { test: 'testee' }
 								// console.log('node', node)
-								node = new DefaultNodeModel(data.name, data.color);
 								data.outs.forEach((method: string) => {
 									node.addOutPort(method)
 								});

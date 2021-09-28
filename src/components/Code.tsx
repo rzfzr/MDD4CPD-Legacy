@@ -20,10 +20,6 @@ function generateCode(model: any): string {
         nodes.push(x[1])
     })
 
-
-    // if (links.length === 0) {
-    //     return 'No links'
-    // }
     if (nodes.length === 0) {
         return 'No nodes'
     }
@@ -77,22 +73,25 @@ function generateCode(model: any): string {
         }
     }
     let controller = nodes.find((x: any) => x.name.includes('Arduino'))
-
-
-
     if (!controller) return 'No Arduino'
+
+
+
+    nodes.forEach(node => {
+        console.log('node', node)
+    });
+
+
+
+
 
 
     controller.ports.forEach((port: any) => {
         add(port.label, "{\n");
-
         port.links.forEach((l: any) => {
             let link = getLink(l);
             let toPort = getPort(link.target, link.targetPort)
             let toNode = getNode(toPort.parentNode)
-
-
-
             if (toNode.name === "Condition") {
                 let value = getValue(toNode)
                 let outcome = getOutcome(toNode)
