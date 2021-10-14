@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Prism from "prismjs";
 // import "prismjs/themes/prism-tomorrow.css";
 import "./prism.css";
+import PrismEdit from "./PrismEdit";
 
 
 function generateCode(model: any): string {
@@ -159,10 +160,14 @@ export default function Code() {
         }, 1500)
     }, []);
     return (
-        <div className="Code">
-            <pre >
-                <code className="language-clike">{code}</code>
-            </pre>
-        </div>
+        <>
+            <div className="Code">
+                <pre >
+                    <code className="language-clike">{code}</code>
+                </pre>
+            </div>
+            <PrismEdit />
+
+        </>
     );
 }

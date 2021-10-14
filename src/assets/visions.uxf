@@ -1,0 +1,19 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text></help_text><element><id>UMLUseCase</id><coordinates><x>270</x><y>220</y><w>270</w><h>250</h></coordinates><panel_attributes>"Things"
+-oriented</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>230</x><y>370</y><w>270</w><h>250</h></coordinates><panel_attributes>"Internet"
+-oriented</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>400</x><y>370</y><w>270</w><h>250</h></coordinates><panel_attributes>"Semantic"
+-oriented</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>410</x><y>410</y><w>80</w><h>50</h></coordinates><panel_attributes>customelement=
+
+// " can be escaped by \ and \\ is converted to \
+drawText("Internet", width/2, 20, center) //fg= //Parameters (text, x, y, horizontal alignment)
+
+drawText("of", width/2, 32, center) //fg= //Parameters (text, x, y, horizontal alignment)
+
+drawText("Things", width/2, 44, center) //fg= //Parameters (text, x, y, horizontal alignment)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>350</x><y>230</y><w>50</w><h>30</h></coordinates><panel_attributes>RFID</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>300</x><y>260</y><w>80</w><h>40</h></coordinates><panel_attributes>Smart Items</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>390</x><y>250</y><w>90</w><h>40</h></coordinates><panel_attributes>Everyday
+Objects</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>300</x><y>380</y><w>120</w><h>50</h></coordinates><panel_attributes>Communicating
+Things</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>570</x><y>500</y><w>90</w><h>50</h></coordinates><panel_attributes>Reasoning
+over data</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>480</x><y>540</y><w>130</w><h>70</h></coordinates><panel_attributes>Semantic execution
+environments</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>410</x><y>480</y><w>80</w><h>80</h></coordinates><panel_attributes>Smart
+Semantic
+Middleware</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>280</x><y>560</y><w>70</w><h>40</h></coordinates><panel_attributes>Internet 0</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>360</x><y>560</y><w>70</w><h>50</h></coordinates><panel_attributes>Web of
+Things</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>250</x><y>530</y><w>50</w><h>30</h></coordinates><panel_attributes>IPSO</panel_attributes><additional_attributes></additional_attributes></element></diagram>
