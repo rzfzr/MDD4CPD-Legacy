@@ -40,8 +40,8 @@ namespace S {
 		flex-grow: 1;
 	`;
 }
-
-let paletteNodes = [
+let lastType = ''
+const paletteNodes = [
 	{
 		name: 'Arduino Uno',
 		color: 'green',
@@ -201,7 +201,7 @@ let paletteNodes = [
 export class BodyWidget extends React.Component<BodyWidgetProps> {
 	componentDidMount() {
 		setInterval(() => {
-			let temp = JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize())
+			const temp = JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize())
 			if (temp !== localStorage.getItem('model')) {
 				localStorage.setItem('model', temp);
 			}
@@ -212,9 +212,15 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 			<S.Body>
 				<S.Content style={{ width: '100%', height: '100%' }}>
 					<TrayWidget >
-						{paletteNodes.map(node =>
-							<TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
-						)}
+						{
+							paletteNodes.map((node) => {
+								if (node.extras.type !== lastType) {
+									lastType = node.extras.type
+									return <> <p style={{ margin: "5px" }}>{node.extras.type}</p> <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} /> </>
+								}
+								return <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
+							}
+							)}
 					</TrayWidget>
 					<S.Layer
 						onDrop={(event) => {
