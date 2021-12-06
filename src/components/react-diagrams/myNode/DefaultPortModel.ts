@@ -70,6 +70,6 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 		if (!link && factory) {
 			return factory.generateModel({});
 		}
-		return link || new DefaultLinkModel();
+		return link || new DefaultLinkModel();//is link always null?
 	}
 }

@@ -192,7 +192,6 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								});
 								data.ins.forEach((method: string) => {
 									node.addInPort(method)
-
 								});
 							}
 							var point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
