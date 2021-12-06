@@ -216,7 +216,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							paletteNodes.map((node) => {
 								if (node.extras.type !== lastType) {
 									lastType = node.extras.type
-									return <> <p style={{ margin: "5px" }}>{node.extras.type}</p> <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} /> </>
+									return <> <p style={{ margin: "5px" }}>--{node.extras.type}--</p> <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} /> </>
 								}
 								return <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
 							}

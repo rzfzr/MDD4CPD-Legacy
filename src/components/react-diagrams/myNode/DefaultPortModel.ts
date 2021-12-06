@@ -1,5 +1,4 @@
 import {
-	LabelModel,
 	LinkModel,
 	PortModel,
 	PortModelAlignment,
@@ -8,7 +7,6 @@ import {
 } from '@projectstorm/react-diagrams-core';
 import { DefaultLinkModel } from './DefaultLinkModel';
 import { AbstractModelFactory, DeserializeEvent } from '@projectstorm/react-canvas-core';
-import { DefaultLabelModel } from '@projectstorm/react-diagrams';
 
 export interface DefaultPortModelOptions extends PortModelOptions {
 	label?: string;
@@ -61,10 +59,10 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	createLinkModel(factory?: AbstractModelFactory<LinkModel>): LinkModel {
-		const link = new DefaultLinkModel();//is link always null?
-		let label = new DefaultLabelModel();
-		label.setLabel("I'm a sad label");
-		link.addLabel(label)
+		const link = new DefaultLinkModel();
+		// let label = new DefaultLabelModel();
+		// label.setLabel("I'm a sad label");
+		// link.addLabel(label)
 		return link
 	}
 }
