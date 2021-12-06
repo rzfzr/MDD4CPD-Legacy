@@ -119,10 +119,10 @@ let paletteNodes = [
 		name: 'Button',
 		color: 'blue',
 		extras: { type: 'component', library: 'Getter.h' },
-		ins: [],
-		outs: [
-			'getValue()'
-		]
+		ins: [
+			'setValue(bool)'
+		],
+		outs: []
 	},
 	{
 		name: 'Servo',
@@ -156,11 +156,48 @@ let paletteNodes = [
 		outs: [
 			'int version(void)',
 		]
+	},
+	{
+		name: 'Variable Integer',
+		color: 'purple',
+		extras: { type: 'variable' },
+		ins: [
+			'void setValue(int)',
+		],
+		outs: [
+			'int getValue()',
+		]
+	},
+	{
+		name: 'Variable Boolean',
+		color: 'purple',
+		extras: { type: 'variable' },
+		ins: [
+			'void setValue(bool)',
+		],
+		outs: [
+			'bool getValue()',
+		]
+	},
+	{
+		name: 'Constant Integer',
+		color: 'purple',
+		extras: { type: 'variable' },
+		ins: [],
+		outs: [
+			'value',
+		]
+	},
+	{
+		name: 'Constant Boolean',
+		color: 'purple',
+		extras: { type: 'variable' },
+		ins: [],
+		outs: [
+			'value',
+		]
 	}
 ]
-
-
-
 export class BodyWidget extends React.Component<BodyWidgetProps> {
 	componentDidMount() {
 		setInterval(() => {
@@ -185,7 +222,6 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							let node: any = null;//DefaultNodeModel
 							if (data) {
 								node = new MyNodeModel(data.name, data.color);
-
 								node.extras = data.extras
 								data.outs.forEach((method: string) => {
 									node.addOutPort(method)
@@ -198,6 +234,8 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							node.setPosition(point);
 							this.props.app.getDiagramEngine().getModel().addNode(node);
 							this.forceUpdate();
+
+
 						}}
 						onDragOver={(event) => {
 							event.preventDefault();
@@ -209,7 +247,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 						</div>
 					</S.Layer>
 				</S.Content>
-			</S.Body>
+			</S.Body >
 		)
 	}
 }

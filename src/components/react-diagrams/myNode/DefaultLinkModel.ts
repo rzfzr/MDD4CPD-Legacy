@@ -9,8 +9,6 @@ import {
 // import { DefaultLabelModel } from './DefaultLabelModel';
 import { BezierCurve } from '@projectstorm/geometry';
 import { BaseModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
-// import { DefaultLabelModel, LabelModel } from '@projectstorm/react-diagrams';
-
 export interface DefaultLinkModelListener extends LinkModelListener {
 	// colorChanged?(event: BaseEntityEvent<DefaultLinkModel> & { color: null | string }): void;
 
@@ -90,16 +88,6 @@ export class DefaultLinkModel extends LinkModel<DefaultLinkModelGenerics> {
 		this.options.curvyness = event.data.curvyness;
 		this.options.selectedColor = event.data.selectedColor;
 	}
-
-	// addLabel(label: LabelModel | string) {
-	// 	if (label instanceof LabelModel) {
-	// 		return super.addLabel(label);
-	// 	}
-	// 	let labelOb = new DefaultLabelModel();
-	// 	labelOb.setLabel(label);
-	// 	return super.addLabel(labelOb);
-	// }
-
 	setWidth(width: number) {
 		this.options.width = width;
 		this.fireEvent({ width }, 'widthChanged');

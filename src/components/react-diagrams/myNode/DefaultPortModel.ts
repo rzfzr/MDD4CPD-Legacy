@@ -1,4 +1,5 @@
 import {
+	LabelModel,
 	LinkModel,
 	PortModel,
 	PortModelAlignment,
@@ -7,6 +8,7 @@ import {
 } from '@projectstorm/react-diagrams-core';
 import { DefaultLinkModel } from './DefaultLinkModel';
 import { AbstractModelFactory, DeserializeEvent } from '@projectstorm/react-canvas-core';
+import { DefaultLabelModel } from '@projectstorm/react-diagrams';
 
 export interface DefaultPortModelOptions extends PortModelOptions {
 	label?: string;
@@ -51,13 +53,6 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 		};
 	}
 
-	link<T extends LinkModel>(port: PortModel, factory?: AbstractModelFactory<T>): T {
-		let link = this.createLinkModel(factory);
-		link.setSourcePort(this);
-		link.setTargetPort(port);
-		return link as T;
-	}
-
 	canLinkToPort(port: PortModel): boolean {
 		// if (port instanceof DefaultPortModel) {
 		// 	return this.options.in !== port.getOptions().in;
@@ -66,10 +61,10 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	createLinkModel(factory?: AbstractModelFactory<LinkModel>): LinkModel {
-		let link = super.createLinkModel();
-		if (!link && factory) {
-			return factory.generateModel({});
-		}
-		return link || new DefaultLinkModel();//is link always null?
+		const link = new DefaultLinkModel();//is link always null?
+		let label = new DefaultLabelModel();
+		label.setLabel("I'm a sad label");
+		link.addLabel(label)
+		return link
 	}
 }
