@@ -99,6 +99,10 @@ function generateCode(model: any): string {
         add('')
     });
 
+
+    let removeType = (name: string) => {
+        return name.split(' ').slice(-1)
+    }
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {
@@ -116,9 +120,9 @@ function generateCode(model: any): string {
             } else {
                 console.log('here', link, toNode, toPort)
                 if (toNode.instance) {
-                    add(toNode.instance + '.' + toPort.name)
+                    add(toNode.instance + '.' + removeType(toPort.name))
                 } else {
-                    add(fromNode.instance + '.' + fromPort.name)
+                    add(fromNode.instance + '.' + removeType(fromPort.name))
                 }
             }
         })
