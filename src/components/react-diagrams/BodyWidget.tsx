@@ -10,6 +10,7 @@ import { DiamondNodeModel } from './diamond/DiamondNodeModel';
 import { EditableLabelModel } from './custom-label/EditableLabelModel';
 import { DefaultNodeModel } from '@projectstorm/react-diagrams';
 import { EditableNodeModel } from './custom-node/custom_nodes/editableNode/EditableNodeModel';
+import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -279,6 +280,17 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								} else if (data.name === 'NodeEdit') {
 									const node = new EditableNodeModel("Node1");
 									node.setPosition(100, 200);
+									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
+									this.props.app.getDiagramEngine().getModel().addNode(node);
+								} else if (data.type === "variable") {
+									const node = new MyEditableNodeModel(data.name, data.color, 'value');
+									node.extras = data.extras
+									data.outs.forEach((method: string) => {
+										node.addOutPort(method)
+									});
+									data.ins.forEach((method: string) => {
+										node.addInPort(method)
+									});
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else {
