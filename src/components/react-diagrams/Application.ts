@@ -1,5 +1,6 @@
 import * as SRD from '@projectstorm/react-diagrams';
 import { PortModelAlignment } from '@projectstorm/react-diagrams';
+import { EditableLabelFactory } from './custom-label/EditableLabelFactory';
 import { DiamondNodeFactory } from './diamond/DiamondNodeFactory';
 import { DiamondPortModel } from './diamond/DiamondPortModel';
 import { SimplePortFactory } from './diamond/SimplePortFactory';
@@ -17,9 +18,7 @@ export class Application {
 			.getPortFactories()
 			.registerFactory(new SimplePortFactory('diamond', (config) => new DiamondPortModel(PortModelAlignment.LEFT)));
 		this.diagramEngine.getNodeFactories().registerFactory(new DiamondNodeFactory());
-
-
-
+		this.diagramEngine.getLabelFactories().registerFactory(new EditableLabelFactory());
 		this.newModel();
 	}
 

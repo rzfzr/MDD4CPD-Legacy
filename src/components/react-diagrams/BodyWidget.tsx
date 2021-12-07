@@ -7,6 +7,8 @@ import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
 import { DiamondNodeModel } from './diamond/DiamondNodeModel';
+import { EditableLabelModel } from './custom-label/EditableLabelModel';
+import { DefaultNodeModel } from '@projectstorm/react-diagrams';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -204,6 +206,13 @@ const paletteNodes = [
 		extras: { type: 'testing' },
 		ins: [],
 		outs: []
+	},
+	{
+		name: 'LabelEdit',
+		color: 'white',
+		extras: { type: 'testing' },
+		ins: [],
+		outs: []
 	}
 ]
 export class BodyWidget extends React.Component<BodyWidgetProps> {
@@ -243,6 +252,31 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									const point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
 									node.setPosition(point);
 									this.props.app.getDiagramEngine().getModel().addNode(node);
+
+								} else if (data.name === 'LabelEdit') {
+
+									const node1 = new DefaultNodeModel('Node1', 'red');
+									const port1 = node1.addOutPort('out');
+									node1.setPosition(250, 100);
+
+									const node2 = new DefaultNodeModel('Node2', 'green');
+									const port2 = node2.addInPort('in');
+									node2.setPosition(800, 300);
+
+									// link nodes together
+									const link1 = port1.link(port2);
+
+									// !!!
+									// add our custom label to link
+									link1.addLabel(
+										new EditableLabelModel({
+											value: 'Hello, I am label!'
+										})
+									);
+
+									this.props.app.getDiagramEngine().getModel().addAll(node1, port1, node2, port2, link1);
+
+
 
 								} else {
 
