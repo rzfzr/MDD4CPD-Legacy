@@ -144,33 +144,11 @@ export class EditableNodeWidget extends React.Component<
             position: "absolute",
             zIndex: 10,
             background: "rgba(0,0,250,0.5)",
-            left: this.state.width / 2 - 8,
-            top: -15 //old: -8
-          }}
-        >
-          <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.TOP)} engine={this.props.engine} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            background: "rgba(0,0,250,0.5)",
             left: this.state.width, //old: this.state.width - 8,
             top: this.state.height / 2 - 8
           }}
         >
           <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.RIGHT)} engine={this.props.engine} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            background: "rgba(0,0,250,0.5)",
-            left: this.state.width / 2 - 8,
-            top: this.state.height //old: this.state.height - 8
-          }}
-        >
-          <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.BOTTOM)} engine={this.props.engine} />
         </div>
       </div>
     );
