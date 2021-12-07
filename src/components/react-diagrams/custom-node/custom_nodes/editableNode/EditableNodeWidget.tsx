@@ -83,7 +83,7 @@ export class EditableNodeWidget extends React.Component<
   /**
    * copy atributes from nodeModel
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const content = this.props.nodeModel.content;
     this.setState({ content });
   }
