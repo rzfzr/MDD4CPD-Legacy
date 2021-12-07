@@ -9,6 +9,7 @@ import styled from '@emotion/styled';
 import { DiamondNodeModel } from './diamond/DiamondNodeModel';
 import { EditableLabelModel } from './custom-label/EditableLabelModel';
 import { DefaultNodeModel } from '@projectstorm/react-diagrams';
+import { EditableNodeModel } from './custom-node/custom_nodes/editableNode/EditableNodeModel';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -213,6 +214,13 @@ const paletteNodes = [
 		extras: { type: 'testing' },
 		ins: [],
 		outs: []
+	},
+	{
+		name: 'NodeEdit',
+		color: 'white',
+		extras: { type: 'testing' },
+		ins: [],
+		outs: []
 	}
 ]
 export class BodyWidget extends React.Component<BodyWidgetProps> {
@@ -234,7 +242,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								if (node.extras.type !== lastType) {
 									lastType = node.extras.type
 									return <>
-										<p style={{ margin: "5px" }}>--{node.extras.type}--</p>
+										<p style={{ margin: "0px", fontSize: "0.9em" }}>{node.extras.type}:</p>
 										<TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
 									</>
 								}
@@ -249,12 +257,10 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 								if (data.name === 'Diamond') {
 									console.log('Found a diamond')
 									const node = new DiamondNodeModel();
-									const point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
-									node.setPosition(point);
+									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 
 								} else if (data.name === 'LabelEdit') {
-
 									const node1 = new DefaultNodeModel('Node1', 'red');
 									const port1 = node1.addOutPort('out');
 									node1.setPosition(250, 100);
@@ -263,23 +269,19 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									const port2 = node2.addInPort('in');
 									node2.setPosition(800, 300);
 
-									// link nodes together
 									const link1 = port1.link(port2);
-
-									// !!!
-									// add our custom label to link
 									link1.addLabel(
 										new EditableLabelModel({
 											value: 'Hello, I am label!'
 										})
 									);
-
 									this.props.app.getDiagramEngine().getModel().addAll(node1, port1, node2, port2, link1);
-
-
-
+								} else if (data.name === 'NodeEdit') {
+									const node = new EditableNodeModel("Node1");
+									node.setPosition(100, 200);
+									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
+									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else {
-
 									const node = new MyNodeModel(data.name, data.color);
 									node.extras = data.extras
 									data.outs.forEach((method: string) => {
@@ -288,8 +290,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									data.ins.forEach((method: string) => {
 										node.addInPort(method)
 									});
-									const point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
-									node.setPosition(point);
+									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								}
 							}

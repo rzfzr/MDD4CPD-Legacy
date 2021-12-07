@@ -11,10 +11,11 @@ namespace S {
 	export const Tray = styled.div<{ color: string }>`
 		color: white;
 		font-family: Helvetica, Arial;
-		padding: 5px;
-		margin:	 0px 10px;
+		font-size:0.8em;
+		padding: 0px 5px;
+		margin:	 0px ;
 		border: solid 1px ${(p) => p.color};
-		border-radius: 5px;
+		border-radius: 100px;
 		margin-bottom: 2px;
 		cursor: pointer;
 	`;
