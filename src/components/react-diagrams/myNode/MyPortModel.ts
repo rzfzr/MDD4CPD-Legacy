@@ -5,7 +5,7 @@ import {
 	PortModelGenerics,
 	PortModelOptions
 } from '@projectstorm/react-diagrams-core';
-import { DefaultLinkModel } from './DefaultLinkModel';
+import { MyLinkModel } from './MyLinkModel';
 import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 
 export interface DefaultPortModelOptions extends PortModelOptions {
@@ -17,7 +17,7 @@ export interface DefaultPortModelGenerics extends PortModelGenerics {
 	OPTIONS: DefaultPortModelOptions;
 }
 
-export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
+export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	constructor(isIn: boolean, name?: string, label?: string);
 	constructor(options: DefaultPortModelOptions);
 	constructor(options: DefaultPortModelOptions | boolean, name?: string, label?: string) {
@@ -59,7 +59,7 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	createLinkModel(): LinkModel {
-		const link = new DefaultLinkModel();
+		const link = new MyLinkModel();
 		// let label = new DefaultLabelModel();
 		// label.setLabel("I'm a sad label");
 		// link.addLabel(label)

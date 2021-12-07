@@ -29,7 +29,7 @@ export interface DefaultLinkModelGenerics extends LinkModelGenerics {
 	OPTIONS: DefaultLinkModelOptions;
 }
 
-export class DefaultLinkModel extends LinkModel<DefaultLinkModelGenerics> {
+export class MyLinkModel extends LinkModel<DefaultLinkModelGenerics> {
 	constructor(options: DefaultLinkModelOptions = {}) {
 		super({
 			type: 'default',

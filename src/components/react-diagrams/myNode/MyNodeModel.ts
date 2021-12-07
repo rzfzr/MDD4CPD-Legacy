@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { NodeModel, NodeModelGenerics, PortModelAlignment } from '@projectstorm/react-diagrams-core';
 import { BasePositionModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
-import { DefaultPortModel } from './DefaultPortModel';
+import { MyPortModel } from './MyPortModel';
 
 export interface DefaultNodeModelOptions extends BasePositionModelOptions {
     name?: string;
@@ -13,8 +13,8 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 }
 
 export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
-    protected portsIn: DefaultPortModel[];
-    protected portsOut: DefaultPortModel[];
+    protected portsIn: MyPortModel[];
+    protected portsOut: MyPortModel[];
     extras: any;
 
     constructor(name: string, color: string);
@@ -42,7 +42,7 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         super.doClone(lookupTable, clone);
     }
 
-    removePort(port: DefaultPortModel): void {
+    removePort(port: MyPortModel): void {
         super.removePort(port);
         if (port.getOptions().in) {
             this.portsIn.splice(this.portsIn.indexOf(port), 1);
@@ -51,7 +51,7 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         }
     }
 
-    addPort<T extends DefaultPortModel>(port: T): T {
+    addPort<T extends MyPortModel>(port: T): T {
         super.addPort(port);
         if (port.getOptions().in) {
             if (this.portsIn.indexOf(port) === -1) {
@@ -65,8 +65,8 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return port;
     }
 
-    addInPort(label: string, after = true): DefaultPortModel {
-        const p = new DefaultPortModel({
+    addInPort(label: string, after = true): MyPortModel {
+        const p = new MyPortModel({
             in: true,
             name: label,
             label: label,
@@ -78,8 +78,8 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return this.addPort(p);
     }
 
-    addOutPort(label: string, after = true): DefaultPortModel {
-        const p = new DefaultPortModel({
+    addOutPort(label: string, after = true): MyPortModel {
+        const p = new MyPortModel({
             in: false,
             name: label,
             label: label,
@@ -102,10 +102,10 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         this.options.color = event.data.color;
         this.portsIn = _.map(event.data.portsInOrder, (id) => {
             return this.getPortFromID(id);
-        }) as DefaultPortModel[];
+        }) as MyPortModel[];
         this.portsOut = _.map(event.data.portsOutOrder, (id) => {
             return this.getPortFromID(id);
-        }) as DefaultPortModel[];
+        }) as MyPortModel[];
         this.extras = event.data.extras
     }
 
@@ -124,11 +124,11 @@ export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         };
     }
 
-    getInPorts(): DefaultPortModel[] {
+    getInPorts(): MyPortModel[] {
         return this.portsIn;
     }
 
-    getOutPorts(): DefaultPortModel[] {
+    getOutPorts(): MyPortModel[] {
         return this.portsOut;
     }
 }
