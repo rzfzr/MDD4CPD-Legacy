@@ -6,7 +6,7 @@ import {
 	PortModelOptions
 } from '@projectstorm/react-diagrams-core';
 import { DefaultLinkModel } from './DefaultLinkModel';
-import { AbstractModelFactory, DeserializeEvent } from '@projectstorm/react-canvas-core';
+import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 
 export interface DefaultPortModelOptions extends PortModelOptions {
 	label?: string;
@@ -58,7 +58,7 @@ export class DefaultPortModel extends PortModel<DefaultPortModelGenerics> {
 		return true;
 	}
 
-	createLinkModel(factory?: AbstractModelFactory<LinkModel>): LinkModel {
+	createLinkModel(): LinkModel {
 		const link = new DefaultLinkModel();
 		// let label = new DefaultLabelModel();
 		// label.setLabel("I'm a sad label");

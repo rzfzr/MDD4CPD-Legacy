@@ -6,6 +6,7 @@ import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
+import { DiamondNodeModel } from './diamond/DiamondNodeModel';
 
 export interface BodyWidgetProps {
 	app: Application;
@@ -196,6 +197,13 @@ const paletteNodes = [
 		outs: [
 			'value',
 		]
+	},
+	{
+		name: 'Diamond',
+		color: 'white',
+		extras: { type: 'testing' },
+		ins: [],
+		outs: []
 	}
 ]
 export class BodyWidget extends React.Component<BodyWidgetProps> {
@@ -216,7 +224,10 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							paletteNodes.map((node) => {
 								if (node.extras.type !== lastType) {
 									lastType = node.extras.type
-									return <> <p style={{ margin: "5px" }}>--{node.extras.type}--</p> <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} /> </>
+									return <>
+										<p style={{ margin: "5px" }}>--{node.extras.type}--</p>
+										<TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
+									</>
 								}
 								return <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
 							}
@@ -224,23 +235,31 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 					</TrayWidget>
 					<S.Layer
 						onDrop={(event) => {
-							var data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-							let node: any = null;//DefaultNodeModel
+							let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 							if (data) {
-								node = new MyNodeModel(data.name, data.color);
-								node.extras = data.extras
-								data.outs.forEach((method: string) => {
-									node.addOutPort(method)
-								});
-								data.ins.forEach((method: string) => {
-									node.addInPort(method)
-								});
-							}
-							var point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
-							node.setPosition(point);
-							this.props.app.getDiagramEngine().getModel().addNode(node);
-							this.forceUpdate();
+								if (data.name === 'Diamond') {
+									console.log('Found a diamond')
+									const node = new DiamondNodeModel();
+									const point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
+									node.setPosition(point);
+									this.props.app.getDiagramEngine().getModel().addNode(node);
 
+								} else {
+
+									const node = new MyNodeModel(data.name, data.color);
+									node.extras = data.extras
+									data.outs.forEach((method: string) => {
+										node.addOutPort(method)
+									});
+									data.ins.forEach((method: string) => {
+										node.addInPort(method)
+									});
+									const point = this.props.app.getDiagramEngine().getRelativeMousePoint(event);
+									node.setPosition(point);
+									this.props.app.getDiagramEngine().getModel().addNode(node);
+								}
+							}
+							this.forceUpdate();
 
 						}}
 						onDragOver={(event) => {

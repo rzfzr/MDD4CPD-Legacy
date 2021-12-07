@@ -15,7 +15,7 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 export class MyNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     protected portsIn: DefaultPortModel[];
     protected portsOut: DefaultPortModel[];
-    protected extras: any;
+    extras: any;
 
     constructor(name: string, color: string);
     constructor(options?: DefaultNodeModelOptions);

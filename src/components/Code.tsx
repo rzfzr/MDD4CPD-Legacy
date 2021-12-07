@@ -39,7 +39,7 @@ function generateCode(model: any): string {
         }
     })
 
-    console.log('Generating from model:', model, 'Parsed ', nodes, logics, components, controllers)
+    // console.log('Generating from model:', model, 'Parsed ', nodes, logics, components, controllers)
 
     if (nodes.length === 0) return '// You need at least one Node!'
     if (controllers.length === 0) return '// You need an Arduino!'
@@ -118,7 +118,7 @@ function generateCode(model: any): string {
                 add(getParent(outcome)?.instance + '.' + outcome.label)
                 add("}\n");
             } else {
-                console.log('here', link, toNode, toPort)
+                // console.log('here', link, toNode, toPort)
                 if (toNode.instance) {
                     add(toNode.instance + '.' + removeType(toPort.name))
                 } else {
@@ -159,7 +159,7 @@ export default function Code() {
                     Prism.highlightAll();
                 }
             } catch (error) {
-                console.log(error)
+                // console.log(error)
             }
         }, 1500)
     }, []);
