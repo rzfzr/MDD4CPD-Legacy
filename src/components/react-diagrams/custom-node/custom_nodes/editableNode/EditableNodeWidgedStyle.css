@@ -8,14 +8,10 @@
     text-align: center;
     background: #fff;
     padding: 2px 15px 2px 15px;
-    /*remove*/
-    /* border: 1px solid #000;
-    border-bottom: 0px */
 }
 
 .content-divider {
     max-height: 1px;
-    /* width: 100%; */
     background: black;
     margin: 0;
     padding: 0;
