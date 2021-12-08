@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { NodeModel, NodeModelGenerics, PortModelAlignment } from '@projectstorm/react-diagrams-core';
 import { BasePositionModelOptions, DeserializeEvent } from '@projectstorm/react-canvas-core';
 import { MyPortModel } from '../myNode/MyPortModel';
+import { values } from 'lodash';
 
 export interface DefaultNodeModelOptions extends BasePositionModelOptions {
     name?: string;
@@ -15,22 +16,26 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     protected portsIn: MyPortModel[];
     protected portsOut: MyPortModel[];
+    content: string;
     extras: any;
     constructor(name: string, color: string, value: string);
-    constructor(options?: DefaultNodeModelOptions);
+    // constructor(options?: DefaultNodeModelOptions);
     constructor(options: any = {}, color?: string) {
         if (typeof options === 'string') {
             options = {
                 name: options,
-                color: color
+                color: color,
             };
         }
         super({
             type: 'MyEditable',
             name: 'Untitled',
             color: 'rgb(0,192,255)',
+            value: 'value',
+            content: 'value',
             ...options
         });
+        this.content = 'value'
         this.portsOut = [];
         this.portsIn = [];
     }
@@ -119,7 +124,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             portsOutOrder: _.map(this.portsOut, (port) => {
                 return port.getID();
             }),
-            extras: this.extras
+            extras: this.extras,
+            content: this.content
         };
     }
 

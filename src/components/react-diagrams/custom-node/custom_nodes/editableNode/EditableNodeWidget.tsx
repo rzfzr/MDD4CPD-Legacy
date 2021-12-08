@@ -114,8 +114,7 @@ export class EditableNodeWidget extends React.Component<
             <div
               onDoubleClick={() => {
                 this._editableObjectDoubleClick("content");
-              }}
-            >
+              }}>
               <EditableSingleField
                 elementKey="content"
                 editingKey={this.state.editingKey}
@@ -126,7 +125,6 @@ export class EditableNodeWidget extends React.Component<
               />
             </div>
           </div>
-
         </div>
         <div
           style={{

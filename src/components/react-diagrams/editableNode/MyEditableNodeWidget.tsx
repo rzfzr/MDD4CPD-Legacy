@@ -7,6 +7,7 @@ import "./MyEditableNodeWidgedStyle.css";
 import { PortWidget, DiagramEngine, PortModelAlignment, DefaultPortLabel } from "@projectstorm/react-diagrams";
 import styled from '@emotion/styled';
 
+import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
 
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
@@ -159,7 +160,29 @@ export class MyEditableNodeWidget extends React.Component<
         selected={this.props.nodeModel.isSelected()}
         background={this.props.nodeModel.getOptions().color}>
         <S.Title>
-          <S.TitleName>{this.props.nodeModel.getOptions().name}</S.TitleName>
+          <S.TitleName>{this.props.nodeModel.getOptions().name}:
+          </S.TitleName>
+          <div className={"editable-node"}
+            ref={divElement => (this.divElement = divElement)}>
+            <div className="editable-border">
+              <div className="editable-header">
+                <div
+                  onDoubleClick={() => {
+                    this._editableObjectDoubleClick("content");
+                  }}
+                >
+                  <EditableSingleField
+                    elementKey="content"
+                    editingKey={this.state.editingKey}
+                    beingEdited={this.state.editingSomething}
+                    content={this.props.nodeModel.content}
+                    onChange={this._contentOnChange}
+                    onBlurOrEnter={this._onBlurOrEnter}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </S.Title>
         <S.Ports>
           <S.PortsContainer>{_.map(this.props.nodeModel.getInPorts(), this.generatePort)}</S.PortsContainer>
