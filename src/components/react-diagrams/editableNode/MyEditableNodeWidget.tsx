@@ -1,9 +1,57 @@
 //@ts-nocheck
 import * as React from "react";
-import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
+// import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
 import "./MyEditableNodeWidgedStyle.css";
-import { PortWidget, DiagramEngine, PortModelAlignment } from "@projectstorm/react-diagrams";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { PortWidget, DiagramEngine, PortModelAlignment, DefaultPortLabel } from "@projectstorm/react-diagrams";
+import styled from '@emotion/styled';
+
+
+namespace S {
+  export const Node = styled.div<{ background: string; selected: boolean }>`
+		background-color: ${(p) => p.background};
+		border-radius: 5px;
+		font-family: sans-serif;
+		color: white;
+		border: solid 2px black;
+		overflow: visible;
+		font-size: 11px;
+		border: solid 2px ${(p) => (p.selected ? 'rgb(0,192,255)' : 'black')};
+	`;
+
+  export const Title = styled.div`
+		background: rgba(0, 0, 0, 0.3);
+		display: flex;
+		white-space: nowrap;
+		justify-items: center;
+	`;
+
+  export const TitleName = styled.div`
+		flex-grow: 1;
+		padding: 5px 5px;
+	`;
+
+  export const Ports = styled.div`
+		display: flex;
+		background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2));
+	`;
+
+  export const PortsContainer = styled.div`
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+
+		&:first-of-type {
+			margin-right: 10px;
+		}
+
+		&:only-child {
+			margin-right: 0px;
+		}
+	`;
+}
+
 export interface MyEditableWidgetProps {
   nodeModel: MyEditableNodeModel;
   engine: DiagramEngine
@@ -46,7 +94,9 @@ export class MyEditableNodeWidget extends React.Component<
     this._contentOnChange = this._contentOnChange.bind(this);
     this._onBlurOrEnter = this._onBlurOrEnter.bind(this);
   }
-
+  generatePort = (port) => {
+    return <DefaultPortLabel engine={this.props.engine} port={port} key={port.getID()} />;
+  };
 
   /**
    * Pass this on onDoubleClick.
@@ -92,66 +142,81 @@ export class MyEditableNodeWidget extends React.Component<
    * Change the width and height values of the element, to put the ports on right place
    */
   componentDidMount() {
-    const height = this.divElement.clientHeight;
-    const width = this.divElement.clientWidth;
-    this.setState({ height, width });
+    // const height = this.divElement.clientHeight;
+    // const width = this.divElement.clientWidth;
+    // this.setState({ height, width });
   }
   componentDidUpdate() {
-    const height = this.divElement.clientHeight;
-    const width = this.divElement.clientWidth;
-    if (this.state.height !== height || this.state.width !== width)
-      this.setState({ height, width });
+    // const height = this.divElement.clientHeight;
+    // const width = this.divElement.clientWidth;
+    // if (this.state.height !== height || this.state.width !== width)
+    //   this.setState({ height, width });
   }
-
   render() {
     return (
-      <div
-        ref={divElement => (this.divElement = divElement)}
-        className={"editable-node"}
-      >
-        <div className="editable-border">
-          <div className="editable-header">
-            <div
-              onDoubleClick={() => {
-                this._editableObjectDoubleClick("content");
-              }}
-            >
-
-              <EditableSingleField
-                elementKey="content"
-                editingKey={this.state.editingKey}
-                beingEdited={this.state.editingSomething}
-                content={this.props.nodeModel.content}
-                onChange={this._contentOnChange}
-                onBlurOrEnter={this._onBlurOrEnter}
-              />
-            </div>
-          </div>
-
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            background: "rgba(0,0,250,0.5)",
-            left: -15, //old: -8
-            top: this.state.height / 2 - 8
-          }}
-        >
-          <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.LEFT)} engine={this.props.engine} />
-        </div>
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            background: "rgba(0,0,250,0.5)",
-            left: this.state.width, //old: this.state.width - 8,
-            top: this.state.height / 2 - 8
-          }}
-        >
-          <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.RIGHT)} engine={this.props.engine} />
-        </div>
-      </div>
+      <S.Node
+        data-default-node-name={this.props.nodeModel.getOptions().name}
+        selected={this.props.nodeModel.isSelected()}
+        background={this.props.nodeModel.getOptions().color}>
+        <S.Title>
+          <S.TitleName>{this.props.nodeModel.getOptions().name}</S.TitleName>
+        </S.Title>
+        <S.Ports>
+          <S.PortsContainer>{_.map(this.props.nodeModel.getInPorts(), this.generatePort)}</S.PortsContainer>
+          <S.PortsContainer>{_.map(this.props.nodeModel.getOutPorts(), this.generatePort)}</S.PortsContainer>
+        </S.Ports>
+      </S.Node>
     );
   }
+  // render() {
+  //   return (
+  //     <div
+  //       ref={divElement => (this.divElement = divElement)}
+  //       className={"editable-node"}
+  //     >
+  //       <div className="editable-border">
+  //         <div className="editable-header">
+  //           <div
+  //             onDoubleClick={() => {
+  //               this._editableObjectDoubleClick("content");
+  //             }}
+  //           >
+
+  //             <EditableSingleField
+  //               elementKey="content"
+  //               editingKey={this.state.editingKey}
+  //               beingEdited={this.state.editingSomething}
+  //               content={this.props.nodeModel.content}
+  //               onChange={this._contentOnChange}
+  //               onBlurOrEnter={this._onBlurOrEnter}
+  //             />
+  //           </div>
+  //         </div>
+
+  //       </div>
+  //       {/* <div
+  //         style={{
+  //           position: "absolute",
+  //           zIndex: 10,
+  //           background: "rgba(0,0,250,0.5)",
+  //           left: -15, //old: -8
+  //           top: this.state.height / 2 - 8
+  //         }}
+  //       >
+  //         <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.LEFT)} engine={this.props.engine} />
+  //       </div>
+  //       <div
+  //         style={{
+  //           position: "absolute",
+  //           zIndex: 10,
+  //           background: "rgba(0,0,250,0.5)",
+  //           left: this.state.width, //old: this.state.width - 8,
+  //           top: this.state.height / 2 - 8
+  //         }}
+  //       >
+  //         <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.RIGHT)} engine={this.props.engine} />
+  //       </div> */}
+  //     </div>
+  //   );
+  // }
 }

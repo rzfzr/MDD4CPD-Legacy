@@ -16,7 +16,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     protected portsIn: MyPortModel[];
     protected portsOut: MyPortModel[];
     extras: any;
-
     constructor(name: string, color: string, value: string);
     constructor(options?: DefaultNodeModelOptions);
     constructor(options: any = {}, color?: string) {
