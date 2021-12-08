@@ -1,10 +1,11 @@
 //@ts-nocheck
 import * as React from "react";
-import { EditableNodeModel } from "./EditableNodeModel";
+import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
+import { MyEditableNodeModel } from "./MyEditableNodeModel";
 import "./MyEditableNodeWidgedStyle.css";
 import { PortWidget, DiagramEngine, PortModelAlignment } from "@projectstorm/react-diagrams";
 export interface MyEditableWidgetProps {
-  nodeModel: EditableNodeModel;
+  nodeModel: MyEditableNodeModel;
   engine: DiagramEngine
 }
 
@@ -115,14 +116,15 @@ export class MyEditableNodeWidget extends React.Component<
                 this._editableObjectDoubleClick("content");
               }}
             >
-              {/* <EditableSingleField
+
+              <EditableSingleField
                 elementKey="content"
                 editingKey={this.state.editingKey}
                 beingEdited={this.state.editingSomething}
                 content={this.props.nodeModel.content}
                 onChange={this._contentOnChange}
                 onBlurOrEnter={this._onBlurOrEnter}
-              /> */}
+              />
             </div>
           </div>
 

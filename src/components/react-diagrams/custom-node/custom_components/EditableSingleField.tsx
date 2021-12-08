@@ -1,7 +1,7 @@
 import * as React from "react";
 import AutosizeInput from 'react-input-autosize';
 
-export interface IEditableSingleFlieldProps {
+export interface IEditableSingleFieldProps {
   beingEdited: boolean;
   content: string;
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
@@ -11,7 +11,7 @@ export interface IEditableSingleFlieldProps {
   isAbstract?: boolean;
 }
 
-export interface IEditableSingleFlieldState { }
+export interface IEditableSingleFieldState { }
 
 // interface EditorInterface {
 //   content: string;
@@ -46,11 +46,11 @@ const Editor = ({
   );
 };
 
-export default class EditableSingleFlield extends React.Component<
-  IEditableSingleFlieldProps,
-  IEditableSingleFlieldState
+export default class EditableSingleField extends React.Component<
+  IEditableSingleFieldProps,
+  IEditableSingleFieldState
 > {
-  constructor(props: IEditableSingleFlieldProps) {
+  constructor(props: IEditableSingleFieldProps) {
     super(props);
 
     this.state = {};
