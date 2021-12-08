@@ -27,7 +27,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             };
         }
         super({
-            type: 'default',
+            type: 'MyEditable',
             name: 'Untitled',
             color: 'rgb(0,192,255)',
             ...options

@@ -8,7 +8,7 @@ export class MyEditableNodeFactory extends AbstractReactFactory<MyEditableNodeMo
 		return new MyEditableNodeModel('name', 'pink', 'value');
 	}
 	constructor() {
-		super("Editable");
+		super("MyEditable");
 	}
 
 	generateReactWidget(event: { model: MyEditableNodeModel }): JSX.Element {
