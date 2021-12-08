@@ -19,9 +19,9 @@ export class Application {
 		this.diagramEngine
 			.getPortFactories()
 			.registerFactory(new SimplePortFactory('diamond', (config) => new DiamondPortModel(PortModelAlignment.LEFT)));
-		this.diagramEngine.getNodeFactories().registerFactory(new DiamondNodeFactory());
 		this.diagramEngine.getLabelFactories().registerFactory(new EditableLabelFactory());
 		this.diagramEngine.getNodeFactories().registerFactory(new EditableNodeFactory());
+		this.diagramEngine.getNodeFactories().registerFactory(new DiamondNodeFactory());
 		this.diagramEngine.getNodeFactories().registerFactory(new MyEditableNodeFactory());
 		this.newModel();
 	}
