@@ -5,6 +5,7 @@ import { EditableNodeFactory } from './custom-node/custom_nodes/editableNode/Edi
 import { DiamondNodeFactory } from './diamond/DiamondNodeFactory';
 import { DiamondPortModel } from './diamond/DiamondPortModel';
 import { SimplePortFactory } from './diamond/SimplePortFactory';
+import { MyEditableNodeFactory } from './editableNode/MyEditableNodeFactory';
 
 /**
  * @author Dylan Vorster
@@ -20,8 +21,8 @@ export class Application {
 			.registerFactory(new SimplePortFactory('diamond', (config) => new DiamondPortModel(PortModelAlignment.LEFT)));
 		this.diagramEngine.getNodeFactories().registerFactory(new DiamondNodeFactory());
 		this.diagramEngine.getLabelFactories().registerFactory(new EditableLabelFactory());
-
 		this.diagramEngine.getNodeFactories().registerFactory(new EditableNodeFactory());
+		this.diagramEngine.getNodeFactories().registerFactory(new MyEditableNodeFactory());
 		this.newModel();
 	}
 
