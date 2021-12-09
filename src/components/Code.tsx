@@ -63,13 +63,24 @@ function generateCode(model: any): string {
     let getNode = (nodeID: string) => {
         return nodes.find((n: any) => n.id === nodeID)
     }
-    let getCoditionalValue = (conditionNode: any, portName: any) => {
+    let getCoditionalValue = (conditionNode: any, portName: any): string => {
         try {
             let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0]
             let link = getLink(linkID)
-            return getPort(link.source, link.sourcePort)
+            let port = getPort(link.source, link.sourcePort)
+            let parent = getParent(port)
+
+            if (parent.extras.type === 'variable') {
+                return parent.content
+            }
+            else if (parent.extras.type === 'component') {
+                return parent.instance + '.' + port.name
+            } else {
+                return 'Unknown extras.type'
+
+            }
         } catch (error) {
-            return { name: '/* Lacking Value */' }
+            return '/* Lacking Value */'
         }
     }
     let getOutcome = (conditionNode: any) => {
@@ -122,7 +133,7 @@ function generateCode(model: any): string {
                 let yValue = getCoditionalValue(toNode, 'y')
                 let outcome = getOutcome(toNode)
                 console.log('here', link, toNode, toPort, xValue, yValue, outcome)
-                add('if (', getParent(xValue)?.instance + '.' + xValue.name, ' ' + toNode.content + ' ', getParent(yValue)?.instance + '.' + yValue.name, ') {')
+                add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
                 add(getParent(outcome)?.instance + '.' + outcome.label)
                 add("}\n");
             } else {
@@ -139,10 +150,7 @@ function generateCode(model: any): string {
                                 content = null;
                             }
                         })
-
                     })
-
-
                 } else {
                     if (toNode.instance) {
                         add(toNode.instance + '.' + removeType(toPort.name))
