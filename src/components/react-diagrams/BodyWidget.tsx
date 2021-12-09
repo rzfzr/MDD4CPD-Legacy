@@ -84,8 +84,9 @@ const paletteNodes = [
 			'False'
 		],
 		ins: [
-			'if <= 20',
-			'value'
+			'trigger',
+			'x',
+			'y'
 		]
 	},
 	{
@@ -97,8 +98,8 @@ const paletteNodes = [
 			'False'
 		],
 		ins: [
-			'for',
-			'value'
+			'startValue',
+			'stopValue'
 		]
 	},
 	{
@@ -256,20 +257,16 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 							let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 							if (data) {
 								if (data.name === 'Diamond') {
-									console.log('Found a diamond')
 									const node = new DiamondNodeModel();
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
-
 								} else if (data.name === 'LabelEdit') {
 									const node1 = new DefaultNodeModel('Node1', 'red');
 									const port1 = node1.addOutPort('out');
 									node1.setPosition(250, 100);
-
 									const node2 = new DefaultNodeModel('Node2', 'green');
 									const port2 = node2.addInPort('in');
 									node2.setPosition(800, 300);
-
 									const link1 = port1.link(port2);
 									link1.addLabel(
 										new EditableLabelModel({
@@ -283,6 +280,17 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else if (data.extras.type === "variable") {
+									const node = new MyEditableNodeModel(data.name, data.color, 'value');
+									node.extras = data.extras
+									data.outs.forEach((method: string) => {
+										node.addOutPort(method)
+									});
+									data.ins.forEach((method: string) => {
+										node.addInPort(method)
+									});
+									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
+									this.props.app.getDiagramEngine().getModel().addNode(node);
+								} else if (data.extras.type === "logic") {
 									const node = new MyEditableNodeModel(data.name, data.color, 'value');
 									node.extras = data.extras
 									data.outs.forEach((method: string) => {
