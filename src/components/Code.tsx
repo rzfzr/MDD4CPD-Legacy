@@ -25,7 +25,7 @@ function generateCode(model: any): string {
         nodes.push(n)
         switch (n.extras.type) {
             case 'component':
-                n.instance = n.name.toLowerCase()
+                n.instance = n.name.toLowerCase() + components.filter(c => c.extras.library === n.extras.library).length
                 components.push(n)
                 if (!libraries.includes(n.extras.library))
                     libraries.push(n.extras.library)
@@ -157,7 +157,7 @@ function generateCode(model: any): string {
         add("}\n");
     })
 
-    function formatCode(original: string) {
+    function indentCode(original: string) {
         let code: any[] = [];
         let level = 0;
         let tab = "    ";
@@ -172,7 +172,7 @@ function generateCode(model: any): string {
         });
         return code.join("\n");
     }
-    return formatCode(code);
+    return indentCode(code);
 }
 export default function Code() {
     const [code, setCode] = useState('Initializing Generator')
