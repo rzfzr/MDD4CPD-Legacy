@@ -100,9 +100,15 @@ function generateCode(model: any): string {
     });
 
 
-    let removeType = (name: string) => {
-        return name.split(' ').slice(-1)
+    let removeType = (name: string): string => {
+        return String(name.split(' ').slice(-1))
     }
+    let replaceVariable = (call: string, variable: string) => {
+        console.log('replacing', call, variable)
+        return call.split("(").shift() + '(' + variable + ')'
+    }
+
+    let content: string | null = null
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {
@@ -118,11 +124,33 @@ function generateCode(model: any): string {
                 add(getParent(outcome)?.instance + '.' + outcome.label)
                 add("}\n");
             } else {
-                // console.log('here', link, toNode, toPort)
-                if (toNode.instance) {
-                    add(toNode.instance + '.' + removeType(toPort.name))
+
+                if (toNode.extras.type === 'variable') {
+                    console.log('Saving content:', toNode.content)
+                    content = toNode.content
+                    toNode.ports.forEach((port: any) => {
+                        console.log('variable subPort');
+                        console.log('here', link, toNode, toPort)
+                        port.links.forEach((l: any) => {
+                            let link = getLink(l);
+                            let toPort = getPort(link.target, link.targetPort)
+                            let toNode = getNode(toPort.parentNode)
+
+                            if (toNode.instance) {
+                                if (content)
+                                    add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
+                            }
+                        })
+
+                    })
+
+
                 } else {
-                    add(fromNode.instance + '.' + removeType(fromPort.name))
+                    if (toNode.instance) {
+                        add(toNode.instance + '.' + removeType(toPort.name))
+                    } else {
+                        add(fromNode.instance + '.' + removeType(fromPort.name))
+                    }
                 }
             }
         })

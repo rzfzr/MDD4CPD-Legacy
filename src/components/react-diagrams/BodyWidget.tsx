@@ -283,7 +283,6 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else if (data.extras.type === "variable") {
-									console.log('inserting variable')
 									const node = new MyEditableNodeModel(data.name, data.color, 'value');
 									node.extras = data.extras
 									data.outs.forEach((method: string) => {
