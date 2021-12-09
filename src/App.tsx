@@ -1,9 +1,7 @@
 import './App.css';
 import NavigationBar from './components/NavigationBar'
 import { Route, Router } from 'react-router-dom'
-
 import history from './history'
-
 import EditorPage from './pages/Editor'
 import HomePage from './pages/Home';
 import ModelsPage from './pages/Models';
