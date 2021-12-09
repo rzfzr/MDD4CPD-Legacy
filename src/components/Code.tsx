@@ -63,9 +63,9 @@ function generateCode(model: any): string {
     let getNode = (nodeID: string) => {
         return nodes.find((n: any) => n.id === nodeID)
     }
-    let getValue = (conditionNode: any) => {
+    let getCoditionalValue = (conditionNode: any, portName: any) => {
         try {
-            let linkID = conditionNode.ports.find((p: any) => p.name === 'value').links[0]
+            let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0]
             let link = getLink(linkID)
             return getPort(link.source, link.sourcePort)
         } catch (error) {
@@ -118,27 +118,25 @@ function generateCode(model: any): string {
             let fromPort = getPort(link.source, link.sourcePort)
             let fromNode = getNode(fromPort.parentNode)
             if (toNode.name === "Condition") {
-                let value = getValue(toNode)
+                let xValue = getCoditionalValue(toNode, 'x')
+                let yValue = getCoditionalValue(toNode, 'y')
                 let outcome = getOutcome(toNode)
-                add('if (', getParent(value)?.instance + '.' + value.name, toPort.name.replace('if', ''), ') {')
+                console.log('here', link, toNode, toPort, xValue, yValue, outcome)
+                add('if (', getParent(xValue)?.instance + '.' + xValue.name, ' ' + toNode.content + ' ', getParent(yValue)?.instance + '.' + yValue.name, ') {')
                 add(getParent(outcome)?.instance + '.' + outcome.label)
                 add("}\n");
             } else {
-
                 if (toNode.extras.type === 'variable') {
-                    console.log('Saving content:', toNode.content)
                     content = toNode.content
                     toNode.ports.forEach((port: any) => {
-                        console.log('variable subPort');
-                        console.log('here', link, toNode, toPort)
                         port.links.forEach((l: any) => {
                             let link = getLink(l);
                             let toPort = getPort(link.target, link.targetPort)
                             let toNode = getNode(toPort.parentNode)
 
-                            if (toNode.instance) {
-                                if (content)
-                                    add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
+                            if (toNode.instance && content) {
+                                add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
+                                content = null;
                             }
                         })
 
