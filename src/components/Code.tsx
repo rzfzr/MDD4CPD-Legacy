@@ -100,10 +100,10 @@ function generateCode(model: any): string {
     });
 
 
-    let removeType = (name: string): string => {
+    let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
-    let replaceVariable = (call: string, variable: string) => {
+    let replaceVariable = (call: string, variable: string) => {//todo: should accept multiple
         console.log('replacing', call, variable)
         return call.split("(").shift() + '(' + variable + ')'
     }
