@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/MDD4IoT/static/css/main.d77d0653.chunk.css",
-    "main.js": "/MDD4IoT/static/js/main.58dbe591.chunk.js",
-    "main.js.map": "/MDD4IoT/static/js/main.58dbe591.chunk.js.map",
+    "main.js": "/MDD4IoT/static/js/main.90459c71.chunk.js",
+    "main.js.map": "/MDD4IoT/static/js/main.90459c71.chunk.js.map",
     "runtime-main.js": "/MDD4IoT/static/js/runtime-main.2d2cec11.js",
     "runtime-main.js.map": "/MDD4IoT/static/js/runtime-main.2d2cec11.js.map",
     "static/js/2.0c9ffab4.chunk.js": "/MDD4IoT/static/js/2.0c9ffab4.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.2d2cec11.js",
     "static/js/2.0c9ffab4.chunk.js",
     "static/css/main.d77d0653.chunk.css",
-    "static/js/main.58dbe591.chunk.js"
+    "static/js/main.90459c71.chunk.js"
   ]
 }
