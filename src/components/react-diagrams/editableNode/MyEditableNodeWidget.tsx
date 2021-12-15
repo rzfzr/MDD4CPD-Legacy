@@ -160,15 +160,25 @@ export class MyEditableNodeWidget extends React.Component<
                       onChange={this._contentOnChange}
                       onBlurOrEnter={this._onBlurOrEnter}
                     />
-                    :
-                    <EditableSingleField
-                      elementKey="content"
-                      editingKey={this.state.editingKey}
-                      beingEdited={this.state.editingSomething}
-                      content={this.props.nodeModel.content}
-                      onChange={this._contentOnChange}
-                      onBlurOrEnter={this._onBlurOrEnter}
-                    />
+                    : this.props.nodeModel.portsOut[0].options.name === 'port' ?
+                      <SelectableField
+                        elementKey="content"
+                        options={['0', '1', '2']}
+                        editingKey={this.state.editingKey}
+                        beingEdited={this.state.editingSomething}
+                        content={this.props.nodeModel.content}
+                        onChange={this._contentOnChange}
+                        onBlurOrEnter={this._onBlurOrEnter}
+                      />
+                      :
+                      <EditableSingleField
+                        elementKey="content"
+                        editingKey={this.state.editingKey}
+                        beingEdited={this.state.editingSomething}
+                        content={this.props.nodeModel.content}
+                        onChange={this._contentOnChange}
+                        onBlurOrEnter={this._onBlurOrEnter}
+                      />
                   }
                 </div>
               </div>

@@ -26,6 +26,26 @@ export default [{
             'setup()',
             'loop()'
         ]
+    }, {
+        name: 'Digital Port',
+        color: 'white',
+        extras: {
+            type: 'port'
+        },
+        ins: [],
+        outs: [
+            'port',
+        ]
+    }, {
+        name: 'Analog Port',
+        color: 'white',
+        extras: {
+            type: 'port'
+        },
+        ins: [],
+        outs: [
+            'port',
+        ]
     },
     {
         name: 'Condition',
@@ -169,8 +189,7 @@ export default [{
         outs: [
             'int',
         ]
-    },
-    {
+    }, {
         name: 'Constant Boolean',
         color: 'purple',
         extras: {
