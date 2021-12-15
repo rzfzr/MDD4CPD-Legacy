@@ -109,11 +109,6 @@ function generateCode(model: any): string {
     let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
-    let replaceVariable = (call: string, value: string) => {//todo: should accept multiple
-        // console.log('replacing', call, value)
-        return call.split("(").shift() + '(' + value + ')'
-    }
-
     let callWithParameters = (node: any, ...contents: any) => {
         console.log('calling from', node)
         contents.push(node.content)
