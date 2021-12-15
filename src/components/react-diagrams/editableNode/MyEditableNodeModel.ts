@@ -6,7 +6,6 @@ import { MyPortModel } from '../myNode/MyPortModel';
 export interface DefaultNodeModelOptions extends BasePositionModelOptions {
     name?: string;
     color?: string;
-    content?: string;
 }
 
 export interface DefaultNodeModelGenerics extends NodeModelGenerics {
@@ -14,20 +13,36 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 }
 
 export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
-    protected portsIn: MyPortModel[];
-    protected portsOut: MyPortModel[];
+    portsIn: MyPortModel[] = [];
+    portsOut: MyPortModel[] = [];
     content: string;
     extras: any;
-    constructor(name: string, color: string) {
+    selectableOptions: string[];
+    constructor(name: string, color: string, extras: any, ins: any[], outs: any[]) {
         super({
             type: 'MyEditable',
             name: name,
             color: color,
-            content: 'value'
         });
-        this.content = 'value'
-        this.portsOut = [];
-        this.portsIn = [];
+        console.log('creating', name, color, extras, ins, outs)
+        this.extras = extras;
+
+        ins.forEach((method: string) => {
+            this.addInPort(method)
+        });
+        outs.forEach((method: string) => {
+            this.addOutPort(method)
+        });
+
+        switch (outs[0]) {
+            case 'bool':
+                this.selectableOptions = ['true', 'false'];
+                this.content = 'true'
+                break;
+            default:
+                this.selectableOptions = []
+                this.content = 'value'
+        }
     }
 
     doClone(lookupTable: {}, clone: any): void {
