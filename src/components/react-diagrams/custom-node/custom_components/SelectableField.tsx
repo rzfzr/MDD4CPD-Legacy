@@ -1,5 +1,4 @@
 import * as React from "react";
-import AutosizeInput from 'react-input-autosize';
 
 export interface ISelectableFieldProps {
   beingEdited: boolean;
