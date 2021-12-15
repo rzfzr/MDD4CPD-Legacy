@@ -77,6 +77,9 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 					<S.Layer
 						onDrop={(event) => {
 							let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
+
+
+
 							if (data) {
 								if (data.name === 'Diamond') {
 									const node = new DiamondNodeModel();
@@ -123,6 +126,9 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									});
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
+								} else if (data.extras.type === "diagram") {
+									this.props.app.getActiveDiagram().deserializeModel(data.extras.diagram,
+										this.props.app.getDiagramEngine());
 								} else {
 									const node = new MyNodeModel(data.name, data.color);
 									node.extras = data.extras
