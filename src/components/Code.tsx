@@ -94,11 +94,10 @@ function generateCode(model: any): string {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
     add("/* Code generated for ", controller.name);
-    add('Analog ports N/' + controller.extras.analogPorts)
-    add('Digital ports M/' + controller.extras.digitalPorts)
+    add('Analog ports 0/' + controller.extras.analogPorts)
+    add('Digital ports 0/' + controller.extras.digitalPorts)
     add("*/")
     add('')
-
     libraries.forEach(lib => {
         add('#include <' + lib + '>')
         components.forEach(comp => {
@@ -107,8 +106,6 @@ function generateCode(model: any): string {
         });
         add('')
     });
-
-
     let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
@@ -117,7 +114,22 @@ function generateCode(model: any): string {
         return call.split("(").shift() + '(' + value + ')'
     }
 
-    let content: string | null = null
+    let callWithParameters = (toNode: any) => {
+        let content = toNode.content
+        toNode.ports.forEach((port: any) => {
+            port.links.forEach((l: any) => {
+                const link = getLink(l);
+                const toPort = getPort(link.target, link.targetPort)
+                const toNode = getNode(toPort.parentNode)
+                if (toNode.instance && content) {
+                    add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
+                    content = null;
+                }
+            })
+        })
+    }
+
+    // let content: string | null = null
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {
@@ -130,25 +142,13 @@ function generateCode(model: any): string {
                 const xValue = getCoditionalValue(toNode, 'x')
                 const yValue = getCoditionalValue(toNode, 'y')
                 const outcome = getOutcome(toNode)
-                console.log('here', link, toNode, toPort, xValue, yValue, outcome)
+                const toNode2 = getParent(outcome)
                 add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
-                add(getParent(outcome)?.instance + '.' + outcome.label)
+                callWithParameters(toNode2)
                 add("}\n");
             } else {
                 if (['variable', 'port'].includes(toNode.extras.type)) {
-                    content = toNode.content
-                    toNode.ports.forEach((port: any) => {
-                        port.links.forEach((l: any) => {
-                            const link = getLink(l);
-                            const toPort = getPort(link.target, link.targetPort)
-                            const toNode = getNode(toPort.parentNode)
-
-                            if (toNode.instance && content) {
-                                add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
-                                content = null;
-                            }
-                        })
-                    })
+                    callWithParameters(toNode)
                 } else {
                     if (toNode.instance) {
                         add(toNode.instance + '.' + removeType(toPort.name))
