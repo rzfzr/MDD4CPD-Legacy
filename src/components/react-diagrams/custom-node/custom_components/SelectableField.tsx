@@ -3,6 +3,7 @@ import AutosizeInput from 'react-input-autosize';
 
 export interface ISelectableFieldProps {
   beingEdited: boolean;
+  options: Array<string>
   content: string;
   onChange: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlurOrEnter: () => void;
@@ -13,18 +14,16 @@ export interface ISelectableFieldProps {
 
 export interface ISelectableFieldState { }
 
-// interface EditorInterface {
-//   content: string;
-//   onChange: () => any;
-// }
 const Editor = ({
   content,
   onChange,
   onBlurOrEnter,
+  options
 }: {
   content: string;
   onChange: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlurOrEnter: () => void;
+  options: Array<string>;
 }) => {
   return (
 
@@ -33,10 +32,11 @@ const Editor = ({
       onChange={onChange}
       onBlur={onBlurOrEnter}
     >
-      <option value="true">true</option>
-      <option value="false">false</option>
+      {
+        options.map((x, y) =>
+          <option key={y}>{x}</option>)
+      }
     </select>
-
   );
 };
 
@@ -58,6 +58,7 @@ export default class SelectableField extends React.Component<
             content={this.props.content}
             onChange={this.props.onChange}
             onBlurOrEnter={this.props.onBlurOrEnter}
+            options={this.props.options}
           />
         ) : (
           <p
