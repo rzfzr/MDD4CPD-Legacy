@@ -8,15 +8,15 @@ function generateCode(model: any): string {
     if (Object.keys(model).length === 0) {
         return '// Empty Diagram!';
     }
-    let links: any[] = []
+    const links: any[] = []
     Object.entries(model.layers[0].models).forEach((x: any) => {
         links.push(x[1])
     })
-    let nodes: any[] = []
-    let logics: any[] = []
-    let components: any[] = []
-    let controllers: any[] = []
-    let libraries: any[] = []
+    const nodes: any[] = []
+    const logics: any[] = []
+    const components: any[] = []
+    const controllers: any[] = []
+    const libraries: any[] = []
 
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
@@ -71,7 +71,7 @@ function generateCode(model: any): string {
             if (['variable', 'port'].includes(parent.extras.type)) {
                 return parent.content
             }
-            else if (parent.extras.type === 'component') {
+            else if (['component'].includes(parent.extras.type)) {
                 return parent.instance + '.' + port.name
             } else {
                 return 'Unknown extras.type'
@@ -121,15 +121,15 @@ function generateCode(model: any): string {
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {
-            let link = getLink(l);
-            let toPort = getPort(link.target, link.targetPort)
-            let toNode = getNode(toPort.parentNode)
-            let fromPort = getPort(link.source, link.sourcePort)
-            let fromNode = getNode(fromPort.parentNode)
+            const link = getLink(l);
+            const toPort = getPort(link.target, link.targetPort)
+            const toNode = getNode(toPort.parentNode)
+            const fromPort = getPort(link.source, link.sourcePort)
+            const fromNode = getNode(fromPort.parentNode)
             if (toNode.name === "Condition") {
-                let xValue = getCoditionalValue(toNode, 'x')
-                let yValue = getCoditionalValue(toNode, 'y')
-                let outcome = getOutcome(toNode)
+                const xValue = getCoditionalValue(toNode, 'x')
+                const yValue = getCoditionalValue(toNode, 'y')
+                const outcome = getOutcome(toNode)
                 console.log('here', link, toNode, toPort, xValue, yValue, outcome)
                 add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
                 add(getParent(outcome)?.instance + '.' + outcome.label)
@@ -139,9 +139,9 @@ function generateCode(model: any): string {
                     content = toNode.content
                     toNode.ports.forEach((port: any) => {
                         port.links.forEach((l: any) => {
-                            let link = getLink(l);
-                            let toPort = getPort(link.target, link.targetPort)
-                            let toNode = getNode(toPort.parentNode)
+                            const link = getLink(l);
+                            const toPort = getPort(link.target, link.targetPort)
+                            const toNode = getNode(toPort.parentNode)
 
                             if (toNode.instance && content) {
                                 add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
@@ -184,7 +184,7 @@ export default function Code() {
         Prism.highlightAll();
         setInterval(() => {
             try {
-                let temp = localStorage.getItem('model')
+                const temp = localStorage.getItem('model')
                 if (temp !== localStorage.getItem('oldModel')) {
                     localStorage.setItem('oldModel', temp || '{}')
                     setCode(generateCode(JSON.parse(temp || '{}')));
