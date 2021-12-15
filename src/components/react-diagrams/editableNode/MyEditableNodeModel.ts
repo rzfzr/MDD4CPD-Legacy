@@ -110,6 +110,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             return this.getPortFromID(id);
         }) as MyPortModel[];
         this.extras = event.data.extras
+        this.content = event.data.content
     }
 
     serialize(): any {
