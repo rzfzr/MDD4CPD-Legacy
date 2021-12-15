@@ -167,7 +167,7 @@ export default [{
         },
         ins: [],
         outs: [
-            'value',
+            'int',
         ]
     },
     {
@@ -178,7 +178,7 @@ export default [{
         },
         ins: [],
         outs: [
-            'value',
+            'bool',
         ]
     },
     {

@@ -1,6 +1,5 @@
 //@ts-nocheck
 import * as React from "react";
-// import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
 import "./MyEditableNodeWidgedStyle.css";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -8,6 +7,7 @@ import { PortWidget, DiagramEngine, PortModelAlignment, DefaultPortLabel } from 
 import styled from '@emotion/styled';
 
 import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
+import SelectableField from "../custom-node/custom_components/SelectableField";
 
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
@@ -65,15 +65,6 @@ export interface MyEditableWidgetState {
   editingSomething: boolean;
   editingKey: string;
 }
-
-// interface ContextInformation {
-//   context: string;
-//   entity: string;
-// }
-// interface AtributeInformation {
-//   atribute: string;
-// }
-
 export class MyEditableNodeWidget extends React.Component<
   MyEditableWidgetProps,
   MyEditableWidgetState
@@ -84,6 +75,7 @@ export class MyEditableNodeWidget extends React.Component<
     super(props);
     this.state = {
       content: "",
+      variableType: '',
       height: 0,
       width: 0,
       editingSomething: false,
@@ -135,23 +127,9 @@ export class MyEditableNodeWidget extends React.Component<
    * copy atributes from nodeModel
    */
   UNSAFE_componentWillMount() {
-    const content = this.props.nodeModel.content;
-    this.setState({ content });
-  }
-
-  /**
-   * Change the width and height values of the element, to put the ports on right place
-   */
-  componentDidMount() {
-    // const height = this.divElement.clientHeight;
-    // const width = this.divElement.clientWidth;
-    // this.setState({ height, width });
-  }
-  componentDidUpdate() {
-    // const height = this.divElement.clientHeight;
-    // const width = this.divElement.clientWidth;
-    // if (this.state.height !== height || this.state.width !== width)
-    //   this.setState({ height, width });
+    this.setState({
+      content: this.props.nodeModel.content
+    });
   }
   render() {
     return (
@@ -171,14 +149,25 @@ export class MyEditableNodeWidget extends React.Component<
                     this._editableObjectDoubleClick("content");
                   }}
                 >
-                  <EditableSingleField
-                    elementKey="content"
-                    editingKey={this.state.editingKey}
-                    beingEdited={this.state.editingSomething}
-                    content={this.props.nodeModel.content}
-                    onChange={this._contentOnChange}
-                    onBlurOrEnter={this._onBlurOrEnter}
-                  />
+                  {this.props.nodeModel.portsOut[0].options.name === 'bool' ?
+                    <SelectableField
+                      elementKey="content"
+                      editingKey={this.state.editingKey}
+                      beingEdited={this.state.editingSomething}
+                      content={this.props.nodeModel.content}
+                      onChange={this._contentOnChange}
+                      onBlurOrEnter={this._onBlurOrEnter}
+                    />
+                    :
+                    <EditableSingleField
+                      elementKey="content"
+                      editingKey={this.state.editingKey}
+                      beingEdited={this.state.editingSomething}
+                      content={this.props.nodeModel.content}
+                      onChange={this._contentOnChange}
+                      onBlurOrEnter={this._onBlurOrEnter}
+                    />
+                  }
                 </div>
               </div>
             </div>
@@ -191,55 +180,4 @@ export class MyEditableNodeWidget extends React.Component<
       </S.Node>
     );
   }
-  // render() {
-  //   return (
-  //     <div
-  //       ref={divElement => (this.divElement = divElement)}
-  //       className={"editable-node"}
-  //     >
-  //       <div className="editable-border">
-  //         <div className="editable-header">
-  //           <div
-  //             onDoubleClick={() => {
-  //               this._editableObjectDoubleClick("content");
-  //             }}
-  //           >
-
-  //             <EditableSingleField
-  //               elementKey="content"
-  //               editingKey={this.state.editingKey}
-  //               beingEdited={this.state.editingSomething}
-  //               content={this.props.nodeModel.content}
-  //               onChange={this._contentOnChange}
-  //               onBlurOrEnter={this._onBlurOrEnter}
-  //             />
-  //           </div>
-  //         </div>
-
-  //       </div>
-  //       {/* <div
-  //         style={{
-  //           position: "absolute",
-  //           zIndex: 10,
-  //           background: "rgba(0,0,250,0.5)",
-  //           left: -15, //old: -8
-  //           top: this.state.height / 2 - 8
-  //         }}
-  //       >
-  //         <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.LEFT)} engine={this.props.engine} />
-  //       </div>
-  //       <div
-  //         style={{
-  //           position: "absolute",
-  //           zIndex: 10,
-  //           background: "rgba(0,0,250,0.5)",
-  //           left: this.state.width, //old: this.state.width - 8,
-  //           top: this.state.height / 2 - 8
-  //         }}
-  //       >
-  //         <PortWidget style={{ width: 15, height: 15 }} port={this.props.nodeModel.getPort(PortModelAlignment.RIGHT)} engine={this.props.engine} />
-  //       </div> */}
-  //     </div>
-  //   );
-  // }
 }
