@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import Prism from "prismjs";
-// import "prismjs/themes/prism-tomorrow.css";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
-
 
 function generateCode(model: any): string {
     let code = ''
@@ -70,7 +68,7 @@ function generateCode(model: any): string {
             let port = getPort(link.source, link.sourcePort)
             let parent = getParent(port)
 
-            if (parent.extras.type === 'variable') {
+            if (['variable', 'port'].includes(parent.extras.type)) {
                 return parent.content
             }
             else if (parent.extras.type === 'component') {
@@ -114,9 +112,9 @@ function generateCode(model: any): string {
     let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
-    let replaceVariable = (call: string, variable: string) => {//todo: should accept multiple
-        console.log('replacing', call, variable)
-        return call.split("(").shift() + '(' + variable + ')'
+    let replaceVariable = (call: string, value: string) => {//todo: should accept multiple
+        console.log('replacing', call, value)
+        return call.split("(").shift() + '(' + value + ')'
     }
 
     let content: string | null = null
@@ -137,7 +135,7 @@ function generateCode(model: any): string {
                 add(getParent(outcome)?.instance + '.' + outcome.label)
                 add("}\n");
             } else {
-                if (toNode.extras.type === 'variable') {
+                if (['variable', 'port'].includes(toNode.extras.type)) {
                     content = toNode.content
                     toNode.ports.forEach((port: any) => {
                         port.links.forEach((l: any) => {
