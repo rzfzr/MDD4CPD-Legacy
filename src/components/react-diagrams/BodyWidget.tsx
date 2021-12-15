@@ -105,7 +105,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else if (data.extras.type === "variable" || data.extras.type === 'port') {
-									const node = new MyEditableNodeModel(data.name, data.color, 'value');
+									const node = new MyEditableNodeModel(data.name, data.color);
 									node.extras = data.extras
 									data.outs.forEach((method: string) => {
 										node.addOutPort(method)
@@ -116,7 +116,7 @@ export class BodyWidget extends React.Component<BodyWidgetProps> {
 									node.setPosition(this.props.app.getDiagramEngine().getRelativeMousePoint(event));
 									this.props.app.getDiagramEngine().getModel().addNode(node);
 								} else if (data.extras.type === "logic") {
-									const node = new MyEditableNodeModel(data.name, data.color, 'value');
+									const node = new MyEditableNodeModel(data.name, data.color);
 									node.extras = data.extras
 									data.outs.forEach((method: string) => {
 										node.addOutPort(method)

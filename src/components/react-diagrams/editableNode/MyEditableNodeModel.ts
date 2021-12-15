@@ -6,6 +6,7 @@ import { MyPortModel } from '../myNode/MyPortModel';
 export interface DefaultNodeModelOptions extends BasePositionModelOptions {
     name?: string;
     color?: string;
+    content?: string;
 }
 
 export interface DefaultNodeModelGenerics extends NodeModelGenerics {
@@ -17,22 +18,12 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     protected portsOut: MyPortModel[];
     content: string;
     extras: any;
-    constructor(name: string, color: string, value: string);
-    // constructor(options?: DefaultNodeModelOptions);
-    constructor(options: any = {}, color?: string) {
-        if (typeof options === 'string') {
-            options = {
-                name: options,
-                color: color,
-            };
-        }
+    constructor(name: string, color: string) {
         super({
             type: 'MyEditable',
-            name: 'Untitled',
-            color: 'rgb(0,192,255)',
-            value: 'value',
-            content: 'value',
-            ...options
+            name: name,
+            color: color,
+            content: 'value'
         });
         this.content = 'value'
         this.portsOut = [];

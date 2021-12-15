@@ -76,8 +76,6 @@ export class MyEditableNodeWidget extends React.Component<
     this.state = {
       content: "",
       variableType: '',
-      height: 0,
-      width: 0,
       editingSomething: false,
       editingKey: ""
     };
