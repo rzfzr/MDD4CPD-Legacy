@@ -109,6 +109,7 @@ export class MyEditableNodeWidget extends React.Component<
    */
   _contentOnChange = (evt: React.FormEvent<HTMLInputElement>) => {
     this.props.nodeModel.content = evt.currentTarget.value;
+    console.log('setting state', evt.currentTarget.value);
     this.setState({ content: evt.currentTarget.value });
   };
 
@@ -127,6 +128,7 @@ export class MyEditableNodeWidget extends React.Component<
    * copy atributes from nodeModel
    */
   UNSAFE_componentWillMount() {
+
     this.setState({
       content: this.props.nodeModel.content
     });
