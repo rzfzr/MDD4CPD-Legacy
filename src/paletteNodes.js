@@ -782,5 +782,550 @@ export default [{
                 }]
             }
         }
+    }, {
+        name: 'Single',
+        color: 'white',
+        extras: {
+            type: 'diagram',
+            diagram: {
+                "id": "ef62da61-e1e0-4ac7-afb2-703ca4fb01a1",
+                "offsetX": 0,
+                "offsetY": 0,
+                "zoom": 100,
+                "gridSize": 0,
+                "layers": [{
+                    "id": "017b9bfb-6d1f-491e-8558-3b6232bf89d1",
+                    "type": "diagram-links",
+                    "isSvg": true,
+                    "transformed": true,
+                    "models": {
+                        "60953129-55d1-4b8c-90b8-3b5a1a2f9813": {
+                            "id": "60953129-55d1-4b8c-90b8-3b5a1a2f9813",
+                            "type": "default",
+                            "selected": false,
+                            "source": "b3c810a9-65b1-474b-868b-0565a6b1e4ed",
+                            "sourcePort": "4f79fef6-0094-49f5-a3ef-b6eb305bb07c",
+                            "target": "c4d9126f-08e8-4e4a-ab48-1c453a864b3c",
+                            "targetPort": "a0b5b58c-adab-4ba8-af1f-680aa5eae0af",
+                            "points": [{
+                                "id": "72e3e0af-cfb1-4c73-98b1-5c74f33e8382",
+                                "type": "point",
+                                "x": 236.640625,
+                                "y": 127.5
+                            }, {
+                                "id": "35245d16-99d2-4da3-81c8-4fd9e686d06f",
+                                "type": "point",
+                                "x": 256.265625,
+                                "y": 260.5
+                            }],
+                            "labels": [],
+                            "width": 3,
+                            "color": "gray",
+                            "curvyness": 50,
+                            "selectedColor": "rgb(0,192,255)"
+                        },
+                        "cea8d59f-e0ee-47f1-ae33-8c54b1d47c56": {
+                            "id": "cea8d59f-e0ee-47f1-ae33-8c54b1d47c56",
+                            "type": "default",
+                            "selected": false,
+                            "source": "c4d9126f-08e8-4e4a-ab48-1c453a864b3c",
+                            "sourcePort": "a0b5b58c-adab-4ba8-af1f-680aa5eae0af",
+                            "target": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                            "targetPort": "f7d82be0-7c73-494b-8f01-8b4aa8b56f76",
+                            "points": [{
+                                "id": "855e837c-7740-4400-a78e-d7ad81bec37e",
+                                "type": "point",
+                                "x": 256.265625,
+                                "y": 260.5
+                            }, {
+                                "id": "f9626f8a-6808-49d6-be7b-f09051ee043c",
+                                "type": "point",
+                                "x": 484.234375,
+                                "y": 355.5
+                            }],
+                            "labels": [],
+                            "width": 3,
+                            "color": "gray",
+                            "curvyness": 50,
+                            "selectedColor": "rgb(0,192,255)"
+                        }
+                    }
+                }, {
+                    "id": "e7421b15-ad31-441a-8a63-9416311d3fdc",
+                    "type": "diagram-nodes",
+                    "isSvg": false,
+                    "transformed": true,
+                    "models": {
+                        "b3c810a9-65b1-474b-868b-0565a6b1e4ed": {
+                            "id": "b3c810a9-65b1-474b-868b-0565a6b1e4ed",
+                            "type": "default",
+                            "extras": {
+                                "type": "controller",
+                                "analogPorts": 6,
+                                "digitalPorts": 14
+                            },
+                            "x": 170.984375,
+                            "y": 95,
+                            "ports": [{
+                                "id": "4f79fef6-0094-49f5-a3ef-b6eb305bb07c",
+                                "type": "default",
+                                "x": 229.140625,
+                                "y": 120,
+                                "name": "setup()",
+                                "alignment": "right",
+                                "parentNode": "b3c810a9-65b1-474b-868b-0565a6b1e4ed",
+                                "links": ["60953129-55d1-4b8c-90b8-3b5a1a2f9813"],
+                                "in": false,
+                                "label": "setup()"
+                            }, {
+                                "id": "c3074eed-81aa-4265-89e4-b8a9e85dafa9",
+                                "type": "default",
+                                "x": 229.140625,
+                                "y": 136,
+                                "name": "loop()",
+                                "alignment": "right",
+                                "parentNode": "b3c810a9-65b1-474b-868b-0565a6b1e4ed",
+                                "links": [],
+                                "in": false,
+                                "label": "loop()"
+                            }],
+                            "name": "Arduino Uno",
+                            "color": "green",
+                            "portsInOrder": [],
+                            "portsOutOrder": ["4f79fef6-0094-49f5-a3ef-b6eb305bb07c", "c3074eed-81aa-4265-89e4-b8a9e85dafa9"]
+                        },
+                        "c4d9126f-08e8-4e4a-ab48-1c453a864b3c": {
+                            "id": "c4d9126f-08e8-4e4a-ab48-1c453a864b3c",
+                            "type": "MyEditable",
+                            "selected": true,
+                            "extras": {
+                                "type": "port"
+                            },
+                            "x": 151.984375,
+                            "y": 222,
+                            "ports": [{
+                                "id": "a0b5b58c-adab-4ba8-af1f-680aa5eae0af",
+                                "type": "default",
+                                "x": 248.765625,
+                                "y": 253,
+                                "name": "port",
+                                "alignment": "right",
+                                "parentNode": "c4d9126f-08e8-4e4a-ab48-1c453a864b3c",
+                                "links": ["60953129-55d1-4b8c-90b8-3b5a1a2f9813", "cea8d59f-e0ee-47f1-ae33-8c54b1d47c56"],
+                                "in": false,
+                                "label": "port"
+                            }],
+                            "name": "Digital Port",
+                            "color": "white",
+                            "portsInOrder": [],
+                            "portsOutOrder": ["a0b5b58c-adab-4ba8-af1f-680aa5eae0af"],
+                            "content": "1"
+                        },
+                        "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7": {
+                            "id": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                            "type": "default",
+                            "extras": {
+                                "type": "component",
+                                "library": "Servo.h"
+                            },
+                            "x": 182.984375,
+                            "y": 323,
+                            "ports": [{
+                                "id": "f7d82be0-7c73-494b-8f01-8b4aa8b56f76",
+                                "type": "default",
+                                "x": 476.734375,
+                                "y": 348,
+                                "name": "uint8_t attach(int)",
+                                "alignment": "right",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": ["cea8d59f-e0ee-47f1-ae33-8c54b1d47c56"],
+                                "in": false,
+                                "label": "uint8_t attach(int)"
+                            }, {
+                                "id": "084a1f94-55c5-4d0d-8a85-9742bd356f48",
+                                "type": "default",
+                                "x": 476.734375,
+                                "y": 368.5,
+                                "name": "uint8_t attach(int, int, int)",
+                                "alignment": "right",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": false,
+                                "label": "uint8_t attach(int, int, int)"
+                            }, {
+                                "id": "932f4c42-3dc5-4d1a-b011-9bea84ffc1cc",
+                                "type": "default",
+                                "x": 476.734375,
+                                "y": 389,
+                                "name": "int read()",
+                                "alignment": "right",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": false,
+                                "label": "int read()"
+                            }, {
+                                "id": "e87b2720-4147-4c67-881b-50a2527e49c5",
+                                "type": "default",
+                                "x": 476.734375,
+                                "y": 405,
+                                "name": "int readMicroseconds()",
+                                "alignment": "right",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": false,
+                                "label": "int readMicroseconds()"
+                            }, {
+                                "id": "beb0d0fa-3c4d-4a15-af9b-32da42bc70d8",
+                                "type": "default",
+                                "x": 476.734375,
+                                "y": 421,
+                                "name": "bool attached()",
+                                "alignment": "right",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": false,
+                                "label": "bool attached()"
+                            }, {
+                                "id": "b9667a7b-6558-4138-abb5-7e5c1925ac5b",
+                                "type": "default",
+                                "x": 184.984375,
+                                "y": 348,
+                                "name": "void detach()",
+                                "alignment": "left",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": true,
+                                "label": "void detach()"
+                            }, {
+                                "id": "b579c8ee-adae-463b-828a-327d8103fac2",
+                                "type": "default",
+                                "x": 184.984375,
+                                "y": 364,
+                                "name": "void write(int)",
+                                "alignment": "left",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": true,
+                                "label": "void write(int)"
+                            }, {
+                                "id": "28138d29-0c5b-4212-95fb-666f3f4ea9b6",
+                                "type": "default",
+                                "x": 184.984375,
+                                "y": 384.5,
+                                "name": "void writeMicroseconds(int)",
+                                "alignment": "left",
+                                "parentNode": "9c72dd1a-65bb-47e0-a3a7-eb39a695aff7",
+                                "links": [],
+                                "in": true,
+                                "label": "void writeMicroseconds(int)"
+                            }],
+                            "name": "Servo",
+                            "color": "orange",
+                            "portsInOrder": ["b9667a7b-6558-4138-abb5-7e5c1925ac5b", "b579c8ee-adae-463b-828a-327d8103fac2", "28138d29-0c5b-4212-95fb-666f3f4ea9b6"],
+                            "portsOutOrder": ["f7d82be0-7c73-494b-8f01-8b4aa8b56f76", "084a1f94-55c5-4d0d-8a85-9742bd356f48", "932f4c42-3dc5-4d1a-b011-9bea84ffc1cc", "e87b2720-4147-4c67-881b-50a2527e49c5", "beb0d0fa-3c4d-4a15-af9b-32da42bc70d8"]
+                        }
+                    }
+                }]
+            }
+        }
+    }, {
+        name: 'Dual',
+        color: 'white',
+        extras: {
+            type: 'diagram',
+            diagram: {
+                "id": "6dff789f-db7f-4f24-be03-28997ed43786",
+                "offsetX": 129,
+                "offsetY": -9,
+                "zoom": 100,
+                "gridSize": 0,
+                "layers": [{
+                    "id": "957e1e25-857a-4363-b9b8-790d0b41110f",
+                    "type": "diagram-links",
+                    "isSvg": true,
+                    "transformed": true,
+                    "models": {
+                        "bd112d94-6c36-42a0-893c-6beb273131b5": {
+                            "id": "bd112d94-6c36-42a0-893c-6beb273131b5",
+                            "type": "default",
+                            "selected": false,
+                            "source": "8ebe7d92-a203-4ea4-b059-7efdddb4da22",
+                            "sourcePort": "e3cbc1b1-c387-4aff-812d-3ca5296aa7ec",
+                            "target": "70aa1cdf-17b9-4561-9c3e-51a1d5b1f349",
+                            "targetPort": "d4f254e0-dc17-4450-ad07-1c49937cd9ca",
+                            "points": [{
+                                "id": "b37f001b-0f31-4452-86f3-e7c65a54b05b",
+                                "type": "point",
+                                "x": 134.640625,
+                                "y": 162.5
+                            }, {
+                                "id": "b00141dd-ea09-4ec6-862a-f6b54c7c250f",
+                                "type": "point",
+                                "x": 150.265625,
+                                "y": 362.5
+                            }],
+                            "labels": [],
+                            "width": 3,
+                            "color": "gray",
+                            "curvyness": 50,
+                            "selectedColor": "rgb(0,192,255)"
+                        },
+                        "1bf7388c-43a8-49f3-a61d-f4ac47e304b5": {
+                            "id": "1bf7388c-43a8-49f3-a61d-f4ac47e304b5",
+                            "type": "default",
+                            "selected": false,
+                            "source": "70aa1cdf-17b9-4561-9c3e-51a1d5b1f349",
+                            "sourcePort": "d4f254e0-dc17-4450-ad07-1c49937cd9ca",
+                            "target": "75081baf-1bf6-49d0-ac15-43432e468aec",
+                            "targetPort": "e689be08-63fc-4aaf-95d1-4a2eb32bb6f7",
+                            "points": [{
+                                "id": "ad49ae6a-dab5-4797-97e1-22db353bbc71",
+                                "type": "point",
+                                "x": 150.265625,
+                                "y": 362.5
+                            }, {
+                                "id": "005518b2-8ddd-4ed9-935f-a4771906406f",
+                                "type": "point",
+                                "x": 236.265625,
+                                "y": 502.5
+                            }],
+                            "labels": [],
+                            "width": 3,
+                            "color": "gray",
+                            "curvyness": 50,
+                            "selectedColor": "rgb(0,192,255)"
+                        },
+                        "a795a318-edd5-48e3-b9d1-941c3b278347": {
+                            "id": "a795a318-edd5-48e3-b9d1-941c3b278347",
+                            "type": "default",
+                            "selected": false,
+                            "source": "75081baf-1bf6-49d0-ac15-43432e468aec",
+                            "sourcePort": "e689be08-63fc-4aaf-95d1-4a2eb32bb6f7",
+                            "target": "e526d93a-9272-4f58-9513-994d36004791",
+                            "targetPort": "8a5c2fbc-29c7-47b4-9d9a-82035187d90a",
+                            "points": [{
+                                "id": "4333421a-5a5b-48d8-9491-bf10afc9d253",
+                                "type": "point",
+                                "x": 236.265625,
+                                "y": 502.5
+                            }, {
+                                "id": "6050c60f-fa3f-4ea3-9aa1-07d8dbea185f",
+                                "type": "point",
+                                "x": 287.203125,
+                                "y": 644.5
+                            }],
+                            "labels": [],
+                            "width": 3,
+                            "color": "gray",
+                            "curvyness": 50,
+                            "selectedColor": "rgb(0,192,255)"
+                        }
+                    }
+                }, {
+                    "id": "70070360-f166-4432-9563-40c58f4b37d3",
+                    "type": "diagram-nodes",
+                    "isSvg": false,
+                    "transformed": true,
+                    "models": {
+                        "8ebe7d92-a203-4ea4-b059-7efdddb4da22": {
+                            "id": "8ebe7d92-a203-4ea4-b059-7efdddb4da22",
+                            "type": "default",
+                            "extras": {
+                                "type": "controller",
+                                "analogPorts": 6,
+                                "digitalPorts": 14
+                            },
+                            "x": 68.984375,
+                            "y": 130,
+                            "ports": [{
+                                "id": "e3cbc1b1-c387-4aff-812d-3ca5296aa7ec",
+                                "type": "default",
+                                "x": 127.140625,
+                                "y": 155,
+                                "name": "setup()",
+                                "alignment": "right",
+                                "parentNode": "8ebe7d92-a203-4ea4-b059-7efdddb4da22",
+                                "links": ["bd112d94-6c36-42a0-893c-6beb273131b5"],
+                                "in": false,
+                                "label": "setup()"
+                            }, {
+                                "id": "cfeff148-524d-45a8-a5e2-776f0381b056",
+                                "type": "default",
+                                "x": 127.140625,
+                                "y": 171,
+                                "name": "loop()",
+                                "alignment": "right",
+                                "parentNode": "8ebe7d92-a203-4ea4-b059-7efdddb4da22",
+                                "links": [],
+                                "in": false,
+                                "label": "loop()"
+                            }],
+                            "name": "Arduino Uno",
+                            "color": "green",
+                            "portsInOrder": [],
+                            "portsOutOrder": ["e3cbc1b1-c387-4aff-812d-3ca5296aa7ec", "cfeff148-524d-45a8-a5e2-776f0381b056"]
+                        },
+                        "70aa1cdf-17b9-4561-9c3e-51a1d5b1f349": {
+                            "id": "70aa1cdf-17b9-4561-9c3e-51a1d5b1f349",
+                            "type": "MyEditable",
+                            "selected": false,
+                            "extras": {
+                                "type": "port"
+                            },
+                            "x": 45.984375,
+                            "y": 324,
+                            "ports": [{
+                                "id": "d4f254e0-dc17-4450-ad07-1c49937cd9ca",
+                                "type": "default",
+                                "x": 142.765625,
+                                "y": 355,
+                                "name": "port",
+                                "alignment": "right",
+                                "parentNode": "70aa1cdf-17b9-4561-9c3e-51a1d5b1f349",
+                                "links": ["bd112d94-6c36-42a0-893c-6beb273131b5", "1bf7388c-43a8-49f3-a61d-f4ac47e304b5"],
+                                "in": false,
+                                "label": "port"
+                            }],
+                            "name": "Digital Port",
+                            "color": "white",
+                            "portsInOrder": [],
+                            "portsOutOrder": ["d4f254e0-dc17-4450-ad07-1c49937cd9ca"],
+                            "content": "1"
+                        },
+                        "75081baf-1bf6-49d0-ac15-43432e468aec": {
+                            "id": "75081baf-1bf6-49d0-ac15-43432e468aec",
+                            "type": "MyEditable",
+                            "selected": false,
+                            "extras": {
+                                "type": "port"
+                            },
+                            "x": 131.984375,
+                            "y": 464,
+                            "ports": [{
+                                "id": "e689be08-63fc-4aaf-95d1-4a2eb32bb6f7",
+                                "type": "default",
+                                "x": 228.765625,
+                                "y": 495,
+                                "name": "port",
+                                "alignment": "right",
+                                "parentNode": "75081baf-1bf6-49d0-ac15-43432e468aec",
+                                "links": ["1bf7388c-43a8-49f3-a61d-f4ac47e304b5", "a795a318-edd5-48e3-b9d1-941c3b278347"],
+                                "in": false,
+                                "label": "port"
+                            }],
+                            "name": "Digital Port",
+                            "color": "white",
+                            "portsInOrder": [],
+                            "portsOutOrder": ["e689be08-63fc-4aaf-95d1-4a2eb32bb6f7"],
+                            "content": "3"
+                        },
+                        "e526d93a-9272-4f58-9513-994d36004791": {
+                            "id": "e526d93a-9272-4f58-9513-994d36004791",
+                            "type": "default",
+                            "selected": false,
+                            "extras": {
+                                "type": "component",
+                                "library": "Servo.h"
+                            },
+                            "x": -21.015625,
+                            "y": 596,
+                            "ports": [{
+                                "id": "cc9e6e33-748a-4084-9ea1-30641e78c5b7",
+                                "type": "default",
+                                "x": 279.703125,
+                                "y": 621,
+                                "name": "uint8_t attach(int)",
+                                "alignment": "right",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": false,
+                                "label": "uint8_t attach(int)"
+                            }, {
+                                "id": "8a5c2fbc-29c7-47b4-9d9a-82035187d90a",
+                                "type": "default",
+                                "x": 279.703125,
+                                "y": 637,
+                                "name": "uint8_t attach(int, int, int)",
+                                "alignment": "right",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": ["a795a318-edd5-48e3-b9d1-941c3b278347"],
+                                "in": false,
+                                "label": "uint8_t attach(int, int, int)"
+                            }, {
+                                "id": "55ea420d-ad10-4add-89fb-ebfee46d4c84",
+                                "type": "default",
+                                "x": 279.703125,
+                                "y": 653,
+                                "name": "int read()",
+                                "alignment": "right",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": false,
+                                "label": "int read()"
+                            }, {
+                                "id": "eeae8792-9784-413b-913f-1d4951ade7ed",
+                                "type": "default",
+                                "x": 279.703125,
+                                "y": 669,
+                                "name": "int readMicroseconds()",
+                                "alignment": "right",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": false,
+                                "label": "int readMicroseconds()"
+                            }, {
+                                "id": "258a047c-95ef-43bf-9d6b-ba10e8caa69e",
+                                "type": "default",
+                                "x": 279.703125,
+                                "y": 685,
+                                "name": "bool attached()",
+                                "alignment": "right",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": false,
+                                "label": "bool attached()"
+                            }, {
+                                "id": "0ccf904b-23b6-40ff-a726-a64fadeffdcf",
+                                "type": "default",
+                                "x": -19.015625,
+                                "y": 621,
+                                "name": "void detach()",
+                                "alignment": "left",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": true,
+                                "label": "void detach()"
+                            }, {
+                                "id": "c3b6e94c-c470-476f-be81-2695881afd37",
+                                "type": "default",
+                                "x": -19.015625,
+                                "y": 637,
+                                "name": "void write(int)",
+                                "alignment": "left",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": true,
+                                "label": "void write(int)"
+                            }, {
+                                "id": "7771f65a-e690-4027-8566-644c7408424f",
+                                "type": "default",
+                                "x": -19.015625,
+                                "y": 653,
+                                "name": "void writeMicroseconds(int)",
+                                "alignment": "left",
+                                "parentNode": "e526d93a-9272-4f58-9513-994d36004791",
+                                "links": [],
+                                "in": true,
+                                "label": "void writeMicroseconds(int)"
+                            }],
+                            "name": "Servo",
+                            "color": "orange",
+                            "portsInOrder": ["0ccf904b-23b6-40ff-a726-a64fadeffdcf", "c3b6e94c-c470-476f-be81-2695881afd37", "7771f65a-e690-4027-8566-644c7408424f"],
+                            "portsOutOrder": ["cc9e6e33-748a-4084-9ea1-30641e78c5b7", "8a5c2fbc-29c7-47b4-9d9a-82035187d90a", "55ea420d-ad10-4add-89fb-ebfee46d4c84", "eeae8792-9784-413b-913f-1d4951ade7ed", "258a047c-95ef-43bf-9d6b-ba10e8caa69e"]
+                        }
+                    }
+                }]
+            }
+        }
     }
 ]
