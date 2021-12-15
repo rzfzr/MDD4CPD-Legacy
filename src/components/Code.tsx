@@ -110,20 +110,27 @@ function generateCode(model: any): string {
         return String(name.split(' ').slice(-1))
     }
     let replaceVariable = (call: string, value: string) => {//todo: should accept multiple
-        console.log('replacing', call, value)
+        // console.log('replacing', call, value)
         return call.split("(").shift() + '(' + value + ')'
     }
 
-    let callWithParameters = (toNode: any) => {
-        let content = toNode.content
-        toNode.ports.forEach((port: any) => {
+    let callWithParameters = (node: any, ...contents: any) => {
+        console.log('calling from', node)
+        contents.push(node.content)
+        node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
                 const toPort = getPort(link.target, link.targetPort)
                 const toNode = getNode(toPort.parentNode)
-                if (toNode.instance && content) {
-                    add(toNode.instance + '.' + replaceVariable(removeType(toPort.name), content))
-                    content = null;
+                if (toNode.id === node.id) {
+                    //skip as it is the previous link
+                } else if (!toNode.instance) {//points to another variable/port
+                    callWithParameters(toNode, ...contents)
+                } else {//points to a class instance, we hope it is a method call
+                    //todo: check for parameter type and numbers
+                    add(toNode.instance + '.'
+                        + removeType(toPort.name.split("(").shift())
+                        + '(' + contents + ')')
                 }
             })
         })
