@@ -18,6 +18,9 @@ function generateCode(model: any): string {
     const controllers: any[] = []
     const libraries: any[] = []
 
+    let usedDigital: number[] = []
+    let usedAnalog: number[] = []
+
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
         nodes.push(n)
@@ -93,11 +96,6 @@ function generateCode(model: any): string {
     let getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
-    add("/* Code generated for ", controller.name);
-    add('Analog ports 0/' + controller.extras.analogPorts)
-    add('Digital ports 0/' + controller.extras.digitalPorts)
-    add("*/")
-    add('')
     libraries.forEach(lib => {
         add('#include <' + lib + '>')
         components.forEach(comp => {
@@ -149,7 +147,20 @@ function generateCode(model: any): string {
                 callWithParameters(toNode2)
                 add("}\n");
             } else {
-                if (['variable', 'port'].includes(toNode.extras.type)) {
+                if (['variable'].includes(toNode.extras.type)) {
+                    callWithParameters(toNode)
+                } else if (['port'].includes(toNode.extras.type)) {
+                    console.log('found port', toNode)
+
+                    if (toNode.name.includes('Digital')) {
+                        console.log('it was digital');
+                        usedDigital.push(toNode.content)
+                    } else {
+                        console.log('it was analog');
+                        usedAnalog.push(toNode.content)
+                    }
+
+
                     callWithParameters(toNode)
                 } else {
                     if (toNode.instance) {
@@ -162,6 +173,13 @@ function generateCode(model: any): string {
         })
         add("}\n");
     })
+
+
+    add('')
+    add("/* Code generated for ", controller.name);
+    add(`Analog ports ${usedAnalog.length}/${controller.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
+    add(`Digital ports ${usedDigital.length}/${controller.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""} `)
+    add("*/")
 
     function indentCode(original: string) {
         let code: any[] = [];
