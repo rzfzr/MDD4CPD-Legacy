@@ -53,15 +53,13 @@ let lastType = ''
 
 // extends React.Component < BodyWidgetProps >
 function BodyWidget(props: BodyWidgetProps) {
-	console.log('BodyWidget render --')
-
 	const [model, setModel] = useState("{}")
 	const [rerender, setRerender] = React.useState(false);
 
-
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
 	const str = JSON.stringify(rawModel)
-	if (str !== model) {
+
+	if (model !== '{}' && str !== model) {
 		setModel(str);
 	}
 	return (
@@ -111,7 +109,13 @@ function BodyWidget(props: BodyWidgetProps) {
 										node.setPosition(100, 200);
 										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.extras.type === "variable" || data.extras.type === 'port') {
+									} else if (data.extras.type === "variable") {
+										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+										console.log('node', node)
+
+										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
+										props.app.getDiagramEngine().getModel().addNode(node);
+									} else if (data.extras.type === 'port') {
 										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 										console.log('node', node)
 

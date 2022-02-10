@@ -199,7 +199,6 @@ function generateCode(model: any): string {
     return indentCode(code);
 }
 export default function Code(props: { model: string }) {
-    console.log('CodeComponent render')
     const model = props.model
     let code = 'Initializing Generator'
     if (model === "{}" || model === "") {

@@ -10,8 +10,6 @@ import PalettePage from './pages/Palette';
 
 import { useMemo, useState } from "react";
 export default function App() {
-  console.log("App render ------------------------------------------");
-
   return (
     <div className="App">
       <header className="App-header">
