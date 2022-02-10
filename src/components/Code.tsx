@@ -1,5 +1,5 @@
 import Prism from "prismjs";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
 
@@ -199,16 +199,17 @@ function generateCode(model: any): string {
     return indentCode(code);
 }
 export default function Code(props: { model: string }) {
+    console.log('CodeComponent render')
     const model = props.model
-    console.log('CodeComponent render', model)
     let code = 'Initializing Generator'
     if (model === "{}" || model === "") {
         //
     } else {
         code = generateCode(JSON.parse(model))
     }
-    Prism.highlightAll();
-
+    useEffect(() => {
+        Prism.highlightAll();
+    }, [props])
     return (
         <>
             <div className="Code">
@@ -217,7 +218,6 @@ export default function Code(props: { model: string }) {
                 </pre>
             </div>
             <PrismEdit />
-
         </>
     );
 }

@@ -53,27 +53,19 @@ let lastType = ''
 
 // extends React.Component < BodyWidgetProps >
 function BodyWidget(props: BodyWidgetProps) {
-	console.log('BodyWidget render')
+	console.log('BodyWidget render --')
 
 	const [model, setModel] = useState("{}")
 	const [rerender, setRerender] = React.useState(false);
 
 
-	useEffect(
-		() => {
-
-			setInterval(() => {
-				const rawModel = props.app.getDiagramEngine().getModel().serialize()
-				const str = JSON.stringify(rawModel)
-				console.log('setting model')
-				setModel(str);
-			}, 2000)
-		}, []
-	)
-
+	const rawModel = props.app.getDiagramEngine().getModel().serialize()
+	const str = JSON.stringify(rawModel)
+	if (str !== model) {
+		setModel(str);
+	}
 	return (
 		<div className="float-container" >
-
 			<div className="float-child-left">
 				<S.Body>
 					<S.Content style={{ width: '100%', height: '100%' }}>
@@ -94,8 +86,6 @@ function BodyWidget(props: BodyWidgetProps) {
 						<S.Layer
 							onDrop={(event) => {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-
-
 
 								if (data) {
 									if (data.name === 'Diamond') {
@@ -150,9 +140,14 @@ function BodyWidget(props: BodyWidgetProps) {
 								}
 								setRerender(!rerender);
 							}}
+
 							onDragOver={(event: any) => {
 								event.preventDefault();
-							}}>
+							}}
+							onClick={(event: any) => {
+								setRerender(!rerender);
+							}}
+						>
 							<div style={{ width: '100%', height: '100%' }}>
 								<DemoCanvasWidget >
 									<CanvasWidget engine={props.app.getDiagramEngine()} />
