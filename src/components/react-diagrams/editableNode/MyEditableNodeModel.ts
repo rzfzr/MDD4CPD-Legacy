@@ -36,12 +36,12 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
 
         switch (outs[0]) {
             case 'bool':
-                this.selectableOptions = ['true', 'false'];
                 this.content = 'true'
+                this.selectableOptions = ['true', 'false'];
                 break;
             default:
-                this.selectableOptions = []
-                this.content = 'value'
+                this.content = '0'
+                this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
         }
     }
 

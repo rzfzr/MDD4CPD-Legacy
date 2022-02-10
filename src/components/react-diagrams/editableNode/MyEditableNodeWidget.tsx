@@ -151,7 +151,7 @@ export class MyEditableNodeWidget extends React.Component<
                   {this.props.nodeModel.portsOut[0].options.name === 'bool' ?
                     <SelectableField
                       elementKey="content"
-                      options={['true', 'false']}
+                      options={this.props.nodeModel.selectableOptions}
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
                       content={this.props.nodeModel.content}
@@ -161,7 +161,7 @@ export class MyEditableNodeWidget extends React.Component<
                     : this.props.nodeModel.portsOut[0].options.name === 'port' ?
                       <SelectableField
                         elementKey="content"
-                        options={['0', '1', '2']}
+                        options={this.props.nodeModel.selectableOptions}
                         editingKey={this.state.editingKey}
                         beingEdited={this.state.editingSomething}
                         content={this.props.nodeModel.content}

@@ -176,7 +176,7 @@ export default [{
             'void setValue(bool)',
         ],
         outs: [
-            'bool getValue()',
+            'bool',
         ]
     },
     {

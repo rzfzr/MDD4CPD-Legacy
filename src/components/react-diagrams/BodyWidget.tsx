@@ -116,8 +116,8 @@ function BodyWidget(props: BodyWidgetProps) {
 										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 										props.app.getDiagramEngine().getModel().addNode(node);
 									} else if (data.extras.type === 'port') {
+										console.log('port node ', data)
 										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										console.log('node', node)
 
 										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 										props.app.getDiagramEngine().getModel().addNode(node);
