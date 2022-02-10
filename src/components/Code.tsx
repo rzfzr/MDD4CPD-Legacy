@@ -204,6 +204,7 @@ export default function Code() {
         Prism.highlightAll();
         setInterval(() => {
             try {
+                console.log('trying to read diagram')
                 const temp = localStorage.getItem('model')
                 if (temp !== localStorage.getItem('oldModel')) {
                     localStorage.setItem('oldModel', temp || '{}')

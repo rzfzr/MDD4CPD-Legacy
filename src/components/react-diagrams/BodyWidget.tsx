@@ -50,6 +50,7 @@ let lastType = ''
 export class BodyWidget extends React.Component<BodyWidgetProps> {
 	componentDidMount() {
 		setInterval(() => {
+			console.log('saving diagram')
 			const temp = JSON.stringify(this.props.app.getDiagramEngine().getModel().serialize())
 			if (temp !== localStorage.getItem('model')) {
 				localStorage.setItem('model', temp);
