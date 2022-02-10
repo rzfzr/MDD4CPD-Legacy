@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import './App.css';
 import NavigationBar from './components/NavigationBar'
-import { Route, Router } from 'react-router-dom'
-import history from './history'
+import { Routes, Route } from "react-router-dom";
 import EditorPage from './pages/Editor'
 import HomePage from './pages/Home';
 import ModelsPage from './pages/Models';
@@ -12,14 +12,15 @@ export default function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Router history={history}>
-          <Route path='/' exact component={HomePage} />
-          <Route path='/models' exact component={ModelsPage} />
-          <Route path='/state' exact component={StatePage} />
-          <Route path='/palette' exact component={PalettePage} />
-          <Route path='/editor' component={EditorPage} />
-        </Router>
-        <NavigationBar />
+        <EditorPage />
+        {/* <Routes >
+          <Route path='/' element={<HomePage />} />
+          <Route path='/models' element={<ModelsPage />} />
+          <Route path='/state' element={<StatePage />} />
+          <Route path='/palette' element={<PalettePage />} />
+          <Route path='/editor' element={<EditorPage />} />
+        </Routes> */}
+        {/* <NavigationBar /> */}
       </header>
     </div>
   );
