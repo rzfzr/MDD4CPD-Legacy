@@ -59,7 +59,7 @@ function BodyWidget(props: BodyWidgetProps) {
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
 	const str = JSON.stringify(rawModel)
 
-	if (model !== '{}' && str !== model) {
+	if (str !== model) {
 		setModel(str);
 	}
 	return (
