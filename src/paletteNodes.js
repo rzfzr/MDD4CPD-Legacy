@@ -201,24 +201,6 @@ export default [{
         ]
     },
     {
-        name: 'Diamond',
-        color: 'white',
-        extras: {
-            type: 'testing'
-        },
-        ins: [],
-        outs: []
-    },
-    {
-        name: 'LabelEdit',
-        color: 'white',
-        extras: {
-            type: 'testing'
-        },
-        ins: [],
-        outs: []
-    },
-    {
         name: 'NodeEdit',
         color: 'white',
         extras: {

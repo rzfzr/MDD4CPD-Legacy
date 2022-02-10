@@ -86,65 +86,38 @@ function BodyWidget(props: BodyWidgetProps) {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 
 								if (data) {
-									if (data.name === 'Diamond') {
-										const node = new DiamondNodeModel();
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.name === 'LabelEdit') {
-										const node1 = new DefaultNodeModel('Node1', 'red');
-										const port1 = node1.addOutPort('out');
-										node1.setPosition(250, 100);
-										const node2 = new DefaultNodeModel('Node2', 'green');
-										const port2 = node2.addInPort('in');
-										node2.setPosition(800, 300);
-										const link1 = port1.link(port2);
-										link1.addLabel(
-											new EditableLabelModel({
-												value: 'Hello, I am label!'
-											})
-										);
-										props.app.getDiagramEngine().getModel().addAll(node1, port1, node2, port2, link1);
-									} else if (data.name === 'NodeEdit') {
-										const node = new EditableNodeModel("Node1");
-										node.setPosition(100, 200);
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.extras.type === "variable") {
-										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										console.log('node', node)
-
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.extras.type === 'port') {
-										console.log('port node ', data)
-										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.extras.type === "logic") {
-										const node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										console.log('node', node)
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
-									} else if (data.extras.type === "diagram") {
+									if (data.extras.type === "diagram") {
 										props.app.getActiveDiagram().deserializeModel(data.extras.diagram,
 											props.app.getDiagramEngine());
 									} else {
-										const node = new MyNodeModel(data.name, data.color);
-										node.extras = data.extras
-										data.outs.forEach((method: string) => {
-											node.addOutPort(method)
-										});
-										data.ins.forEach((method: string) => {
-											node.addInPort(method)
-										});
+										let node: any = {};
+										if (data.name === 'NodeEdit') {
+											node = new EditableNodeModel("Node1");
+											node.setPosition(100, 200);
+										} else if (data.extras.type === "variable") {
+											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+											console.log('node', node)
+										} else if (data.extras.type === 'port') {
+											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+										} else if (data.extras.type === "logic") {
+											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+											console.log('node', node)
+										} else {
+											node = new MyNodeModel(data.name, data.color);
+											node.extras = data.extras
+											data.outs.forEach((method: string) => {
+												node.addOutPort(method)
+											});
+											data.ins.forEach((method: string) => {
+												node.addInPort(method)
+											});
+										}
 										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 										props.app.getDiagramEngine().getModel().addNode(node);
 									}
 								}
 								setRerender(!rerender);
 							}}
-
 							onDragOver={(event: any) => {
 								event.preventDefault();
 							}}
