@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import Prism from "prismjs";
+import { useContext } from "react";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
 
@@ -198,24 +198,17 @@ function generateCode(model: any): string {
     }
     return indentCode(code);
 }
-export default function Code() {
-    const [code, setCode] = useState('Initializing Generator')
-    useEffect(() => {
-        Prism.highlightAll();
-        setInterval(() => {
-            try {
-                console.log('trying to read diagram')
-                const temp = localStorage.getItem('model')
-                if (temp !== localStorage.getItem('oldModel')) {
-                    localStorage.setItem('oldModel', temp || '{}')
-                    setCode(generateCode(JSON.parse(temp || '{}')));
-                    Prism.highlightAll();
-                }
-            } catch (error) {
-                // console.log(error)
-            }
-        }, 1500)
-    }, []);
+export default function Code(props: { model: string }) {
+    const model = props.model
+    console.log('CodeComponent render', model)
+    let code = 'Initializing Generator'
+    if (model === "{}" || model === "") {
+        //
+    } else {
+        code = generateCode(JSON.parse(model))
+    }
+    Prism.highlightAll();
+
     return (
         <>
             <div className="Code">

@@ -6,6 +6,9 @@ export interface DiamondNodeModelGenerics {
 }
 
 export class DiamondNodeModel extends NodeModel<NodeModelGenerics & DiamondNodeModelGenerics> {
+	setPosition(arg0: any) {
+		throw new Error('Method not implemented.');
+	}
 	constructor() {
 		super({
 			type: 'diamond'
