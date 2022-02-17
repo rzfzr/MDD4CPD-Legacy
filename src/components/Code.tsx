@@ -54,6 +54,7 @@ function generateCode(model: any): string {
         message.forEach((m) => {
             code += m;
         });
+        console.log('----', code);
         code += "\n";
     };
     let addOnTop = (...message: string[]) => {
@@ -63,8 +64,6 @@ function generateCode(model: any): string {
         });
         code = top + "\n" + code
     };
-
-
 
     let getLink = (linkID: string) => {
         return links.find(l => l.id === linkID)
@@ -96,9 +95,9 @@ function generateCode(model: any): string {
             return '/* Lacking Value */'
         }
     }
-    let getOutcome = (conditionNode: any) => {
+    let getOutcome = (conditionNode: any, ifThis = 'True') => {
         try {
-            let linkID = conditionNode.ports.find((p: any) => p.name === 'True').links[0]
+            let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0]
             let link = getLink(linkID)
             return getPort(link.target, link.targetPort)
         } catch (error) {
@@ -112,8 +111,9 @@ function generateCode(model: any): string {
     add('// Libraries')
     libraries.forEach(lib => {
         add('#include <' + lib + '>')
-        add('')
     });
+
+    add('')
 
     add('// Objects')
     libraries.forEach(lib => {
@@ -121,7 +121,6 @@ function generateCode(model: any): string {
             if (comp.extras.library === lib)
                 add(comp.name + ' ' + comp.instance)
         });
-        add('')
     });
 
     add('// Functions')
@@ -137,7 +136,6 @@ function generateCode(model: any): string {
         return String(name.split(' ').slice(-1))
     }
     let callWithParameters = (node: any, ...contents: any) => {
-        console.log('calling from', node)
         contents.push(node.content)
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
@@ -174,11 +172,26 @@ function generateCode(model: any): string {
             } else if (toNode.name === "Condition") {
                 const xValue = getCoditionalValue(toNode, 'x')
                 const yValue = getCoditionalValue(toNode, 'y')
-                const outcome = getOutcome(toNode)
-                const toNode2 = getParent(outcome)
+
+                const outcome2 = getOutcome(toNode)
+                const toNode2 = getParent(outcome2)
+
+                const outcome3 = getOutcome(toNode, 'False')
+                const toNode3 = getParent(outcome3)
+
                 add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
-                callWithParameters(toNode2)
+                if (toNode2) {
+                    callWithParameters(toNode2)
+                } else {
+                    add('/* Lacking code to be executed if conditional is true */')
+                }
+
+                if (toNode3) {
+                    add('} else {')
+                    callWithParameters(toNode3)
+                }
                 add("}\n");
+
             } else {
                 if (['variable'].includes(toNode.extras.type)) {
                     callWithParameters(toNode)
