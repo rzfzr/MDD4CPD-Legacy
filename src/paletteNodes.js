@@ -46,8 +46,19 @@ export default [{
         outs: [
             'port',
         ]
-    },
-    {
+    }, {
+        name: 'Function',
+        extras: {
+            type: 'logic'
+        },
+        color: 'grey',
+        outs: [
+            'call',
+        ],
+        ins: [
+            'trigger',
+        ]
+    }, {
         name: 'Condition',
         extras: {
             type: 'logic'

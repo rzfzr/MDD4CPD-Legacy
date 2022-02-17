@@ -18,8 +18,10 @@ function generateCode(model: any): string {
     const controllers: any[] = []
     const libraries: any[] = []
 
-    let usedDigital: number[] = []
-    let usedAnalog: number[] = []
+    const usedDigital: number[] = []
+    const usedAnalog: number[] = []
+
+    // const functions: any[] = []
 
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
@@ -54,6 +56,16 @@ function generateCode(model: any): string {
         });
         code += "\n";
     };
+    let addOnTop = (...message: string[]) => {
+        let top = ''
+        message.forEach((m) => {
+            top += m;
+        });
+        code = top + "\n" + code
+    };
+
+
+
     let getLink = (linkID: string) => {
         return links.find(l => l.id === linkID)
     }
@@ -96,14 +108,31 @@ function generateCode(model: any): string {
     let getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
+
+    add('// Libraries')
     libraries.forEach(lib => {
         add('#include <' + lib + '>')
+        add('')
+    });
+
+    add('// Objects')
+    libraries.forEach(lib => {
         components.forEach(comp => {
             if (comp.extras.library === lib)
                 add(comp.name + ' ' + comp.instance)
         });
         add('')
     });
+
+    add('// Functions')
+    logics.forEach(logic => {
+        if (logic.name == "Function") {
+            add('function')
+        }
+    });
+    add('')
+    add('// Micro-controller Lifecycle')
+
     let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
@@ -138,7 +167,11 @@ function generateCode(model: any): string {
             const toNode = getNode(toPort.parentNode)
             const fromPort = getPort(link.source, link.sourcePort)
             const fromNode = getNode(fromPort.parentNode)
-            if (toNode.name === "Condition") {
+
+            if (toNode.name === "Function") {
+                console.log(toNode);
+                add(toNode.content, '(', ');')
+            } else if (toNode.name === "Condition") {
                 const xValue = getCoditionalValue(toNode, 'x')
                 const yValue = getCoditionalValue(toNode, 'y')
                 const outcome = getOutcome(toNode)
@@ -151,7 +184,6 @@ function generateCode(model: any): string {
                     callWithParameters(toNode)
                 } else if (['port'].includes(toNode.extras.type)) {
                     console.log('found port', toNode)
-
                     if (toNode.name.includes('Digital')) {
                         console.log('it was digital');
                         usedDigital.push(toNode.content)
@@ -159,8 +191,6 @@ function generateCode(model: any): string {
                         console.log('it was analog');
                         usedAnalog.push(toNode.content)
                     }
-
-
                     callWithParameters(toNode)
                 } else {
                     if (toNode.instance) {
@@ -174,12 +204,10 @@ function generateCode(model: any): string {
         add("}\n");
     })
 
-
-    add('')
-    add("/* Code generated for ", controller.name);
-    add(`Analog ports ${usedAnalog.length}/${controller.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
-    add(`Digital ports ${usedDigital.length}/${controller.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""} `)
-    add("*/")
+    addOnTop("")
+    addOnTop(`Digital ports ${usedDigital.length}/${controller.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
+    addOnTop(`Analog ports ${usedAnalog.length}/${controller.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
+    addOnTop("/* Code generated for ", controller.name);
 
     function indentCode(original: string) {
         let code: any[] = [];
