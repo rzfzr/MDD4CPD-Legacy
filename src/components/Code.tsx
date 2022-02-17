@@ -54,7 +54,7 @@ function generateCode(model: any): string {
         message.forEach((m) => {
             code += m;
         });
-        console.log('----', code);
+        // console.log('----', code);
         code += "\n";
     };
     let addOnTop = (...message: string[]) => {
@@ -107,34 +107,10 @@ function generateCode(model: any): string {
     let getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
-
-    add('// Libraries')
-    libraries.forEach(lib => {
-        add('#include <' + lib + '>')
-    });
-
-    add('')
-
-    add('// Objects')
-    libraries.forEach(lib => {
-        components.forEach(comp => {
-            if (comp.extras.library === lib)
-                add(comp.name + ' ' + comp.instance)
-        });
-    });
-
-    add('// Functions')
-    logics.forEach(logic => {
-        if (logic.name == "Function") {
-            add('function')
-        }
-    });
-    add('')
-    add('// Micro-controller Lifecycle')
-
     let removeType = (name: string): string => {//todo: should accept multiple
         return String(name.split(' ').slice(-1))
     }
+
     let callWithParameters = (node: any, ...contents: any) => {
         contents.push(node.content)
         node.ports.forEach((port: any) => {
@@ -156,63 +132,111 @@ function generateCode(model: any): string {
         })
     }
 
+    const processLink = (l: any) => {
+        const link = getLink(l);
+        const toPort = getPort(link.target, link.targetPort)
+        const toNode = getNode(toPort.parentNode)
+        const fromPort = getPort(link.source, link.sourcePort)
+        const fromNode = getNode(fromPort.parentNode)
+
+        if (toNode.name === "Function") {
+            console.log(toNode);
+            add(toNode.content, '(', ');')
+        } else if (toNode.name === "Condition") {
+            const xValue = getCoditionalValue(toNode, 'x')
+            const yValue = getCoditionalValue(toNode, 'y')
+
+            const outcome2 = getOutcome(toNode)
+            const toNode2 = getParent(outcome2)
+
+            const outcome3 = getOutcome(toNode, 'False')
+            const toNode3 = getParent(outcome3)
+
+            add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
+            if (toNode2) {
+                callWithParameters(toNode2)
+            } else {
+                add('/* Lacking code to be executed if conditional is true */')
+            }
+            if (toNode3) {
+                add('} else {')
+                callWithParameters(toNode3)
+            }
+            add("}\n");
+
+        } else {
+            if (['variable'].includes(toNode.extras.type)) {
+                callWithParameters(toNode)
+            } else if (['port'].includes(toNode.extras.type)) {
+                console.log('found port', toNode)
+                if (toNode.name.includes('Digital')) {
+                    console.log('it was digital');
+                    usedDigital.push(toNode.content)
+                } else {
+                    console.log('it was analog');
+                    usedAnalog.push(toNode.content)
+                }
+                callWithParameters(toNode)
+            } else {
+                if (toNode.instance) {
+                    add(toNode.instance + '.' + removeType(toPort.name))
+                } else {
+                    add(fromNode.instance + '.' + removeType(fromPort.name))
+                }
+            }
+        }
+    }
+    add('// Libraries')
+    libraries.forEach(lib => {
+        add('#include <' + lib + '>')
+    });
+
+    add('')
+
+    add('// Objects')
+    libraries.forEach(lib => {
+        components.forEach(comp => {
+            if (comp.extras.library === lib)
+                add(comp.name + ' ' + comp.instance)
+        });
+    });
+
+    add('// Functions')
+    logics.forEach(logic => {
+        if (logic.name == "Function") {
+            add('void ', logic.content, '() {')
+            console.log('logiccccc, ', logic)
+
+            let callPort = logic.ports.find((x: any) => x.alignment === 'right')
+
+
+
+            callPort.links.forEach((l: any) => {
+                processLink(l)
+            });
+
+            // const toNode = getNode(toPort.parentNode)
+
+            // const outcome2 = getOutcome(toNode)
+            // const toNode2 = getParent(outcome2)
+            // callWithParameters(toNode2)
+            console.log('port', callPort);
+
+
+            add('}')
+        }
+    });
+    add('')
+    add('// Micro-controller Lifecycle')
+
+
+
+
     // let content: string | null = null
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {
-            const link = getLink(l);
-            const toPort = getPort(link.target, link.targetPort)
-            const toNode = getNode(toPort.parentNode)
-            const fromPort = getPort(link.source, link.sourcePort)
-            const fromNode = getNode(fromPort.parentNode)
-
-            if (toNode.name === "Function") {
-                console.log(toNode);
-                add(toNode.content, '(', ');')
-            } else if (toNode.name === "Condition") {
-                const xValue = getCoditionalValue(toNode, 'x')
-                const yValue = getCoditionalValue(toNode, 'y')
-
-                const outcome2 = getOutcome(toNode)
-                const toNode2 = getParent(outcome2)
-
-                const outcome3 = getOutcome(toNode, 'False')
-                const toNode3 = getParent(outcome3)
-
-                add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
-                if (toNode2) {
-                    callWithParameters(toNode2)
-                } else {
-                    add('/* Lacking code to be executed if conditional is true */')
-                }
-
-                if (toNode3) {
-                    add('} else {')
-                    callWithParameters(toNode3)
-                }
-                add("}\n");
-
-            } else {
-                if (['variable'].includes(toNode.extras.type)) {
-                    callWithParameters(toNode)
-                } else if (['port'].includes(toNode.extras.type)) {
-                    console.log('found port', toNode)
-                    if (toNode.name.includes('Digital')) {
-                        console.log('it was digital');
-                        usedDigital.push(toNode.content)
-                    } else {
-                        console.log('it was analog');
-                        usedAnalog.push(toNode.content)
-                    }
-                    callWithParameters(toNode)
-                } else {
-                    if (toNode.instance) {
-                        add(toNode.instance + '.' + removeType(toPort.name))
-                    } else {
-                        add(fromNode.instance + '.' + removeType(fromPort.name))
-                    }
-                }
-            }
+            processLink(l)
         })
         add("}\n");
     })
