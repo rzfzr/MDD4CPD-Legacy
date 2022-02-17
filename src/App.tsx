@@ -7,21 +7,18 @@ import HomePage from './pages/Home';
 import ModelsPage from './pages/Models';
 import StatePage from './pages/State';
 import PalettePage from './pages/Palette';
-
-import { useMemo, useState } from "react";
 export default function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <EditorPage />
-        {/* <Routes >
-          <Route path='/' element={<HomePage />} />
-          <Route path='/models' element={<ModelsPage />} />
-          <Route path='/state' element={<StatePage />} />
-          <Route path='/palette' element={<PalettePage />} />
-          <Route path='/editor' element={<EditorPage />} />
-        </Routes> */}
-        {/* <NavigationBar /> */}
+        <Routes >
+          <Route path='/mdd4/' element={<HomePage />} />
+          <Route path='/mdd4/models' element={<ModelsPage />} />
+          <Route path='/mdd4/state' element={<StatePage />} />
+          <Route path='/mdd4/palette' element={<PalettePage />} />
+          <Route path='/mdd4/editor' element={<EditorPage />} />
+        </Routes>
+        <NavigationBar />
       </header>
     </div>
   );
