@@ -1,6 +1,6 @@
 {
-  "name": "mdd4iot",
-  "homepage": "http://rzfzr.github.io/MDD4IoT",
+  "name": "mdd4",
+  "homepage": "http://rzfzr.github.io/mdd4",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
