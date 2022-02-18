@@ -14,8 +14,6 @@ import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
 import { useState } from 'react';
 import Code from '../Code';
-// import { Dispatch, SetStateAction, useEffect } from 'react';
-
 export interface BodyWidgetProps {
 	app: Application;
 }

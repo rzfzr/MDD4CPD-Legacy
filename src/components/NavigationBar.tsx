@@ -8,8 +8,6 @@ import MapIcon from '@material-ui/icons/Map';
 import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import { AppBar } from '@material-ui/core';
 import PaletteIcon from '@material-ui/icons/Palette';
-// import history from '../history';
-import React from 'react';
 
 export default function SimpleBottomNavigation() {
     const pathname = window.location.pathname; // in case user visits the path directly. The BottomNavBar is able to follow suit.
