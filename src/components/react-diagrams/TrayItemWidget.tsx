@@ -23,6 +23,10 @@ namespace S {
 
 export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 	render() {
+		// const label = this.props.node.name.includes(" ") && this.props.node.name.length > 15 ? (<div>
+		// 	{this.props.node.name.substr(0, this.props.node.name.indexOf(' '))}
+		// 	<br />
+		// 	{this.props.node.name.substr(this.props.node.name.indexOf(' ') + 1)}</div>) : this.props.node.name
 		return (
 			<S.Tray
 				color={this.props.node.color || 'red'}
@@ -31,7 +35,9 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 					event.dataTransfer.setData('storm-diagram-node', JSON.stringify(this.props.node));
 				}}
 				className="tray-item">
+
 				{this.props.node.name}
+
 				<a data-tip data-for={'tip-' + this.props.node.name} >
 					<OpenInNewIcon style={{ fontSize: '1rem' }} />
 				</a>

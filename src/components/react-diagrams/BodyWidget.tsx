@@ -64,14 +64,16 @@ function BodyWidget(props: BodyWidgetProps) {
 						<TrayWidget >
 							{
 								paletteNodes.map((node) => {
-									if (node.extras.type !== lastType) {
+									if (node.extras.type !== lastType) {//it's the first item in the group
 										lastType = node.extras.type
 										return <div key={node.name}>
-											<p style={{ margin: "10px", fontSize: "0.9em" }}>{node.extras.type + 's'}:</p>
+											<p style={{ margin: '20px 0px 0px 0px', fontSize: "0.9em" }}>{node.extras.type + 's'}:</p>
 											<TrayItemWidget node={node} />
 										</div>
 									}
-									return <TrayItemWidget key={node.name} node={node} />
+									return <div  >
+										<TrayItemWidget key={node.name} node={node} />
+									</div>
 								}
 								)}
 						</TrayWidget>

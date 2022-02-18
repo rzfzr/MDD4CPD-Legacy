@@ -104,7 +104,7 @@ export default [{
 
     },
     {
-        name: 'TemperatureSensor',
+        name: 'Temperature Sensor',
         color: 'blue',
         extras: {
             type: 'component',
