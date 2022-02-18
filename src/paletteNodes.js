@@ -46,7 +46,8 @@ export default [{
         outs: [
             'port',
         ]
-    }, {
+    },
+    {
         name: 'Function',
         extras: {
             type: 'logic'
@@ -210,15 +211,6 @@ export default [{
         outs: [
             'bool',
         ]
-    },
-    {
-        name: 'NodeEdit',
-        color: 'white',
-        extras: {
-            type: 'testing'
-        },
-        ins: [],
-        outs: []
     },
     {
         name: 'ThermoServo',

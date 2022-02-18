@@ -71,11 +71,11 @@ function BodyWidget(props: BodyWidgetProps) {
 									if (node.extras.type !== lastType) {
 										lastType = node.extras.type
 										return <div key={node.name}>
-											<p style={{ margin: "0px", fontSize: "0.9em" }}>{node.extras.type}:</p>
-											<TrayItemWidget model={node} name={node.name} color={node.color} />
+											<p style={{ margin: "10px", fontSize: "0.9em" }}>{node.extras.type + 's'}:</p>
+											<TrayItemWidget node={node} />
 										</div>
 									}
-									return <TrayItemWidget key={node.name} model={node} name={node.name} color={node.color} />
+									return <TrayItemWidget key={node.name} node={node} />
 								}
 								)}
 						</TrayWidget>
