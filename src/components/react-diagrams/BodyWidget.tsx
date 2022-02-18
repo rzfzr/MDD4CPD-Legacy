@@ -6,13 +6,13 @@ import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
-import { DiamondNodeModel } from './diamond/DiamondNodeModel';
-import { EditableLabelModel } from './custom-label/EditableLabelModel';
-import { DefaultNodeModel } from '@projectstorm/react-diagrams';
+// import { DiamondNodeModel } from './diamond/DiamondNodeModel';
+// import { EditableLabelModel } from './custom-label/EditableLabelModel';
+// import { DefaultNodeModel } from '@projectstorm/react-diagrams';
 import { EditableNodeModel } from './custom-node/custom_nodes/editableNode/EditableNodeModel';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import Code from '../Code';
 // import { Dispatch, SetStateAction, useEffect } from 'react';
 

@@ -1,5 +1,5 @@
 import Prism from "prismjs";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
 
@@ -203,7 +203,7 @@ function generateCode(model: any): string {
 
     add('// Functions')
     logics.forEach(logic => {
-        if (logic.name == "Function") {
+        if (logic.name === "Function") {
             add('void ', logic.content, '() {')
             console.log('logiccccc, ', logic)
 
