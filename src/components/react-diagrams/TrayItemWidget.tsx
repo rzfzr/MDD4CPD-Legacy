@@ -2,8 +2,6 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import modelsDiagram from '../../assets/cym_s_extended.svg'
-// import { Dispatch, SetStateAction, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 export interface TrayItemWidgetProps {
 	node: any;
@@ -38,7 +36,7 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 					<OpenInNewIcon style={{ fontSize: '1rem' }} />
 				</a>
 				{/* todo9: remove dragged image, override default behaviour, replace with component button */}
-				<ReactTooltip id={'tip-' + this.props.node.name} type='light' effect='solid' place="bottom">
+				<ReactTooltip id={'tip-' + this.props.node.name} type='light' place="bottom">
 					<div style={{ width: '300px', height: '300px', backgroundColor: 'white', border: 'solid', fontSize: '1.3em' }}>
 						<div style={{ width: '100%', borderBottom: 'solid 3px', fontSize: '2em' }}>
 							{this.props.node.name}

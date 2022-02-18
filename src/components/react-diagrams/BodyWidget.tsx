@@ -6,9 +6,6 @@ import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
-// import { DiamondNodeModel } from './diamond/DiamondNodeModel';
-// import { EditableLabelModel } from './custom-label/EditableLabelModel';
-// import { DefaultNodeModel } from '@projectstorm/react-diagrams';
 import { EditableNodeModel } from './custom-node/custom_nodes/editableNode/EditableNodeModel';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
@@ -49,7 +46,6 @@ namespace S {
 }
 let lastType = ''
 
-// extends React.Component < BodyWidgetProps >
 function BodyWidget(props: BodyWidgetProps) {
 	const [model, setModel] = useState("{}")
 	const [rerender, setRerender] = React.useState(false);

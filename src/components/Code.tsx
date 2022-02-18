@@ -21,8 +21,6 @@ function generateCode(model: any): string {
     const usedDigital: number[] = []
     const usedAnalog: number[] = []
 
-    // const functions: any[] = []
-
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
         nodes.push(n)
@@ -41,8 +39,6 @@ function generateCode(model: any): string {
                 break
         }
     })
-
-    // console.log('Generating from model:', model, 'Parsed ', nodes, logics, components, controllers)
 
     if (nodes.length === 0) return '// You need at least one Node!'
     if (controllers.length === 0) return '// You need an Arduino!'
