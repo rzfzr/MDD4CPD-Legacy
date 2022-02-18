@@ -28,8 +28,8 @@ export default function SimpleBottomNavigation() {
                 <BottomNavigationAction component={Link} label="Home" to="/mdd4/" icon={<HomeIcon />} />
                 <BottomNavigationAction component={Link} label="Models" to="/mdd4/models" icon={<MapIcon />} />
                 <BottomNavigationAction component={Link} label="State" to="/mdd4/state" icon={<SwapHorizIcon />} />
-                <BottomNavigationAction component={Link} label="Editor" to="/mdd4/editor" icon={<EditIcon />} />
                 <BottomNavigationAction component={Link} label="Palette" to="/mdd4/palette" icon={<PaletteIcon />} />
+                <BottomNavigationAction component={Link} label="Editor" to="/mdd4/editor" icon={<EditIcon />} />
             </BottomNavigation>
         </AppBar>
     );
