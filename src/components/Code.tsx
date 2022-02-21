@@ -17,6 +17,7 @@ function generateCode(model: any): string {
     const components: any[] = []
     const controllers: any[] = []
     const libraries: any[] = []
+    const constants: any[] = []
 
     const usedDigital: number[] = []
     const usedAnalog: number[] = []
@@ -36,6 +37,11 @@ function generateCode(model: any): string {
                 break
             case 'logic':
                 logics.push(n)
+                break
+            case 'variable':
+                if (n.name.startsWith('Constant')) {
+                    constants.push(n)
+                }
                 break
         }
     })
@@ -221,15 +227,18 @@ function generateCode(model: any): string {
             add('}')
         }
     });
+
+
+
+    add('// Constants')
+    constants.forEach(constant => {
+        console.log(constant)
+
+        add(`#define ${constant.name} ${constant.content}`)
+    });
+
+
     add('')
-
-
-
-
-
-
-
-
     add('// Micro-controller Lifecycle')
     // let content: string | null = null
     controller.ports.forEach((port: any) => {
