@@ -12,6 +12,19 @@ export default [{
             'setup()',
             'loop()'
         ]
+    }, {
+        name: 'Arduino Nano',
+        color: 'green',
+        extras: {
+            type: 'controller',
+            analogPorts: 6,
+            digitalPorts: 22,
+        },
+        ins: [],
+        outs: [
+            'setup()',
+            'loop()'
+        ]
     },
     {
         name: 'Arduino Mega',

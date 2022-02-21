@@ -18,6 +18,7 @@ namespace S {
 		border-radius: 100px;
 		margin-bottom: 2px;
 		cursor: pointer;
+		background: rgb(20, 20, 20);
 	`;
 }
 

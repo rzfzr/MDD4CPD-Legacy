@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { TrayWidget } from './TrayWidget';
 import { Application } from './Application';
 import { TrayItemWidget } from './TrayItemWidget';
 import { MyNodeModel } from './myNode/MyNodeModel';
@@ -11,6 +10,7 @@ import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
 import { useState } from 'react';
 import Code from '../Code';
+var ScrollArea = require('react-scrollbar').default;
 export interface BodyWidgetProps {
 	app: Application;
 }
@@ -62,19 +62,37 @@ function BodyWidget(props: BodyWidgetProps) {
 			<div className="float-child-left">
 				<S.Body>
 					<S.Content style={{ width: '100%', height: '100%' }}>
-						<TrayWidget >
-							{
-								groups.map((group) => {
-									return <div style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
-										<h6 style={{ margin: '0px 0px 0px 0px' }}>{group + 's'}:</h6>
-										{paletteNodes.filter(n => n.extras.type === group).map((node) => {
-											return <TrayItemWidget key={node.name} node={node} />
-										})}
-									</div>
+						<div>
+							<ScrollArea
+								speed={1}
+								className="area"
+								contentClassName="content"
+								horizontal={false}
+								style={{ height: '90vh' }}
+								smoothScrolling={true}
+								verticalScrollbarStyle={{ backgroundColor: 'white' }}
+							>
+								{
+									groups.map((group) => {
+										return <div key={group} style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
+											<h6 style={{ margin: '0px 0px 0px 0px' }}>{group + 's'}:</h6>
+											{paletteNodes.filter(n => n.extras.type === group).map((node) => {
+												return <TrayItemWidget key={node.name} node={node} />
+											})}
+										</div>
+									}
+									)
 								}
-								)
-							}
-						</TrayWidget>
+							</ScrollArea>
+							<div style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
+								<button>
+									save
+								</button>
+								<button>
+									load
+								</button>
+							</div>
+						</div>
 						<S.Layer
 							onDrop={(event) => {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
@@ -130,7 +148,7 @@ function BodyWidget(props: BodyWidgetProps) {
 			<div className="float-child-right">
 				<Code model={model} />
 			</div>
-		</div>
+		</div >
 	)
 
 }
