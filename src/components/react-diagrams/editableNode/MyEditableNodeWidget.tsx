@@ -148,7 +148,9 @@ export class MyEditableNodeWidget extends React.Component<
                     this._editableObjectDoubleClick("content");
                   }}
                 >
-                  {this.props.nodeModel.portsOut[0].options.name === 'bool' ?
+                  {(this.props.nodeModel.portsOut[0].options.name === 'bool' ||
+                    this.props.nodeModel.portsOut[0].options.name === 'port'
+                  ) ?
                     <SelectableField
                       elementKey="content"
                       options={this.props.nodeModel.selectableOptions}
@@ -158,25 +160,15 @@ export class MyEditableNodeWidget extends React.Component<
                       onChange={this._contentOnChange}
                       onBlurOrEnter={this._onBlurOrEnter}
                     />
-                    : this.props.nodeModel.portsOut[0].options.name === 'port' ?
-                      <SelectableField
-                        elementKey="content"
-                        options={this.props.nodeModel.selectableOptions}
-                        editingKey={this.state.editingKey}
-                        beingEdited={this.state.editingSomething}
-                        content={this.props.nodeModel.content.value}
-                        onChange={this._contentOnChange}
-                        onBlurOrEnter={this._onBlurOrEnter}
-                      />
-                      :
-                      <EditableSingleField
-                        elementKey="content"
-                        editingKey={this.state.editingKey}
-                        beingEdited={this.state.editingSomething}
-                        content={this.props.nodeModel.content.value}
-                        onChange={this._contentOnChange}
-                        onBlurOrEnter={this._onBlurOrEnter}
-                      />
+                    :
+                    <EditableSingleField
+                      elementKey="content"
+                      editingKey={this.state.editingKey}
+                      beingEdited={this.state.editingSomething}
+                      content={this.props.nodeModel.content.value}
+                      onChange={this._contentOnChange}
+                      onBlurOrEnter={this._onBlurOrEnter}
+                    />
                   }
                 </div>
               </div>
