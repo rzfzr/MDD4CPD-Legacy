@@ -123,7 +123,7 @@ function generateCode(model: any): string {
                 result += thisParam
             }
         });
-        console.log('removing types from', name, 'params ', params, ' returning', result)
+        // console.log('removing types from', name, 'params ', params, ' returning', result)
         return result;
     }
 
@@ -154,7 +154,7 @@ function generateCode(model: any): string {
         const fromNode = getNode(fromPort.parentNode)
 
         if (toNode?.name === "Function") {
-            console.log(toNode);
+            console.log('fun', toNode);
             add(toNode.content, '(', ');')
         } else if (toNode?.name === "Condition") {
             const xValue = getCoditionalValue(toNode, 'x')
