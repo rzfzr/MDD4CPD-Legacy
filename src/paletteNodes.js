@@ -68,6 +68,68 @@ export default [{
             'loop()'
         ]
     }, {
+        name: 'Digital I/O',
+        color: 'cyan',
+        extras: {
+            type: 'Built-in'
+        },
+        ins: [
+            'void digitalWrite(int pin, int value)',
+            'void pinMode(int pin, int mode)',
+        ],
+        outs: [
+            'int digitalRead(int pin)',
+        ]
+    },
+    {
+        name: 'Analog I/O',
+        color: 'cyan',
+        extras: {
+            type: 'Built-in'
+        },
+        ins: [
+            'void analoglWrite(int pin, int value)',
+            'void pinMode(int pin, int mode)',
+            'void analogReference(int type)',
+        ],
+        outs: []
+    },
+    {
+        name: 'Time',
+        color: 'cyan',
+        extras: {
+            type: 'Built-in'
+        },
+        ins: [
+            'void delay(int ms)',
+            'void delayMicroseconds(int us)',
+        ],
+        outs: [
+            'unsigned long micros()',
+            'unsigned long millis()',
+        ]
+    },
+    {
+        name: 'Math',
+        color: 'cyan',
+        extras: {
+            type: 'Built-in'
+        },
+        ins: [
+            'void delay(int ms)',
+        ],
+        outs: [
+            'int abs(int x)',
+            'int constrain(int x, int a, int b)',
+            'int map(int value, int fromLow, int fromHigh, int toLow, int toHigh)',
+            'any? max(any x, any y)',
+            'any? min(any x, any y)',
+            'double pow(float base, float exponent)',
+            'double sq(any x)',
+            'double sqrt(any x)',
+        ]
+    },
+    {
         name: 'Digital Port',
         color: 'white',
         extras: {
@@ -89,7 +151,7 @@ export default [{
         ]
     },
     {
-        name: 'Function',
+        name: 'CustomFunction',
         extras: {
             type: 'logic'
         },
