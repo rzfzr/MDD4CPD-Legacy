@@ -5,7 +5,6 @@ import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
-import { EditableNodeModel } from './custom-node/custom_nodes/editableNode/EditableNodeModel';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
 import { useState } from 'react';
@@ -122,10 +121,7 @@ function BodyWidget(props: BodyWidgetProps) {
 											props.app.getDiagramEngine());
 									} else {
 										let node: any = {};
-										if (data.name === 'NodeEdit') {
-											node = new EditableNodeModel("Node1");
-											node.setPosition(100, 200);
-										} else if (data.extras.type === "variable") {
+										if (data.extras.type === "variable") {
 											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 										} else if (data.extras.type === "constant") {
 											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
