@@ -106,7 +106,7 @@ export class MyEditableNodeWidget extends React.Component<
    * Usually, you update the model and the state
    */
   _contentOnChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    this.props.nodeModel.content = evt.currentTarget.value;
+    this.props.nodeModel.content.value = evt.currentTarget.value;
     this.setState({ content: evt.currentTarget.value });
   };
 
@@ -154,7 +154,7 @@ export class MyEditableNodeWidget extends React.Component<
                       options={this.props.nodeModel.selectableOptions}
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
-                      content={this.props.nodeModel.content}
+                      content={this.props.nodeModel.content.value}
                       onChange={this._contentOnChange}
                       onBlurOrEnter={this._onBlurOrEnter}
                     />
@@ -164,7 +164,7 @@ export class MyEditableNodeWidget extends React.Component<
                         options={this.props.nodeModel.selectableOptions}
                         editingKey={this.state.editingKey}
                         beingEdited={this.state.editingSomething}
-                        content={this.props.nodeModel.content}
+                        content={this.props.nodeModel.content.value}
                         onChange={this._contentOnChange}
                         onBlurOrEnter={this._onBlurOrEnter}
                       />
@@ -173,7 +173,7 @@ export class MyEditableNodeWidget extends React.Component<
                         elementKey="content"
                         editingKey={this.state.editingKey}
                         beingEdited={this.state.editingSomething}
-                        content={this.props.nodeModel.content}
+                        content={this.props.nodeModel.content.value}
                         onChange={this._contentOnChange}
                         onBlurOrEnter={this._onBlurOrEnter}
                       />
