@@ -10,6 +10,7 @@ import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
 import { useState } from 'react';
 import Code from '../Code';
+import { Button } from '@material-ui/core';
 var ScrollArea = require('react-scrollbar').default;
 export interface BodyWidgetProps {
 	app: Application;
@@ -50,12 +51,12 @@ function BodyWidget(props: BodyWidgetProps) {
 	const [rerender, setRerender] = React.useState(false);
 
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
-	const str = JSON.stringify(rawModel)
+	const stringModel = JSON.stringify(rawModel)
 
 	const groups = [...new Set(paletteNodes.map(x => x.extras.type))]
 
-	if (str !== model) {
-		setModel(str);
+	if (stringModel !== model) {
+		setModel(stringModel);
 	}
 	return (
 		<div className="float-container" >
@@ -63,12 +64,13 @@ function BodyWidget(props: BodyWidgetProps) {
 				<S.Body>
 					<S.Content style={{ width: '100%', height: '100%' }}>
 						<div>
+
 							<ScrollArea
 								speed={1}
 								className="area"
 								contentClassName="content"
 								horizontal={false}
-								style={{ height: '90vh' }}
+								style={{ height: '88vh' }}
 								smoothScrolling={true}
 								verticalScrollbarStyle={{ backgroundColor: 'white' }}
 							>
@@ -84,13 +86,27 @@ function BodyWidget(props: BodyWidgetProps) {
 									)
 								}
 							</ScrollArea>
-							<div style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
-								<button>
-									save
-								</button>
-								<button>
-									load
-								</button>
+							<div style={{ marginBottom: '0px' }}>
+								<Button variant="contained" size='small'
+									onClick={() => {
+										const temp = JSON.stringify(rawModel)
+										localStorage.setItem('model', temp);
+										alert('Saved!')
+									}}>
+									Save
+								</Button>
+								<Button variant="contained" size='small'
+									onClick={() => {
+										props.app.getActiveDiagram().deserializeModel(JSON.parse(localStorage.getItem('model') || '{}'),
+											props.app.getDiagramEngine());
+										setModel(stringModel);
+										setRerender(!rerender);
+										setTimeout(() => {
+											alert('Loaded!')
+										}, 10);
+									}}>
+									Load
+								</Button>
 							</div>
 						</div>
 						<S.Layer
