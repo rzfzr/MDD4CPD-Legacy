@@ -4,9 +4,7 @@ import { useEditable } from "use-editable";
 
 const Edit = () => {
     const editorRef = useRef(null);
-    const [code, setCode] = useState(
-        'function test() {}\n\nconsole.log("hello");'
-    );
+    const [code, setCode] = useState('');
 
     const onEditableChange = useCallback((code) => {
         setCode(code.slice(0, -1));
