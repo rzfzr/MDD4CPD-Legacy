@@ -41,6 +41,7 @@ function generateCode(model: any): string {
             case 'variable':
                 break
             case 'constant':
+                n.content.name = n.content.name.toUpperCase()
                 constants.push(n)
                 break
         }
@@ -128,7 +129,13 @@ function generateCode(model: any): string {
     }
 
     let callWithParameters = (node: any, ...contents: any) => {
-        contents.push(node.content.value)
+        if (node.extras.type === 'constant') {
+            contents.push(node.content.name)
+        } else {
+            contents.push(node.content.value)
+        }
+
+
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
