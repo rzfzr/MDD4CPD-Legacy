@@ -90,7 +90,7 @@ function generateCode(model: any): string {
             let parent = getParent(port)
 
             if (['variable', 'port'].includes(parent.extras.type)) {
-                return parent.content
+                return parent.content.value
             }
             else if (['component'].includes(parent.extras.type)) {
                 return parent.instance + '.' + port.name
@@ -128,7 +128,7 @@ function generateCode(model: any): string {
     }
 
     let callWithParameters = (node: any, ...contents: any) => {
-        contents.push(node.content)
+        contents.push(node.content.value)
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
@@ -155,7 +155,7 @@ function generateCode(model: any): string {
 
         if (toNode?.name === "Function") {
             console.log('fun', toNode);
-            add(toNode.content, '(', ');')
+            add(toNode.content.value, '(', ');')
         } else if (toNode?.name === "Condition") {
             const xValue = getCoditionalValue(toNode, 'x')
             const yValue = getCoditionalValue(toNode, 'y')
@@ -166,7 +166,7 @@ function generateCode(model: any): string {
             const outcome3 = getOutcome(toNode, 'False')
             const toNode3 = getParent(outcome3)
 
-            add('if (', xValue, ' ' + toNode.content + ' ', yValue, ') {')
+            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {')
             if (toNode2) {
                 callWithParameters(toNode2)
             } else {
@@ -185,10 +185,10 @@ function generateCode(model: any): string {
                 console.log('found port', toNode)
                 if (toNode.name.includes('Digital')) {
                     console.log('it was digital');
-                    usedDigital.push(toNode.content)
+                    usedDigital.push(toNode.content.value)
                 } else {
                     console.log('it was analog');
-                    usedAnalog.push(toNode.content)
+                    usedAnalog.push(toNode.content.value)
                 }
                 callWithParameters(toNode)
             } else {
@@ -218,7 +218,7 @@ function generateCode(model: any): string {
     add('// Functions')
     logics.forEach(logic => {
         if (logic.name === "Function") {
-            add('void ', logic.content, '() {')
+            add('void ', logic.content.value, '() {')
 
             const callPort = logic.ports.find((x: any) => x.alignment === 'right')
             callPort.links.forEach((l: any) => {
@@ -234,13 +234,13 @@ function generateCode(model: any): string {
     constants.forEach(constant => {
         console.log(constant)
 
-        add(`#define ${constant.name} ${constant.content}`)
+        add(`#define ${constant.name} ${constant.content.value}`)
     });
 
 
     add('')
     add('// Micro-controller Lifecycle')
-    // let content: string | null = null
+    // let content.value: string | null = null
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
         port.links.forEach((l: any) => {

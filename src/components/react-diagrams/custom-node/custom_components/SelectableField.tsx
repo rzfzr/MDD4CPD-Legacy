@@ -3,7 +3,7 @@ import * as React from "react";
 export interface ISelectableFieldProps {
   beingEdited: boolean;
   options: Array<string>
-  content: string;
+  content: { value: string };
   onChange: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlurOrEnter: () => void;
   editingKey: string;
@@ -14,12 +14,12 @@ export interface ISelectableFieldProps {
 export interface ISelectableFieldState { }
 
 const Editor = ({
-  content,
+  value,
   onChange,
   onBlurOrEnter,
   options
 }: {
-  content: string;
+  value: string;
   onChange: (evt: React.ChangeEvent<HTMLSelectElement>) => void;
   onBlurOrEnter: () => void;
   options: Array<string>;
@@ -27,7 +27,7 @@ const Editor = ({
   return (
 
     <select name="values" id="values"
-      value={content}
+      value={value}
       onChange={onChange}
       onBlur={onBlurOrEnter}
     >
@@ -54,7 +54,7 @@ export default class SelectableField extends React.Component<
         {this.props.beingEdited &&
           this.props.editingKey === this.props.elementKey ? (
           <Editor
-            content={this.props.content}
+            value={this.props.content.value}
             onChange={this.props.onChange}
             onBlurOrEnter={this.props.onBlurOrEnter}
             options={this.props.options}
@@ -67,7 +67,7 @@ export default class SelectableField extends React.Component<
               fontStyle: this.props.isAbstract ? "italic" : "normal"
             }}
           >
-            {this.props.content}
+            {this.props.content.value}
           </p>
         )}
       </div>

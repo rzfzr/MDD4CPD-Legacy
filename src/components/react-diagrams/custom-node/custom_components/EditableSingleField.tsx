@@ -3,7 +3,7 @@ import AutosizeInput from 'react-input-autosize';
 
 export interface IEditableSingleFieldProps {
   beingEdited: boolean;
-  content: string;
+  content: { value: string };
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
   onBlurOrEnter: () => void;
   editingKey: string;
@@ -12,17 +12,12 @@ export interface IEditableSingleFieldProps {
 }
 
 export interface IEditableSingleFieldState { }
-
-// interface EditorInterface {
-//   content: string;
-//   onChange: () => any;
-// }
 const Editor = ({
-  content,
+  value,
   onChange,
   onBlurOrEnter,
 }: {
-  content: string;
+  value: string;
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
   onBlurOrEnter: () => void;
 }) => {
@@ -36,7 +31,7 @@ const Editor = ({
         borderColor: "black"
       }}
       type="text"
-      value={content}
+      value={value}
       onChange={onChange}
       onBlur={onBlurOrEnter}
       onKeyDown={(event: any) => {
@@ -62,7 +57,7 @@ export default class EditableSingleField extends React.Component<
         {this.props.beingEdited &&
           this.props.editingKey === this.props.elementKey ? (
           <Editor
-            content={this.props.content}
+            value={this.props.content.value}
             onChange={this.props.onChange}
             onBlurOrEnter={this.props.onBlurOrEnter}
           />
@@ -74,7 +69,7 @@ export default class EditableSingleField extends React.Component<
               fontStyle: this.props.isAbstract ? "italic" : "normal"
             }}
           >
-            {this.props.content}
+            {this.props.content.value}
           </p>
         )}
       </div>

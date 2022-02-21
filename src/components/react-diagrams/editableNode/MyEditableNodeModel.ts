@@ -15,7 +15,7 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     portsIn: MyPortModel[] = [];
     portsOut: MyPortModel[] = [];
-    content: string;
+    content: Object;
     extras: any;
     selectableOptions: string[];
     constructor(name: string, color: string, extras: any, ins: any[], outs: any[]) {
@@ -36,11 +36,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
 
         switch (outs[0]) {
             case 'bool':
-                this.content = 'true'
+                this.content = { value: 'true' }
                 this.selectableOptions = ['true', 'false'];
                 break;
             default:
-                this.content = '0'
+                this.content = { value: '0' }
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
         }
     }
