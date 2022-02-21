@@ -257,7 +257,7 @@ export default [{
         name: 'Constant Integer',
         color: 'pink',
         extras: {
-            type: 'variable'
+            type: 'constant'
         },
         ins: [],
         outs: [
@@ -267,7 +267,7 @@ export default [{
         name: 'Constant Boolean',
         color: 'pink',
         extras: {
-            type: 'variable'
+            type: 'constant'
         },
         ins: [],
         outs: [

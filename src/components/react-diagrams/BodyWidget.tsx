@@ -127,7 +127,8 @@ function BodyWidget(props: BodyWidgetProps) {
 											node.setPosition(100, 200);
 										} else if (data.extras.type === "variable") {
 											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-											console.log('node', node)
+										} else if (data.extras.type === "constant") {
+											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 										} else if (data.extras.type === 'port') {
 											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 										} else if (data.extras.type === "logic") {

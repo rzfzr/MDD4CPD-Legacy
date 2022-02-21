@@ -39,9 +39,9 @@ function generateCode(model: any): string {
                 logics.push(n)
                 break
             case 'variable':
-                if (n.name.startsWith('Constant')) {
-                    constants.push(n)
-                }
+                break
+            case 'constant':
+                constants.push(n)
                 break
         }
     })
@@ -58,6 +58,7 @@ function generateCode(model: any): string {
         });
         // console.log('----', code);
         code += "\n";
+        return code;
     };
     let addOnTop = (...message: string[]) => {
         let top = ''
@@ -94,8 +95,7 @@ function generateCode(model: any): string {
             else if (['component'].includes(parent.extras.type)) {
                 return parent.instance + '.' + port.name
             } else {
-                return 'Unknown extras.type'
-
+                return add('Unknown extras.type')
             }
         } catch (error) {
             return '/* Lacking Value */'
@@ -179,7 +179,7 @@ function generateCode(model: any): string {
             add("}\n");
 
         } else {
-            if (['variable'].includes(toNode?.extras?.type)) {
+            if (['variable', 'constant'].includes(toNode?.extras?.type)) {
                 callWithParameters(toNode)
             } else if (['port'].includes(toNode?.extras?.type)) {
                 console.log('found port', toNode)
