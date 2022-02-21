@@ -213,33 +213,24 @@ function generateCode(model: any): string {
     logics.forEach(logic => {
         if (logic.name === "Function") {
             add('void ', logic.content, '() {')
-            console.log('logiccccc, ', logic)
 
-            let callPort = logic.ports.find((x: any) => x.alignment === 'right')
-
-
-
+            const callPort = logic.ports.find((x: any) => x.alignment === 'right')
             callPort.links.forEach((l: any) => {
                 processLink(l)
             });
-
-            // const toNode = getNode(toPort.parentNode)
-
-            // const outcome2 = getOutcome(toNode)
-            // const toNode2 = getParent(outcome2)
-            // callWithParameters(toNode2)
-            console.log('port', callPort);
-
-
             add('}')
         }
     });
     add('')
+
+
+
+
+
+
+
+
     add('// Micro-controller Lifecycle')
-
-
-
-
     // let content: string | null = null
     controller.ports.forEach((port: any) => {
         add(port.label, "{");
