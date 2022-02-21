@@ -26,7 +26,7 @@ function generateCode(model: any): string {
         nodes.push(n)
         switch (n.extras.type) {
             case 'component':
-                n.instance = n.name.toLowerCase() + components.filter(c => c.extras.library === n.extras.library).length
+                n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
                 components.push(n)
                 if (!libraries.includes(n.extras.library))
                     libraries.push(n.extras.library)
