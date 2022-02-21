@@ -24,7 +24,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             name: name,
             color: color,
         });
-        console.log('creating', name, color, extras, ins, outs)
         this.extras = extras;
 
         ins.forEach((method: string) => {
@@ -34,14 +33,20 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(method)
         });
 
+        console.log('creating', this.portsOut, name, outs[0], color)
         switch (outs[0]) {
             case 'bool':
                 this.content = { name: 'boolName', value: 'true' }
                 this.selectableOptions = ['true', 'false'];
                 break;
-            default:
+            case 'int':
                 this.content = { name: 'name', value: '0' }
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
+                break;
+            default:
+                this.content = { name: '', value: '' }
+                this.selectableOptions = ['something', 'went wrong'];
+                break;
         }
     }
 
@@ -117,6 +122,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         }) as MyPortModel[];
         this.extras = event.data.extras
         this.content = event.data.content
+        this.selectableOptions = event.data.selectableOptions
     }
 
     serialize(): any {
@@ -131,7 +137,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 return port.getID();
             }),
             extras: this.extras,
-            content: this.content
+            content: this.content,
+            selectableOptions: this.selectableOptions
         };
     }
 
