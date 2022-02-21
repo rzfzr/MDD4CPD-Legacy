@@ -91,7 +91,8 @@ function BodyWidget(props: BodyWidgetProps) {
 									onClick={() => {
 										const temp = JSON.stringify(rawModel)
 										localStorage.setItem('model', temp);
-										alert('Saved!')
+										console.log('Saved')
+										// alert('Saved!')
 									}}>
 									Save
 								</Button>
@@ -101,9 +102,10 @@ function BodyWidget(props: BodyWidgetProps) {
 											props.app.getDiagramEngine());
 										setModel(stringModel);
 										setRerender(!rerender);
-										setTimeout(() => {
-											alert('Loaded!')
-										}, 10);
+										console.log('Loaded')
+										// setTimeout(() => {
+										// 	alert('Loaded!')
+										// }, 10);
 									}}>
 									Load
 								</Button>
