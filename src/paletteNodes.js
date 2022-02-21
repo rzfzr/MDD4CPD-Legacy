@@ -39,6 +39,34 @@ export default [{
             'setup()',
             'loop()'
         ]
+    },
+    {
+        name: 'Arduino Leonardo',
+        color: 'green',
+        extras: {
+            type: 'controller',
+            analogPorts: 12,
+            digitalPorts: 20,
+        },
+        ins: [],
+        outs: [
+            'setup()',
+            'loop()'
+        ]
+    },
+    {
+        name: 'Arduino Flora',
+        color: 'green',
+        extras: {
+            type: 'controller',
+            analogPorts: 4,
+            digitalPorts: 8,
+        },
+        ins: [],
+        outs: [
+            'setup()',
+            'loop()'
+        ]
     }, {
         name: 'Digital Port',
         color: 'white',
