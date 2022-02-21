@@ -71,8 +71,8 @@ function BodyWidget(props: BodyWidgetProps) {
 											<TrayItemWidget node={node} />
 										</div>
 									}
-									return <div  >
-										<TrayItemWidget key={node.name} node={node} />
+									return <div key={node.name}>
+										<TrayItemWidget node={node} />
 									</div>
 								}
 								)}
