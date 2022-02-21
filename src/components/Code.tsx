@@ -108,20 +108,12 @@ function generateCode(model: any): string {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
     let removeTypes = (name: string): string => {
-        console.log('removing types from ', name)
-
         const arr = name.split(' ')
         // 0 is always trash as is the function type
         let result = arr[1]// 1 is the function name
         let params = arr.splice(2)
-
-        console.log('params = ', params);
-
-        console.log('result', result)
         params.forEach(param => {
             let thisParam = String(param.split(' ').slice(-1))
-
-            console.log('res', thisParam)
             result += thisParam
         });
         return result;
