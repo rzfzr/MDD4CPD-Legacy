@@ -25,7 +25,6 @@ const Editor = ({
   options: Array<string>;
 }) => {
   return (
-
     <select name="values" id="values"
       value={content}
       onChange={onChange}

@@ -3,7 +3,7 @@ import * as React from "react";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
 import "./MyEditableNodeWidgedStyle.css";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { PortWidget, DiagramEngine, PortModelAlignment, DefaultPortLabel } from "@projectstorm/react-diagrams";
+import { DiagramEngine, DefaultPortLabel } from "@projectstorm/react-diagrams";
 import styled from '@emotion/styled';
 
 import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
@@ -74,7 +74,7 @@ export class MyEditableNodeWidget extends React.Component<
   constructor(props: MyEditableWidgetProps) {
     super(props);
     this.state = {
-      content: "",
+      content: { name: '', value: '' },
       variableType: '',
       editingSomething: false,
       editingKey: ""
@@ -106,7 +106,8 @@ export class MyEditableNodeWidget extends React.Component<
    * Usually, you update the model and the state
    */
   _contentOnChange = (evt: React.FormEvent<HTMLInputElement>) => {
-    this.props.nodeModel.content.value = evt.currentTarget.value;
+
+    this.props.nodeModel.content[this.state.editingKey] = evt.currentTarget.value;
     this.setState({ content: evt.currentTarget.value });
   };
 
@@ -125,7 +126,6 @@ export class MyEditableNodeWidget extends React.Component<
    * copy atributes from nodeModel
    */
   UNSAFE_componentWillMount() {
-
     this.setState({
       content: this.props.nodeModel.content
     });
@@ -137,6 +137,27 @@ export class MyEditableNodeWidget extends React.Component<
         selected={this.props.nodeModel.isSelected()}
         background={this.props.nodeModel.getOptions().color}>
         <S.Title>
+          <div className={"editable-node"}
+            ref={divElement => (this.divElement = divElement)}>
+            <div className="editable-border">
+              <div className="editable-header">
+                <div
+                  onDoubleClick={() => {
+                    this._editableObjectDoubleClick("name");
+                  }}
+                >
+                  <EditableSingleField
+                    elementKey="name"
+                    editingKey={this.state.editingKey}
+                    beingEdited={this.state.editingSomething}
+                    content={this.props.nodeModel.content.name}
+                    onChange={this._contentOnChange}
+                    onBlurOrEnter={this._onBlurOrEnter}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           <S.TitleName>{this.props.nodeModel.getOptions().name}:
           </S.TitleName>
           <div className={"editable-node"}
@@ -145,14 +166,14 @@ export class MyEditableNodeWidget extends React.Component<
               <div className="editable-header">
                 <div
                   onDoubleClick={() => {
-                    this._editableObjectDoubleClick("content");
+                    this._editableObjectDoubleClick("value");
                   }}
                 >
                   {(this.props.nodeModel.portsOut[0].options.name === 'bool' ||
                     this.props.nodeModel.portsOut[0].options.name === 'port'
                   ) ?
                     <SelectableField
-                      elementKey="content"
+                      elementKey="value"
                       options={this.props.nodeModel.selectableOptions}
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
@@ -162,7 +183,7 @@ export class MyEditableNodeWidget extends React.Component<
                     />
                     :
                     <EditableSingleField
-                      elementKey="content"
+                      elementKey="value"
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
                       content={this.props.nodeModel.content.value}

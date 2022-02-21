@@ -10,13 +10,6 @@ export interface IEditableSingleFieldProps {
   elementKey: string;
   isAbstract?: boolean;
 }
-
-export interface IEditableSingleFieldState { }
-
-// interface EditorInterface {
-//   content: string;
-//   onChange: () => any;
-// }
 const Editor = ({
   content,
   onChange,
@@ -47,8 +40,7 @@ const Editor = ({
 };
 
 export default class EditableSingleField extends React.Component<
-  IEditableSingleFieldProps,
-  IEditableSingleFieldState
+  IEditableSingleFieldProps
 > {
   constructor(props: IEditableSingleFieldProps) {
     super(props);
