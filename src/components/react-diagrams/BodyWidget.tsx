@@ -116,32 +116,27 @@ function BodyWidget(props: BodyWidgetProps) {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 
 								if (data) {
-									if (data.extras.type === "diagram") {
-										props.app.getActiveDiagram().deserializeModel(data.extras.diagram,
-											props.app.getDiagramEngine());
+									let node: any = {};
+									if (data.extras.type === "variable") {
+										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+									} else if (data.extras.type === "constant") {
+										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+									} else if (data.extras.type === 'port') {
+										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+									} else if (data.extras.type === "logic") {
+										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 									} else {
-										let node: any = {};
-										if (data.extras.type === "variable") {
-											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										} else if (data.extras.type === "constant") {
-											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										} else if (data.extras.type === 'port') {
-											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										} else if (data.extras.type === "logic") {
-											node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-										} else {
-											node = new MyNodeModel(data.name, data.color);
-											node.extras = data.extras
-											data.outs.forEach((method: string) => {
-												node.addOutPort(method)
-											});
-											data.ins.forEach((method: string) => {
-												node.addInPort(method)
-											});
-										}
-										node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-										props.app.getDiagramEngine().getModel().addNode(node);
+										node = new MyNodeModel(data.name, data.color);
+										node.extras = data.extras
+										data.outs.forEach((method: string) => {
+											node.addOutPort(method)
+										});
+										data.ins.forEach((method: string) => {
+											node.addInPort(method)
+										});
 									}
+									node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
+									props.app.getDiagramEngine().getModel().addNode(node);
 								}
 								setRerender(!rerender);
 							}}
