@@ -116,6 +116,55 @@ export default [{
         ]
     },
     {
+        name: 'TwoWire Interface',
+        color: 'blue',
+        extras: {
+            type: 'component',
+            library: 'Wire.h'
+        },
+        ins: [
+            'void begin()',
+            'void beginTransmission()',
+            'void setClock()',
+            'void onReceive()',
+            'void onRequest()'
+
+        ],
+        outs: [
+            'byte requestFrom()',
+            'byte endTransmission()',
+            'byte write()',
+            'byte available()',
+            'byte read()'
+        ]
+    },
+    {
+        name: 'Adafruit_PWMServoDriver',
+        color: 'blue',
+        extras: {
+            type: 'component',
+            library: 'Adafruit_PWMServoDriver.h'
+        },
+        ins: [
+            'void begin()',
+            'void sleep()',
+            'void wakeup()',
+            'void setExtClk()',
+            'void setPWMFreq()',
+            'void setOutputMode()',
+            'void setPWM()',
+            'void setPin()',
+            'void writeMicroseconds()',
+            'void setOscillatorFrequency()',
+
+        ],
+        outs: [
+            'uint8_t getPWM()',
+            'uint8_t readPrescale()',
+            'uint32_t getOscillatorFrequency()',
+        ]
+    },
+    {
         name: 'Button',
         color: 'blue',
         extras: {
