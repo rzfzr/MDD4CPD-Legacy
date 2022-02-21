@@ -152,32 +152,6 @@ export default [{
         ]
     },
     {
-        name: 'PWMServoDriver',
-        color: 'blue',
-        extras: {
-            type: 'component',
-            library: 'Adafruit_PWMServoDriver.h'
-        },
-        ins: [
-            'void begin()',
-            'void sleep()',
-            'void wakeup()',
-            'void setExtClk()',
-            'void setPWMFreq()',
-            'void setOutputMode()',
-            'void setPWM()',
-            'void setPin()',
-            'void writeMicroseconds()',
-            'void setOscillatorFrequency()',
-
-        ],
-        outs: [
-            'uint8_t getPWM()',
-            'uint8_t readPrescale()',
-            'uint32_t getOscillatorFrequency()',
-        ]
-    },
-    {
         name: 'Button',
         color: 'blue',
         extras: {
@@ -188,6 +162,32 @@ export default [{
             'setValue(bool)'
         ],
         outs: []
+    },
+    {
+        name: 'PWM Servo',
+        color: 'orange',
+        extras: {
+            type: 'component',
+            library: 'Adafruit_PWMServoDriver.h'
+        },
+        ins: [
+            'void begin(uint8_t prescale=0)',
+            'void sleep()',
+            'void wakeup()',
+            'void setExtClk(uint8_t prescale)',
+            'void setPWMFreq(float freq)',
+            'void setOutputMode(bool totempole)',
+            'void setPWM(uint8_t num, uint16_t on, uint16_t off)',
+            'void setPin(uint8_t num, uint16_t val, bool invert=false)',
+            'void writeMicroseconds(uint8_t num, uint16_t Microseconds)',
+            'void setOscillatorFrequency(uint32_t freq)',
+
+        ],
+        outs: [
+            'uint8_t getPWM(uint8_t num)',
+            'uint8_t readPrescale()',
+            'uint32_t getOscillatorFrequency()',
+        ]
     },
     {
         name: 'Servo',
