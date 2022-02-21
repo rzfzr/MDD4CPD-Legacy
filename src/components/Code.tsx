@@ -107,8 +107,24 @@ function generateCode(model: any): string {
     let getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
-    let removeType = (name: string): string => {//todo: should accept multiple
-        return String(name.split(' ').slice(-1))
+    let removeTypes = (name: string): string => {
+        console.log('removing types from ', name)
+
+        const arr = name.split(' ')
+        // 0 is always trash as is the function type
+        let result = arr[1]// 1 is the function name
+        let params = arr.splice(2)
+
+        console.log('params = ', params);
+
+        console.log('result', result)
+        params.forEach(param => {
+            let thisParam = String(param.split(' ').slice(-1))
+
+            console.log('res', thisParam)
+            result += thisParam
+        });
+        return result;
     }
 
     let callWithParameters = (node: any, ...contents: any) => {
@@ -124,9 +140,7 @@ function generateCode(model: any): string {
                     callWithParameters(toNode, ...contents)
                 } else {//points to a class instance, we hope it is a method call
                     //todo: check for parameter type and numbers
-                    add(toNode.instance + '.'
-                        + removeType(toPort.name.split("(").shift())
-                        + '(' + contents + ')')
+                    add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ')')
                 }
             })
         })
@@ -178,10 +192,11 @@ function generateCode(model: any): string {
                 }
                 callWithParameters(toNode)
             } else {
+                console.log('sup', toNode)
                 if (toNode?.instance) {
-                    add(toNode.instance + '.' + removeType(toPort.name))
+                    add(toNode.instance + '.' + removeTypes(toPort.name))
                 } else {
-                    add(fromNode.instance + '.' + removeType(fromPort.name))
+                    add(fromNode.instance + '.' + removeTypes(fromPort.name))
                 }
             }
         }
