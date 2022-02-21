@@ -139,7 +139,7 @@ export default [{
         ]
     },
     {
-        name: 'Adafruit_PWMServoDriver',
+        name: 'PWMServoDriver',
         color: 'blue',
         extras: {
             type: 'component',
@@ -216,7 +216,7 @@ export default [{
     },
     {
         name: 'Variable Integer',
-        color: 'purple',
+        color: 'pink',
         extras: {
             type: 'variable'
         },
@@ -229,7 +229,7 @@ export default [{
     },
     {
         name: 'Variable Boolean',
-        color: 'purple',
+        color: 'pink',
         extras: {
             type: 'variable'
         },
@@ -242,7 +242,7 @@ export default [{
     },
     {
         name: 'Constant Integer',
-        color: 'purple',
+        color: 'pink',
         extras: {
             type: 'variable'
         },
@@ -252,7 +252,7 @@ export default [{
         ]
     }, {
         name: 'Constant Boolean',
-        color: 'purple',
+        color: 'pink',
         extras: {
             type: 'variable'
         },
@@ -753,7 +753,7 @@ export default [{
                                 "label": "int"
                             }],
                             "name": "Constant Integer",
-                            "color": "purple",
+                            "color": "pink",
                             "portsInOrder": [],
                             "portsOutOrder": ["7b3fd1de-cfd1-45d3-b5d9-43139f9c591d"],
                             "content": "10"
@@ -780,7 +780,7 @@ export default [{
                                 "label": "int"
                             }],
                             "name": "Constant Integer",
-                            "color": "purple",
+                            "color": "pink",
                             "portsInOrder": [],
                             "portsOutOrder": ["5d42ad8c-05da-4623-a573-447cfd67f313"],
                             "content": "25"

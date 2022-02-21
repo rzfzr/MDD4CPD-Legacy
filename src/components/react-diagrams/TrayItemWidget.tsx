@@ -12,8 +12,8 @@ namespace S {
 		color: white;
 		font-family: Helvetica, Arial;
 		font-size:0.6em;
-		padding: 0px 2px;
-		margin:	 0px ;
+		padding: 2px 0px;
+		margin:	 5px 10px ;
 		border: solid 1px ${(p) => p.color};
 		border-radius: 100px;
 		margin-bottom: 2px;
@@ -42,7 +42,6 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 				<a data-tip data-for={'tip-' + this.props.node.name} >
 					<OpenInNewIcon style={{ fontSize: '1rem' }} />
 				</a>
-				{/* todo9: remove dragged image, override default behaviour, replace with component button */}
 				<ReactTooltip id={'tip-' + this.props.node.name} type='light' place="bottom">
 					<div style={{ width: '300px', height: '300px', backgroundColor: 'white', border: 'solid', fontSize: '1.3em' }}>
 						<div style={{ width: '100%', borderBottom: 'solid 3px', fontSize: '2em' }}>

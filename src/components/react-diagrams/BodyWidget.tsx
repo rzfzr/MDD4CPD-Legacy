@@ -44,7 +44,6 @@ namespace S {
 		flex-grow: 1;
 	`;
 }
-let lastType = ''
 
 function BodyWidget(props: BodyWidgetProps) {
 	const [model, setModel] = useState("{}")
@@ -52,6 +51,8 @@ function BodyWidget(props: BodyWidgetProps) {
 
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
 	const str = JSON.stringify(rawModel)
+
+	const groups = [...new Set(paletteNodes.map(x => x.extras.type))]
 
 	if (str !== model) {
 		setModel(str);
@@ -63,19 +64,16 @@ function BodyWidget(props: BodyWidgetProps) {
 					<S.Content style={{ width: '100%', height: '100%' }}>
 						<TrayWidget >
 							{
-								paletteNodes.map((node) => {
-									if (node.extras.type !== lastType) {//it's the first item in the group
-										lastType = node.extras.type
-										return <div key={node.name}>
-											<p style={{ margin: '20px 0px 0px 0px', fontSize: "0.9em" }}>{node.extras.type + 's'}:</p>
-											<TrayItemWidget node={node} />
-										</div>
-									}
-									return <div key={node.name}>
-										<TrayItemWidget node={node} />
+								groups.map((group) => {
+									return <div style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
+										<h6 style={{ margin: '0px 0px 0px 0px' }}>{group + 's'}:</h6>
+										{paletteNodes.filter(n => n.extras.type === group).map((node) => {
+											return <TrayItemWidget key={node.name} node={node} />
+										})}
 									</div>
 								}
-								)}
+								)
+							}
 						</TrayWidget>
 						<S.Layer
 							onDrop={(event) => {
