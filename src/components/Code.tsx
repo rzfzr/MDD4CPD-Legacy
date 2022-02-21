@@ -108,13 +108,16 @@ function generateCode(model: any): string {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
     let removeTypes = (name: string): string => {
-        const arr = name.split(' ')
-        // 0 is always trash as is the function type
-        let result = arr[1]// 1 is the function name
-        let params = arr.splice(2)
+        console.log('removing types from', name)
+        const functionName = name.substring(name.indexOf(' ') + 1, name.indexOf('(') !== -1 ? name.indexOf('(') : name.length)
+        const params = name.substring(name.indexOf('('), name.indexOf(')') + 1).split(',')
+
+        let result = functionName
         params.forEach(param => {
-            let thisParam = String(param.split(' ').slice(-1))
-            result += thisParam
+            if (!param.includes('=')) {
+                let thisParam = String(param.split(' ').slice(-1))
+                result += thisParam
+            }
         });
         return result;
     }
@@ -184,11 +187,10 @@ function generateCode(model: any): string {
                 }
                 callWithParameters(toNode)
             } else {
-                console.log('sup', toNode)
                 if (toNode?.instance) {
-                    add(toNode.instance + '.' + removeTypes(toPort.name))
+                    add(toNode.instance + '.' + removeTypes(toPort.name) + '()')
                 } else {
-                    add(fromNode.instance + '.' + removeTypes(fromPort.name))
+                    add(fromNode.instance + '.' + removeTypes(fromPort.name) + '()')
                 }
             }
         }
