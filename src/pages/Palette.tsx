@@ -13,10 +13,17 @@ export default function PalettePage() {
         <h4>
             Edits are not being saved
         </h4>
-        <div className="Code">
-            <pre >
-                <code className="language-clike">{JSON.stringify(paletteNodes, null, "\t")}</code>
-            </pre>
-        </div>
+
+        {
+            paletteNodes.map((obj) => {
+                return <div key={obj.name} >
+                    <pre >
+                        <code className="language-clike">{JSON.stringify(obj, null, "\t")}</code>
+                    </pre>
+                </div>
+            }
+            )
+        }
+
     </div>
 }
