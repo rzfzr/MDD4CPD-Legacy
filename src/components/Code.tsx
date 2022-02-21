@@ -108,10 +108,8 @@ function generateCode(model: any): string {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
     let removeTypes = (name: string): string => {
-        console.log('removing types from', name)
         const functionName = name.substring(name.indexOf(' ') + 1, name.indexOf('(') !== -1 ? name.indexOf('(') : name.length)
-        const params = name.substring(name.indexOf('('), name.indexOf(')') + 1).split(',')
-
+        const params = name.substring(name.indexOf('('), name.indexOf(')') - 1).split(',')
         let result = functionName
         params.forEach(param => {
             if (!param.includes('=')) {
@@ -119,6 +117,7 @@ function generateCode(model: any): string {
                 result += thisParam
             }
         });
+        console.log('removing types from', name, 'params ', params, ' returning', result)
         return result;
     }
 

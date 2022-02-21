@@ -98,7 +98,8 @@ function BodyWidget(props: BodyWidgetProps) {
 								</Button>
 								<Button variant="contained" size='small'
 									onClick={() => {
-										props.app.getActiveDiagram().deserializeModel(JSON.parse(localStorage.getItem('model') || '{}'),
+										props.app.getActiveDiagram().deserializeModel(
+											JSON.parse(localStorage.getItem('model') || '{}'),
 											props.app.getDiagramEngine());
 										setModel(stringModel);
 										setRerender(!rerender);
