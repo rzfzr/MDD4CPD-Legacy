@@ -34,7 +34,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         });
 
         let userName = shouldHaveUserName ? 'userName' : false;
-        const selector = outs[0].substring(0, outs[0].indexOf(' '))
+        const selector = name === 'Condition' ? name : outs[0].substring(0, outs[0].indexOf(' '))
 
         console.log('creating', selector)
         switch (selector) {
@@ -48,7 +48,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 break;
             case 'int':
                 this.content = { name: userName, value: '0' }
-                this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
+                this.selectableOptions = ['something', 'went wrong'];
+                break;
+            case 'Condition':
+                this.content = { name: userName, value: '==' }
+                this.selectableOptions = ['==', '!=', '<', '>', '<=', '>=', '<=>']
                 break;
             default:
                 this.content = { name: userName, value: 'value' }
