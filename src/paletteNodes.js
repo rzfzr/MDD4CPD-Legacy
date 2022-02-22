@@ -71,7 +71,7 @@ export default [{
         name: 'Digital I/O',
         color: 'cyan',
         extras: {
-            type: 'Built-in'
+            type: 'built-in'
         },
         ins: [
             'void digitalWrite(int pin, int value)',
@@ -85,7 +85,7 @@ export default [{
         name: 'Analog I/O',
         color: 'cyan',
         extras: {
-            type: 'Built-in'
+            type: 'built-in'
         },
         ins: [
             'void analoglWrite(int pin, int value)',
@@ -98,7 +98,7 @@ export default [{
         name: 'Time',
         color: 'cyan',
         extras: {
-            type: 'Built-in'
+            type: 'built-in'
         },
         ins: [
             'void delay(int ms)',
@@ -113,7 +113,7 @@ export default [{
         name: 'Math',
         color: 'cyan',
         extras: {
-            type: 'Built-in'
+            type: 'built-in'
         },
         ins: [
             'void delay(int ms)',
