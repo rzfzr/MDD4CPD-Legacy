@@ -94,6 +94,17 @@ function BodyWidget(props: BodyWidgetProps) {
 									}}>
 									Load
 								</Button>
+								<Button variant="contained" size='small'
+									onClick={() => {
+										props.app.getActiveDiagram().deserializeModel(
+											JSON.parse('{"id":"b61bb7d6-efee-4caf-8b8c-be7dfa140acd","offsetX":0,"offsetY":0,"zoom":100,"gridSize":0,"layers":[{"id":"0df10e02-9519-4a32-9c90-cb48681c24cd","type":"diagram-links","isSvg":true,"transformed":true,"models":{}},{"id":"c18e36ab-c0ce-4def-8c51-0c09d00cfe0b","type":"diagram-nodes","isSvg":false,"transformed":true,"models":{}}]}'),
+											props.app.getDiagramEngine());
+										setTimeout(() => {
+											setRerender(!rerender);
+										}, 10);
+									}}>
+									Clear
+								</Button>
 							</div>
 						</div>
 						<S.Layer
