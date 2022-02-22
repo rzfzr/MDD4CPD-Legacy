@@ -7,6 +7,7 @@ import HomePage from './pages/Home';
 import ModelsPage from './pages/Models';
 import StatePage from './pages/State';
 import PalettePage from './pages/Palette';
+import SettingsPage from './pages/Settings';
 export default function App() {
   return (
     <div className="App">
@@ -17,6 +18,7 @@ export default function App() {
           <Route path='/mdd4/state' element={<StatePage />} />
           <Route path='/mdd4/palette' element={<PalettePage />} />
           <Route path='/mdd4/editor' element={<EditorPage />} />
+          <Route path='/mdd4/settings' element={<SettingsPage />} />
         </Routes>
         <NavigationBar />
       </header>
