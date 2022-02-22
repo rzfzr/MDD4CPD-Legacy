@@ -8,7 +8,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/Home';
 import EditIcon from '@material-ui/icons/Edit';
 import MapIcon from '@material-ui/icons/Map';
-import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
+// import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
 import PaletteIcon from '@material-ui/icons/Palette';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TransformIcon from '@mui/icons-material/Transform';
