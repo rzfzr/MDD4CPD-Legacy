@@ -88,10 +88,8 @@ function BodyWidget(props: BodyWidgetProps) {
 							<div style={{ marginBottom: '0px' }}>
 								<Button variant="contained" size='small'
 									onClick={() => {
-										const temp = JSON.stringify(rawModel)
-										localStorage.setItem('model', temp);
+										localStorage.setItem('model', JSON.stringify(rawModel));
 										console.log('Saved')
-										// alert('Saved!')
 									}}>
 									Save
 								</Button>
@@ -100,12 +98,11 @@ function BodyWidget(props: BodyWidgetProps) {
 										props.app.getActiveDiagram().deserializeModel(
 											JSON.parse(localStorage.getItem('model') || '{}'),
 											props.app.getDiagramEngine());
-										setModel(stringModel);
-										setRerender(!rerender);
 										console.log('Loaded')
-										// setTimeout(() => {
-										// 	alert('Loaded!')
-										// }, 10);
+										setModel(stringModel);
+										setTimeout(() => {
+											setRerender(!rerender);
+										}, 10);
 									}}>
 									Load
 								</Button>
