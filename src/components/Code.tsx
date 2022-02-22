@@ -68,7 +68,6 @@ function generateCode(model: any): string {
         });
         code = top + "\n" + code
     };
-
     let getLink = (linkID: string) => {
         return links.find(l => l.id === linkID)
     }
@@ -127,17 +126,12 @@ function generateCode(model: any): string {
         // console.log('removing types from', name, 'params ', params, ' returning', result)
         return result;
     }
-
     let callWithParameters = (node: any, ...contents: any) => {
-
-
         if (node.extras.type === 'constant') {
             contents.push(node.content.name)
         } else {
             contents.push(node.content.value)
         }
-
-
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
@@ -145,19 +139,17 @@ function generateCode(model: any): string {
                 const toNode = getNode(toPort.parentNode)
                 if (toNode.id === node.id) {
                     //skip as it is the previous link
-
                 } else if (toNode.extras.type === 'built-in') {
-                    add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ')')
+                    add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
                 } else if (!toNode.instance) {//points to another variable/port
                     callWithParameters(toNode, ...contents)
                 } else {//points to a class instance, we hope it is a method call
                     //todo: check for parameter type and numbers
-                    add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ')')
+                    add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
                 }
             })
         })
     }
-
     const processLink = (l: any) => {
         const link = getLink(l);
         const toPort = getPort(link.target, link.targetPort)
@@ -214,46 +206,48 @@ function generateCode(model: any): string {
             }
         }
     }
-    add('// Libraries')
-    libraries.forEach(lib => {
-        add('#include <' + lib + '>')
-    });
 
-    add('')
-
-    add('// Objects')
-    libraries.forEach(lib => {
-        components.forEach(comp => {
-            if (comp.extras.library === lib)
-                add(comp.name + ' ' + comp.instance)
+    if (libraries.length > 0) {
+        add('// Libraries')
+        libraries.forEach(lib => {
+            add('#include <' + lib + '>')
         });
-    });
-
-    add('// Functions')
-    logics.forEach(logic => {
-        if (logic.name === "Function") {
-            add('void ', logic.content.value, '() {')
-            const callPort = logic.ports.find((x: any) => x.alignment === 'right')
-            callPort.links.forEach((l: any) => {
-                processLink(l)
+        add('')
+        add('// Objects')
+        libraries.forEach(lib => {
+            components.forEach(comp => {
+                if (comp.extras.library === lib)
+                    add(comp.name + ' ' + comp.instance)
             });
-            add('}')
-        }
-    });
+        });
+    }
 
+    if (logics.filter(l => l.name === 'Function').length > 0) {
+        add('// Functions')
+        logics.forEach(logic => {
+            if (logic.name === "Function") {
+                add('void ', logic.content.value, '() {')
+                const callPort = logic.ports.find((x: any) => x.alignment === 'right')
+                callPort.links.forEach((l: any) => {
+                    processLink(l)
+                });
+                add('}')
+            }
+        });
+    }
 
+    if (constants.length > 0) {
+        add('// Constants')
+        constants.forEach(constant => {
+            add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
+        });
+        add('')
+    }
 
-    add('// Constants')
-    constants.forEach(constant => {
-        add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
-    });
-
-
-    add('')
-    add('// Micro-controller Lifecycle')
+    add(`// Micro-controller's Lifecycle`)
     // let content.value: string | null = null
     controller.ports.forEach((port: any) => {
-        add(port.label, "{");
+        add('void ', port.label, "{");
         port.links.forEach((l: any) => {
             processLink(l)
         })
