@@ -53,25 +53,25 @@ function generateCode(model: any): string {
 
     let controller = controllers[0]
 
-    let add = (...message: string[]) => {
+
+    const add = (...message: string[]) => {
         message.forEach((m) => {
             code += m;
         });
-        // console.log('----', code);
         code += "\n";
         return code;
     };
-    let addOnTop = (...message: string[]) => {
+    const addOnTop = (...message: string[]) => {
         let top = ''
         message.forEach((m) => {
             top += m;
         });
         code = top + "\n" + code
     };
-    let getLink = (linkID: string) => {
+    const getLink = (linkID: string) => {
         return links.find(l => l.id === linkID)
     }
-    let getPort = (nodeID: string, portID: string) => {
+    const getPort = (nodeID: string, portID: string) => {
         try {
             return nodes.find((n: any) => n.id === nodeID).ports
                 .find((p: any) => p.id === portID);
@@ -79,10 +79,10 @@ function generateCode(model: any): string {
             return "// Loose end"
         }
     }
-    let getNode = (nodeID: string) => {
+    const getNode = (nodeID: string) => {
         return nodes.find((n: any) => n.id === nodeID)
     }
-    let getCoditionalValue = (conditionNode: any, portName: any): string => {
+    const getCoditionalValue = (conditionNode: any, portName: any): string => {
         try {
             let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0]
             let link = getLink(linkID)
@@ -101,7 +101,7 @@ function generateCode(model: any): string {
             return '/* Lacking Value */'
         }
     }
-    let getOutcome = (conditionNode: any, ifThis = 'True') => {
+    const getOutcome = (conditionNode: any, ifThis = 'True') => {
         try {
             let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0]
             let link = getLink(linkID)
@@ -110,10 +110,10 @@ function generateCode(model: any): string {
             return { label: '// Lacking Outcome' }
         }
     }
-    let getParent = (childNode: any) => {
+    const getParent = (childNode: any) => {
         return nodes.find((n: any) => n.id === childNode.parentNode)
     }
-    let removeTypes = (name: string): string => {
+    const removeTypes = (name: string): string => {
         const functionName = name.substring(name.indexOf(' ') + 1, name.indexOf('(') !== -1 ? name.indexOf('(') : name.length)
         const params = name.substring(name.indexOf('('), name.indexOf(')') - 1).split(',')
         let result = functionName
@@ -126,7 +126,7 @@ function generateCode(model: any): string {
         // console.log('removing types from', name, 'params ', params, ' returning', result)
         return result;
     }
-    let callWithParameters = (node: any, ...contents: any) => {
+    const callWithParameters = (node: any, ...contents: any) => {
         if (node.extras.type === 'constant') {
             contents.push(node.content.name)
         } else {
@@ -185,7 +185,7 @@ function generateCode(model: any): string {
 
         } else {
             if (['variable', 'constant'].includes(toNode?.extras?.type)) {
-                console.log('varr')
+
                 callWithParameters(toNode)
             } else if (['port'].includes(toNode?.extras?.type)) {
                 console.log('found port', toNode)
@@ -286,7 +286,8 @@ export default function Code(props: { model: string }) {
         try {
             code = generateCode(JSON.parse(model))
         } catch (error) {
-            console.log('erro', error)
+            code = 'Uncaught error, maybe a loose link?'
+            console.log(error)
         }
     }
     useEffect(() => {

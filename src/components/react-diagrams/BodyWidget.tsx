@@ -23,17 +23,6 @@ namespace S {
 		min-height: 100%;
 	`;
 
-	export const Header = styled.div`
-		display: flex;
-		background: rgb(30, 30, 30);
-		flex-grow: 0;
-		flex-shrink: 0;
-		color: white;
-		font-family: Helvetica, Arial, sans-serif;
-		padding: 10px;
-		align-items: center;
-	`;
-
 	export const Content = styled.div`
 		display: flex;
 		flex-grow: 1;
@@ -61,9 +50,8 @@ function BodyWidget(props: BodyWidgetProps) {
 		<div className="float-container" >
 			<div className="float-child-left">
 				<S.Body>
-					<S.Content style={{ width: '100%', height: '100%' }}>
+					<S.Content >
 						<div>
-
 							<ScrollArea
 								speed={1}
 								className="area"
@@ -111,7 +99,6 @@ function BodyWidget(props: BodyWidgetProps) {
 						<S.Layer
 							onDrop={(event) => {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-
 								if (data) {
 									let node: any = {};
 									if (data.extras.type === "variable") {
