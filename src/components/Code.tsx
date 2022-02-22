@@ -129,6 +129,8 @@ function generateCode(model: any): string {
     }
 
     let callWithParameters = (node: any, ...contents: any) => {
+
+
         if (node.extras.type === 'constant') {
             contents.push(node.content.name)
         } else {
@@ -143,6 +145,9 @@ function generateCode(model: any): string {
                 const toNode = getNode(toPort.parentNode)
                 if (toNode.id === node.id) {
                     //skip as it is the previous link
+
+                } else if (toNode.extras.type === 'built-in') {
+                    add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ')')
                 } else if (!toNode.instance) {//points to another variable/port
                     callWithParameters(toNode, ...contents)
                 } else {//points to a class instance, we hope it is a method call
@@ -160,8 +165,9 @@ function generateCode(model: any): string {
         const fromPort = getPort(link.source, link.sourcePort)
         const fromNode = getNode(fromPort.parentNode)
 
-        if (toNode?.name === "Function") {
-            console.log('fun', toNode);
+        if (toNode?.extras?.type === 'built-in') {
+            add(removeTypes(toPort.name) + '()')
+        } else if (toNode?.name === "Function") {
             add(toNode.content.value, '(', ');')
         } else if (toNode?.name === "Condition") {
             const xValue = getCoditionalValue(toNode, 'x')
@@ -187,6 +193,7 @@ function generateCode(model: any): string {
 
         } else {
             if (['variable', 'constant'].includes(toNode?.extras?.type)) {
+                console.log('varr')
                 callWithParameters(toNode)
             } else if (['port'].includes(toNode?.extras?.type)) {
                 console.log('found port', toNode)
@@ -226,7 +233,6 @@ function generateCode(model: any): string {
     logics.forEach(logic => {
         if (logic.name === "Function") {
             add('void ', logic.content.value, '() {')
-
             const callPort = logic.ports.find((x: any) => x.alignment === 'right')
             callPort.links.forEach((l: any) => {
                 processLink(l)

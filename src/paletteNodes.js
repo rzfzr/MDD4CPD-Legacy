@@ -151,7 +151,7 @@ export default [{
         ]
     },
     {
-        name: 'CustomFunction',
+        name: 'Function',
         extras: {
             type: 'logic'
         },
