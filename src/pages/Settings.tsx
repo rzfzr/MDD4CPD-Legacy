@@ -13,6 +13,7 @@ export default function PalettePage() {
             <li></li>
             <li>Enforce typings</li>
             <li>Enforce lose ends</li>
+            <li>Enforce sequencial port usage</li>
             <li>Remove link restrictions</li>
             <li></li>
             <li>Reset all settings on this page</li>
