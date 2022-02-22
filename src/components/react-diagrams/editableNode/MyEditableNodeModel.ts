@@ -18,7 +18,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     content: Object;
     extras: any;
     selectableOptions: string[];
-    constructor(name: string, color: string, extras: any, ins: any[], outs: any[]) {
+    constructor(name: string, color: string, extras: any, ins: any[], outs: any[], shouldHaveUserName: boolean = true) {
         super({
             type: 'MyEditable',
             name: name,
@@ -33,18 +33,25 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(method)
         });
 
-        console.log('creating', this.portsOut, name, outs[0], color)
-        switch (outs[0]) {
+        let userName = shouldHaveUserName ? 'userName' : false;
+        const selector = outs[0].substring(0, outs[0].indexOf(' '))
+
+        console.log('creating', selector)
+        switch (selector) {
             case 'bool':
-                this.content = { name: 'boolName', value: 'true' }
+                this.content = { name: userName, value: 'true' }
                 this.selectableOptions = ['true', 'false'];
                 break;
+            case 'port':
+                this.content = { name: userName, value: '0' }
+                this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
+                break;
             case 'int':
-                this.content = { name: 'name', value: '0' }
+                this.content = { name: userName, value: '0' }
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
                 break;
             default:
-                this.content = { name: '', value: '' }
+                this.content = { name: userName, value: 'value' }
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
         }
