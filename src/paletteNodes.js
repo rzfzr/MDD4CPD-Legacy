@@ -130,6 +130,33 @@ export default [{
         ]
     },
     {
+        name: 'Trigonometry',
+        color: 'cyan',
+        extras: {
+            type: 'built-in'
+        },
+        ins: [],
+        outs: [
+            'double cos(float rad)',
+            'double sin(float rad)',
+            'double tan(float rad)',
+        ]
+    },
+    {
+        name: 'Random Numbers',
+        color: 'cyan',
+        extras: {
+            type: 'built-in'
+        },
+        ins: [
+            'void randomSeed(long seed)',
+        ],
+        outs: [
+            'long random(? max)',
+            'long random(? min, ? max)',
+        ]
+    },
+    {
         name: 'Digital Port',
         color: 'white',
         extras: {
