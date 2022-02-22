@@ -1,6 +1,5 @@
 
 export default function NodeDiagram(props: { node: any }) {
-    console.log('sup')
     return <>
         <div style={{ maxWidth: '400px', border: 'solid', fontSize: '.9em', color: 'black', margin: '60px 0px 25px 0', backgroundColor: 'lightgrey' }}>
             <div style={{ width: '100%', borderBottom: 'solid 3px', fontSize: '1.2em' }}>
