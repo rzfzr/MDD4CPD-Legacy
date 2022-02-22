@@ -35,8 +35,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
 
         let userName = shouldHaveUserName ? 'userName' : false;
         const selector = name === 'Condition' ? name : outs[0].substring(0, outs[0].indexOf(' ') !== -1 ? outs[0].indexOf(' ') : outs[0].length)
-
-        console.log('creating', selector)
         switch (selector) {
             case 'bool':
                 this.content = { name: userName, value: 'true' }

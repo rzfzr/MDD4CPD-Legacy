@@ -127,18 +127,24 @@ function generateCode(model: any): string {
         return result;
     }
     const callWithParameters = (node: any, ...contents: any) => {
-        if (node.extras.type === 'constant') {
-            contents.push(node.content.name)
-        } else {
-            contents.push(node.content.value)
+        try {
+            if (node.extras.type === 'constant') {
+                contents.push(node.content.name)
+            } else {
+                contents.push(node.content.value)
+            }
+        } catch (error) {
+            console.log('error, no parameter?')
         }
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
                 const toPort = getPort(link.target, link.targetPort)
                 const toNode = getNode(toPort.parentNode)
-                if (toNode.id === node.id) {
-                    //skip as it is the previous link
+                if (toNode.id === node.id) {//skip as it is the previous link
+                    if (toNode.instance) {
+                        add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
+                    }
                 } else if (toNode.extras.type === 'built-in') {
                     add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
                 } else if (!toNode.instance) {//points to another variable/port
@@ -149,6 +155,28 @@ function generateCode(model: any): string {
                 }
             })
         })
+    }
+    const processCall = (fromNode: any, fromPort: any, toNode: any, toPort: any) => {
+        if (['variable', 'constant'].includes(toNode?.extras?.type)) {
+            callWithParameters(toNode)
+        } else if (['port'].includes(toNode?.extras?.type)) {
+            console.log('found port', toNode)
+            if (toNode.name.includes('Digital')) {
+                console.log('it was digital');
+                usedDigital.push(toNode.content.value)
+            } else {
+                console.log('it was analog');
+                usedAnalog.push(toNode.content.value)
+            }
+            callWithParameters(toNode)
+        } else {
+            if (toNode?.instance) {
+                add(toNode.instance + '.' + removeTypes(toPort.name) + '()')
+            } else {
+                add(fromNode.instance + '.' + removeTypes(fromPort.name) + '()')
+            }
+        }
+
     }
     const processLink = (l: any) => {
         const link = getLink(l);
@@ -184,26 +212,7 @@ function generateCode(model: any): string {
             add("}\n");
 
         } else {
-            if (['variable', 'constant'].includes(toNode?.extras?.type)) {
-
-                callWithParameters(toNode)
-            } else if (['port'].includes(toNode?.extras?.type)) {
-                console.log('found port', toNode)
-                if (toNode.name.includes('Digital')) {
-                    console.log('it was digital');
-                    usedDigital.push(toNode.content.value)
-                } else {
-                    console.log('it was analog');
-                    usedAnalog.push(toNode.content.value)
-                }
-                callWithParameters(toNode)
-            } else {
-                if (toNode?.instance) {
-                    add(toNode.instance + '.' + removeTypes(toPort.name) + '()')
-                } else {
-                    add(fromNode.instance + '.' + removeTypes(fromPort.name) + '()')
-                }
-            }
+            processCall(fromNode, fromPort, toNode, toPort)
         }
     }
 
