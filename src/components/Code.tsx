@@ -116,12 +116,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
         if (['variable', 'constant'].includes(toNode?.extras?.type)) {
             callWithParameters(toNode)
         } else if (['port'].includes(toNode?.extras?.type)) {
-            console.log('found port', toNode)
             if (toNode.name.includes('Digital')) {
-                console.log('it was digital');
                 usedDigital.push(toNode.content.value)
             } else {
-                console.log('it was analog');
                 usedAnalog.push(toNode.content.value)
             }
             callWithParameters(toNode)
@@ -173,6 +170,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     }
 
+    const warn = (message: string, node: any = null, type: any = 'not used') => {
+        problems.push({ message, node });
+        return problems
+    };
+
     if (Object.keys(model).length === 0) {
         return { code: '// Empty Diagram!', problems: [] };
     }
@@ -193,6 +195,17 @@ function generateCode(model: any): { code: string, problems: any[] } {
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
         nodes.push(n)
+        let hasLink = false
+        n.ports.forEach((port: any) => {
+            if (port.links.length > 0) {
+                hasLink = true
+            }
+        });
+        if (!hasLink) {
+            warn('This component has no links', n)
+        }
+
+
         switch (n.extras.type) {
             case 'component':
                 n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
@@ -215,18 +228,13 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     })
 
-    const warn = (message: string, node: any = null, type: any = 'not used') => {
-        problems.push({ message, node });
-        return problems
-    };
-
     if (controllers.length === 0) {
         return { code: '', problems: warn('No micro-controller') }
     }
     if (controllers.length > 1) {
         return {
             code: '// Only one Arduino allowed!',
-            problems: warn('More than one micro-controller', controllers[0])
+            problems: warn('More than one micro-controller', controllers[controllers.length - 1])
         }
     }
 
@@ -302,9 +310,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
     return { code: indentCode(code), problems };
 }
 export default function Code(props: { model: string }) {
-    // console.log('CodeComponent render')
+    console.log('CodeComponent render')
     const model = props.model
-    let code = 'Initializing Generator'
+    let code = ''
     let problems: any[] = []
 
     if (model === "{}" || model === "") {
@@ -313,7 +321,8 @@ export default function Code(props: { model: string }) {
         // try {
         const generated = generateCode(JSON.parse(model))
         code = generated.code
-        problems = generated.problems
+        problems = [...generated.problems]
+        console.log('generated ---------------')
         // } catch (error) {
         //     code = 'Uncaught error, maybe a loose link?'
         //     console.log(error)
@@ -332,25 +341,25 @@ export default function Code(props: { model: string }) {
                             Problems!
                         </div>
                         {
-                            problems.map((p: any) => {
-
+                            problems.map((p: any, index: any) => {
                                 if (p.node) {
                                     const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
                                     if (el) el.setAttribute('id', p.node.id)
+                                    console.log('problem at', el, p.node.id)
                                 }
-                                return <div id={p.node ? 'problem-' + p.node.id : 'problem-nodeless'} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
+                                const problemId = p.node ? 'problem-' + p.node.id + index : 'problem-nodeless' + index
+                                return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                                     Model restriction: {p.message}
                                     {p.node &&
                                         <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                             <Xarrow
                                                 strokeWidth={2}
-                                                start={'problem-' + p.node.id}
+                                                start={problemId}
                                                 end={p.node.id}
                                                 color='yellow'
                                             />
                                         </div>
                                     }
-
                                 </div>
                             })
                         }

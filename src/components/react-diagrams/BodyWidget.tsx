@@ -7,7 +7,7 @@ import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
 import styled from '@emotion/styled';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Code from '../Code';
 import { Button } from '@material-ui/core';
 var ScrollArea = require('react-scrollbar').default;
@@ -42,10 +42,12 @@ function BodyWidget(props: BodyWidgetProps) {
 	const stringModel = JSON.stringify(rawModel)
 
 	const groups = [...new Set(paletteNodes.map(x => x.extras.type))]
+	useEffect(() => {
+		if (stringModel !== model) {
+			setModel(stringModel);
+		}
+	}, [stringModel, model]);
 
-	if (stringModel !== model) {
-		setModel(stringModel);
-	}
 	return (
 		<div className="float-container" >
 			<div className="float-child-left">
