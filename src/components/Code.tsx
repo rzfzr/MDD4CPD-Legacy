@@ -8,9 +8,6 @@ import Xarrow from "react-xarrows";
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
     let code = ''
-
-
-
     const add = (...message: string[]) => {
         message.forEach((m) => {
             code += m;
@@ -173,30 +170,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     if (Object.keys(model).length === 0) {
         return { code: '// Empty Diagram!', problems: [] };
     }
@@ -243,7 +216,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         problems.push({ message, node });
         return problems
     };
-
 
     if (nodes.length === 0) {
         return { code: '// You need at least one Node!', problems: ['Where is it'] }
