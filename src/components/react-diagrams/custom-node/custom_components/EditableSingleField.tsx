@@ -2,8 +2,10 @@ import * as React from "react";
 import AutosizeInput from 'react-input-autosize';
 
 export interface IEditableSingleFieldProps {
+  node: any;
   beingEdited: boolean;
   content: string;
+  onFocus: (evt: React.FormEvent<HTMLInputElement>) => void;
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
   onBlurOrEnter: () => void;
   editingKey: string;
@@ -12,10 +14,12 @@ export interface IEditableSingleFieldProps {
 }
 const Editor = ({
   content,
+  onFocus,
   onChange,
   onBlurOrEnter,
 }: {
   content: string;
+  onFocus: (evt: React.FormEvent<HTMLInputElement>) => void;
   onChange: (evt: React.FormEvent<HTMLInputElement>) => void;
   onBlurOrEnter: () => void;
 }) => {
@@ -31,6 +35,7 @@ const Editor = ({
       type="text"
       value={content}
       onChange={onChange}
+      onFocus={onFocus}
       onBlur={onBlurOrEnter}
       onKeyDown={(event: any) => {
         if (event.keyCode === 13) onBlurOrEnter();
@@ -44,8 +49,8 @@ export default class EditableSingleField extends React.Component<
 > {
   constructor(props: IEditableSingleFieldProps) {
     super(props);
-
     this.state = {};
+    console.log('node', this.props.node)
   }
 
   public render() {
@@ -55,8 +60,12 @@ export default class EditableSingleField extends React.Component<
           this.props.editingKey === this.props.elementKey ? (
           <Editor
             content={this.props.content}
+            onFocus={() => this.props.node.setLocked(true)}
             onChange={this.props.onChange}
-            onBlurOrEnter={this.props.onBlurOrEnter}
+            onBlurOrEnter={() => {
+              this.props.node.setLocked(false)
+              this.props.onBlurOrEnter()
+            }}
           />
         ) : (
           <p

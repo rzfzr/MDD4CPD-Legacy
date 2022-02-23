@@ -147,6 +147,7 @@ export class MyEditableNodeWidget extends React.Component<
                   }}
                 >
                   <EditableSingleField
+                    node={this.props.nodeModel}
                     elementKey="name"
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
@@ -184,6 +185,7 @@ export class MyEditableNodeWidget extends React.Component<
                     />
                     :
                     <EditableSingleField
+                      node={this.props.nodeModel}
                       elementKey="value"
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
