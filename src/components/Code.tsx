@@ -95,13 +95,15 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 const link = getLink(l);
                 const toPort = getPort(link.target, link.targetPort)
                 const toNode = getNode(toPort.parentNode)
-                if (toNode.id === node.id) {//skip as it is the previous link
+                if (!toNode) {
+                    warn('Loose link', node)
+                } else if (toNode?.id === node?.id) {//skip as it is the previous link
                     if (toNode.instance) {
                         add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
                     }
-                } else if (toNode.extras.type === 'built-in') {
+                } else if (toNode?.extras?.type === 'built-in') {
                     add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
-                } else if (!toNode.instance) {//points to another variable/port
+                } else if (!toNode?.instance) {//points to another variable/port
                     callWithParameters(toNode, ...contents)
                 } else {//points to a class instance, we hope it is a method call
                     //todo: check for parameter type and numbers
@@ -125,12 +127,13 @@ function generateCode(model: any): { code: string, problems: any[] } {
             callWithParameters(toNode)
         } else {
             if (toNode?.instance) {
-                add(toNode.instance + '.' + removeTypes(toPort.name) + '()')
+                add(toNode.instance + '.' + removeTypes(toPort.name) + '();')
+            } else if (fromNode.instance) {
+                add(fromNode.instance + '.' + removeTypes(fromPort.name) + '();')
             } else {
-                add(fromNode.instance + '.' + removeTypes(fromPort.name) + '()')
+                warn('Loose connection', fromNode)
             }
         }
-
     }
     const processLink = (l: any) => {
         const link = getLink(l);
@@ -307,14 +310,14 @@ export default function Code(props: { model: string }) {
     if (model === "{}" || model === "") {
         //
     } else {
-        try {
-            const generated = generateCode(JSON.parse(model))
-            code = generated.code
-            problems = generated.problems
-        } catch (error) {
-            code = 'Uncaught error, maybe a loose link?'
-            console.log(error)
-        }
+        // try {
+        const generated = generateCode(JSON.parse(model))
+        code = generated.code
+        problems = generated.problems
+        // } catch (error) {
+        //     code = 'Uncaught error, maybe a loose link?'
+        //     console.log(error)
+        // }
     }
     useEffect(() => {
         Prism.highlightAll();
