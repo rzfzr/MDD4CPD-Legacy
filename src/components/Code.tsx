@@ -321,7 +321,18 @@ export default function Code(props: { model: string }) {
         // try {
         const generated = generateCode(JSON.parse(model))
         code = generated.code
-        problems = [...generated.problems]
+
+
+        let cleanProblems: any[] = []
+        generated.problems.forEach(dirty => {
+            if (cleanProblems.findIndex(p => p.message === dirty.message) === -1) {
+                const sameNodes = Array.from(new Set([].concat(...generated.problems.filter(p => p.message === dirty.message).map(p => p.nodes))))
+                cleanProblems.push({ message: dirty.message, nodes: sameNodes })
+            }
+        });
+
+
+        problems = cleanProblems
         // } catch (error) {
         //     code = 'Uncaught error, maybe a loose link?'
         //     console.log(error)
@@ -341,8 +352,6 @@ export default function Code(props: { model: string }) {
                         </div>
                         {
                             problems.map((p: any, index: any) => {
-                                console.log('showing ', problems);
-
                                 if (p.nodes.length > 0) {
                                     p.nodes.forEach((node: any) => {
                                         const el = document.querySelector(`[data-nodeid='${node.id}']`)
