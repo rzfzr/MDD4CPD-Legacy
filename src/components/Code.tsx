@@ -322,7 +322,6 @@ export default function Code(props: { model: string }) {
         const generated = generateCode(JSON.parse(model))
         code = generated.code
         problems = [...generated.problems]
-        console.log('generated ---------------')
         // } catch (error) {
         //     code = 'Uncaught error, maybe a loose link?'
         //     console.log(error)
@@ -345,7 +344,6 @@ export default function Code(props: { model: string }) {
                                 if (p.node) {
                                     const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
                                     if (el) el.setAttribute('id', p.node.id)
-                                    console.log('problem at', el, p.node.id)
                                 }
                                 const problemId = p.node ? 'problem-' + p.node.id + index : 'problem-nodeless' + index
                                 return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
