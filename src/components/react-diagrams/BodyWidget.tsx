@@ -114,6 +114,18 @@ function BodyWidget(props: BodyWidgetProps) {
 								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
 								if (data) {
 									let node: any = {};
+
+									props.app.getDiagramEngine().getModel().registerListener({
+										linksUpdated: (l: any) => {
+											setRerender(!rerender);
+											console.log("link\n");
+										},
+										nodesUpdated: (n: any) => {
+											setRerender(!rerender);
+											console.log("node")
+										}
+									})
+
 									if (data.extras.type === "variable") {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 									} else if (data.extras.type === "constant") {
