@@ -2534,7 +2534,7 @@
   "resolved" "https://registry.npmjs.org/@types/prismjs/-/prismjs-1.16.6.tgz"
   "version" "1.16.6"
 
-"@types/prop-types@*", "@types/prop-types@^15.7.4":
+"@types/prop-types@*", "@types/prop-types@^15.7.3", "@types/prop-types@^15.7.4":
   "integrity" "sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ=="
   "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.4.tgz"
   "version" "15.7.4"
@@ -10692,6 +10692,15 @@
     "dom-helpers" "^5.0.1"
     "loose-envify" "^1.4.0"
     "prop-types" "^15.6.2"
+
+"react-xarrows@^2.0.2":
+  "integrity" "sha512-tDlAqaxHNmy0vegW/6NdhoWyXJq1LANX/WUAlHyzoHe9BwFVnJPPDghmDjYeVr7XWFmBrVTUrHsrW7GKYI6HtQ=="
+  "resolved" "https://registry.npmjs.org/react-xarrows/-/react-xarrows-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "@types/prop-types" "^15.7.3"
+    "lodash" "^4.17.21"
+    "prop-types" "^15.7.2"
 
 "react@*", "react@^0.14.9 || ^15.3.0 || ^16.0.0", "react@^15.3.0 || ^16.0.0-rc || ^16.0", "react@^16.3.0 || ^17.0.0", "react@^16.6.0 || ^17.0.0", "react@^16.8.0 || ^17", "react@^16.8.0 || ^17.0.0", "react@^16.8.4 || ^17.0.0", "react@^17.0.0", "react@^17.0.2", "react@>= 0.14.0", "react@>= 16", "react@>= 16.8.0", "react@>=0.14.9", "react@>=16.0.0", "react@>=16.3.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@16.* || 17.*", "react@17.0.2":
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="

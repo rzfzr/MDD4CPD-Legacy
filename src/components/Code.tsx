@@ -2,6 +2,8 @@ import Prism from "prismjs";
 import { useEffect } from "react";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
+import Xarrow from "react-xarrows";
+
 
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
@@ -353,15 +355,28 @@ export default function Code(props: { model: string }) {
             <div className="Code">
                 {
                     problems.length !== 0 &&
-                    <div style={{ border: 'solid yellow' }}>
-                        <div style={{ border: 'solid yellow' }}>
+                    <div style={{ border: 'solid yellow 2px' }}>
+                        <div style={{ border: 'solid yellow 1px', fontSize: '1em' }}>
                             Problems!
                         </div>
                         {
                             problems.map((p: any) => {
-                                console.log('poopoo', p)
-                                return <div>
-                                    Model restriction {p.message}
+                                if (p.node) {
+                                    const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
+                                    if (el) el.setAttribute('id', p.node.id)
+                                }
+                                return <div style={{ fontSize: '0.6em' }}>
+                                    Model restriction: {p.message}
+                                    {p.node &&
+                                        <div id={'p' + p.node.id} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                            <Xarrow
+                                                start={'p' + p.node.id}
+                                                end={p.node.id}
+                                                color='yellow'
+                                            />
+                                        </div>
+                                    }
+
                                 </div>
                             })
                         }
