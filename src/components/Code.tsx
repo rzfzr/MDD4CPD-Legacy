@@ -333,16 +333,18 @@ export default function Code(props: { model: string }) {
                         </div>
                         {
                             problems.map((p: any) => {
+
                                 if (p.node) {
                                     const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
                                     if (el) el.setAttribute('id', p.node.id)
                                 }
-                                return <div style={{ fontSize: '0.6em' }}>
+                                return <div id={p.node ? 'problem-' + p.node.id : 'problem-nodeless'} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                                     Model restriction: {p.message}
                                     {p.node &&
-                                        <div id={'p' + p.node.id} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                        <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                             <Xarrow
-                                                start={'p' + p.node.id}
+                                                strokeWidth={2}
+                                                start={'problem-' + p.node.id}
                                                 end={p.node.id}
                                                 color='yellow'
                                             />
