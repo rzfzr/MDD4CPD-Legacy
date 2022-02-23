@@ -67,6 +67,16 @@ export default [{
             'setup()',
             'loop()'
         ]
+    },
+    {
+        name: 'Parameters',
+        color: 'pink',
+        extras: {
+            type: 'parameter'
+        },
+        outs: [
+            'use',
+        ]
     }, {
         name: 'Digital I/O',
         color: 'cyan',
