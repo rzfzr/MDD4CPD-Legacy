@@ -6,6 +6,7 @@ export default function PalettePage() {
             <li>Show/Hide copy button on code panel</li>
             <li>Show/Hide all comments</li>
             <li>Show/Hide all warnings</li>
+            <li>Show/Hide all arrows</li>
             <li>Show/Hide diagram overlay</li>
             <li>Show/Hide palette expansion panels</li>
             <li></li>
