@@ -212,21 +212,18 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     })
 
-    const warn = (message: string, node: any, type: any = 'not used') => {
+    const warn = (message: string, node: any = null, type: any = 'not used') => {
         problems.push({ message, node });
         return problems
     };
 
-    if (nodes.length === 0) {
-        return { code: '// You need at least one Node!', problems: ['Where is it'] }
-    }
     if (controllers.length === 0) {
-        return { code: '// You need an Arduino!', problems: ['Where is the arduino'] }
+        return { code: '', problems: warn('No micro-controller') }
     }
     if (controllers.length > 1) {
         return {
             code: '// Only one Arduino allowed!',
-            problems: warn('More than one Microcontroller', controllers[0])
+            problems: warn('More than one micro-controller', controllers[0])
         }
     }
 
