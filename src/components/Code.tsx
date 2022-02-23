@@ -3,55 +3,10 @@ import { useEffect } from "react";
 import "./prism.css";
 import PrismEdit from "./PrismEdit";
 
-function generateCode(model: any): string {
+function generateCode(model: any): { code: string, problems: any[] } {
+    let problems: any[] = []
     let code = ''
-    if (Object.keys(model).length === 0) {
-        return '// Empty Diagram!';
-    }
-    const links: any[] = []
-    Object.entries(model.layers[0].models).forEach((x: any) => {
-        links.push(x[1])
-    })
-    const nodes: any[] = []
-    const logics: any[] = []
-    const components: any[] = []
-    const controllers: any[] = []
-    const libraries: any[] = []
-    const constants: any[] = []
 
-    const usedDigital: number[] = []
-    const usedAnalog: number[] = []
-
-    Object.entries(model.layers[1].models).forEach((x: any) => {
-        const n = x[1]
-        nodes.push(n)
-        switch (n.extras.type) {
-            case 'component':
-                n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
-                components.push(n)
-                if (!libraries.includes(n.extras.library))
-                    libraries.push(n.extras.library)
-                break
-            case 'controller':
-                controllers.push(n)
-                break
-            case 'logic':
-                logics.push(n)
-                break
-            case 'variable':
-                break
-            case 'constant':
-                n.content.name = n.content.name.toUpperCase()
-                constants.push(n)
-                break
-        }
-    })
-
-    if (nodes.length === 0) return '// You need at least one Node!'
-    if (controllers.length === 0) return '// You need an Arduino!'
-    if (controllers.length > 1) return '// Only one Arduino allowed!'
-
-    let controller = controllers[0]
 
 
     const add = (...message: string[]) => {
@@ -216,6 +171,93 @@ function generateCode(model: any): string {
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    if (Object.keys(model).length === 0) {
+        return { code: '// Empty Diagram!', problems: [] };
+    }
+    const links: any[] = []
+    Object.entries(model.layers[0].models).forEach((x: any) => {
+        links.push(x[1])
+    })
+    const nodes: any[] = []
+    const logics: any[] = []
+    const components: any[] = []
+    const controllers: any[] = []
+    const libraries: any[] = []
+    const constants: any[] = []
+
+    const usedDigital: number[] = []
+    const usedAnalog: number[] = []
+
+    Object.entries(model.layers[1].models).forEach((x: any) => {
+        const n = x[1]
+        nodes.push(n)
+        switch (n.extras.type) {
+            case 'component':
+                n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
+                components.push(n)
+                if (!libraries.includes(n.extras.library))
+                    libraries.push(n.extras.library)
+                break
+            case 'controller':
+                controllers.push(n)
+                break
+            case 'logic':
+                logics.push(n)
+                break
+            case 'variable':
+                break
+            case 'constant':
+                n.content.name = n.content.name.toUpperCase()
+                constants.push(n)
+                break
+        }
+    })
+
+    const warn = (message: string, node: any, type: any = 'not used') => {
+        problems.push({ message, node });
+        return problems
+    };
+
+
+    if (nodes.length === 0) {
+        return { code: '// You need at least one Node!', problems: ['Where is it'] }
+    }
+    if (controllers.length === 0) {
+        return { code: '// You need an Arduino!', problems: ['Where is the arduino'] }
+    }
+    if (controllers.length > 1) {
+        return {
+            code: '// Only one Arduino allowed!',
+            problems: warn('More than one Microcontroller', controllers[0])
+        }
+    }
+
+    let controller = controllers[0]
+
     if (libraries.length > 0) {
         add('// Libraries')
         libraries.forEach(lib => {
@@ -283,17 +325,21 @@ function generateCode(model: any): string {
         });
         return code.join("\n");
     }
-    return indentCode(code);
+    return { code: indentCode(code), problems };
 }
 export default function Code(props: { model: string }) {
     // console.log('CodeComponent render')
     const model = props.model
     let code = 'Initializing Generator'
+    let problems: any[] = []
+
     if (model === "{}" || model === "") {
         //
     } else {
         try {
-            code = generateCode(JSON.parse(model))
+            const generated = generateCode(JSON.parse(model))
+            code = generated.code
+            problems = generated.problems
         } catch (error) {
             code = 'Uncaught error, maybe a loose link?'
             console.log(error)
@@ -305,6 +351,22 @@ export default function Code(props: { model: string }) {
     return (
         <>
             <div className="Code">
+                {
+                    problems.length !== 0 &&
+                    <div style={{ border: 'solid yellow' }}>
+                        <div style={{ border: 'solid yellow' }}>
+                            Problems!
+                        </div>
+                        {
+                            problems.map((p: any) => {
+                                console.log('poopoo', p)
+                                return <div>
+                                    Model restriction {p.message}
+                                </div>
+                            })
+                        }
+                    </div>
+                }
                 <pre >
                     <code className="language-clike">{code}</code>
                 </pre>
