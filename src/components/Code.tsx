@@ -96,7 +96,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 const toPort = getPort(link.target, link.targetPort)
                 const toNode = getNode(toPort.parentNode)
                 if (!toNode) {
-                    warn('Loose link', node)
+                    warn('Loose link', [node])
                 } else if (toNode?.id === node?.id) {//skip as it is the previous link
                     if (toNode.instance) {
                         add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
@@ -128,7 +128,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             } else if (fromNode.instance) {
                 add(fromNode.instance + '.' + removeTypes(fromPort.name) + '();')
             } else {
-                warn('Loose connection', fromNode)
+                warn('Loose connection', [fromNode])
             }
         }
     }
@@ -170,8 +170,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     }
 
-    const warn = (message: string, node: any = null, type: any = 'not used') => {
-        problems.push({ message, node });
+    const warn = (message: string, nodes: any[] = [], type: any = 'not used') => {
+        problems.push({ message, nodes: nodes });
         return problems
     };
 
@@ -202,7 +202,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
         });
         if (!hasLink) {
-            warn('This component has no links', n)
+            warn('This component has no links', [n])
         }
 
 
@@ -234,7 +234,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     if (controllers.length > 1) {
         return {
             code: '// Only one Arduino allowed!',
-            problems: warn('More than one micro-controller', controllers[controllers.length - 1])
+            problems: warn('More than one micro-controller', controllers)
         }
     }
 
@@ -341,23 +341,27 @@ export default function Code(props: { model: string }) {
                         </div>
                         {
                             problems.map((p: any, index: any) => {
-                                if (p.node) {
-                                    const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
-                                    if (el) el.setAttribute('id', p.node.id)
+                                console.log('showing ', problems);
+
+                                if (p.nodes.length > 0) {
+                                    p.nodes.forEach((node: any) => {
+                                        const el = document.querySelector(`[data-nodeid='${node.id}']`)
+                                        if (el) el.setAttribute('id', node.id)
+                                    });
                                 }
-                                const problemId = p.node ? 'problem-' + p.node.id + index : 'problem-nodeless' + index
+                                const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
                                 return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                                     Model restriction: {p.message}
-                                    {p.node &&
-                                        <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                    {p.nodes.map((node: any, index: any) => {
+                                        return <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                             <Xarrow
                                                 strokeWidth={2}
                                                 start={problemId}
-                                                end={p.node.id}
+                                                end={node.id}
                                                 color='yellow'
                                             />
                                         </div>
-                                    }
+                                    })}
                                 </div>
                             })
                         }
