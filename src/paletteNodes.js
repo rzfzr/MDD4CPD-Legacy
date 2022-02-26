@@ -346,7 +346,7 @@ export default [{
         ]
     },
     {
-        name: 'Parameters',
+        name: 'Parameter(s)',
         color: 'pink',
         extras: {
             type: 'parameter'

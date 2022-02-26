@@ -219,16 +219,15 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 logics.push(n)
                 break
             case 'variable':
-                break
             case 'parameter':
+                console.log(n);
                 if (hasLink) {
                     n.ports.forEach((port: any) => {
-                        console.log('port', port)
                         if (port.links.length > 1) {
-                            warn(`This parameter has more than one link in the same ${port.label} port.`, [n])
+                            warn(`This ${n.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [n])
                         } else {
                             if (port.links.length === 0)
-                                warn('This parameter is not being used.', [n])
+                                warn(`This ${n.name.toLowerCase()} is not being used.`, [n])
                         }
                     });
                 }

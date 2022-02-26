@@ -10,7 +10,9 @@ export default function PalettePage() {
             <li>Show/Hide diagram overlay</li>
             <li>Show/Hide palette expansion panels</li>
             <li></li>
-            <li>Enable code editing</li>
+            <li>Enable/Disables constant capitalization</li>
+            <li></li>
+            <li>Enable code editing (breaks diagram to code relation)</li>
             <li></li>
             <li>Enforce typings</li>
             <li>Enforce lose ends</li>
