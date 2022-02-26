@@ -44,7 +44,14 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 				<a data-tip data-for={'tip-' + this.props.node.name} >
 					<OpenInNewIcon style={{ fontSize: '1rem' }} />
 				</a>
-				<ReactTooltip id={'tip-' + this.props.node.name} type='light' place="bottom">
+				<ReactTooltip
+					className="interactableTooltip"
+					id={'tip-' + this.props.node.name}
+					type='light' place="bottom"
+					delayHide={500}
+					effect="solid"
+				>
+
 					<NodeDiagram node={this.props.node} />
 				</ReactTooltip>
 			</S.Tray>

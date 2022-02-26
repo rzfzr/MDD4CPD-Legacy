@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 //@ts-nocheck
 import * as React from "react";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
@@ -8,6 +9,11 @@ import styled from '@emotion/styled';
 
 import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
 import SelectableField from "../custom-node/custom_components/SelectableField";
+
+import ReactTooltip from 'react-tooltip';
+
+import { Button } from '@material-ui/core';
+
 
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
@@ -159,7 +165,22 @@ export class MyEditableNodeWidget extends React.Component<
               </div>
             </div>
           </div>}
-          <S.TitleName>{this.props.nodeModel.getOptions().name}:
+          <S.TitleName>
+            <a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().name} >
+              {this.props.nodeModel.getOptions().name}:
+            </a>
+            <ReactTooltip
+              className="interactableTooltip"
+              id={'tip-' + this.props.nodeModel.getOptions().name}
+              type='light'
+              place="top"
+              delayHide={500}
+              effect="solid"
+            >
+              Usages:
+              <Button> + </Button>
+              <Button> - </Button>
+            </ReactTooltip>
           </S.TitleName>
           <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>

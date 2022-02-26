@@ -89,3 +89,14 @@
   cursor: move;
   overflow: visible
 } */
+
+.interactableTooltip {
+  font-size: 20px !important;
+  pointer-events: auto !important;
+
+}
+
+.interactableTooltip:hover {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
