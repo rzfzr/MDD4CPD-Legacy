@@ -390,9 +390,11 @@ export default [{
         extras: {
             type: 'constant'
         },
-        ins: [],
+        ins: [
+            'in'
+        ],
         outs: [
-            'int',
+            'out',
         ]
     }, {
         name: 'Constant Boolean',
@@ -400,9 +402,11 @@ export default [{
         extras: {
             type: 'constant'
         },
-        ins: [],
+        ins: [
+            'in'
+        ],
         outs: [
-            'bool',
+            'out',
         ]
     },
 ]
