@@ -195,6 +195,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     Object.entries(model.layers[1].models).forEach((x: any) => {
         const n = x[1]
         nodes.push(n)
+
         let hasLink = false
         n.ports.forEach((port: any) => {
             if (port.links.length > 0) {
@@ -204,8 +205,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         if (!hasLink) {
             warn('This component has no links', [n])
         }
-
-
         switch (n.extras.type) {
             case 'component':
                 n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
@@ -220,6 +219,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 logics.push(n)
                 break
             case 'variable':
+                break
+            case 'parameter':
+                if (hasLink) {
+                    n.ports.forEach((port: any) => {
+                        console.log('port', port)
+                        if (port.links.length > 1) {
+                            warn(`This parameter has more than one link in the same ${port.label} port.`, [n])
+                        } else {
+                            if (port.links.length === 0)
+                                warn('This parameter is not being used.', [n])
+                        }
+                    });
+                }
                 break
             case 'constant':
                 n.content.name = n.content.name.toUpperCase()
