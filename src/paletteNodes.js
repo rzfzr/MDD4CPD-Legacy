@@ -69,15 +69,6 @@ export default [{
         ]
     },
     {
-        name: 'Parameters',
-        color: 'pink',
-        extras: {
-            type: 'parameter'
-        },
-        outs: [
-            'use',
-        ]
-    }, {
         name: 'Digital I/O',
         color: 'cyan',
         extras: {
@@ -352,6 +343,19 @@ export default [{
         ],
         outs: [
             'int version(void)',
+        ]
+    },
+    {
+        name: 'Parameters',
+        color: 'pink',
+        extras: {
+            type: 'parameter'
+        },
+        ins: [
+            'in'
+        ],
+        outs: [
+            'out',
         ]
     },
     {

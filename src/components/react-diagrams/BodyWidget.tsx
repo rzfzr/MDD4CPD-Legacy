@@ -130,6 +130,8 @@ function BodyWidget(props: BodyWidgetProps) {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 									} else if (data.extras.type === "constant") {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
+									} else if (data.extras.type === "parameter") {
+										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
 									} else if (data.extras.type === 'port') {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
 									} else if (data.extras.type === "logic") {

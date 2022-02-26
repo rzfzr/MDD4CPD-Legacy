@@ -113,7 +113,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         })
     }
     const processCall = (fromNode: any, fromPort: any, toNode: any, toPort: any) => {
-        if (['variable', 'constant'].includes(toNode?.extras?.type)) {
+        if (['variable', 'constant', 'parameter'].includes(toNode?.extras?.type)) {
             callWithParameters(toNode)
         } else if (['port'].includes(toNode?.extras?.type)) {
             if (toNode.name.includes('Digital')) {
@@ -316,13 +316,9 @@ export default function Code(props: { model: string }) {
     let problems: any[] = []
 
     if (model === "{}" || model === "") {
-        //
     } else {
-        // try {
         const generated = generateCode(JSON.parse(model))
         code = generated.code
-
-
         let cleanProblems: any[] = []
         generated.problems.forEach(dirty => {
             if (cleanProblems.findIndex(p => p.message === dirty.message) === -1) {
@@ -330,14 +326,9 @@ export default function Code(props: { model: string }) {
                 cleanProblems.push({ message: dirty.message, nodes: sameNodes })
             }
         });
-
-
         problems = cleanProblems
-        // } catch (error) {
-        //     code = 'Uncaught error, maybe a loose link?'
-        //     console.log(error)
-        // }
     }
+
     useEffect(() => {
         Prism.highlightAll();
     }, [props])
@@ -360,7 +351,7 @@ export default function Code(props: { model: string }) {
                                 }
                                 const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
                                 return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
-                                    Model restriction: {p.message}
+                                    Model violation: {p.message}
                                     {p.nodes.map((node: any, index: any) => {
                                         return <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                             <Xarrow
