@@ -221,7 +221,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 break
             case 'variable':
             case 'parameter':
-                console.log('le node', n);
                 if (hasLink) {
                     n.ports.forEach((port: any) => {
                         if (port.links.length > 1) {

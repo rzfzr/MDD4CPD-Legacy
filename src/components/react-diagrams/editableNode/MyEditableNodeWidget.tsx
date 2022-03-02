@@ -184,7 +184,21 @@ export class MyEditableNodeWidget extends React.Component<
                 this.props.nodeModel.addOutPort('out-' + next, false)
                 this.props.engine.repaintCanvas();
               }}> + </Button>
-              <Button> - </Button>
+
+              <Button onClick={() => {
+                if (this.props.nodeModel.portsIn.length > 1) {
+                  let found = false
+                  this.props.nodeModel.portsIn.forEach((portIn, index) => {
+                    const portOut = this.props.nodeModel.portsOut[index]
+                    if (!found && (Object.keys(portIn.links).length === 0 || Object.keys(portOut.links).length === 0)) {
+                      this.props.nodeModel.removePort(portIn)
+                      this.props.nodeModel.removePort(portOut)
+                      found = true
+                    }
+                  });
+                }
+                this.props.engine.repaintCanvas();
+              }}> - </Button>
             </ReactTooltip>
           </S.TitleName>
           <div className={"editable-node"}
