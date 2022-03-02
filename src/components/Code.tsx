@@ -364,7 +364,7 @@ export default function Code(props: { model: string }) {
                                 return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                                     Model violation: {p.message}
                                     {p.nodes.map((node: any, index: any) => {
-                                        return <div style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                        return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                             <Xarrow
                                                 strokeWidth={2}
                                                 start={problemId}
