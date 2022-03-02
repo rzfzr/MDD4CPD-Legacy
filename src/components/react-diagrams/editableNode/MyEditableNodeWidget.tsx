@@ -178,7 +178,13 @@ export class MyEditableNodeWidget extends React.Component<
               effect="solid"
             >
               Usages:
-              <Button> + </Button>
+              <Button onClick={() => {
+                console.log('Adding params')
+                this.props.nodeModel.addInPort('in', false)
+                this.props.nodeModel.addOutPort('out', false)
+
+                this.props.engine.repaintCanvas();
+              }}> + </Button>
               <Button> - </Button>
             </ReactTooltip>
           </S.TitleName>

@@ -135,6 +135,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     const processLink = (l: any) => {
         const link = getLink(l);
         const toPort = getPort(link.target, link.targetPort)
+        if (!toPort) return
         const toNode = getNode(toPort.parentNode)
         const fromPort = getPort(link.source, link.sourcePort)
         const fromNode = getNode(fromPort.parentNode)
@@ -220,14 +221,16 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 break
             case 'variable':
             case 'parameter':
-                console.log(n);
+                console.log('le node', n);
                 if (hasLink) {
                     n.ports.forEach((port: any) => {
                         if (port.links.length > 1) {
                             warn(`This ${n.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [n])
                         } else {
-                            if (port.links.length === 0)
+                            if (port.links.length === 0) {
+                                // console.log('nodel', model.layers[1].models)
                                 warn(`This ${n.name.toLowerCase()} is not being used.`, [n])
+                            }
                         }
                     });
                 }
@@ -321,7 +324,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     return { code: indentCode(code), problems };
 }
 export default function Code(props: { model: string }) {
-    console.log('CodeComponent render')
+    // console.log('CodeComponent render')
     const model = props.model
     let code = ''
     let problems: any[] = []
