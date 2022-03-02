@@ -179,10 +179,9 @@ export class MyEditableNodeWidget extends React.Component<
             >
               Usages:
               <Button onClick={() => {
-                console.log('Adding params')
-                this.props.nodeModel.addInPort('in', false)
-                this.props.nodeModel.addOutPort('out', false)
-
+                const next = this.props.nodeModel.portsIn.length
+                this.props.nodeModel.addInPort('in-' + next, false)
+                this.props.nodeModel.addOutPort('out-' + next, false)
                 this.props.engine.repaintCanvas();
               }}> + </Button>
               <Button> - </Button>
