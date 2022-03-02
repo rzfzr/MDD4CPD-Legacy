@@ -17,7 +17,7 @@ export class Helper {
 
 		window.parent.window.addEventListener('mousemove', (event) => {
 			console.clear();
-			console.log(event.clientX, event.clientY);
+			// console.log(event.clientX, event.clientY);
 		});
 	}
 }

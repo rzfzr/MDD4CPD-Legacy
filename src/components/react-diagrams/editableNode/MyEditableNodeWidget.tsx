@@ -190,7 +190,9 @@ export class MyEditableNodeWidget extends React.Component<
                   let found = false
                   this.props.nodeModel.portsIn.forEach((portIn, index) => {
                     const portOut = this.props.nodeModel.portsOut[index]
-                    if (!found && (Object.keys(portIn.links).length === 0 || Object.keys(portOut.links).length === 0)) {
+                    if (!found &&
+                      (Object.keys(portIn.links).length === 0 ||
+                        Object.keys(portOut.links).length === 0)) {
                       this.props.nodeModel.removePort(portIn)
                       this.props.nodeModel.removePort(portOut)
                       found = true

@@ -79,7 +79,7 @@ function BodyWidget(props: BodyWidgetProps) {
 								<Button variant="contained" size='small'
 									onClick={() => {
 										localStorage.setItem('model', JSON.stringify(rawModel));
-										console.log('Saved')
+										console.log('--- Saved ---')
 									}}>
 									Save
 								</Button>
@@ -88,7 +88,7 @@ function BodyWidget(props: BodyWidgetProps) {
 										props.app.getActiveDiagram().deserializeModel(
 											JSON.parse(localStorage.getItem('model') || '{}'),
 											props.app.getDiagramEngine());
-										console.log('Loaded')
+										console.log('--- Loaded ---')
 										setModel(stringModel);
 										setTimeout(() => {
 											setRerender(!rerender);
@@ -118,11 +118,11 @@ function BodyWidget(props: BodyWidgetProps) {
 									props.app.getDiagramEngine().getModel().registerListener({
 										linksUpdated: (l: any) => {
 											setRerender(!rerender);
-											console.log("link\n");
+											// console.log("link\n");
 										},
 										nodesUpdated: (n: any) => {
 											setRerender(!rerender);
-											console.log("node")
+											// console.log("node")
 										}
 									})
 
@@ -132,7 +132,6 @@ function BodyWidget(props: BodyWidgetProps) {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
 									} else if (data.extras.type === "parameter") {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
-										console.log('dropped', node)
 									} else if (data.extras.type === 'port') {
 										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
 									} else if (data.extras.type === "logic") {

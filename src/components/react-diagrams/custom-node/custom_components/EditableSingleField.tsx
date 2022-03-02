@@ -50,7 +50,7 @@ export default class EditableSingleField extends React.Component<
   constructor(props: IEditableSingleFieldProps) {
     super(props);
     this.state = {};
-    console.log('node', this.props.node)
+    // console.log('node', this.props.node)
   }
 
   public render() {
