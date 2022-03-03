@@ -180,15 +180,17 @@ export class MyEditableNodeWidget extends React.Component<
               Usages:
               <Button onClick={() => {
                 const next = this.props.nodeModel.portsIn.length
-                this.props.nodeModel.addInPort('in-' + next, false)
-                this.props.nodeModel.addOutPort('out-' + next, false)
+                this.props.nodeModel.addInPort('in-' + next, true)
+                this.props.nodeModel.addOutPort('out-' + next, true)
                 this.props.engine.repaintCanvas();
               }}> + </Button>
 
               <Button onClick={() => {
                 if (this.props.nodeModel.portsIn.length > 1) {
                   let found = false
-                  this.props.nodeModel.portsIn.forEach((portIn, index) => {
+                  let index = this.props.nodeModel.portsIn.length - 1;
+                  for (; index >= 0; index--) {
+                    const portIn = this.props.nodeModel.portsIn[index]
                     const portOut = this.props.nodeModel.portsOut[index]
                     if (!found &&
                       (Object.keys(portIn.links).length === 0 ||
@@ -197,7 +199,7 @@ export class MyEditableNodeWidget extends React.Component<
                       this.props.nodeModel.removePort(portOut)
                       found = true
                     }
-                  });
+                  }
                 }
                 this.props.engine.repaintCanvas();
               }}> - </Button>

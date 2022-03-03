@@ -76,9 +76,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addPort<T extends MyPortModel>(port: T): T {
+        console.log('adding port', port)
         super.addPort(port);
         if (port.getOptions().in) {
             if (this.portsIn.indexOf(port) === -1) {
+                // this.portsIn = [port, ...this.portsIn]
                 this.portsIn.push(port);
             }
         } else {
