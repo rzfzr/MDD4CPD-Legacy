@@ -11,6 +11,7 @@ import EditableSingleField from "../custom-node/custom_components/EditableSingle
 import SelectableField from "../custom-node/custom_components/SelectableField";
 
 import ReactTooltip from 'react-tooltip';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import { Button } from '@material-ui/core';
 
@@ -166,8 +167,9 @@ export class MyEditableNodeWidget extends React.Component<
             </div>
           </div>}
           <S.TitleName>
+            {this.props.nodeModel.getOptions().name}:
             <a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().name} >
-              {this.props.nodeModel.getOptions().name}:
+              <OpenInNewIcon style={{ fontSize: '1rem', marginBottom: '-5px' }} />
             </a>
             <ReactTooltip
               className="interactableTooltip"
