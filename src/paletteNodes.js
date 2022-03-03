@@ -158,6 +158,47 @@ export default [{
         ]
     },
     {
+        name: 'true',
+        color: 'cyan',
+        extras: {
+            type: 'built-in-constant'
+        },
+        ins: [],
+        outs: [
+            'out',
+        ]
+    }, {
+        name: 'false',
+        color: 'cyan',
+        extras: {
+            type: 'built-in-constant'
+        },
+        ins: [],
+        outs: [
+            'out',
+        ]
+    }, {
+        name: 'HIGH',
+        color: 'cyan',
+        extras: {
+            type: 'built-in-constant'
+        },
+        ins: [],
+        outs: [
+            'out',
+        ]
+    }, {
+        name: 'LOW',
+        color: 'cyan',
+        extras: {
+            type: 'built-in-constant'
+        },
+        ins: [],
+        outs: [
+            'out',
+        ]
+    },
+    {
         name: 'Digital Port',
         color: 'white',
         extras: {
