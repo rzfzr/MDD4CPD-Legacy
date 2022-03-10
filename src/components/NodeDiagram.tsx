@@ -3,7 +3,7 @@ export default function NodeDiagram(props: { node: any, canEdit?: boolean }) {
     const myInput = (all: string) => {
         if (canEdit)
             return <input type="text" id={all} name={all} value={all} ></input>
-        return node.name
+        return all
     }
 
     return <>
