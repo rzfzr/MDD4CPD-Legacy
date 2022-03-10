@@ -18,7 +18,7 @@ export default function PalettePage() {
                     <pre >
                         <code className="language-clike">{JSON.stringify(node, null, "\t")}</code>
                     </pre>
-                    <NodeDiagram node={node} />
+                    <NodeDiagram node={node} canEdit={true} />
                 </div>
             }
             )
