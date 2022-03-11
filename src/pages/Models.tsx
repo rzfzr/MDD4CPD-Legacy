@@ -191,8 +191,36 @@ function initDiagram() {
                 new go.Binding("toArrow", "relationship", convertToArrow))
         );
 
+
+    myDiagram.model = new go.GraphLinksModel(
+        {
+            linkKeyProperty: 'key',
+            copiesArrays: true,
+            copiesArrayObjects: true,
+        });
+
+    return myDiagram;
+}
+
+/**
+ * This function handles any changes to the GoJS model.
+ * It is here that you would make any updates to your React state, which is dicussed below.
+ */
+function handleModelChange(changes: any) {
+    alert('GoJS model changed!');
+}
+
+// render function...
+export default function ModelsPage() {
+
+
+
+
+
+
+
     // setup a few example class nodes and relationships
-    var nodedata = [
+    let nodedata = [
         {
             key: 1,
             name: "BankAccount",
@@ -251,49 +279,22 @@ function initDiagram() {
             ]
         }
     ];
-    var linkdata = [
-        { from: 12, to: 11, relationship: "generalization" },
-        { from: 13, to: 11, relationship: "generalization" },
-        { from: 14, to: 13, relationship: "aggregation" }
-    ];
-    myDiagram.model = new go.GraphLinksModel(
-        {
-            linkKeyProperty: 'key',
-            copiesArrays: true,
-            copiesArrayObjects: true,
-            nodeDataArray: nodedata,
-            linkDataArray: linkdata,
-        });
 
-    return myDiagram;
-}
 
-/**
- * This function handles any changes to the GoJS model.
- * It is here that you would make any updates to your React state, which is dicussed below.
- */
-function handleModelChange(changes: any) {
-    alert('GoJS model changed!');
-}
 
-// render function...
-export default function ModelsPage() {
+
+
+
+
     return (
         <ReactDiagram
             initDiagram={initDiagram}
             divClassName='diagram-component'
-            nodeDataArray={[
-                { key: 0, text: 'Alpha', color: 'lightblue', loc: '0 0' },
-                { key: 1, text: 'Beta', color: 'orange', loc: '150 0' },
-                { key: 2, text: 'Gamma', color: 'lightgreen', loc: '0 150' },
-                { key: 3, text: 'Delta', color: 'pink', loc: '150 150' }
-            ]}
+            nodeDataArray={nodedata}
             linkDataArray={[
-                { key: -1, from: 0, to: 1 },
-                { key: -2, from: 0, to: 2 },
-                { key: -3, from: 1, to: 1 },
-                { key: -4, from: 2, to: 3 },
-                { key: -5, from: 3, to: 0 }
+                { key: -1, from: 12, to: 11, relationship: "generalization" },
+                { key: -2, from: 13, to: 11, relationship: "generalization" },
+                { key: -3, from: 14, to: 13, relationship: "aggregation" }
             ]}
             onModelChange={handleModelChange}
         />
