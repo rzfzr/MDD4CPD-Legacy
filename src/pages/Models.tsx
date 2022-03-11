@@ -1,19 +1,10 @@
-// import modelsDiagram from '../assets/cym_s_extended.svg'
-// import stateDiagram from '../assets/cym_d.svg'
-// export default function ModelsPage() {
-//     return <div>
-//         <img src={modelsDiagram} alt="Architecture Diagram" style={{ maxHeight: '80vh', maxWidth: '100%' }} />
-//         <img src={stateDiagram} alt="Architecture Diagram" style={{ maxHeight: '80vh', maxWidth: '90%' }} />
-//     </div>
-// }
-
-// App.js
-import React from 'react';
+import paletteNodes from "../paletteNodes";
 
 import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 
 import './go.css';  // contains .diagram-component CSS
+import { Visibility } from "@material-ui/icons";
 
 // ...
 
@@ -213,72 +204,89 @@ function handleModelChange(changes: any) {
 // render function...
 export default function ModelsPage() {
 
+    let nodedata: any[] = []
+    paletteNodes.forEach((node, index) => {
+
+        // let extras: any[] = Object.entries(node.extras)
+        let methods: any[] = []
+
+        node.ins.forEach(method => {
+            methods.push({ name: method, visibility: 'public' })
+        });
+        node.outs.forEach(method => {
+            methods.push({ name: method, visibility: 'public' })
+        });
 
 
+        nodedata.push(
+            {
+                key: index,
+                name: node.name,
+                methods: methods
+                // properties:
+            }
+        )
+    });
 
-
-
-
-    // setup a few example class nodes and relationships
-    let nodedata = [
-        {
-            key: 1,
-            name: "BankAccount",
-            properties: [
-                { name: "owner", type: "String", visibility: "public" },
-                { name: "balance", type: "Currency", visibility: "public", default: "0" }
-            ],
-            methods: [
-                { name: "deposit", parameters: [{ name: "amount", type: "Currency" }], visibility: "public" },
-                { name: "withdraw", parameters: [{ name: "amount", type: "Currency" }], visibility: "public" }
-            ]
-        },
-        {
-            key: 11,
-            name: "Person",
-            properties: [
-                { name: "name", type: "String", visibility: "public" },
-                { name: "birth", type: "Date", visibility: "protected" }
-            ],
-            methods: [
-                { name: "getCurrentAge", type: "int", visibility: "public" }
-            ]
-        },
-        {
-            key: 12,
-            name: "Student",
-            properties: [
-                { name: "classes", type: "List", visibility: "public" }
-            ],
-            methods: [
-                { name: "attend", parameters: [{ name: "class", type: "Course" }], visibility: "private" },
-                { name: "sleep", visibility: "private" }
-            ]
-        },
-        {
-            key: 13,
-            name: "Professor",
-            properties: [
-                { name: "classes", type: "List", visibility: "public" }
-            ],
-            methods: [
-                { name: "teach", parameters: [{ name: "class", type: "Course" }], visibility: "private" }
-            ]
-        },
-        {
-            key: 14,
-            name: "Course",
-            properties: [
-                { name: "name", type: "String", visibility: "public" },
-                { name: "description", type: "String", visibility: "public" },
-                { name: "professor", type: "Professor", visibility: "public" },
-                { name: "location", type: "String", visibility: "public" },
-                { name: "times", type: "List", visibility: "public" },
-                { name: "prerequisites", type: "List", visibility: "public" },
-                { name: "students", type: "List", visibility: "public" }
-            ]
-        }
-    ];
+    // let nodedata = [
+    //     {
+    //         key: 1,
+    //         name: "BankAccount",
+    //         properties: [
+    //             { name: "owner", type: "String", visibility: "public" },
+    //             { name: "balance", type: "Currency", visibility: "public", default: "0" }
+    //         ],
+    //         methods: [
+    //             { name: "deposit", parameters: [{ name: "amount", type: "Currency" }], visibility: "public" },
+    //             { name: "withdraw", parameters: [{ name: "amount", type: "Currency" }], visibility: "public" }
+    //         ]
+    //     },
+    //     {
+    //         key: 11,
+    //         name: "Person",
+    //         properties: [
+    //             { name: "name", type: "String", visibility: "public" },
+    //             { name: "birth", type: "Date", visibility: "protected" }
+    //         ],
+    //         methods: [
+    //             { name: "getCurrentAge", type: "int", visibility: "public" }
+    //         ]
+    //     },
+    //     {
+    //         key: 12,
+    //         name: "Student",
+    //         properties: [
+    //             { name: "classes", type: "List", visibility: "public" }
+    //         ],
+    //         methods: [
+    //             { name: "attend", parameters: [{ name: "class", type: "Course" }], visibility: "private" },
+    //             { name: "sleep", visibility: "private" }
+    //         ]
+    //     },
+    //     {
+    //         key: 13,
+    //         name: "Professor",
+    //         properties: [
+    //             { name: "classes", type: "List", visibility: "public" }
+    //         ],
+    //         methods: [
+    //             { name: "teach", parameters: [{ name: "class", type: "Course" }], visibility: "private" }
+    //         ]
+    //     },
+    //     {
+    //         key: 14,
+    //         name: "Course",
+    //         properties: [
+    //             { name: "name", type: "String", visibility: "public" },
+    //             { name: "description", type: "String", visibility: "public" },
+    //             { name: "professor", type: "Professor", visibility: "public" },
+    //             { name: "location", type: "String", visibility: "public" },
+    //             { name: "times", type: "List", visibility: "public" },
+    //             { name: "prerequisites", type: "List", visibility: "public" },
+    //             { name: "students", type: "List", visibility: "public" }
+    //         ]
+    //     }
+    // ];
 
 
 
@@ -296,7 +304,7 @@ export default function ModelsPage() {
                 { key: -2, from: 13, to: 11, relationship: "generalization" },
                 { key: -3, from: 14, to: 13, relationship: "aggregation" }
             ]}
-            onModelChange={handleModelChange}
+        // onModelChange={handleModelChange}
         />
     );
 }
