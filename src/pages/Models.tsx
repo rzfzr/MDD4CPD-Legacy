@@ -205,6 +205,12 @@ function handleModelChange(changes: any) {
 export default function ModelsPage() {
 
     let nodedata: any[] = []
+
+    nodedata.push(
+        { key: -1, name: 'MicroController' }
+    )
+
+
     paletteNodes.forEach((node, index) => {
 
         // let extras: any[] = Object.entries(node.extras)
@@ -226,7 +232,19 @@ export default function ModelsPage() {
                 // properties:
             }
         )
+
     });
+
+
+
+    let linkdata: any[] = []
+
+    paletteNodes.forEach((node, index) => {
+        if (node.extras.type === 'controller') {
+            linkdata.push({ key: index, from: index, to: -1, relationship: "generalization" })
+        }
+    });
+
 
     // let nodedata = [
     //     {
@@ -299,11 +317,7 @@ export default function ModelsPage() {
             initDiagram={initDiagram}
             divClassName='diagram-component'
             nodeDataArray={nodedata}
-            linkDataArray={[
-                { key: -1, from: 12, to: 11, relationship: "generalization" },
-                { key: -2, from: 13, to: 11, relationship: "generalization" },
-                { key: -3, from: 14, to: 13, relationship: "aggregation" }
-            ]}
+            linkDataArray={linkdata}
         // onModelChange={handleModelChange}
         />
     );
