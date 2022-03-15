@@ -327,10 +327,10 @@ export default [{
             type: 'parameter'
         },
         ins: [
-            'in-0'
+            'in'
         ],
         outs: [
-            'out-0',
+            'out',
         ]
     },
     {

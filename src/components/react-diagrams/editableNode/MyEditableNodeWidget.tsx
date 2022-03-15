@@ -184,8 +184,12 @@ export class MyEditableNodeWidget extends React.Component<
               Usages:
               <Button onClick={() => {
                 const next = this.props.nodeModel.portsIn.length
-                this.props.nodeModel.addInPort('in-' + next, true)
-                this.props.nodeModel.addOutPort('out-' + next, true)
+                let nameIn = this.props.nodeModel.portsIn[0].getOptions().label
+                let nameOut = this.props.nodeModel.portsIn[0].getOptions().label
+
+                console.log('sup', this.props.nodeModel)
+                this.props.nodeModel.addInPort(nameIn + '-' + next, true)
+                this.props.nodeModel.addOutPort(nameOut + '-' + next, true)
                 this.props.engine.repaintCanvas();
               }}> + </Button>
 

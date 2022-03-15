@@ -36,7 +36,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(method)
         });
 
+        //Custom settup for diffent types
         const content = { name: 'userName', hasUsername: hasUserName, value: '', hasValue: hasUserValue, hasUsages: false }
+        this.selectableOptions = ['something', 'went wrong'];
+
+
         switch (data.name) {
             case 'bool':
                 content.value = 'true'
@@ -48,12 +52,14 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 break;
             case 'int':
                 content.value = '0'
-                this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Parameter(s)':
                 content.value = '0'
                 content.hasUsages = true
-                this.selectableOptions = ['something', 'went wrong'];
+                break;
+            case 'Function':
+                content.value = 'foo'
+                content.hasUsages = true
                 break;
             case 'Condition':
                 content.value = '=='
@@ -61,7 +67,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 break;
             default:
                 content.value = 'value'
-                this.selectableOptions = ['something', 'went wrong'];
                 break;
         }
         this.content = content
