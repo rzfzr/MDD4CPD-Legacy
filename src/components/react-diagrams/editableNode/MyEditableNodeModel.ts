@@ -52,7 +52,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Parameter(s)':
-                this.content = { name: userName, value: hasUserValue ? '0' : false, hasUsages: true }
+                this.content = { name: userName, value: '0', hasUsages: true }
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Condition':

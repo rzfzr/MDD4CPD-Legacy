@@ -210,7 +210,7 @@ export class MyEditableNodeWidget extends React.Component<
             </ReactTooltip>
 
           </S.TitleName>
-          {this.props.nodeModel.content.name && <div className={"editable-node"}
+          {this.props.nodeModel.content.value && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
               <div className="editable-header">
