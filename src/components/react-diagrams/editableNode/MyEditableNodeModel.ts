@@ -36,34 +36,35 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(method)
         });
 
-        const userName = hasUserName ? 'userName' : false;
-        // if(hasUserValue)
+        const content = { name: 'userName', hasUsername: hasUserName, value: '', hasValue: hasUserValue, hasUsages: false }
         switch (data.name) {
             case 'bool':
-                this.content = { name: userName, value: hasUserValue ? 'true' : false }
+                content.value = 'true'
                 this.selectableOptions = ['true', 'false'];
                 break;
             case 'port':
-                this.content = { name: userName, value: hasUserValue ? '0' : false }
+                content.value = '0'
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
                 break;
             case 'int':
-                this.content = { name: userName, value: hasUserValue ? '0' : false }
+                content.value = '0'
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Parameter(s)':
-                this.content = { name: userName, value: '0', hasUsages: true }
+                content.value = '0'
+                content.hasUsages = true
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Condition':
-                this.content = { name: userName, value: hasUserValue ? '==' : false }
+                content.value = '=='
                 this.selectableOptions = ['==', '!=', '<', '>', '<=', '>=', '<=>']
                 break;
             default:
-                this.content = { name: userName, value: hasUserValue ? 'value' : false }
+                content.value = 'value'
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
         }
+        this.content = content
     }
 
     doClone(lookupTable: {}, clone: any): void {
