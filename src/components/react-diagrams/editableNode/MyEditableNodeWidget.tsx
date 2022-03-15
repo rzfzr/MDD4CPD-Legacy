@@ -52,7 +52,7 @@ namespace S {
 		flex-direction: column;
 
 		&:first-of-type {
-			margin-right: 10px;
+			margin-right: 4px;
 		}
 
 		&:only-child {

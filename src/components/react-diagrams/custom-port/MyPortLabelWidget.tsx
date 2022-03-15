@@ -15,17 +15,22 @@ namespace S {
 		align-items: center;
 	`;
 
-    export const Label = styled.div`
-		padding: 0 5px;
+    export const LabelR = styled.div`
+		padding: 0 4px 0 0;
+		flex-grow: 1;
+	`;
+
+    export const LabelL = styled.div`
+		padding: 0 0 0px 0;
 		flex-grow: 1;
 	`;
 
     export const Port = styled.div`
-    border:solid 1px white;
-		width: 14px;
+        border:solid 1px white;
+		
+        width: 14px;
 		height: 14px;
 		background: rgba(255, 255, 255, 0.3);
-
 		&:hover {
 			background: rgb(192, 255, 0);
 		}
@@ -39,12 +44,13 @@ export class MyPortLabel extends React.Component<DefaultPortLabelProps> {
                 <S.Port />
             </PortWidget>
         );
-        const label = <S.Label>{this.props.port.getOptions().label}</S.Label>;
+        const labelR = <S.LabelR>{this.props.port.getOptions().label}</S.LabelR>;
+        const labelL = <S.LabelL>{this.props.port.getOptions().label}</S.LabelL>;
 
         return (
             <S.PortLabel>
-                {this.props.port.getOptions().in ? port : label}
-                {this.props.port.getOptions().in ? label : port}
+                {this.props.port.getOptions().in ? port : labelR}
+                {this.props.port.getOptions().in ? labelL : port}
             </S.PortLabel>
         );
     }

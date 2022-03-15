@@ -121,7 +121,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addBiPort(label: string, after = true): MyPortModel {
-        this.addInPort(label, after)
+        this.addInPort('', after)
         return this.addOutPort(label, after)
     }
 
