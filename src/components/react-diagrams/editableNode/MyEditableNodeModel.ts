@@ -97,7 +97,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     addInPort(label: string, after = true, hasHiddenLabel = false): MyPortModel {
         const p = new MyPortModel({
             in: true,
-            name: label,
+            name: hasHiddenLabel ? label + ' ' : label,
             label: label,
             alignment: PortModelAlignment.LEFT,
             hasHiddenLabel: hasHiddenLabel
@@ -122,7 +122,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addBiPort(label: string, after = true): MyPortModel {
-        this.addOutPort(label + ' ', after)
+        this.addOutPort(label, after)
         return this.addInPort(label, after, true)
     }
 

@@ -54,19 +54,10 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
-		console.log('can link')
-		// if (port instanceof DefaultPortModel) {
-		// 	return this.options.in !== port.getOptions().in;
-		// }
 		return true;
 	}
 
 	createLinkModel(): LinkModel {
-		console.log('create link')
-		const link = new MyLinkModel();
-		// let label = new DefaultLabelModel();
-		// label.setLabel("I'm a sad label");
-		// link.addLabel(label)
-		return link
+		return new MyLinkModel()
 	}
 }
