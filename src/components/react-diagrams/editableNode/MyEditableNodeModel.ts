@@ -28,13 +28,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         console.log('creating', data)
 
         data.methods?.forEach((method: string) => {
-
-            // if (method.startsWith('void')) {
-            //     console.log('adding', method)
-            //     this.addInPort(method)
-            // } else {
             this.addBiPort(method)
-            // }
         });
         data.ins?.forEach((method: string) => {
             this.addInPort(method)
@@ -100,12 +94,13 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return port;
     }
 
-    addInPort(label: string, after = true): MyPortModel {
+    addInPort(label: string, after = true, hasHiddenLabel = false): MyPortModel {
         const p = new MyPortModel({
             in: true,
             name: label,
             label: label,
-            alignment: PortModelAlignment.LEFT
+            alignment: PortModelAlignment.LEFT,
+            hasHiddenLabel: hasHiddenLabel
         });
         if (!after) {
             this.portsIn.splice(0, 0, p);
@@ -127,7 +122,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addBiPort(label: string, after = true): MyPortModel {
-        this.addInPort('', after)
+        this.addInPort(label, after, true)
         return this.addOutPort(label, after)
     }
 

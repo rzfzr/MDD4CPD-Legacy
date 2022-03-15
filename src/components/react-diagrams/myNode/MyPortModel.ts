@@ -8,27 +8,29 @@ import {
 import { MyLinkModel } from './MyLinkModel';
 import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 
-export interface DefaultPortModelOptions extends PortModelOptions {
+export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
 	in?: boolean;
+	hasHiddenLabel?: boolean;
 }
 
 export interface DefaultPortModelGenerics extends PortModelGenerics {
-	OPTIONS: DefaultPortModelOptions;
+	OPTIONS: MyPortModelOptions;
 }
 
 export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	constructor(isIn: boolean, name?: string, label?: string);
-	constructor(options: DefaultPortModelOptions);
-	constructor(options: DefaultPortModelOptions | boolean, name?: string, label?: string) {
-		if (!!name) {
+	constructor(isIn: boolean, name?: string, label?: string);
+	constructor(options: MyPortModelOptions);
+	constructor(options: MyPortModelOptions | boolean, name?: string, label?: string, hasHiddenLabel?: boolean) {
+		if (name) {
 			options = {
 				in: !!options,
 				name: name,
 				label: label
 			};
 		}
-		options = options as DefaultPortModelOptions;
+		options = options as MyPortModelOptions;
 		super({
 			label: options.label || options.name,
 			alignment: options.in ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { DiagramEngine, PortWidget } from '@projectstorm/react-diagrams-core';
-import { MyPortModel } from './MyPortModel';
 import styled from '@emotion/styled';
+import { MyPortModel } from '../myNode/MyPortModel';
 
-export interface DefaultPortLabelProps {
+export interface MyPortLabelProps {
     port: MyPortModel;
     engine: DiagramEngine;
 }
@@ -41,8 +41,9 @@ namespace S {
 	`;
 }
 
-export class MyPortLabel extends React.Component<DefaultPortLabelProps> {
+export class MyPortLabel extends React.Component<MyPortLabelProps> {
     render() {
+        const hasHiddenLabel = this.props?.port?.getOptions().hasHiddenLabel
         let isVoid = false
         if (this.props?.port?.getOptions().label?.startsWith('void')) {
             if (this.props?.port?.getOptions().alignment === "right") {
@@ -55,13 +56,14 @@ export class MyPortLabel extends React.Component<DefaultPortLabelProps> {
                 <S.Port />
             </PortWidget>
         );
+
         const labelR = <S.LabelR>{this.props.port.getOptions().label}</S.LabelR>;
         const labelL = <S.LabelL>{this.props.port.getOptions().label}</S.LabelL>;
 
         return (
             <S.PortLabel>
-                {this.props.port.getOptions().in ? port : labelR}
-                {this.props.port.getOptions().in ? labelL : port}
+                {this.props.port.getOptions().in ? port : hasHiddenLabel && labelR}
+                {this.props.port.getOptions().in ? hasHiddenLabel && labelL : port}
             </S.PortLabel>
         );
     }
