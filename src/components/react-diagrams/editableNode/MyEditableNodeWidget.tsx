@@ -4,7 +4,8 @@ import * as React from "react";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
 import "./MyEditableNodeWidgedStyle.css";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { DiagramEngine, DefaultPortLabel } from "@projectstorm/react-diagrams";
+import { DiagramEngine } from "@projectstorm/react-diagrams";
+import { MyPortLabel } from "../custom-port/MyPortLabelWidget"
 import styled from '@emotion/styled';
 
 import EditableSingleField from "../custom-node/custom_components/EditableSingleField";
@@ -93,7 +94,7 @@ export class MyEditableNodeWidget extends React.Component<
     this._onBlurOrEnter = this._onBlurOrEnter.bind(this);
   }
   generatePort = (port) => {
-    return <DefaultPortLabel engine={this.props.engine} port={port} key={port.getID()} />
+    return <MyPortLabel engine={this.props.engine} port={port} key={port.getID()} />
   };
 
   /**

@@ -3,7 +3,7 @@ import { Application } from './Application';
 import { TrayItemWidget } from './TrayItemWidget';
 import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
-import { MyCanvasWidget } from './helpers/MyCanvasWidget';
+import { MyCanvasWidget } from './MyCanvasWidget';
 import styled from '@emotion/styled';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
