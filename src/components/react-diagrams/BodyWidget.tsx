@@ -125,26 +125,23 @@ function BodyWidget(props: BodyWidgetProps) {
 											// console.log("node")
 										}
 									})
-
-									if (data.extras.type === "variable") {
-										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-									} else if (data.extras.type === "constant") {
-										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs);
-									} else if (data.extras.type === "parameter") {
-										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
-									} else if (data.extras.type === 'port') {
-										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
-									} else if (data.extras.type === "logic") {
-										node = new MyEditableNodeModel(data.name, data.color, data.extras, data.ins, data.outs, false);
-									} else {
-										node = new MyNodeModel(data.name, data.color);
-										node.extras = data.extras
-										data.outs.forEach((method: string) => {
-											node.addOutPort(method)
-										});
-										data.ins.forEach((method: string) => {
-											node.addInPort(method)
-										});
+									switch (data.extras.type) {
+										case "variable":
+										case "constant":
+											node = new MyEditableNodeModel(data, true, true);
+											break;
+										case "parameter":
+										case "port":
+										case "logic":
+											node = new MyEditableNodeModel(data, true, false);
+											break;
+										case "controller":
+										case "built-in":
+										case "built-in-constant":
+										case "component":
+										default:
+											node = new MyEditableNodeModel(data, false, false);
+											break;
 									}
 									node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 									props.app.getDiagramEngine().getModel().addNode(node);

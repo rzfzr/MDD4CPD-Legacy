@@ -7,8 +7,7 @@ export default [{
             analogPorts: 6,
             digitalPorts: 14,
         },
-        ins: [],
-        outs: [
+        methods: [
             'setup()',
             'loop()'
         ]
@@ -20,8 +19,7 @@ export default [{
             analogPorts: 6,
             digitalPorts: 22,
         },
-        ins: [],
-        outs: [
+        methods: [
             'setup()',
             'loop()'
         ]
@@ -34,8 +32,7 @@ export default [{
             analogPorts: 16,
             digitalPorts: 54,
         },
-        ins: [],
-        outs: [
+        methods: [
             'setup()',
             'loop()'
         ]
@@ -48,8 +45,7 @@ export default [{
             analogPorts: 12,
             digitalPorts: 20,
         },
-        ins: [],
-        outs: [
+        methods: [
             'setup()',
             'loop()'
         ]
@@ -62,8 +58,7 @@ export default [{
             analogPorts: 4,
             digitalPorts: 8,
         },
-        ins: [],
-        outs: [
+        methods: [
             'setup()',
             'loop()'
         ]
@@ -74,11 +69,9 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [
+        methods: [
             'void digitalWrite(int pin, int value)',
             'void pinMode(int pin, int mode)',
-        ],
-        outs: [
             'int digitalRead(int pin)',
         ]
     },
@@ -88,12 +81,12 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [
+        methods: [
             'void analoglWrite(int pin, int value)',
             'void pinMode(int pin, int mode)',
             'void analogReference(int type)',
-        ],
-        outs: []
+
+        ]
     },
     {
         name: 'Time',
@@ -101,11 +94,9 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [
+        methods: [
             'void delay(int ms)',
             'void delayMicroseconds(int us)',
-        ],
-        outs: [
             'unsigned long micros()',
             'unsigned long millis()',
         ]
@@ -116,10 +107,8 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [
+        methods: [
             'void delay(int ms)',
-        ],
-        outs: [
             'int abs(int x)',
             'int constrain(int x, int a, int b)',
             'int map(int value, int fromLow, int fromHigh, int toLow, int toHigh)',
@@ -136,8 +125,7 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [],
-        outs: [
+        methods: [
             'double cos(float rad)',
             'double sin(float rad)',
             'double tan(float rad)',
@@ -149,10 +137,8 @@ export default [{
         extras: {
             type: 'built-in'
         },
-        ins: [
+        methods: [
             'void randomSeed(long seed)',
-        ],
-        outs: [
             'long random(? max)',
             'long random(? min, ? max)',
         ]
@@ -163,7 +149,6 @@ export default [{
         extras: {
             type: 'built-in-constant'
         },
-        ins: [],
         outs: [
             'out',
         ]
@@ -173,7 +158,6 @@ export default [{
         extras: {
             type: 'built-in-constant'
         },
-        ins: [],
         outs: [
             'out',
         ]
@@ -183,7 +167,6 @@ export default [{
         extras: {
             type: 'built-in-constant'
         },
-        ins: [],
         outs: [
             'out',
         ]
@@ -193,7 +176,6 @@ export default [{
         extras: {
             type: 'built-in-constant'
         },
-        ins: [],
         outs: [
             'out',
         ]
@@ -204,7 +186,6 @@ export default [{
         extras: {
             type: 'port'
         },
-        ins: [],
         outs: [
             'port',
         ]
@@ -214,7 +195,6 @@ export default [{
         extras: {
             type: 'port'
         },
-        ins: [],
         outs: [
             'port',
         ]
@@ -262,31 +242,7 @@ export default [{
             'stopValue'
         ]
     },
-    {
-        name: 'Led',
-        color: 'red',
-        extras: {
-            type: 'component',
-            library: 'Setter.h'
-        },
-        ins: [
-            'setValue()'
-        ],
-        outs: []
 
-    },
-    {
-        name: 'Temperature Sensor',
-        color: 'blue',
-        extras: {
-            type: 'component',
-            library: 'Getter.h'
-        },
-        ins: [],
-        outs: [
-            'getValue()'
-        ]
-    },
     {
         name: 'TwoWire Interface',
         color: 'blue',
@@ -294,15 +250,12 @@ export default [{
             type: 'component',
             library: 'Wire.h'
         },
-        ins: [
+        methods: [
             'void begin()',
             'void beginTransmission()',
             'void setClock()',
             'void onReceive()',
-            'void onRequest()'
-
-        ],
-        outs: [
+            'void onRequest()',
             'byte requestFrom()',
             'byte endTransmission()',
             'byte write()',
@@ -311,25 +264,13 @@ export default [{
         ]
     },
     {
-        name: 'Button',
-        color: 'blue',
-        extras: {
-            type: 'component',
-            library: 'Getter.h'
-        },
-        ins: [
-            'setValue(bool)'
-        ],
-        outs: []
-    },
-    {
         name: 'PWM Servo',
         color: 'orange',
         extras: {
             type: 'component',
             library: 'Adafruit_PWMServoDriver.h'
         },
-        ins: [
+        methods: [
             'void begin(uint8_t prescale=0)',
             'void sleep()',
             'void wakeup()',
@@ -340,9 +281,6 @@ export default [{
             'void setPin(uint8_t num, uint16_t val, bool invert=false)',
             'void writeMicroseconds(uint8_t num, uint16_t Microseconds)',
             'void setOscillatorFrequency(uint32_t freq)',
-
-        ],
-        outs: [
             'uint8_t getPWM(uint8_t num)',
             'uint8_t readPrescale()',
             'uint32_t getOscillatorFrequency()',
@@ -355,12 +293,10 @@ export default [{
             type: 'component',
             library: 'Servo.h'
         },
-        ins: [
+        methods: [
             'void detach()',
             'void write(int)',
             'void writeMicroseconds(int)',
-        ],
-        outs: [
             'uint8_t attach(int)',
             'uint8_t attach(int, int, int)',
             'int read()',
@@ -375,14 +311,12 @@ export default [{
             type: 'component',
             library: 'Stepper.h'
         },
-        ins: [
+        methods: [
             'Stepper(int, int, int)',
             'Stepper(int, int, int, int, int)',
             'Stepper(int, int, int, int, int, int)',
             'void setSpeed(long whatSpeed)',
             'void step(int number_of_steps)',
-        ],
-        outs: [
             'int version(void)',
         ]
     },

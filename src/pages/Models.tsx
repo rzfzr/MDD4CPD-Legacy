@@ -216,10 +216,10 @@ export default function ModelsPage() {
         // let extras: any[] = Object.entries(node.extras)
         let methods: any[] = []
 
-        node.ins.forEach(method => {
+        node.ins?.forEach(method => {
             methods.push({ name: method, visibility: 'public' })
         });
-        node.outs.forEach(method => {
+        node.outs?.forEach(method => {
             methods.push({ name: method, visibility: 'public' })
         });
 

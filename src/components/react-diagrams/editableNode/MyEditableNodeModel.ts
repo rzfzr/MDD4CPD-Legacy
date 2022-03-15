@@ -18,43 +18,45 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     content: Object;
     extras: any;
     selectableOptions: string[];
-    constructor(name: string, color: string, extras: any, ins: any[], outs: any[], shouldHaveUserName: boolean = true) {
+    constructor(data: any, hasUserValue: boolean, hasUserName: boolean) {
         super({
             type: 'MyEditable',
-            name: name,
-            color: color,
+            name: data.name,
+            color: data.color,
         });
-        this.extras = extras;
+        this.extras = data.extras;
 
-        ins.forEach((method: string) => {
+        data.methods?.forEach((method: string) => {
+            this.addOutPort(method)
+        });
+        data.ins?.forEach((method: string) => {
             this.addInPort(method)
         });
-        outs.forEach((method: string) => {
+        data.outs?.forEach((method: string) => {
             this.addOutPort(method)
         });
 
-        let userName = shouldHaveUserName ? 'userName' : false;
-        const selector = name
-        // const selector = name === 'Condition' ? name : outs[0].substring(0, outs[0].indexOf(' ') !== -1 ? outs[0].indexOf(' ') : outs[0].length)
-        switch (selector) {
+        const userName = hasUserName ? 'userName' : false;
+        // if(hasUserValue)
+        switch (data.name) {
             case 'bool':
-                this.content = { name: userName, value: 'true' }
+                this.content = { name: userName, value: hasUserValue ? 'true' : false }
                 this.selectableOptions = ['true', 'false'];
                 break;
             case 'port':
-                this.content = { name: userName, value: '0' }
+                this.content = { name: userName, value: hasUserValue ? '0' : false }
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
                 break;
             case 'int':
-                this.content = { name: userName, value: '0' }
+                this.content = { name: userName, value: hasUserValue ? '0' : false }
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Condition':
-                this.content = { name: userName, value: '==' }
+                this.content = { name: userName, value: hasUserValue ? '==' : false }
                 this.selectableOptions = ['==', '!=', '<', '>', '<=', '>=', '<=>']
                 break;
             default:
-                this.content = { name: userName, value: 'value' }
+                this.content = { name: userName, value: hasUserValue ? 'value' : false }
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
         }

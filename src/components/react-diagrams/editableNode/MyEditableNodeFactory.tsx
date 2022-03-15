@@ -5,7 +5,7 @@ import { DiagramEngine } from "@projectstorm/react-diagrams";
 
 export class MyEditableNodeFactory extends AbstractReactFactory<MyEditableNodeModel, DiagramEngine> {
 	generateModel(event: import("@projectstorm/react-canvas-core").GenerateModelEvent): MyEditableNodeModel {
-		return new MyEditableNodeModel('trashPort', '0', '0', [], []);
+		return new MyEditableNodeModel({}, false, false);
 	}
 	constructor() {
 		super("MyEditable");
