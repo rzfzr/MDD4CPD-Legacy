@@ -62,8 +62,8 @@ export class MyPortLabel extends React.Component<MyPortLabelProps> {
 
         return (
             <S.PortLabel>
-                {this.props.port.getOptions().in ? port : hasHiddenLabel && labelR}
-                {this.props.port.getOptions().in ? hasHiddenLabel && labelL : port}
+                {this.props.port.getOptions().in ? port : !hasHiddenLabel && labelR}
+                {this.props.port.getOptions().in ? !hasHiddenLabel && labelL : port}
             </S.PortLabel>
         );
     }
