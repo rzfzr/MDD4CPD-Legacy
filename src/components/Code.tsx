@@ -384,7 +384,7 @@ export default function Code(props: { model: string }) {
                     <code className="language-clike">{code}</code>
                 </pre>
             </div>
-            <PrismEdit />
+            {/* <PrismEdit /> */}
         </>
     );
 }
