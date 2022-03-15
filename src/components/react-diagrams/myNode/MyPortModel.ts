@@ -8,6 +8,11 @@ import {
 import { MyLinkModel } from './MyLinkModel';
 import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 
+import {
+	RightAngleLinkModel
+} from '@projectstorm/react-diagrams';
+
+
 export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
 	in?: boolean;
@@ -58,6 +63,7 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	createLinkModel(): LinkModel {
+		// return new RightAngleLinkModel()
 		return new MyLinkModel()
 	}
 }

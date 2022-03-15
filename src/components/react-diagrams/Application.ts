@@ -2,9 +2,10 @@ import * as SRD from '@projectstorm/react-diagrams';
 import { EditableLabelFactory } from './custom-label/EditableLabelFactory';
 import { MyEditableNodeFactory } from './editableNode/MyEditableNodeFactory';
 
-/**
- * @author Dylan Vorster
- */
+import {
+	RightAngleLinkFactory,
+} from '@projectstorm/react-diagrams';
+
 export class Application {
 	protected activeModel: any;//SRD.DiagramModel
 	protected diagramEngine: SRD.DiagramEngine;
@@ -13,6 +14,7 @@ export class Application {
 		this.diagramEngine = SRD.default();
 		this.diagramEngine.getLabelFactories().registerFactory(new EditableLabelFactory());
 		this.diagramEngine.getNodeFactories().registerFactory(new MyEditableNodeFactory());
+		this.diagramEngine.getLinkFactories().registerFactory(new RightAngleLinkFactory());
 		this.newModel();
 	}
 
