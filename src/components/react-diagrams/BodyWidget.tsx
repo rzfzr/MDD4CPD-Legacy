@@ -21,17 +21,32 @@ namespace S {
 		display: flex;
 		flex-direction: column;
 		min-height: 100%;
+		width: 100%;
+		grid-template-columns: 55% 1fr;
 	`;
 
 	export const Content = styled.div`
 		display: flex;
 		flex-grow: 1;
+		
 	`;
 
 	export const Layer = styled.div`
 		position: relative;
 		flex-grow: 1;
 	`;
+
+	export const Code = styled.div`
+		position: absolute;
+		background-color: #2d2d2d ;
+		left:50%;
+		top:0;
+		right:0;
+		bottom:0;
+		margin:0;
+		padding:0;
+		`;
+
 }
 
 function BodyWidget(props: BodyWidgetProps) {
@@ -49,125 +64,121 @@ function BodyWidget(props: BodyWidgetProps) {
 	}, [stringModel, model]);
 
 	return (
-		<div className="float-container" >
-			<div className="float-child-left">
-				<S.Body>
-					<S.Content >
-						<div>
-							<ScrollArea
-								speed={1}
-								className="area"
-								contentClassName="content"
-								horizontal={false}
-								style={{ height: '88vh' }}
-								smoothScrolling={true}
-								verticalScrollbarStyle={{ backgroundColor: 'white' }}
-							>
-								{
-									groups.map((group) => {
-										return <div key={group} style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
-											<h6 style={{ margin: '0px 0px 0px 0px' }}>{group[0].toUpperCase() + group.slice(1) + 's'}:</h6>
-											{paletteNodes.filter(n => n.extras.type === group).map((node) => {
-												return <TrayItemWidget key={node.name} node={node} />
-											})}
-										</div>
-									}
-									)
-								}
-							</ScrollArea>
-							<div style={{ marginBottom: '0px' }}>
-								<Button variant="contained" size='small'
-									onClick={() => {
-										localStorage.setItem('model', JSON.stringify(rawModel));
-										console.log('--- Saved ---')
-									}}>
-									Save
-								</Button>
-								<Button variant="contained" size='small'
-									onClick={() => {
-										props.app.getActiveDiagram().deserializeModel(
-											JSON.parse(localStorage.getItem('model') || '{}'),
-											props.app.getDiagramEngine());
-										console.log('--- Loaded ---')
-										setModel(stringModel);
-										setTimeout(() => {
-											setRerender(!rerender);
-										}, 10);
-									}}>
-									Load
-								</Button>
-								<Button variant="contained" size='small'
-									onClick={() => {
-										props.app.getActiveDiagram().deserializeModel(
-											JSON.parse('{"id":"b61bb7d6-efee-4caf-8b8c-be7dfa140acd","offsetX":0,"offsetY":0,"zoom":100,"gridSize":0,"layers":[{"id":"0df10e02-9519-4a32-9c90-cb48681c24cd","type":"diagram-links","isSvg":true,"transformed":true,"models":{}},{"id":"c18e36ab-c0ce-4def-8c51-0c09d00cfe0b","type":"diagram-nodes","isSvg":false,"transformed":true,"models":{}}]}'),
-											props.app.getDiagramEngine());
-										setTimeout(() => {
-											setRerender(!rerender);
-										}, 10);
-									}}>
-									Clear
-								</Button>
-							</div>
-						</div>
-						<S.Layer
-							onDrop={(event) => {
-								let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
-								if (data) {
-									let node: any = {};
+		<S.Body>
+			<S.Content >
+				<div>
+					<ScrollArea
+						speed={1}
+						className="area"
+						contentClassName="content"
+						horizontal={false}
+						style={{ height: '88vh' }}
+						smoothScrolling={true}
+						verticalScrollbarStyle={{ backgroundColor: 'white' }}
+					>
+						{
+							groups.map((group) => {
+								return <div key={group} style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
+									<h6 style={{ margin: '0px 0px 0px 0px' }}>{group[0].toUpperCase() + group.slice(1) + 's'}:</h6>
+									{paletteNodes.filter(n => n.extras.type === group).map((node) => {
+										return <TrayItemWidget key={node.name} node={node} />
+									})}
+								</div>
+							}
+							)
+						}
+					</ScrollArea>
+					<div style={{ marginBottom: '0px' }}>
+						<Button variant="contained" size='small'
+							onClick={() => {
+								localStorage.setItem('model', JSON.stringify(rawModel));
+								console.log('--- Saved ---')
+							}}>
+							Save
+						</Button>
+						<Button variant="contained" size='small'
+							onClick={() => {
+								props.app.getActiveDiagram().deserializeModel(
+									JSON.parse(localStorage.getItem('model') || '{}'),
+									props.app.getDiagramEngine());
+								console.log('--- Loaded ---')
+								setModel(stringModel);
+								setTimeout(() => {
+									setRerender(!rerender);
+								}, 10);
+							}}>
+							Load
+						</Button>
+						<Button variant="contained" size='small'
+							onClick={() => {
+								props.app.getActiveDiagram().deserializeModel(
+									JSON.parse('{"id":"b61bb7d6-efee-4caf-8b8c-be7dfa140acd","offsetX":0,"offsetY":0,"zoom":100,"gridSize":0,"layers":[{"id":"0df10e02-9519-4a32-9c90-cb48681c24cd","type":"diagram-links","isSvg":true,"transformed":true,"models":{}},{"id":"c18e36ab-c0ce-4def-8c51-0c09d00cfe0b","type":"diagram-nodes","isSvg":false,"transformed":true,"models":{}}]}'),
+									props.app.getDiagramEngine());
+								setTimeout(() => {
+									setRerender(!rerender);
+								}, 10);
+							}}>
+							Clear
+						</Button>
+					</div>
+				</div>
+				<S.Layer
+					onDrop={(event) => {
+						let data = JSON.parse(event.dataTransfer.getData('storm-diagram-node'));
+						if (data) {
+							let node: any = {};
 
-									props.app.getDiagramEngine().getModel().registerListener({
-										linksUpdated: (l: any) => {
-											setRerender(!rerender);
-											// console.log("link\n");
-										},
-										nodesUpdated: (n: any) => {
-											setRerender(!rerender);
-											// console.log("node")
-										}
-									})
-									switch (data.extras.type) {
-										case "variable":
-										case "constant":
-											node = new MyEditableNodeModel(data, true, true);
-											break;
-										case "parameter":
-										case "port":
-										case "logic":
-											node = new MyEditableNodeModel(data, true, false);
-											break;
-										case "controller":
-										case "built-in":
-										case "built-in-constant":
-										case "component":
-										default:
-											node = new MyEditableNodeModel(data, false, false);
-											break;
-									}
-									node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-									props.app.getDiagramEngine().getModel().addNode(node);
+							props.app.getDiagramEngine().getModel().registerListener({
+								linksUpdated: (l: any) => {
+									setRerender(!rerender);
+									// console.log("link\n");
+								},
+								nodesUpdated: (n: any) => {
+									setRerender(!rerender);
+									// console.log("node")
 								}
-								setRerender(!rerender);
-							}}
-							onDragOver={(event: any) => {
-								event.preventDefault();
-							}}
-							onClick={(event: any) => {
-								setRerender(!rerender);
-							}}
-						>
-							<div style={{ width: '100%', height: '100%' }}>
-								<MyCanvasWidget >
-									<CanvasWidget engine={props.app.getDiagramEngine()} />
-								</MyCanvasWidget>
-							</div>
-						</S.Layer>
-					</S.Content>
-				</S.Body >
-			</div>
-			<div className="float-child-right">
+							})
+							switch (data.extras.type) {
+								case "variable":
+								case "constant":
+									node = new MyEditableNodeModel(data, true, true);
+									break;
+								case "parameter":
+								case "port":
+								case "logic":
+									node = new MyEditableNodeModel(data, true, false);
+									break;
+								case "controller":
+								case "built-in":
+								case "built-in-constant":
+								case "component":
+								default:
+									node = new MyEditableNodeModel(data, false, false);
+									break;
+							}
+							node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
+							props.app.getDiagramEngine().getModel().addNode(node);
+						}
+						setRerender(!rerender);
+					}}
+					onDragOver={(event: any) => {
+						event.preventDefault();
+					}}
+					onClick={(event: any) => {
+						setRerender(!rerender);
+					}}
+				>
+					<div style={{ width: '100%', height: '100%' }}>
+						<MyCanvasWidget >
+							<CanvasWidget engine={props.app.getDiagramEngine()} />
+						</MyCanvasWidget>
+					</div>
+				</S.Layer>
+			</S.Content>
+			<S.Code>
 				<Code model={model} />
-			</div>
-		</div >
+			</S.Code>
+		</S.Body >
 	)
 
 }

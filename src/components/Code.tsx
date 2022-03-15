@@ -346,45 +346,41 @@ export default function Code(props: { model: string }) {
         Prism.highlightAll();
     }, [props])
     return (
-        <>
-            <div className="Code">
+        <div className="Code">
+            <div style={{ border: problems.length !== 0 ? 'solid yellow 2px' : 'dotted black 2px' }}>
+                <div style={{ border: problems.length !== 0 ? 'solid yellow 1px' : 'dotted white 1px', fontSize: '1em' }}>
+                    {problems.length} Problems!
+                </div>
                 {
-                    problems.length !== 0 &&
-                    <div style={{ border: 'solid yellow 2px' }}>
-                        <div style={{ border: 'solid yellow 1px', fontSize: '1em' }}>
-                            Problems!
-                        </div>
-                        {
-                            problems.map((p: any, index: any) => {
-                                if (p.nodes.length > 0) {
-                                    p.nodes.forEach((node: any) => {
-                                        const el = document.querySelector(`[data-nodeid='${node.id}']`)
-                                        if (el) el.setAttribute('id', node.id)
-                                    });
-                                }
-                                const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
-                                return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
-                                    Model violation: {p.message}
-                                    {p.nodes.map((node: any, index: any) => {
-                                        return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
-                                            <Xarrow
-                                                strokeWidth={2}
-                                                start={problemId}
-                                                end={node.id}
-                                                color='yellow'
-                                            />
-                                        </div>
-                                    })}
-                                </div>
-                            })
+                    problems.map((p: any, index: any) => {
+                        if (p.nodes.length > 0) {
+                            p.nodes.forEach((node: any) => {
+                                const el = document.querySelector(`[data-nodeid='${node.id}']`)
+                                if (el) el.setAttribute('id', node.id)
+                            });
                         }
-                    </div>
+                        const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
+                        return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
+                            Model violation: {p.message}
+                            {p.nodes.map((node: any, index: any) => {
+                                return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                    <Xarrow
+                                        strokeWidth={2}
+                                        start={problemId}
+                                        end={node.id}
+                                        color='yellow'
+                                    />
+                                </div>
+                            })}
+                        </div>
+                    })
                 }
-                <pre >
-                    <code className="language-clike">{code}</code>
-                </pre>
             </div>
-            {/* <PrismEdit /> */}
-        </>
+            <pre style={{
+                height: '100%', overflow: 'auto'
+            }}>
+                <code className="language-clike">{code}</code>
+            </pre >
+        </div >
     );
 }
