@@ -63,7 +63,7 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	createLinkModel(): LinkModel {
-		// return new RightAngleLinkModel()
-		return new MyLinkModel()
+		return new RightAngleLinkModel()
+		// return new MyLinkModel()
 	}
 }
