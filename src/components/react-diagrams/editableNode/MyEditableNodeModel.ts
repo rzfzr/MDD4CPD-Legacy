@@ -141,6 +141,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     deserialize(event: DeserializeEvent<this>) {
+        console.log('des', event);
+
         super.deserialize(event);
         this.options.name = event.data.name;
         this.options.color = event.data.color;
@@ -156,7 +158,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     serialize(): any {
-        return {
+        const re = {
             ...super.serialize(),
             name: this.options.name,
             color: this.options.color,
@@ -169,7 +171,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             extras: this.extras,
             content: this.content,
             selectableOptions: this.selectableOptions
-        };
+        }
+
+        console.log('re', re)
+
+        return re;
     }
 
     getInPorts(): MyPortModel[] {
