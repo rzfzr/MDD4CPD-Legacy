@@ -7,7 +7,7 @@ export default [{
             analogPorts: 6,
             digitalPorts: 14,
         },
-        methods: [
+        outs: [
             'setup()',
             'loop()'
         ]
@@ -19,7 +19,7 @@ export default [{
             analogPorts: 6,
             digitalPorts: 22,
         },
-        methods: [
+        outs: [
             'setup()',
             'loop()'
         ]
@@ -32,7 +32,7 @@ export default [{
             analogPorts: 16,
             digitalPorts: 54,
         },
-        methods: [
+        outs: [
             'setup()',
             'loop()'
         ]
@@ -45,7 +45,7 @@ export default [{
             analogPorts: 12,
             digitalPorts: 20,
         },
-        methods: [
+        outs: [
             'setup()',
             'loop()'
         ]
@@ -58,7 +58,7 @@ export default [{
             analogPorts: 4,
             digitalPorts: 8,
         },
-        methods: [
+        outs: [
             'setup()',
             'loop()'
         ]
