@@ -35,12 +35,23 @@ namespace S {
 			background: rgb(192, 255, 0);
 		}
 	`;
+    export const FakePort = styled.div`
+        width: 14px;
+		height: 14px;
+	`;
 }
 
 export class MyPortLabel extends React.Component<DefaultPortLabelProps> {
     render() {
-        const port = (
-            <PortWidget engine={this.props.engine} port={this.props.port}>
+        let isVoid = false
+        if (this.props?.port?.getOptions().label?.startsWith('void')) {
+            if (this.props?.port?.getOptions().alignment === "right") {
+                isVoid = true
+            }
+        }
+        const port = isVoid ? (<S.FakePort />) : (
+            <PortWidget engine={this.props.engine
+            } port={this.props.port} >
                 <S.Port />
             </PortWidget>
         );

@@ -28,7 +28,13 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         console.log('creating', data)
 
         data.methods?.forEach((method: string) => {
+
+            // if (method.startsWith('void')) {
+            //     console.log('adding', method)
+            //     this.addInPort(method)
+            // } else {
             this.addBiPort(method)
+            // }
         });
         data.ins?.forEach((method: string) => {
             this.addInPort(method)
@@ -79,7 +85,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addPort<T extends MyPortModel>(port: T): T {
-        console.log('adding port', port)
+        // console.log('adding port', port)
         super.addPort(port);
         if (port.getOptions().in) {
             if (this.portsIn.indexOf(port) === -1) {
