@@ -25,7 +25,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             color: data.color,
         });
         this.extras = data.extras;
-        console.log('creating', data)
+        // console.log('creating', data)
 
         data.methods?.forEach((method: string) => {
             this.addBiPort(method)
@@ -122,8 +122,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addBiPort(label: string, after = true): MyPortModel {
-        this.addInPort(label, after, true)
-        return this.addOutPort(label, after)
+        this.addOutPort(label + ' ', after)
+        return this.addInPort(label, after, true)
     }
 
     addExtras(extras: any): any {
