@@ -3,7 +3,7 @@ import { Application } from './Application';
 import { TrayItemWidget } from './TrayItemWidget';
 import { MyNodeModel } from './myNode/MyNodeModel';
 import { CanvasWidget } from '@projectstorm/react-canvas-core';
-import { DemoCanvasWidget } from './helpers/DemoCanvasWidget';
+import { MyCanvasWidget } from './helpers/MyCanvasWidget';
 import styled from '@emotion/styled';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
@@ -156,9 +156,9 @@ function BodyWidget(props: BodyWidgetProps) {
 							}}
 						>
 							<div style={{ width: '100%', height: '100%' }}>
-								<DemoCanvasWidget >
+								<MyCanvasWidget >
 									<CanvasWidget engine={props.app.getDiagramEngine()} />
-								</DemoCanvasWidget>
+								</MyCanvasWidget>
 							</div>
 						</S.Layer>
 					</S.Content>

@@ -93,7 +93,7 @@ export class MyEditableNodeWidget extends React.Component<
     this._onBlurOrEnter = this._onBlurOrEnter.bind(this);
   }
   generatePort = (port) => {
-    return <DefaultPortLabel engine={this.props.engine} port={port} key={port.getID()} />;
+    return <DefaultPortLabel engine={this.props.engine} port={port} key={port.getID()} />
   };
 
   /**
