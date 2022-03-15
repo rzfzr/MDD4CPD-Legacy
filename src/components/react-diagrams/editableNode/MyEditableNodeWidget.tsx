@@ -170,12 +170,12 @@ export class MyEditableNodeWidget extends React.Component<
           <S.TitleName>
             {this.props.nodeModel.getOptions().name}:
             {this.props.nodeModel.content.hasUsages &&
-              (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().name} >
+              (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().id} >
                 <OpenInNewIcon style={{ fontSize: '1rem', marginBottom: '-5px' }} />
               </a>)}
             <ReactTooltip
               className="interactableTooltip"
-              id={'tip-' + this.props.nodeModel.getOptions().name}
+              id={'tip-' + this.props.nodeModel.getOptions().id}
               type='light'
               place="top"
               delayHide={500}
