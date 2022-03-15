@@ -169,9 +169,10 @@ export class MyEditableNodeWidget extends React.Component<
           </div>}
           <S.TitleName>
             {this.props.nodeModel.getOptions().name}:
-            <a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().name} >
-              <OpenInNewIcon style={{ fontSize: '1rem', marginBottom: '-5px' }} />
-            </a>
+            {this.props.nodeModel.content.hasUsages &&
+              (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().name} >
+                <OpenInNewIcon style={{ fontSize: '1rem', marginBottom: '-5px' }} />
+              </a>)}
             <ReactTooltip
               className="interactableTooltip"
               id={'tip-' + this.props.nodeModel.getOptions().name}
@@ -207,6 +208,7 @@ export class MyEditableNodeWidget extends React.Component<
                 this.props.engine.repaintCanvas();
               }}> - </Button>
             </ReactTooltip>
+
           </S.TitleName>
           {this.props.nodeModel.content.name && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>

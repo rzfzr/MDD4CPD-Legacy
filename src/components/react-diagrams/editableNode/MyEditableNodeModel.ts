@@ -25,7 +25,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             color: data.color,
         });
         this.extras = data.extras;
-        // console.log('creating', data)
 
         data.methods?.forEach((method: string) => {
             this.addBiPort(method)
@@ -50,6 +49,10 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 break;
             case 'int':
                 this.content = { name: userName, value: hasUserValue ? '0' : false }
+                this.selectableOptions = ['something', 'went wrong'];
+                break;
+            case 'Parameter(s)':
+                this.content = { name: userName, value: hasUserValue ? '0' : false, hasUsages: true }
                 this.selectableOptions = ['something', 'went wrong'];
                 break;
             case 'Condition':
