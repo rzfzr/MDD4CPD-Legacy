@@ -19,6 +19,9 @@ export default function ModelsPage() {
 
     paletteNodes.forEach((node, index) => {
         let methods: any[] = []
+        node.methods?.forEach(method => {
+            methods.push({ name: method, visibility: 'public' })
+        });
         node.ins?.forEach(method => {
             methods.push({ name: method, visibility: 'public' })
         });
@@ -32,12 +35,18 @@ export default function ModelsPage() {
             methods: methods
             // properties:
         }
+
+
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         }
 
         nodesStatic.push(parsedNode)
+
         nodesDynamic.push({ "id": index + 250, "category": "Start" })
+        // {"from":-1,"to":0,"text":"Visit online store","points":[]},
+        linksDynamic.push({ key: index + 250, from: index, to: index + 250, text: "relation", relationship: "generalization" })
+
         nodesDynamic.push(parsedNode)
         nodesDynamic.push({ "id": index + 500, "category": "End" })
 

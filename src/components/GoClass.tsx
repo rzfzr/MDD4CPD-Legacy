@@ -209,7 +209,6 @@ function initDiagram() {
                 new go.Binding("toArrow", "relationship", convertToArrow))
         );
 
-
     myDiagram.model = new go.GraphLinksModel(
         {
             linkKeyProperty: 'key',
