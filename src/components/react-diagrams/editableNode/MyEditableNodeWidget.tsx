@@ -187,7 +187,7 @@ export class MyEditableNodeWidget extends React.Component<
                 let nameIn = this.props.nodeModel.portsIn[0].getOptions().label
                 let nameOut = this.props.nodeModel.portsIn[0].getOptions().label
 
-                console.log('sup', this.props.nodeModel)
+                // console.log('sup', this.props.nodeModel)
                 this.props.nodeModel.addInPort(nameIn + '-' + next, true)
                 this.props.nodeModel.addOutPort(nameOut + '-' + next, true)
                 this.props.engine.repaintCanvas();

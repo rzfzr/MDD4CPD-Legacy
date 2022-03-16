@@ -88,11 +88,10 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addPort<T extends MyPortModel>(port: T): T {
-        // console.log('adding port', port)
+        console.log('adding port', port)
         super.addPort(port);
         if (port.getOptions().in) {
             if (this.portsIn.indexOf(port) === -1) {
-                // this.portsIn = [port, ...this.portsIn]
                 this.portsIn.push(port);
             }
         } else {
@@ -122,7 +121,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             in: false,
             name: label,
             label: label,
-            alignment: PortModelAlignment.RIGHT
+            alignment: PortModelAlignment.RIGHT,
+            hasHiddenLabel: false
         });
         if (!after) {
             this.portsOut.splice(0, 0, p);
@@ -141,7 +141,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     deserialize(event: DeserializeEvent<this>) {
-        console.log('des', event);
+        // console.log('des', event);
 
         super.deserialize(event);
         this.options.name = event.data.name;
@@ -173,7 +173,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             selectableOptions: this.selectableOptions
         }
 
-        console.log('re', re)
+        // console.log('re', re)
 
         return re;
     }

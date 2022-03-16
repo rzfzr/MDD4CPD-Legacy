@@ -12,7 +12,7 @@ import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
 	in?: boolean;
-	hasHiddenLabel?: boolean;
+	hasHiddenLabel: boolean;
 }
 
 export interface DefaultPortModelGenerics extends PortModelGenerics {
@@ -20,28 +20,21 @@ export interface DefaultPortModelGenerics extends PortModelGenerics {
 }
 
 export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
-	constructor(isIn: boolean, name?: string, label?: string);
-	constructor(isIn: boolean, name?: string, label?: string);
-	constructor(options: MyPortModelOptions);
-	constructor(options: MyPortModelOptions | boolean, name?: string, label?: string, hasHiddenLabel?: boolean) {
-		if (name) {
-			options = {
-				in: !!options,
-				name: name,
-				label: label
-			};
-		}
-		options = options as MyPortModelOptions;
+	constructor(options: MyPortModelOptions) {
 		super({
+			in: options.in,
+			name: options.name,
 			label: options.label || options.name,
+			hasHiddenLabel: options.hasHiddenLabel,
 			alignment: options.in ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
-			type: 'default',
-			...options
+			type: 'default'
 		});
 	}
 
 	deserialize(event: DeserializeEvent<this>) {
+		console.log('des model', event)
 		super.deserialize(event);
+		this.options.hasHiddenLabel = event.data.hasHiddenLabel;
 		this.options.in = event.data.in;
 		this.options.label = event.data.label;
 	}
@@ -49,15 +42,15 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	serialize() {
 		return {
 			...super.serialize(),
+			hasHiddenLabel: this.options.hasHiddenLabel,
 			in: this.options.in,
-			label: this.options.label
+			label: this.options.label,
 		};
 	}
 
 	canLinkToPort(port: PortModel): boolean {
 		return true;
 	}
-
 	createLinkModel(): LinkModel {
 		return new MyRightAngleLinkModel()
 	}
