@@ -1,7 +1,7 @@
 import Prism from "prismjs";
 import { useEffect } from "react";
 import "./prism.css";
-import PrismEdit from "./PrismEdit";
+// import PrismEdit from "./PrismEdit";
 import Xarrow from "react-xarrows";
 
 
