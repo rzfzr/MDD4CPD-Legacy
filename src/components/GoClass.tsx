@@ -89,8 +89,6 @@ function initDiagram() {
                 new go.Binding("text", "type").makeTwoWay())
         );
 
-    // this simple template does not have any buttons to permit adding or
-    // removing properties or methods, but it could!
     myDiagram.nodeTemplate =
         $(go.Node, "Auto",
             {
@@ -141,7 +139,46 @@ function initDiagram() {
                     new go.Binding("visible", "methods", arr => arr.length > 0))
             )
         );
+    myDiagram.nodeTemplateMap.add("Start",
+        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+            $(go.Shape, "Circle",
+                {
+                    fill: "#52ce60", /* green */
+                    stroke: null,
+                    portId: "",
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                    cursor: "pointer"
+                }),
+            $(go.TextBlock, "Start",
+                {
+                    font: "bold 16pt helvetica, bold arial, sans-serif",
+                    stroke: "whitesmoke"
+                })
+        )
+    );
 
+    myDiagram.nodeTemplateMap.add("End",
+        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+            new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+            $(go.Shape, "Circle",
+                {
+                    fill: "maroon",
+                    stroke: null,
+                    portId: "",
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                    cursor: "pointer"
+                }),
+            $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
+            $(go.TextBlock, "End",
+                {
+                    font: "bold 16pt helvetica, bold arial, sans-serif",
+                    stroke: "whitesmoke"
+                })
+        )
+    );
     function convertIsTreeLink(r: string) {
         return r === "generalization";
     }

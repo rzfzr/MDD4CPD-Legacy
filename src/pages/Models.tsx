@@ -8,13 +8,14 @@ export default function ModelsPage() {
         { key: -2, name: 'Arduino' },
         { key: -3, name: 'Component' },
     ]
-
-
-    let nodesStatic: any[] = defaultNodes
-    let linksStatic: any[] = []
-    let nodesDynamic: any[] = defaultNodes
+    const defaultLinks: any[] = [
+        { key: -2, from: -2, to: -1, relationship: "generalization" },
+        { key: -3, from: -3, to: -1, relationship: "generalization" },
+    ]
+    let nodesStatic: any[] = [...defaultNodes]
+    let linksStatic: any[] = [...defaultLinks]
+    let nodesDynamic: any[] = [...defaultNodes]
     let linksDynamic: any[] = []
-
 
     paletteNodes.forEach((node, index) => {
         let methods: any[] = []
@@ -24,26 +25,22 @@ export default function ModelsPage() {
         node.outs?.forEach(method => {
             methods.push({ name: method, visibility: 'public' })
         });
-        nodesStatic.push(
-            {
-                key: index,
-                name: node.name,
-                methods: methods
-                // properties:
-            }
-        )
 
-    });
-
-
-
-
-    linksStatic.push({ key: -2, from: -2, to: -1, relationship: "generalization" })
-    linksStatic.push({ key: -3, from: -3, to: -1, relationship: "generalization" })
-    paletteNodes.forEach((node, index) => {
+        let parsedNode = {
+            key: index,
+            name: node.name,
+            methods: methods
+            // properties:
+        }
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         }
+
+        nodesStatic.push(parsedNode)
+        nodesDynamic.push({ "id": index + 250, "category": "Start" })
+        nodesDynamic.push(parsedNode)
+        nodesDynamic.push({ "id": index + 500, "category": "End" })
+
     });
 
     return <>
