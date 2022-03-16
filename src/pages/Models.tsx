@@ -4,7 +4,7 @@ import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 
 import './go.css';  // contains .diagram-component CSS
-import { Visibility } from "@material-ui/icons";
+// import { Visibility } from "@material-ui/icons";
 
 // ...
 
@@ -197,9 +197,9 @@ function initDiagram() {
  * This function handles any changes to the GoJS model.
  * It is here that you would make any updates to your React state, which is dicussed below.
  */
-function handleModelChange(changes: any) {
-    alert('GoJS model changed!');
-}
+// function handleModelChange(changes: any) {
+//     alert('GoJS model changed!');
+// }
 
 // render function...
 export default function ModelsPage() {
@@ -305,13 +305,6 @@ export default function ModelsPage() {
     //         ]
     //     }
     // ];
-
-
-
-
-
-
-
     return (
         <ReactDiagram
             initDiagram={initDiagram}
