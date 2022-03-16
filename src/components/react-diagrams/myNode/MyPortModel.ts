@@ -32,7 +32,6 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	deserialize(event: DeserializeEvent<this>) {
-		console.log('des model', event)
 		super.deserialize(event);
 		this.options.extras = event.data.extras;
 		this.options.in = event.data.in;
@@ -40,7 +39,6 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	serialize() {
-		console.log('res', this)
 		return {
 			...super.serialize(),
 			in: this.options.in,
@@ -53,7 +51,6 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		return true;
 	}
 	createLinkModel(): MyRightAngleLinkModel {
-		console.log('creating link', new MyRightAngleLinkModel())
 		return new MyRightAngleLinkModel()
 	}
 }

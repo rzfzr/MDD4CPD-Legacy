@@ -88,7 +88,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addPort<T extends MyPortModel>(port: T): T {
-        console.log('adding port', port)
         super.addPort(port);
         if (port.getOptions().in) {
             if (this.portsIn.indexOf(port) === -1) {
@@ -141,8 +140,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     deserialize(event: DeserializeEvent<this>) {
-        console.log('des', event);
-
         super.deserialize(event);
         this.options.name = event.data.name;
         this.options.color = event.data.color;
