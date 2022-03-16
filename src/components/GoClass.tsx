@@ -140,16 +140,17 @@ function initDiagram() {
             )
         );
     myDiagram.nodeTemplateMap.add("Start",
-        $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+        $(go.Node, "Spot", {
+            locationSpot: go.Spot.Center,
+            fromSpot: go.Spot.AllSides,
+            toSpot: go.Spot.AllSides,
+            desiredSize: new go.Size(75, 75)
+        },
             new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
             $(go.Shape, "Circle",
                 {
                     fill: "#52ce60", /* green */
                     stroke: null,
-                    portId: "",
-                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-                    cursor: "pointer"
                 }),
             $(go.TextBlock, "Start",
                 {
@@ -166,10 +167,6 @@ function initDiagram() {
                 {
                     fill: "maroon",
                     stroke: null,
-                    portId: "",
-                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
-                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
-                    cursor: "pointer"
                 }),
             $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
             $(go.TextBlock, "End",

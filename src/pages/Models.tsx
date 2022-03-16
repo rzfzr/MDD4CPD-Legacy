@@ -39,16 +39,21 @@ export default function ModelsPage() {
 
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
+            // linksDynamic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         }
+
+
+        const sD = 1000
+        const eD = 2000
+
 
         nodesStatic.push(parsedNode)
 
-        nodesDynamic.push({ "id": index + 250, "category": "Start" })
-        // {"from":-1,"to":0,"text":"Visit online store","points":[]},
-        linksDynamic.push({ key: index + 250, from: index, to: index + 250, text: "relation", relationship: "generalization" })
-
+        nodesDynamic.push({ key: index + sD, category: "Start" })
+        linksDynamic.push({ key: index + sD, from: index + sD, to: index, text: "relation", relationship: "generalization" })
         nodesDynamic.push(parsedNode)
-        nodesDynamic.push({ "id": index + 500, "category": "End" })
+        nodesDynamic.push({ key: index + eD, category: "End" })
+        linksDynamic.push({ key: index + eD, from: index, to: index + eD, text: "relation", relationship: "generalization" })
 
     });
 
