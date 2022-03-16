@@ -14,7 +14,7 @@ export default function ModelsPage() {
     ]
     let nodesStatic: any[] = [...defaultNodes]
     let linksStatic: any[] = [...defaultLinks]
-    let nodesDynamic: any[] = [...defaultNodes]
+    let nodesDynamic: any[] = []
     let linksDynamic: any[] = []
 
     paletteNodes.forEach((node, index) => {
@@ -37,23 +37,29 @@ export default function ModelsPage() {
         }
 
 
+        nodesStatic.push(parsedNode)
+
+
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
             // linksDynamic.push({ key: index, from: index, to: -2, relationship: "generalization" })
+        } else {
+
+            const sD = 1000
+            const eD = 2000
+            const cD = 3000
+
+
+
+
+            nodesDynamic.push({ key: index + cD, name: 'MicroController' })
+            linksDynamic.push({ key: index + cD, from: index + sD, to: index + cD, text: "relation", relationship: "generalization" })
+            nodesDynamic.push({ key: index + sD, category: "Start" })
+            linksDynamic.push({ key: index + sD, from: index + cD, to: index, text: "relation", relationship: "generalization" })
+            nodesDynamic.push(parsedNode)
+            linksDynamic.push({ key: index + eD, from: index, to: index + eD, text: "relation", relationship: "generalization" })
+            nodesDynamic.push({ key: index + eD, category: "End" })
         }
-
-
-        const sD = 1000
-        const eD = 2000
-
-
-        nodesStatic.push(parsedNode)
-
-        nodesDynamic.push({ key: index + sD, category: "Start" })
-        linksDynamic.push({ key: index + sD, from: index + sD, to: index, text: "relation", relationship: "generalization" })
-        nodesDynamic.push(parsedNode)
-        nodesDynamic.push({ key: index + eD, category: "End" })
-        linksDynamic.push({ key: index + eD, from: index, to: index + eD, text: "relation", relationship: "generalization" })
 
     });
 
