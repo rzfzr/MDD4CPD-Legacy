@@ -51,7 +51,16 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		return true;
 	}
 	createLinkModel(): MyRightAngleLinkModel {
-		console.log('created', new MyRightAngleLinkModel())
-		return new MyRightAngleLinkModel()
+
+		function hsl2rgb(h: any, s: any, l: any) {
+			let a = s * Math.min(l, 1 - l);
+			let f = (n: any, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+			return [f(0), f(8), f(4)];
+		}
+		let link = new MyRightAngleLinkModel()
+		link.setWidth(5)
+		link.setColor('rgb(' + hsl2rgb(Math.random() * 360, 100, 100) +
+			')')
+		return link
 	}
 }
