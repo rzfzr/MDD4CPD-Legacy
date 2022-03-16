@@ -1,18 +1,8 @@
-import paletteNodes from "../paletteNodes";
-
 import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 
-import './go.css';  // contains .diagram-component CSS
-// import { Visibility } from "@material-ui/icons";
+import './go.css';
 
-// ...
-
-/**
- * Diagram initialization method, which is passed to the ReactDiagram component.
- * This method is responsible for making the diagram and initializing the model and any templates.
- * The model's data should not be set here, as the ReactDiagram component handles that via the other props.
- */
 function initDiagram() {
     const $ = go.GraphObject.make;
     // set your license key here before creating the diagram: go.Diagram.licenseKey = "...";
@@ -194,58 +184,15 @@ function initDiagram() {
 }
 
 
-export default function GoDiagram() {
+export default function GoClass(props: { nodedata: any, linkdata: any }) {
+    console.log(props);
 
-    let nodedata: any[] = []
-
-    nodedata.push(
-        { key: -1, name: 'MicroController' },
-        { key: -2, name: 'Arduino' },
-        { key: -3, name: 'Component' },
-    )
-
-
-    paletteNodes.forEach((node, index) => {
-
-        // let extras: any[] = Object.entries(node.extras)
-        let methods: any[] = []
-
-        node.ins?.forEach(method => {
-            methods.push({ name: method, visibility: 'public' })
-        });
-        node.outs?.forEach(method => {
-            methods.push({ name: method, visibility: 'public' })
-        });
-
-
-        nodedata.push(
-            {
-                key: index,
-                name: node.name,
-                methods: methods
-                // properties:
-            }
-        )
-
-    });
-
-
-
-    let linkdata: any[] = []
-
-    linkdata.push({ key: -2, from: -2, to: -1, relationship: "generalization" })
-    linkdata.push({ key: -3, from: -3, to: -1, relationship: "generalization" })
-    paletteNodes.forEach((node, index) => {
-        if (node.extras.type === 'controller') {
-            linkdata.push({ key: index, from: index, to: -2, relationship: "generalization" })
-        }
-    });
     return (
         <ReactDiagram
             initDiagram={initDiagram}
             divClassName='diagram-component'
-            nodeDataArray={nodedata}
-            linkDataArray={linkdata}
+            nodeDataArray={props.nodedata}
+            linkDataArray={props.linkdata}
         />
     );
 }
