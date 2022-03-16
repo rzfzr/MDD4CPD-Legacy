@@ -141,7 +141,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     deserialize(event: DeserializeEvent<this>) {
-        // console.log('des', event);
+        console.log('des', event);
 
         super.deserialize(event);
         this.options.name = event.data.name;

@@ -1,5 +1,4 @@
 import {
-	LinkModel,
 	PortModel,
 	PortModelAlignment,
 	PortModelGenerics,
@@ -12,7 +11,7 @@ import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
 	in?: boolean;
-	hasHiddenLabel: boolean;
+	hasHiddenLabel?: boolean;
 }
 
 export interface DefaultPortModelGenerics extends PortModelGenerics {
@@ -20,38 +19,41 @@ export interface DefaultPortModelGenerics extends PortModelGenerics {
 }
 
 export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
+	extras: any;
 	constructor(options: MyPortModelOptions) {
 		super({
 			in: options.in,
 			name: options.name,
 			label: options.label || options.name,
-			hasHiddenLabel: options.hasHiddenLabel,
 			alignment: options.in ? PortModelAlignment.LEFT : PortModelAlignment.RIGHT,
-			type: 'default'
+			type: 'default',
+			extras: { hasHiddenLabel: options.hasHiddenLabel }
 		});
 	}
 
 	deserialize(event: DeserializeEvent<this>) {
 		console.log('des model', event)
 		super.deserialize(event);
-		this.options.hasHiddenLabel = event.data.hasHiddenLabel;
+		this.options.extras = event.data.extras;
 		this.options.in = event.data.in;
 		this.options.label = event.data.label;
 	}
 
 	serialize() {
+		console.log('res', this)
 		return {
 			...super.serialize(),
-			hasHiddenLabel: this.options.hasHiddenLabel,
 			in: this.options.in,
 			label: this.options.label,
+			extras: this.options.extras,
 		};
 	}
 
 	canLinkToPort(port: PortModel): boolean {
 		return true;
 	}
-	createLinkModel(): LinkModel {
+	createLinkModel(): MyRightAngleLinkModel {
+		console.log('creating link', new MyRightAngleLinkModel())
 		return new MyRightAngleLinkModel()
 	}
 }
