@@ -125,7 +125,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         } else {
             if (toNode?.instance) {
                 add(toNode.instance + '.' + removeTypes(toPort.name) + '();')
-            } else if (fromNode.instance) {
+            } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + removeTypes(fromPort.name) + '();')
             } else {
                 warn('Loose connection', [fromNode])
