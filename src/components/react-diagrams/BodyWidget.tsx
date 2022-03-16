@@ -53,7 +53,7 @@ function BodyWidget(props: BodyWidgetProps) {
 	const [rerender, setRerender] = React.useState(false);
 
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
-	const stringModel = JSON.stringify(rawModel)
+	const stringModel = JSON.stringify(rawModel, null, 2)
 
 	const groups = [...new Set(paletteNodes.map(x => x.extras.type))]
 	useEffect(() => {

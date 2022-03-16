@@ -51,6 +51,7 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		return true;
 	}
 	createLinkModel(): MyRightAngleLinkModel {
+		console.log('created', new MyRightAngleLinkModel())
 		return new MyRightAngleLinkModel()
 	}
 }
