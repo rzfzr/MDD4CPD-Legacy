@@ -1,12 +1,9 @@
 import GoClass from "../components/GoClass";
 import paletteNodes from "../paletteNodes";
+import { processDynamic, transformAllIntoMethods } from "../components/goBuilder"
+
 
 export default function ModelsPage() {
-    const startDelta = 1000
-    const endDelta = 2000
-    const controllerDelta = 3000
-    const methodDelta = 4000
-
     let nodesStatic: any[] = [
         { key: -1, name: 'MicroController' },
         { key: -2, name: 'Arduino' },
@@ -21,45 +18,20 @@ export default function ModelsPage() {
     let linksDynamic: any[] = []
 
     paletteNodes.forEach((node, index) => {
-        let methods: any[] = []
-        node.methods?.forEach(method => {
-            methods.push({ name: method, visibility: 'public' })
-        });
-        node.ins?.forEach(method => {
-            methods.push({ name: method, visibility: 'public' })
-        });
-        node.outs?.forEach(method => {
-            methods.push({ name: method, visibility: 'public' })
-        });
 
         nodesStatic.push({
             key: index,
             name: node.name,
-            methods: methods,
+            methods: transformAllIntoMethods(node),
         })
 
 
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         } else {
-            nodesDynamic.push({ key: index + controllerDelta, name: 'MicroController' })
-            linksDynamic.push({
-                key: index + controllerDelta,
-                from: index + startDelta,
-                to: index + controllerDelta,
-                relationship: "state"
-            })
-            nodesDynamic.push({ key: index + startDelta, category: "Start" })
-
-            methods.forEach((method, methodIndex) => {
-                linksDynamic.push({ key: index + startDelta + methodIndex * methodDelta, from: index + controllerDelta, to: index, text: method.name, relationship: "state" })
-            });
-            nodesDynamic.push({
-                key: index,
-                name: node.name,
-            })
-            linksDynamic.push({ key: index + endDelta, from: index, to: index + endDelta, relationship: "state" })
-            nodesDynamic.push({ key: index + endDelta, category: "End" })
+            const { nodes, links } = processDynamic(node, index)
+            nodesDynamic.push(...nodes)
+            linksDynamic.push(...links)
         }
 
     });

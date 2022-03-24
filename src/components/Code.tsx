@@ -9,6 +9,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ReactTooltip from 'react-tooltip';
 import GoClass from './GoClass';
 
+import { processDynamic } from "../components/goBuilder"
 
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
@@ -347,14 +348,6 @@ export default function Code(props: { model: string }) {
         problems = cleanProblems
     }
 
-
-
-    const startDelta = 1000
-    const endDelta = 2000
-    const controllerDelta = 3000
-    const methodDelta = 4000
-
-
     useEffect(() => {
         Prism.highlightAll();
     }, [props])
@@ -377,14 +370,10 @@ export default function Code(props: { model: string }) {
                         let nodedata: any[] = []
                         let linkdata: any[] = []
                         p.nodes.forEach((node: any, index: number) => {
-                            nodedata.push({ key: index + startDelta, category: "Start" })
-
-
-                            nodedata.push({
-                                key: index,
-                                name: node.name
-                            })
-                            nodedata.push({ key: index + endDelta, category: "End" })
+                            console.log('processing', node)
+                            const { nodes, links } = processDynamic(node, index)
+                            nodedata.push(...nodes)
+                            linkdata.push(...links)
                         });
 
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
@@ -404,7 +393,7 @@ export default function Code(props: { model: string }) {
 
 
                                     <GoClass
-                                        linkdata={[]} nodedata={nodedata} arrangement='horizontal' />
+                                        linkdata={linkdata} nodedata={nodedata} arrangement='horizontal' />
                                 </div>
                             </ReactTooltip>
 
