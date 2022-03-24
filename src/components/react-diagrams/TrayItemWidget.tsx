@@ -3,6 +3,7 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ReactTooltip from 'react-tooltip';
+import GoClass from '../GoClass';
 
 export interface TrayItemWidgetProps {
 	node: any;
@@ -25,10 +26,22 @@ namespace S {
 
 export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 	render() {
-		// const label = this.props.node.name.includes(" ") && this.props.node.name.length > 15 ? (<div>
-		// 	{this.props.node.name.substr(0, this.props.node.name.indexOf(' '))}
-		// 	<br />
-		// 	{this.props.node.name.substr(this.props.node.name.indexOf(' ') + 1)}</div>) : this.props.node.name
+		let methods: any[] = []
+		this.props.node.methods?.forEach((method: any) => {
+			methods.push({ name: method, visibility: 'public' })
+		});
+		this.props.node.ins?.forEach((method: any) => {
+			methods.push({ name: method, visibility: 'public' })
+		});
+		this.props.node.outs?.forEach((method: any) => {
+			methods.push({ name: method, visibility: 'public' })
+		});
+		const node = {
+			key: 0,
+			name: this.props.node.name,
+			methods: methods,
+
+		}
 		return (
 			<S.Tray
 				color={this.props.node.color || 'red'}
@@ -51,7 +64,10 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 					delayHide={500}
 					effect="solid"
 				>
-					Sup
+					<div className='miniGoHolder'>
+						<GoClass
+							linkdata={[]} nodedata={[node]} arrangement='horizontal' />
+					</div>
 				</ReactTooltip>
 			</S.Tray>
 		);
