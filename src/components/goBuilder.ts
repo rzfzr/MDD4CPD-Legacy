@@ -9,6 +9,10 @@ const methodDelta = 4000
 
 export function transformAllIntoMethods(node: any) {
     let methods: any[] = []
+    node.ports?.forEach((method: any) => {
+        methods.push({ name: method.label, visibility: 'public' })
+    });
+
     node.methods?.forEach((method: any) => {
         methods.push({ name: method, visibility: 'public' })
     });
@@ -40,7 +44,6 @@ export function processDynamic(node: any, index: number) {
     nodes.push({ key: index + startDelta, category: "Start" })
 
     transformAllIntoMethods(node).forEach((method, methodIndex) => {
-        console.log('found method', method)
         links.push({
             key: index + startDelta + methodIndex * methodDelta,
             from: index + controllerDelta,

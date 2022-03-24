@@ -370,7 +370,6 @@ export default function Code(props: { model: string }) {
                         let nodedata: any[] = []
                         let linkdata: any[] = []
                         p.nodes.forEach((node: any, index: number) => {
-                            console.log('processing', node)
                             const { nodes, links } = processDynamic(node, index)
                             nodedata.push(...nodes)
                             linkdata.push(...links)
