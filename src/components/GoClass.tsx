@@ -203,7 +203,16 @@ function initDiagram() {
             $(go.Shape, { scale: 1.3, fill: "white" },
                 new go.Binding("fromArrow", "relationship", convertFromArrow)),
             $(go.Shape, { scale: 1.3, fill: "white" },
-                new go.Binding("toArrow", "relationship", convertToArrow))
+                new go.Binding("toArrow", "relationship", convertToArrow)),
+            $(go.TextBlock, "",  // the label text
+                {
+                    textAlign: "center",
+                    font: "9pt helvetica, arial, sans-serif",
+                    margin: 4,
+                    editable: true  // enable in-place editing
+                },
+                // editing the text automatically updates the model data
+                new go.Binding("text").makeTwoWay())
         );
 
     myDiagram.model = new go.GraphLinksModel(
@@ -218,8 +227,6 @@ function initDiagram() {
 
 
 export default function GoClass(props: { nodedata: any, linkdata: any }) {
-    console.log(props);
-
     return (
         <ReactDiagram
             initDiagram={initDiagram}

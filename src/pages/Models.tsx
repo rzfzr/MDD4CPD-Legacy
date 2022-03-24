@@ -5,6 +5,7 @@ export default function ModelsPage() {
     const startDelta = 1000
     const endDelta = 2000
     const controllerDelta = 3000
+    const methodDelta = 4000
 
     let nodesStatic: any[] = [
         { key: -1, name: 'MicroController' },
@@ -30,25 +31,28 @@ export default function ModelsPage() {
             methods.push({ name: method, visibility: 'public' })
         });
 
-        let parsedNode = {
+        nodesStatic.push({
             key: index,
             name: node.name,
-            methods: methods
-        }
-
-
-        nodesStatic.push(parsedNode)
+            methods: methods,
+        })
 
 
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         } else {
             nodesDynamic.push({ key: index + controllerDelta, name: 'MicroController' })
-            linksDynamic.push({ key: index + controllerDelta, from: index + startDelta, to: index + controllerDelta, text: "relation", relationship: "generalization" })
+            linksDynamic.push({ key: index + controllerDelta, from: index + startDelta, to: index + controllerDelta, relationship: "generalization" })
             nodesDynamic.push({ key: index + startDelta, category: "Start" })
-            linksDynamic.push({ key: index + startDelta, from: index + controllerDelta, to: index, text: "relation", relationship: "generalization" })
-            nodesDynamic.push(parsedNode)
-            linksDynamic.push({ key: index + endDelta, from: index, to: index + endDelta, text: "relation", relationship: "generalization" })
+
+            methods.forEach((method, methodIndex) => {
+                linksDynamic.push({ key: index + startDelta + methodIndex * methodDelta, from: index + controllerDelta, to: index, text: method.name, relationship: "generalization" })
+            });
+            nodesDynamic.push({
+                key: index,
+                name: node.name,
+            })
+            linksDynamic.push({ key: index + endDelta, from: index, to: index + endDelta, relationship: "generalization" })
             nodesDynamic.push({ key: index + endDelta, category: "End" })
         }
 
