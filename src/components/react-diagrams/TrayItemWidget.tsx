@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled from '@emotion/styled';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ReactTooltip from 'react-tooltip';
-import NodeDiagram from '../../components/NodeDiagram'
+
 export interface TrayItemWidgetProps {
 	node: any;
 }
@@ -51,8 +51,7 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 					delayHide={500}
 					effect="solid"
 				>
-
-					<NodeDiagram node={this.props.node} />
+					Sup
 				</ReactTooltip>
 			</S.Tray>
 		);

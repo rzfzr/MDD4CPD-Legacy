@@ -8,7 +8,6 @@ import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
 import paletteNodes from '../../paletteNodes';
 import { useState, useEffect } from 'react';
 import Code from '../Code';
-import { Button } from '@material-ui/core';
 var ScrollArea = require('react-scrollbar').default;
 export interface BodyWidgetProps {
 	app: Application;

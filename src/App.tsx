@@ -6,7 +6,6 @@ import EditorPage from './pages/Editor'
 import HomePage from './pages/Home';
 import ModelsPage from './pages/Models';
 import TransformationsPage from './pages/Transformations';
-import PalettePage from './pages/Palette';
 import SettingsPage from './pages/Settings';
 export default function App() {
   return (
@@ -16,7 +15,6 @@ export default function App() {
           <Route path='/mdd4/' element={<HomePage />} />
           <Route path='/mdd4/models' element={<ModelsPage />} />
           <Route path='/mdd4/transformations' element={<TransformationsPage />} />
-          <Route path='/mdd4/palette' element={<PalettePage />} />
           <Route path='/mdd4/editor' element={<EditorPage />} />
           <Route path='/mdd4/settings' element={<SettingsPage />} />
         </Routes>
