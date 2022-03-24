@@ -14,7 +14,8 @@ export default function ModelsPage() {
     ]
     let linksStatic: any[] = [
         { key: -2, from: -2, to: -1, relationship: "generalization" },
-        { key: -3, from: -3, to: -1, relationship: "generalization" },
+        { key: -3, from: -3, to: -1, relationship: "aggregation" },
+        { key: -4, from: -3, to: -3, relationship: "aggregation" },
     ]
     let nodesDynamic: any[] = []
     let linksDynamic: any[] = []
@@ -42,24 +43,24 @@ export default function ModelsPage() {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         } else {
             nodesDynamic.push({ key: index + controllerDelta, name: 'MicroController' })
-            linksDynamic.push({ key: index + controllerDelta, from: index + startDelta, to: index + controllerDelta, relationship: "generalization" })
+            linksDynamic.push({ key: index + controllerDelta, from: index + startDelta, to: index + controllerDelta, relationship: "state" })
             nodesDynamic.push({ key: index + startDelta, category: "Start" })
 
             methods.forEach((method, methodIndex) => {
-                linksDynamic.push({ key: index + startDelta + methodIndex * methodDelta, from: index + controllerDelta, to: index, text: method.name, relationship: "generalization" })
+                linksDynamic.push({ key: index + startDelta + methodIndex * methodDelta, from: index + controllerDelta, to: index, text: method.name, relationship: "state" })
             });
             nodesDynamic.push({
                 key: index,
                 name: node.name,
             })
-            linksDynamic.push({ key: index + endDelta, from: index, to: index + endDelta, relationship: "generalization" })
+            linksDynamic.push({ key: index + endDelta, from: index, to: index + endDelta, relationship: "state" })
             nodesDynamic.push({ key: index + endDelta, category: "End" })
         }
 
     });
 
     return <>
-        <GoClass linkdata={linksStatic} nodedata={nodesStatic} />
-        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic} />
+        <GoClass linkdata={linksStatic} nodedata={nodesStatic} arrangement='horizontal' />
+        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic} arrangement='vertical' />
     </>
 }

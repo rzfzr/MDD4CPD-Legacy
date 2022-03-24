@@ -3,26 +3,24 @@ import { ReactDiagram } from 'gojs-react';
 
 import './go.css';
 
-function initDiagram() {
+function initDiagram(arrangement: any = 'horizontal') {
     const $ = go.GraphObject.make;
-    // set your license key here before creating the diagram: go.Diagram.licenseKey = "...";
+
+    const actualArrangement = arrangement === 'vertical' ? go.TreeLayout.ArrangementVertical : go.TreeLayout.ArrangementHorizontal
+
+
     const myDiagram = $(go.Diagram,
         {
-            "undoManager.isEnabled": true,
             layout: $(go.TreeLayout,
                 { // this only lays out in trees nodes connected by "generalization" links
-                    angle: 90,
+                    angle: 180,
                     path: go.TreeLayout.PathSource,  // links go from child to parent
                     setsPortSpot: false,  // keep Spot.AllSides for link connection spot
                     setsChildPortSpot: false,  // keep Spot.AllSides
-                    // nodes not connected by "generalization" links are laid out horizontally
-                    arrangement: go.TreeLayout.ArrangementHorizontal,
-
-
+                    arrangement: actualArrangement,
                 })
         });
 
-    // show visibility or access as a single character at the beginning of each property or method
     function convertVisibility(v: any) {
         switch (v) {
             case "public": return "+";
@@ -33,7 +31,6 @@ function initDiagram() {
         }
     }
 
-    // the item template for properties
     var propertyTemplate =
         $(go.Panel, "Horizontal",
             // property visibility/access
@@ -56,8 +53,6 @@ function initDiagram() {
                 { isMultiline: false, editable: false },
                 new go.Binding("text", "default", s => s ? " = " + s : ""))
         );
-
-    // the item template for methods
     var methodTemplate =
         $(go.Panel, "Horizontal",
             // method visibility/access
@@ -69,19 +64,7 @@ function initDiagram() {
                 { isMultiline: false, editable: true },
                 new go.Binding("text", "name").makeTwoWay(),
                 new go.Binding("isUnderline", "scope", s => s[0] === 'c')),
-            // method parameters
-            $(go.TextBlock, "()",
-                // this does not permit adding/editing/removing of parameters via inplace edits
-                new go.Binding("text", "parameters", function (parr) {
-                    var s = "(";
-                    for (var i = 0; i < parr.length; i++) {
-                        var param = parr[i];
-                        if (i > 0) s += ", ";
-                        s += param.name + ": " + param.type;
-                    }
-                    return s + ")";
-                })),
-            // method return type, if any
+
             $(go.TextBlock, "",
                 new go.Binding("text", "type", t => t ? ": " : "")),
             $(go.TextBlock,
@@ -179,6 +162,9 @@ function initDiagram() {
     function convertIsTreeLink(r: string) {
         return r === "generalization";
     }
+    function convertIsStateLink(r: string) {
+        return r === "state";
+    }
 
     function convertFromArrow(r: any) {
         switch (r) {
@@ -190,6 +176,7 @@ function initDiagram() {
     function convertToArrow(r: any) {
         switch (r) {
             case "generalization": return "Triangle";
+            case "state": return "Triangle";
             case "aggregation": return "StretchedDiamond";
             default: return "";
         }
@@ -199,6 +186,7 @@ function initDiagram() {
         $(go.Link,
             { routing: go.Link.Orthogonal },
             new go.Binding("isLayoutPositioned", "relationship", convertIsTreeLink),
+            new go.Binding("isLayoutPositioned", "relationship", convertIsStateLink),
             $(go.Shape),
             $(go.Shape, { scale: 1.3, fill: "white" },
                 new go.Binding("fromArrow", "relationship", convertFromArrow)),
@@ -226,7 +214,7 @@ function initDiagram() {
 }
 
 
-export default function GoClass(props: { nodedata: any, linkdata: any }) {
+export default function GoClass(props: { nodedata: any, linkdata: any, arrangement: string }) {
     return (
         <ReactDiagram
             initDiagram={initDiagram}
