@@ -25,16 +25,17 @@ namespace S {
 		flex-grow: 1;
 	`;
 
-    export const Port = styled.div`
-        border:solid 1px white;
-		
-        width: 14px;
-		height: 14px;
-		background: rgba(255, 255, 255, 0.3);
-		&:hover {
-			background: rgb(192, 255, 0);
-		}
-	`;
+    export const Port = styled.div((props: any) => ({
+        border: 'solid 1px white',
+        width: '14px',
+        height: '14px',
+        background: (props.hasLink ? 'rgba(255, 192, 0, 0.7)' : 'rgba(255, 255, 255, 0.3)'),
+        '&:hover': {
+            background: 'rgb(192, 255, 0)',
+        }
+    }))
+
+
     export const FakePort = styled.div`
         width: 16px;
 		height: 16px;
@@ -43,6 +44,10 @@ namespace S {
 
 export class MyPortLabel extends React.Component<MyPortLabelProps> {
     render() {
+        const hasLink = Object.keys(this.props?.port?.links).length !== 0
+        console.log('rendering port label', this.props?.port?.getOptions().label, hasLink)
+
+
         const hasHiddenLabel = this.props?.port?.getOptions().extras.hasHiddenLabel
         let isVoid = false
         if (this.props?.port?.getOptions().label?.startsWith('void')) {
@@ -53,7 +58,7 @@ export class MyPortLabel extends React.Component<MyPortLabelProps> {
         const port = isVoid ? (<S.FakePort />) : (
             <PortWidget engine={this.props.engine
             } port={this.props.port} >
-                <S.Port />
+                <S.Port hasLink={hasLink} />
             </PortWidget>
         );
 
