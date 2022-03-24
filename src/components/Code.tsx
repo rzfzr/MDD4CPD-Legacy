@@ -1,8 +1,13 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import Prism from "prismjs";
 import { useEffect } from "react";
 import "./prism.css";
 // import PrismEdit from "./PrismEdit";
 import Xarrow from "react-xarrows";
+
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import ReactTooltip from 'react-tooltip';
+import GoClass from './GoClass';
 
 
 function generateCode(model: any): { code: string, problems: any[] } {
@@ -342,6 +347,14 @@ export default function Code(props: { model: string }) {
         problems = cleanProblems
     }
 
+
+
+    const startDelta = 1000
+    const endDelta = 2000
+    const controllerDelta = 3000
+    const methodDelta = 4000
+
+
     useEffect(() => {
         Prism.highlightAll();
     }, [props])
@@ -360,8 +373,42 @@ export default function Code(props: { model: string }) {
                             });
                         }
                         const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
+
+                        let nodedata: any[] = []
+                        let linkdata: any[] = []
+                        p.nodes.forEach((node: any, index: number) => {
+                            nodedata.push({ key: index + startDelta, category: "Start" })
+
+
+                            nodedata.push({
+                                key: index,
+                                name: node.name
+                            })
+                            nodedata.push({ key: index + endDelta, category: "End" })
+                        });
+
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
+
                             Model violation: {p.message}
+                            <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >
+                                <OpenInNewIcon style={{ fontSize: '1rem' }} />
+                            </a>
+                            <ReactTooltip
+                                className="interactableTooltip"
+                                id={'tip-' + problemId}
+                                type='light' place="bottom"
+                                delayHide={500}
+                                effect="solid"
+                            >
+                                <div className='miniGoHolder'>
+
+
+                                    <GoClass
+                                        linkdata={[]} nodedata={nodedata} arrangement='horizontal' />
+                                </div>
+                            </ReactTooltip>
+
+
                             {p.nodes.map((node: any, index: any) => {
                                 return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
                                     <Xarrow

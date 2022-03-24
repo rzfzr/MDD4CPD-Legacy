@@ -43,7 +43,12 @@ export default function ModelsPage() {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         } else {
             nodesDynamic.push({ key: index + controllerDelta, name: 'MicroController' })
-            linksDynamic.push({ key: index + controllerDelta, from: index + startDelta, to: index + controllerDelta, relationship: "state" })
+            linksDynamic.push({
+                key: index + controllerDelta,
+                from: index + startDelta,
+                to: index + controllerDelta,
+                relationship: "state"
+            })
             nodesDynamic.push({ key: index + startDelta, category: "Start" })
 
             methods.forEach((method, methodIndex) => {
