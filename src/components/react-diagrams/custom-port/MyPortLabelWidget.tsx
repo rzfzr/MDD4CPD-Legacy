@@ -45,9 +45,6 @@ namespace S {
 export class MyPortLabel extends React.Component<MyPortLabelProps> {
     render() {
         const hasLink = Object.keys(this.props?.port?.links).length !== 0
-        console.log('rendering port label', this.props?.port?.getOptions().label, hasLink)
-
-
         const hasHiddenLabel = this.props?.port?.getOptions().extras.hasHiddenLabel
         let isVoid = false
         if (this.props?.port?.getOptions().label?.startsWith('void')) {
