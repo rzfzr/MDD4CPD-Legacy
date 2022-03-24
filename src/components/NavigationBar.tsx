@@ -9,7 +9,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import EditIcon from '@material-ui/icons/Edit';
 import MapIcon from '@material-ui/icons/Map';
 // import SwapHorizIcon from '@material-ui/icons/SwapHoriz';
-import PaletteIcon from '@material-ui/icons/Palette';
+// import PaletteIcon from '@material-ui/icons/Palette';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TransformIcon from '@mui/icons-material/Transform';
 
@@ -30,7 +30,7 @@ export default function SimpleBottomNavigation() {
                 <BottomNavigationAction component={Link} label="Home" to="/mdd4/" icon={<HomeIcon />} />
                 <BottomNavigationAction component={Link} label="Models" to="/mdd4/models" icon={<MapIcon />} />
                 <BottomNavigationAction component={Link} label="Transformations" to="/mdd4/transformations" icon={<TransformIcon />} />
-                <BottomNavigationAction component={Link} label="Palette" to="/mdd4/palette" icon={<PaletteIcon />} />
+                {/* <BottomNavigationAction component={Link} label="Palette" to="/mdd4/palette" icon={<PaletteIcon />} /> */}
                 <BottomNavigationAction component={Link} label="Editor" to="/mdd4/editor" icon={<EditIcon />} />
                 <BottomNavigationAction component={Link} label="Settings" to="/mdd4/settings" icon={<SettingsIcon />} />
             </BottomNavigation>
