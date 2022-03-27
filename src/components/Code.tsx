@@ -11,6 +11,29 @@ import GoClass from './GoClass';
 
 import { processDynamic } from "../components/goBuilder"
 
+import { createMachine } from 'xstate';
+import { useMachine } from '@xstate/react';
+
+
+const codeMachine = createMachine({
+    id: "payment",
+    initial: "method",
+    states: {
+        method: {
+            initial: "cash",
+            states: {
+                cash: { on: { SWITCH_CHECK: "check" } },
+                check: { on: { SWITCH_CASH: "cash" } },
+                hist: { type: "history" },
+            },
+            on: { NEXT: "review" },
+        },
+        review: {
+            on: { PREVIOUS: "method.hist" },
+        },
+    },
+});
+
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
     let code = ''
@@ -330,6 +353,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
 }
 export default function Code(props: { model: string }) {
     // console.log('CodeComponent render')
+    const [state, send] = useMachine(codeMachine);
+    console.log('state', state)
+
     const model = props.model
     let code = ''
     let problems: any[] = []
