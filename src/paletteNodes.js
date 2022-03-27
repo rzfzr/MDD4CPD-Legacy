@@ -144,6 +144,35 @@ export default [{
         ]
     },
     {
+        name: 'Zero, Due & MKR Family',
+        color: 'cyan',
+        extras: {
+            type: 'built-in'
+        },
+        methods: [
+            'void analogReadResolution(bits bits)',
+            'void analogWriteResolution(bits bits)',
+        ]
+    },
+    {
+        name: 'Advanced I/O',
+        color: 'cyan',
+        extras: {
+            type: 'built-in'
+        },
+        methods: [
+            'void noTone(int pin)',
+            'unsigned long pulseIn(int pin, int value)',
+            'unsigned long pulseIn(int pin, int value,unsigned long timeout)',
+            'unsigned long pulseInLong(int pin, int value)',
+            'unsigned long pulseInLong(int pin, int value,unsigned long timeout)',
+            'byte shiftIn(int dataPin, int clockPin, int bitOrder)',
+            'void shiftOut(int dataPin, int clockPin, int bitOrder, byte value)',
+            'void tone(int pin, unsigned int frequency)',
+            'void tone(int pin, unsigned int frequency, unsigned long duration)',
+        ]
+    },
+    {
         name: 'true',
         color: 'cyan',
         extras: {
