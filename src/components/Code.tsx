@@ -330,8 +330,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
 }
 export default function Code(props: { model: string }) {
     // console.log('CodeComponent render')
-    const [state] = useMachine(codeMachine);
-    console.log('state', state)
 
     const model = props.model
     let code = ''
