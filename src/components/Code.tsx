@@ -15,24 +15,82 @@ import { createMachine } from 'xstate';
 import { useMachine } from '@xstate/react';
 
 
-const codeMachine = createMachine({
-    id: "payment",
-    initial: "method",
-    states: {
-        method: {
-            initial: "cash",
-            states: {
-                cash: { on: { SWITCH_CHECK: "check" } },
-                check: { on: { SWITCH_CASH: "cash" } },
-                hist: { type: "history" },
+const codeMachine =
+    createMachine({
+        id: "codeMachine",
+        initial: "startAll",
+        states: {
+            startAll: {
+                on: {
+                    microController: [
+                        {
+                            cond: 'isMoreThanOne',
+                            target: '#codeMachine.endAll',
+                            actions: ['warn'],
+                        },
+                        {
+                            cond: 'isNull',
+                            target: '#codeMachine.endAll',
+                            actions: ['warn'],
+                        },
+                        {
+                            cond: 'isOne',
+                            target: 'lifecycleMethods'
+                        },
+                    ],
+                }
             },
-            on: { NEXT: "review" },
+            lifecycleMethods: {
+                on: {
+                    calls: [
+                        {
+                            cond: 'isNull',
+                            target: 'endAll',
+                            actions: ['warn'],
+                        },
+                        {
+                            cond: 'isNotNull',
+                            target: 'processStatements',
+                        }
+                    ]
+                }
+            },
+            processStatements: {
+                initial: 'statementStart',
+                states: {
+                    statementStart: {
+                        on: {
+                            calls: [
+                                {
+                                    cond: 'isNull',
+                                    target: '#codeMachine.endAll',
+                                },
+                                {
+                                    cond: 'isMoreThanZero',
+                                    target: 'process',
+                                }
+                            ]
+                        },
+                    },
+                    process: {
+                        on: {
+                            calls: [{
+                                cond: 'isVoidWithoutParameters',
+                                target: 'statementStart',
+                                actions: ['print'],
+                            }, {
+                                cond: 'isVoidWithoutParameters',
+                                target: 'statementStart',
+                                actions: ['print'],
+                            }]
+                        }
+
+                    }
+                }
+            },
+            endAll: {},
         },
-        review: {
-            on: { PREVIOUS: "method.hist" },
-        },
-    },
-});
+    });
 
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
@@ -353,7 +411,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 }
 export default function Code(props: { model: string }) {
     // console.log('CodeComponent render')
-    const [state, send] = useMachine(codeMachine);
+    const [state] = useMachine(codeMachine);
     console.log('state', state)
 
     const model = props.model
