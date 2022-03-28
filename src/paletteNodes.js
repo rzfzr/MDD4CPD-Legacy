@@ -215,17 +215,24 @@ export default [{
         extras: {
             type: 'port'
         },
+        ins: [
+            'in'
+        ],
         outs: [
-            'port',
+            'out',
         ]
-    }, {
+    },
+    {
         name: 'Analog Port',
         color: 'white',
         extras: {
             type: 'port'
         },
+        ins: [
+            'in'
+        ],
         outs: [
-            'port',
+            'out',
         ]
     },
     {

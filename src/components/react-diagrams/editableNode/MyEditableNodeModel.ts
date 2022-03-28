@@ -40,14 +40,16 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         const content = { name: 'userName', hasUsername: hasUserName, value: '', hasValue: hasUserValue, hasUsages: false }
         this.selectableOptions = ['something', 'went wrong'];
 
-
+        console.log('adding', data)
         switch (data.name) {
             case 'bool':
                 content.value = 'true'
                 this.selectableOptions = ['true', 'false'];
                 break;
-            case 'port':
+            case 'Digital Port':
+            case 'Analog Port':
                 content.value = '0'
+                content.hasUsages = true
                 this.selectableOptions = Array.from(Array(10).keys()).map(x => x.toString())
                 break;
             case 'int':

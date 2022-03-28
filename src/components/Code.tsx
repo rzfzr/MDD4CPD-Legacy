@@ -84,7 +84,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         });
     }
     function warnAboutMultipleUsePorts(nodes: any) {
-        nodes.filter((node: any) => node.extras.type === 'variable' || node.extras.type === 'parameter')
+        nodes.filter((node: any) => ['variable', 'parameter', 'port'].includes(node.extras.type))
             .forEach((node: any) => {
                 node.ports.forEach((port: any) => {
                     if (port.links.length > 1) {
@@ -337,7 +337,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
     const components: any[] = getComponentsFromNodes(nodes)
     const controllers: any[] = nodes.filter(node => node.extras?.type === 'controller')
     const controller = controllers[0]
-
     const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
     const constants: any[] = nodes.filter(node => node.extras?.type === 'constant').map((constant) => {
         constant.content.name = constant.content.name.toUpperCase()
