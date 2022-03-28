@@ -17,11 +17,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Reviewed Functions
     function addConstantDeclarations(constants: any) {
         if (constants.length > 0) {
+            add("")
             add('// Constants')
             constants.forEach((constant: any) => {
                 add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
             });
-            add('')
         }
     }
     function addFunctionDeclarations(functions: any) {
@@ -43,6 +43,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
 
         if (libraries.length > 0) {
+            add("")
             add('// Libraries')
             libraries.forEach((lib: any) => {
                 add('#include <' + lib + '>')
@@ -143,18 +144,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const usedDigital: number[] = [...new Set(nodes.filter(node => node.name === 'Digital Port').map(node => node.content.value))]
         const usedAnalog: number[] = [...new Set(nodes.filter(node => node.name === 'Analog Port').map(node => node.content.value))]
 
-        addOnTop("")
-        addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "    */")
-        addOnTop(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
-        addOnTop("/* Code generated for ", controller?.name);
-
-        function addOnTop(...message: string[]) {
-            let top = ''
-            message.forEach((m) => {
-                top += m;
-            });
-            code = top + "\n" + code
-        };
+        add("/* Code generated for ", controller?.name);
+        add(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
+        add(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "    */")
     }
     function getLink(linkID: string) {
         return links.find(l => l.id === linkID);
@@ -181,6 +173,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
     // #region Unreviewed Functions
     function addLifecycleMethods() {
+        add("")
         add(`// Micro-controller's Lifecycle`)
         controller?.ports.forEach((port: any) => {
             add('void ', port.label, "{");
@@ -356,6 +349,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
 
     // #region Lifecycle
+    addHeaderComments()
     warnAboutNumberOfControllers()
     warnAboutNodesWithoutLinks(nodes)
     warnAboutMultipleUsePorts(nodes)
@@ -363,7 +357,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
     addFunctionDeclarations(logics.filter(l => l.name === 'Function'))
     addConstantDeclarations(constants)
     addLifecycleMethods()
-    addHeaderComments()
     // #endregion
 
     return { code: indentCode(code), problems };
