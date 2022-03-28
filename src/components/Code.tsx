@@ -15,6 +15,46 @@ import { processDynamic } from "../components/goBuilder"
 function generateCode(model: any): { code: string, problems: any[] } {
 
     // #region Reviewed Functions
+    function addConstantDeclarations(constants: any) {
+        if (constants.length > 0) {
+            add('// Constants')
+            constants.forEach((constant: any) => {
+                add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
+            });
+            add('')
+        }
+    }
+    function addFunctionDeclarations(functions: any) {
+        if (functions.length > 0) {
+            add('// Functions')
+            logics.forEach(logic => {
+                if (logic.name === "Function") {
+                    add('void ', logic.content.value, '() {')
+                    const callPort = logic.ports.find((x: any) => x.alignment === 'right')
+                    callPort.links.forEach((l: any) => {
+                        processLink(l)
+                    });
+                    add('}')
+                }
+            });
+        }
+    }
+    function addLibraries(libraries: any) {
+        if (libraries.length > 0) {
+            add('// Libraries')
+            libraries.forEach((lib: any) => {
+                add('#include <' + lib + '>')
+            });
+            add('')
+            add('// Objects')
+            libraries.forEach((lib: any) => {
+                components.forEach(comp => {
+                    if (comp.extras.library === lib)
+                        add(comp.name + ' ' + comp.instance)
+                });
+            });
+        }
+    }
     function indentCode(original: string) {
         let code: any[] = [];
         let level = 0;
@@ -42,6 +82,20 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 warn('This component has no links', [node])
             }
         });
+    }
+    function warnAboutMultipleUsePorts(nodes: any) {
+        nodes.filter((node: any) => node.extras.type === 'variable' || node.extras.type === 'parameter')
+            .forEach((node: any) => {
+                node.ports.forEach((port: any) => {
+                    if (port.links.length > 1) {
+                        warn(`This ${node.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [node])
+                    } else {
+                        if (port.links.length === 0) {
+                            warn(`This ${node.name.toLowerCase()} is not being used.`, [node])
+                        }
+                    }
+                });
+            });
     }
     function getLinksFromModel(model: any) {
         const temp: any[] = []
@@ -82,13 +136,20 @@ function generateCode(model: any): { code: string, problems: any[] } {
         code += "\n";
         return code;
     };
-    function addOnTop(...message: string[]) {
-        let top = ''
-        message.forEach((m) => {
-            top += m;
-        });
-        code = top + "\n" + code
-    };
+    function addHeaderComments() {
+        addOnTop("")
+        addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
+        addOnTop(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
+        addOnTop("/* Code generated for ", controller?.name);
+
+        function addOnTop(...message: string[]) {
+            let top = ''
+            message.forEach((m) => {
+                top += m;
+            });
+            code = top + "\n" + code
+        };
+    }
     function getLink(linkID: string) {
         return links.find(l => l.id === linkID);
     }
@@ -113,6 +174,16 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #endregion
 
     // #region Unreviewed Functions
+    function addLifecycleMethods() {
+        add(`// Micro-controller's Lifecycle`)
+        controller?.ports.forEach((port: any) => {
+            add('void ', port.label, "{");
+            port.links.forEach((l: any) => {
+                processLink(l)
+            })
+            add("}\n");
+        })
+    }
     function getCoditionalValue(conditionNode: any, portName: any): string {
         try {
             let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
@@ -279,87 +350,17 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
     // #endregion
 
-    // #region Lifecycle
 
-    // if (isModelEmpty(model)) return { code: '// Empty Diagram!', problems: [] };
+
+    // #region Lifecycle
     warnAboutNumberOfControllers(controllers)
     warnAboutNodesWithoutLinks(nodes)
-
-
-
-    // Object.entries(model.layers[1].models).forEach((x: any) => {
-    //     const n = x[1]
-
-    // case 'variable':
-    // case 'parameter':
-    //     // if (hasLink) {
-    //     n.ports.forEach((port: any) => {
-    //         if (port.links.length > 1) {
-    //             warn(`This ${n.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [n])
-    //         } else {
-    //             if (port.links.length === 0) {
-    //                 // console.log('nodel', model.layers[1].models)
-    //                 warn(`This ${n.name.toLowerCase()} is not being used.`, [n])
-    //             }
-    //         }
-    //     });
-    //     // }
-    //     break
-    // }
-    // })
-
-
-    if (libraries.length > 0) {
-        add('// Libraries')
-        libraries.forEach(lib => {
-            add('#include <' + lib + '>')
-        });
-        add('')
-        add('// Objects')
-        libraries.forEach(lib => {
-            components.forEach(comp => {
-                if (comp.extras.library === lib)
-                    add(comp.name + ' ' + comp.instance)
-            });
-        });
-    }
-
-    if (logics.filter(l => l.name === 'Function').length > 0) {
-        add('// Functions')
-        logics.forEach(logic => {
-            if (logic.name === "Function") {
-                add('void ', logic.content.value, '() {')
-                const callPort = logic.ports.find((x: any) => x.alignment === 'right')
-                callPort.links.forEach((l: any) => {
-                    processLink(l)
-                });
-                add('}')
-            }
-        });
-    }
-
-    if (constants.length > 0) {
-        add('// Constants')
-        constants.forEach(constant => {
-            add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
-        });
-        add('')
-    }
-
-    add(`// Micro-controller's Lifecycle`)
-    // let content.value: string | null = null
-    controller?.ports.forEach((port: any) => {
-        add('void ', port.label, "{");
-        port.links.forEach((l: any) => {
-            processLink(l)
-        })
-        add("}\n");
-    })
-
-    addOnTop("")
-    addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
-    addOnTop(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
-    addOnTop("/* Code generated for ", controller?.name);
+    warnAboutMultipleUsePorts(nodes)
+    addLibraries(libraries)
+    addFunctionDeclarations(logics.filter(l => l.name === 'Function'))
+    addConstantDeclarations(constants)
+    addLifecycleMethods()
+    addHeaderComments()
     // #endregion
 
     return { code: indentCode(code), problems };
