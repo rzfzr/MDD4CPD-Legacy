@@ -36,11 +36,10 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(method)
         });
 
-        //Custom settup for diffent types
+        //Custom setup for diffent types
         const content = { name: 'userName', hasUsername: hasUserName, value: '', hasValue: hasUserValue, hasUsages: false }
         this.selectableOptions = ['something', 'went wrong'];
 
-        console.log('adding', data)
         switch (data.name) {
             case 'bool':
                 content.value = 'true'
@@ -50,7 +49,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             case 'Analog Port':
                 content.value = '0'
                 content.hasUsages = true
-                this.selectableOptions = Array.from(Array(54).keys()).map(x => x.toString())//todo: add global context to get current microcontroller limit
+                this.selectableOptions = Array.from(Array(100).keys()).map(x => x.toString())//todo: add global context to get current microcontroller limit
                 break;
             case 'int':
                 content.value = '0'
