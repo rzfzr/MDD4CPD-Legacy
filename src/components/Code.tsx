@@ -86,6 +86,18 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
         });
     }
+    function warnAboutPortUsage() {
+        usedDigital.forEach(port => {
+            if (port.content.value >= controller?.extras.digitalPorts) {
+                warn(`This ${port.name} does not exist on this micro-controller`, [port])
+            }
+        });
+        usedAnalog.forEach(port => {
+            if (port.content.value >= controller?.extras.analogPorts) {
+                warn(`This ${port.name} does not exist on this micro-controller`, [port])
+            }
+        });
+    }
     function warnAboutMultipleUsePorts(nodes: any) {
         nodes.filter((node: any) => ['variable', 'parameter', 'port'].includes(node.extras.type))
             .forEach((node: any) => {
@@ -141,12 +153,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
         return code;
     };
     function addHeaderComments() {
-        const usedDigital: number[] = [...new Set(nodes.filter(node => node.name === 'Digital Port').map(node => node.content.value))]
-        const usedAnalog: number[] = [...new Set(nodes.filter(node => node.name === 'Analog Port').map(node => node.content.value))]
-
         add("/* Code generated for ", controller?.name);
-        add(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
-        add(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "    */")
+        add(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog.map(port => port.content.value)})` : ""} `)
+        add(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital.map(port => port.content.value)})` : ""}`, "    */")
     }
     function getLink(linkID: string) {
         return links.find(l => l.id === linkID);
@@ -335,6 +344,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
         return constant
     })
 
+    const usedDigital: any[] = [...new Set(nodes.filter(node => node.name === 'Digital Port'))]
+    const usedAnalog: any[] = [...new Set(nodes.filter(node => node.name === 'Analog Port'))]
+
+
 
 
     // if (toNode.name.includes('Digital')) {
@@ -351,6 +364,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Lifecycle
     addHeaderComments()
     warnAboutNumberOfControllers()
+    warnAboutPortUsage()
     warnAboutNodesWithoutLinks(nodes)
     warnAboutMultipleUsePorts(nodes)
     addLibraries()
