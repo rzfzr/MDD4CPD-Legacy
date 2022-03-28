@@ -14,173 +14,182 @@ import { processDynamic } from "../components/goBuilder"
 function generateCode(model: any): { code: string, problems: any[] } {
     let problems: any[] = []
     let code = ''
-    const add = (...message: string[]) => {
+    // #region Reviewed Functions //
+    function add(...message: string[]) {
         message.forEach((m) => {
             code += m;
         });
         code += "\n";
         return code;
     };
-    const addOnTop = (...message: string[]) => {
+    function addOnTop(...message: string[]) {
         let top = ''
         message.forEach((m) => {
             top += m;
         });
         code = top + "\n" + code
     };
-    const getLink = (linkID: string) => {
-        return links.find(l => l.id === linkID)
+    function getLink(linkID: string) {
+        return links.find(l => l.id === linkID);
     }
-    const getPort = (nodeID: string, portID: string) => {
+    function getPort(nodeID: string, portID: string) {
         try {
             return nodes.find((n: any) => n.id === nodeID).ports
                 .find((p: any) => p.id === portID);
         } catch (error) {
-            return "// Loose end"
+            return "// Loose end";
         }
     }
-    const getNode = (nodeID: string) => {
-        return nodes.find((n: any) => n.id === nodeID)
+    function getNode(nodeID: string) {
+        return nodes.find((n: any) => n.id === nodeID);
     }
-    const getCoditionalValue = (conditionNode: any, portName: any): string => {
+    function getParent(childNode: any) {
+        return nodes.find((n: any) => n.id === childNode.parentNode);
+    }
+    function warn(message: string, nodes: any[] = [], type: any = 'not used') {
+        problems.push({ message, nodes: nodes });
+        return problems;
+    }
+    // #endregion
+
+    function getCoditionalValue(conditionNode: any, portName: any): string {
         try {
-            let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0]
-            let link = getLink(linkID)
-            let port = getPort(link.source, link.sourcePort)
-            let parent = getParent(port)
+            let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
+            let link = getLink(linkID);
+            let port = getPort(link.source, link.sourcePort);
+            let parent = getParent(port);
 
             if (['variable', 'port'].includes(parent.extras.type)) {
-                return parent.content.value
+                return parent.content.value;
             }
             else if (['component'].includes(parent.extras.type)) {
-                return parent.instance + '.' + port.name
+                return parent.instance + '.' + port.name;
             } else {
-                return add('Unknown extras.type')
+                return add('Unknown extras.type');
             }
         } catch (error) {
-            return '/* Lacking Value */'
+            return '/* Lacking Value */';
         }
     }
-    const getOutcome = (conditionNode: any, ifThis = 'True') => {
+
+    function getOutcome(conditionNode: any, ifThis = 'True') {
         try {
-            let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0]
-            let link = getLink(linkID)
-            return getPort(link.target, link.targetPort)
+            let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
+            let link = getLink(linkID);
+            return getPort(link.target, link.targetPort);
         } catch (error) {
-            return { label: '// Lacking Outcome' }
+            return { label: '// Lacking Outcome' };
         }
     }
-    const getParent = (childNode: any) => {
-        return nodes.find((n: any) => n.id === childNode.parentNode)
-    }
-    const removeTypes = (name: string): string => {
-        const functionName = name.substring(name.indexOf(' ') + 1, name.indexOf('(') !== -1 ? name.indexOf('(') : name.length)
-        const params = name.substring(name.indexOf('('), name.indexOf(')') - 1).split(',')
-        let result = functionName
+
+    function oldRemoveTypes(name: string): string {
+        const firstSpace = name.indexOf(' ') + 1;
+        const openningRound = name.indexOf('(');
+        const closingRound = name.indexOf(')');
+
+        const functionName = name.substring(firstSpace, openningRound);
+        const params = name.substring(openningRound + 1, closingRound).split(',');
+        let result = functionName;
         params.forEach(param => {
             if (!param.includes('=')) {
-                let thisParam = String(param.split(' ').slice(-1))
-                result += thisParam
+                let thisParam = String(param.split(' ').slice(-1));
+                result += thisParam;
             }
         });
-        // console.log('removing types from', name, 'params ', params, ' returning', result)
+        console.log('removing types from "', name, '" params ', params, ' returning :', result);
         return result;
     }
-    const callWithParameters = (node: any, ...contents: any) => {
+    function callWithParameters(node: any, ...contents: any) {
         try {
             if (node.extras.type === 'constant') {
-                contents.push(node.content.name)
+                contents.push(node.content.name);
             } else {
-                contents.push(node.content.value)
+                contents.push(node.content.value);
             }
         } catch (error) {
-            console.log('error, no parameter?')
+            console.log('error, no parameter?');
         }
         node.ports.forEach((port: any) => {
             port.links.forEach((l: any) => {
                 const link = getLink(l);
-                const toPort = getPort(link.target, link.targetPort)
-                const toNode = getNode(toPort.parentNode)
+                const toPort = getPort(link.target, link.targetPort);
+                const toNode = getNode(toPort.parentNode);
                 if (!toNode) {
-                    warn('Loose link', [node])
-                } else if (toNode?.id === node?.id) {//skip as it is the previous link
+                    warn('Loose link', [node]);
+                } else if (toNode?.id === node?.id) { //skip as it is the previous link
                     if (toNode.instance) {
-                        add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
+                        add(toNode.instance + '.' + toPort.name.split("(").shift() + '(' + contents + ');');
                     }
                 } else if (toNode?.extras?.type === 'built-in') {
-                    add(removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
-                } else if (!toNode?.instance) {//points to another variable/port
-                    callWithParameters(toNode, ...contents)
-                } else {//points to a class instance, we hope it is a method call
+                    add(toPort.name.split("(").shift() + '(' + contents + ');');
+                } else if (!toNode?.instance) { //points to another variable/port
+                    callWithParameters(toNode, ...contents);
+                } else { //points to a class instance, we hope it is a method call
                     //todo: check for parameter type and numbers
-                    add(toNode.instance + '.' + removeTypes(toPort.name.split("(").shift()) + '(' + contents + ');')
+                    add(toNode.instance + '.' + (toPort.name.split("(").shift()) + '(' + contents + ');');
                 }
-            })
-        })
+            });
+        });
     }
-    const processCall = (fromNode: any, fromPort: any, toNode: any, toPort: any) => {
+    function processCall(fromNode: any, fromPort: any, toNode: any, toPort: any) {
         if (['variable', 'constant', 'parameter'].includes(toNode?.extras?.type)) {
-            callWithParameters(toNode)
+            callWithParameters(toNode);
         } else if (['port'].includes(toNode?.extras?.type)) {
             if (toNode.name.includes('Digital')) {
-                usedDigital.push(toNode.content.value)
+                usedDigital.push(toNode.content.value);
             } else {
-                usedAnalog.push(toNode.content.value)
+                usedAnalog.push(toNode.content.value);
             }
-            callWithParameters(toNode)
-        } else {
+            callWithParameters(toNode);
+        } else { //is a component or function?
             if (toNode?.instance) {
-                add(toNode.instance + '.' + removeTypes(toPort.name) + '();')
+                add(toNode.instance + '.' + (toPort.name) + '();');
             } else if (fromNode?.instance) {
-                add(fromNode.instance + '.' + removeTypes(fromPort.name) + '();')
+                add(fromNode.instance + '.' + (fromPort.name) + '();');
             } else {
-                warn('Loose connection', [fromNode])
+                warn('Loose connection', [fromNode]);
             }
         }
     }
-    const processLink = (l: any) => {
+    function processLink(l: any) {
         const link = getLink(l);
-        const toPort = getPort(link.target, link.targetPort)
-        if (!toPort) return
-        const toNode = getNode(toPort.parentNode)
-        const fromPort = getPort(link.source, link.sourcePort)
-        const fromNode = getNode(fromPort.parentNode)
+        const toPort = getPort(link.target, link.targetPort);
+        if (!toPort)
+            return;
+        const toNode = getNode(toPort.parentNode);
+        const fromPort = getPort(link.source, link.sourcePort);
+        const fromNode = getNode(fromPort.parentNode);
 
         if (toNode?.extras?.type === 'built-in') {
-            add(removeTypes(toPort.name) + '()')
+            add(toPort.name + '()');
         } else if (toNode?.name === "Function") {
-            add(toNode.content.value, '(', ');')
+            add(toNode.content.value, '(', ');');
         } else if (toNode?.name === "Condition") {
-            const xValue = getCoditionalValue(toNode, 'x')
-            const yValue = getCoditionalValue(toNode, 'y')
+            const xValue = getCoditionalValue(toNode, 'x');
+            const yValue = getCoditionalValue(toNode, 'y');
 
-            const outcome2 = getOutcome(toNode)
-            const toNode2 = getParent(outcome2)
+            const outcome2 = getOutcome(toNode);
+            const toNode2 = getParent(outcome2);
 
-            const outcome3 = getOutcome(toNode, 'False')
-            const toNode3 = getParent(outcome3)
+            const outcome3 = getOutcome(toNode, 'False');
+            const toNode3 = getParent(outcome3);
 
-            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {')
+            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
             if (toNode2) {
-                callWithParameters(toNode2)
+                callWithParameters(toNode2);
             } else {
-                add('/* Lacking code to be executed if conditional is true */')
+                add('/* Lacking code to be executed if conditional is true */');
             }
             if (toNode3) {
-                add('} else {')
-                callWithParameters(toNode3)
+                add('} else {');
+                callWithParameters(toNode3);
             }
             add("}\n");
 
         } else {
-            processCall(fromNode, fromPort, toNode, toPort)
+            processCall(fromNode, fromPort, toNode, toPort);
         }
     }
-
-    const warn = (message: string, nodes: any[] = [], type: any = 'not used') => {
-        problems.push({ message, nodes: nodes });
-        return problems
-    };
 
     if (Object.keys(model).length === 0) {
         return { code: '// Empty Diagram!', problems: [] };
