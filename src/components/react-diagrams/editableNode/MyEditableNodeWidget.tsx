@@ -224,7 +224,8 @@ export class MyEditableNodeWidget extends React.Component<
                   }}
                 >
                   {(this.props.nodeModel.portsOut[0].options.name === 'bool' ||
-                    this.props.nodeModel.portsOut[0].options.name === 'port' ||
+                    this.props.nodeModel.getOptions().name === 'Digital Port' ||
+                    this.props.nodeModel.getOptions().name === 'Analog Port' ||
                     this.props.nodeModel.getOptions().name === 'Condition'
                   ) ?
                     <SelectableField
