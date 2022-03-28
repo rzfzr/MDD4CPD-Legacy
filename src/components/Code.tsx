@@ -39,7 +39,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
         }
     }
-    function addLibraries(libraries: any) {
+    function addLibraries() {
+        const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
+
         if (libraries.length > 0) {
             add('// Libraries')
             libraries.forEach((lib: any) => {
@@ -121,7 +123,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
         return temp
     }
-    function warnAboutNumberOfControllers(controllers: any) {
+    function warnAboutNumberOfControllers() {
+        const controllers: any[] = nodes.filter(node => node.extras?.type === 'controller')
         if (controllers.length === 0) {
             warn('No micro-controller')
         }
@@ -137,8 +140,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
         return code;
     };
     function addHeaderComments() {
+        const usedDigital: number[] = [...new Set(nodes.filter(node => node.name === 'Digital Port').map(node => node.content.value))]
+        const usedAnalog: number[] = [...new Set(nodes.filter(node => node.name === 'Analog Port').map(node => node.content.value))]
+
         addOnTop("")
-        addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
+        addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "    */")
         addOnTop(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
         addOnTop("/* Code generated for ", controller?.name);
 
@@ -268,11 +274,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         if (['variable', 'constant', 'parameter'].includes(toNode?.extras?.type)) {
             callWithParameters(toNode);
         } else if (['port'].includes(toNode?.extras?.type)) {
-            if (toNode.name.includes('Digital')) {
-                usedDigital.push(toNode.content.value);
-            } else {
-                usedAnalog.push(toNode.content.value);
-            }
             callWithParameters(toNode);
         } else { //is a component or function?
             if (toNode?.instance) {
@@ -335,16 +336,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
     const nodes: any[] = getNodesFromModel(model)
     const logics: any[] = nodes.filter(node => node.extras?.type === 'logic')
     const components: any[] = getComponentsFromNodes(nodes)
-    const controllers: any[] = nodes.filter(node => node.extras?.type === 'controller')
-    const controller = controllers[0]
-    const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
+    const controller = nodes.find(node => node.extras?.type === 'controller')
     const constants: any[] = nodes.filter(node => node.extras?.type === 'constant').map((constant) => {
         constant.content.name = constant.content.name.toUpperCase()
         return constant
     })
 
-    const usedDigital: number[] = []
-    const usedAnalog: number[] = []
+
+
+    // if (toNode.name.includes('Digital')) {
+    //     usedDigital.push(toNode.content.value);
+    // } else {
+    //     usedAnalog.push(toNode.content.value);
+    // }
 
 
     // #endregion
@@ -352,10 +356,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
 
     // #region Lifecycle
-    warnAboutNumberOfControllers(controllers)
+    warnAboutNumberOfControllers()
     warnAboutNodesWithoutLinks(nodes)
     warnAboutMultipleUsePorts(nodes)
-    addLibraries(libraries)
+    addLibraries()
     addFunctionDeclarations(logics.filter(l => l.name === 'Function'))
     addConstantDeclarations(constants)
     addLifecycleMethods()
