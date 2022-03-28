@@ -11,10 +11,70 @@ import GoClass from './GoClass';
 
 import { processDynamic } from "../components/goBuilder"
 
+
 function generateCode(model: any): { code: string, problems: any[] } {
-    let problems: any[] = []
-    let code = ''
-    // #region Reviewed Functions //
+
+    // #region Reviewed Functions
+    function indentCode(original: string) {
+        let code: any[] = [];
+        let level = 0;
+        let tab = "    ";
+        original.split("\n").forEach((line) => {
+            if (line.includes("}")) {
+                level--;
+            }
+            code.push(tab.repeat(level) + line);
+            if (line.includes("{")) {
+                level++;
+            }
+        });
+        return code.join("\n");
+    }
+    function warnAboutNodesWithoutLinks(nodes: any) {
+        nodes.forEach((node: any) => {
+            let hasLink = false
+            node.ports.forEach((port: any) => {
+                if (port.links.length > 0) {
+                    hasLink = true
+                }
+            });
+            if (!hasLink) {
+                warn('This component has no links', [node])
+            }
+        });
+    }
+    function getLinksFromModel(model: any) {
+        const temp: any[] = []
+        Object.entries(model.layers[0].models).forEach((link: any) => {
+            temp.push(link[1])
+        })
+        return temp
+    }
+    function getNodesFromModel(model: any) {
+        const temp: any[] = []
+        Object.entries(model.layers[1].models).forEach((node: any) => {
+            temp.push(node[1])
+        })
+        return temp
+    }
+    function getComponentsFromNodes(nodes: any) {
+        let temp: any[] = []
+        nodes.filter((node: any) => node.extras?.type === 'component')
+            .forEach((node: any) => {
+                node.instance = node.name.toLowerCase().replace(' ', '') +
+                    temp.filter(t => t.extras?.library === node.extras?.library).length
+                temp.push(node)
+            });
+        return temp
+    }
+    function warnAboutNumberOfControllers(controllers: any) {
+        if (controllers.length === 0) {
+            warn('No micro-controller')
+        }
+        if (controllers.length > 1) {
+            warn('More than one micro-controller', controllers)
+        }
+    }
     function add(...message: string[]) {
         message.forEach((m) => {
             code += m;
@@ -52,6 +112,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     }
     // #endregion
 
+    // #region Unreviewed Functions
     function getCoditionalValue(conditionNode: any, portName: any): string {
         try {
             let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
@@ -82,23 +143,24 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     }
 
-    function oldRemoveTypes(name: string): string {
-        const firstSpace = name.indexOf(' ') + 1;
-        const openningRound = name.indexOf('(');
-        const closingRound = name.indexOf(')');
+    // function oldRemoveTypes(name: string): string {
+    //     const firstSpace = name.indexOf(' ') + 1;
+    //     const openningRound = name.indexOf('(');
+    //     const closingRound = name.indexOf(')');
 
-        const functionName = name.substring(firstSpace, openningRound);
-        const params = name.substring(openningRound + 1, closingRound).split(',');
-        let result = functionName;
-        params.forEach(param => {
-            if (!param.includes('=')) {
-                let thisParam = String(param.split(' ').slice(-1));
-                result += thisParam;
-            }
-        });
-        console.log('removing types from "', name, '" params ', params, ' returning :', result);
-        return result;
-    }
+    //     const functionName = name.substring(firstSpace, openningRound);
+    //     const params = name.substring(openningRound + 1, closingRound).split(',');
+    //     let result = functionName;
+    //     params.forEach(param => {
+    //         if (!param.includes('=')) {
+    //             let thisParam = String(param.split(' ').slice(-1));
+    //             result += thisParam;
+    //         }
+    //     });
+    //     console.log('removing types from "', name, '" params ', params, ' returning :', result);
+    //     return result;
+    // }
+
     function callWithParameters(node: any, ...contents: any) {
         try {
             if (node.extras.type === 'constant') {
@@ -190,83 +252,62 @@ function generateCode(model: any): { code: string, problems: any[] } {
             processCall(fromNode, fromPort, toNode, toPort);
         }
     }
+    // #endregion
 
-    if (Object.keys(model).length === 0) {
-        return { code: '// Empty Diagram!', problems: [] };
-    }
-    const links: any[] = []
-    Object.entries(model.layers[0].models).forEach((x: any) => {
-        links.push(x[1])
+
+    // #region Shared Variables
+    let code = ''
+
+    const problems: any[] = []
+
+    const links: any[] = getLinksFromModel(model)
+    const nodes: any[] = getNodesFromModel(model)
+    const logics: any[] = nodes.filter(node => node.extras?.type === 'logic')
+    const components: any[] = getComponentsFromNodes(nodes)
+    const controllers: any[] = nodes.filter(node => node.extras?.type === 'controller')
+    const controller = controllers[0]
+
+    const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
+    const constants: any[] = nodes.filter(node => node.extras?.type === 'constant').map((constant) => {
+        constant.content.name = constant.content.name.toUpperCase()
+        return constant
     })
-    const nodes: any[] = []
-    const logics: any[] = []
-    const components: any[] = []
-    const controllers: any[] = []
-    const libraries: any[] = []
-    const constants: any[] = []
 
     const usedDigital: number[] = []
     const usedAnalog: number[] = []
 
-    Object.entries(model.layers[1].models).forEach((x: any) => {
-        const n = x[1]
-        nodes.push(n)
 
-        let hasLink = false
-        n.ports.forEach((port: any) => {
-            if (port.links.length > 0) {
-                hasLink = true
-            }
-        });
-        if (!hasLink) {
-            warn('This component has no links', [n])
-        }
-        switch (n.extras.type) {
-            case 'component':
-                n.instance = n.name.toLowerCase().replace(' ', '') + components.filter(c => c.extras.library === n.extras.library).length
-                components.push(n)
-                if (!libraries.includes(n.extras.library))
-                    libraries.push(n.extras.library)
-                break
-            case 'controller':
-                controllers.push(n)
-                break
-            case 'logic':
-                logics.push(n)
-                break
-            case 'variable':
-            case 'parameter':
-                if (hasLink) {
-                    n.ports.forEach((port: any) => {
-                        if (port.links.length > 1) {
-                            warn(`This ${n.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [n])
-                        } else {
-                            if (port.links.length === 0) {
-                                // console.log('nodel', model.layers[1].models)
-                                warn(`This ${n.name.toLowerCase()} is not being used.`, [n])
-                            }
-                        }
-                    });
-                }
-                break
-            case 'constant':
-                n.content.name = n.content.name.toUpperCase()
-                constants.push(n)
-                break
-        }
-    })
+    // #endregion
 
-    if (controllers.length === 0) {
-        return { code: '', problems: warn('No micro-controller') }
-    }
-    if (controllers.length > 1) {
-        return {
-            code: '// Only one Arduino allowed!',
-            problems: warn('More than one micro-controller', controllers)
-        }
-    }
+    // #region Lifecycle
 
-    let controller = controllers[0]
+    // if (isModelEmpty(model)) return { code: '// Empty Diagram!', problems: [] };
+    warnAboutNumberOfControllers(controllers)
+    warnAboutNodesWithoutLinks(nodes)
+
+
+
+    // Object.entries(model.layers[1].models).forEach((x: any) => {
+    //     const n = x[1]
+
+    // case 'variable':
+    // case 'parameter':
+    //     // if (hasLink) {
+    //     n.ports.forEach((port: any) => {
+    //         if (port.links.length > 1) {
+    //             warn(`This ${n.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [n])
+    //         } else {
+    //             if (port.links.length === 0) {
+    //                 // console.log('nodel', model.layers[1].models)
+    //                 warn(`This ${n.name.toLowerCase()} is not being used.`, [n])
+    //             }
+    //         }
+    //     });
+    //     // }
+    //     break
+    // }
+    // })
+
 
     if (libraries.length > 0) {
         add('// Libraries')
@@ -307,7 +348,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
     add(`// Micro-controller's Lifecycle`)
     // let content.value: string | null = null
-    controller.ports.forEach((port: any) => {
+    controller?.ports.forEach((port: any) => {
         add('void ', port.label, "{");
         port.links.forEach((l: any) => {
             processLink(l)
@@ -316,25 +357,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
     })
 
     addOnTop("")
-    addOnTop(`Digital ports ${usedDigital.length}/${controller.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
-    addOnTop(`Analog ports ${usedAnalog.length}/${controller.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
-    addOnTop("/* Code generated for ", controller.name);
+    addOnTop(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital})` : ""}`, "*/")
+    addOnTop(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog})` : ""} `)
+    addOnTop("/* Code generated for ", controller?.name);
+    // #endregion
 
-    function indentCode(original: string) {
-        let code: any[] = [];
-        let level = 0;
-        let tab = "    ";
-        original.split("\n").forEach((line) => {
-            if (line.includes("}")) {
-                level--;
-            }
-            code.push(tab.repeat(level) + line);
-            if (line.includes("{")) {
-                level++;
-            }
-        });
-        return code.join("\n");
-    }
     return { code: indentCode(code), problems };
 }
 export default function Code(props: { model: string }) {
