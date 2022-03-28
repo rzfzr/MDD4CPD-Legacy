@@ -112,6 +112,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 });
             });
     }
+    function warnAboutLooseLinks(links: any) {
+        links.forEach((link: any) => {
+
+            const fromPort = getPort(link.source, link.sourcePort);
+            const fromNode = getNode(fromPort.parentNode)
+            console.log('fromPort', fromPort)
+            const toPort = getPort(link.target, link.targetPort);
+            if (!toPort) {
+                warn('Loose link', [fromNode]);
+            }
+
+        });
+    }
     function getLinksFromModel(model: any) {
         const temp: any[] = []
         Object.entries(model.layers[0].models).forEach((link: any) => {
@@ -165,7 +178,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             return nodes.find((n: any) => n.id === nodeID).ports
                 .find((p: any) => p.id === portID);
         } catch (error) {
-            return "// Loose end";
+            return null;
         }
     }
     function getNode(nodeID: string) {
@@ -178,9 +191,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         problems.push({ message, nodes: nodes });
         return problems;
     }
-    // #endregion
-
-    // #region Unreviewed Functions
     function addLifecycleMethods() {
         add("")
         add(`// Micro-controller's Lifecycle`)
@@ -191,6 +201,49 @@ function generateCode(model: any): { code: string, problems: any[] } {
             })
             add("}\n");
         })
+    }
+    // #endregion
+
+    // #region Unreviewed Functions
+
+    function processLink(l: any) {
+        const link = getLink(l);
+        const toPort = getPort(link.target, link.targetPort);
+        if (!toPort)
+            return;
+        const toNode = getNode(toPort.parentNode);
+        const fromPort = getPort(link.source, link.sourcePort);
+        const fromNode = getNode(fromPort.parentNode);
+
+        if (toNode?.extras?.type === 'built-in') {
+            add(toPort.name + '()');
+        } else if (toNode?.name === "Function") {
+            add(toNode.content.value, '(', ');');
+        } else if (toNode?.name === "Condition") {
+            const xValue = getCoditionalValue(toNode, 'x');
+            const yValue = getCoditionalValue(toNode, 'y');
+
+            const outcome2 = getOutcome(toNode);
+            const toNode2 = getParent(outcome2);
+
+            const outcome3 = getOutcome(toNode, 'False');
+            const toNode3 = getParent(outcome3);
+
+            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
+            if (toNode2) {
+                callWithParameters(toNode2);
+            } else {
+                add('/* Lacking code to be executed if conditional is true */');
+            }
+            if (toNode3) {
+                add('} else {');
+                callWithParameters(toNode3);
+            }
+            add("}\n");
+
+        } else {
+            processCall(fromNode, fromPort, toNode, toPort);
+        }
     }
     function getCoditionalValue(conditionNode: any, portName: any): string {
         try {
@@ -256,7 +309,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 const toPort = getPort(link.target, link.targetPort);
                 const toNode = getNode(toPort.parentNode);
                 if (!toNode) {
-                    warn('Loose link', [node]);
                 } else if (toNode?.id === node?.id) { //skip as it is the previous link
                     if (toNode.instance) {
                         add(toNode.instance + '.' + toPort.name.split("(").shift() + '(' + contents + ');');
@@ -287,45 +339,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
         }
     }
-    function processLink(l: any) {
-        const link = getLink(l);
-        const toPort = getPort(link.target, link.targetPort);
-        if (!toPort)
-            return;
-        const toNode = getNode(toPort.parentNode);
-        const fromPort = getPort(link.source, link.sourcePort);
-        const fromNode = getNode(fromPort.parentNode);
 
-        if (toNode?.extras?.type === 'built-in') {
-            add(toPort.name + '()');
-        } else if (toNode?.name === "Function") {
-            add(toNode.content.value, '(', ');');
-        } else if (toNode?.name === "Condition") {
-            const xValue = getCoditionalValue(toNode, 'x');
-            const yValue = getCoditionalValue(toNode, 'y');
-
-            const outcome2 = getOutcome(toNode);
-            const toNode2 = getParent(outcome2);
-
-            const outcome3 = getOutcome(toNode, 'False');
-            const toNode3 = getParent(outcome3);
-
-            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
-            if (toNode2) {
-                callWithParameters(toNode2);
-            } else {
-                add('/* Lacking code to be executed if conditional is true */');
-            }
-            if (toNode3) {
-                add('} else {');
-                callWithParameters(toNode3);
-            }
-            add("}\n");
-
-        } else {
-            processCall(fromNode, fromPort, toNode, toPort);
-        }
-    }
     // #endregion
 
 
@@ -367,6 +381,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     warnAboutPortUsage()
     warnAboutNodesWithoutLinks(nodes)
     warnAboutMultipleUsePorts(nodes)
+    warnAboutLooseLinks(links)
     addLibraries()
     addFunctionDeclarations(logics.filter(l => l.name === 'Function'))
     addConstantDeclarations(constants)
