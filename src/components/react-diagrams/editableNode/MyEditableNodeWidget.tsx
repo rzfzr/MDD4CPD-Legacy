@@ -141,7 +141,6 @@ export class MyEditableNodeWidget extends React.Component<
     });
   }
   render() {
-    console.log('rendering', this.props)
     return (
       <S.Node
         data-default-node-name={this.props.nodeModel.getOptions().name}

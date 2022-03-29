@@ -232,7 +232,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
             const received: any[] = []
             const node = getNode(port.parentNode)
 
-            console.log(params)
             params.forEach((p: any) => {
                 if (p.extras.type === 'parameter' || p.extras.type === 'constant') {
                     received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
@@ -245,31 +244,29 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
 
             expected.forEach((ex: any, index: number) => {
-                console.log('ex', ex, index)
                 const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt))
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
-
                 if (expectedType !== receivedType) {
                     warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, [node])
                 }
-
-                // returnTypes.forEach(type => {
-
-                //     if (ex.startsWith(type)) {
-                //     }
-                // });
             });
 
-
-
-            console.log('expected', expected)
-            console.log('received', received)
-
-            if (toNode?.instance) {
-                add(node.instance + '.' + (port.name) + '();');
+            console.log('cutting', received)
+            if (node?.instance) {
+                add(node.instance
+                    + '.'
+                    + port.name.substring(port.name.indexOf(' ') + 1, port.name.indexOf('('))
+                    + '('
+                    + params.map((par: any) => {
+                        if (par.extras.type === 'parameter') return par.content.value
+                        if (par.extras.type === 'constant') return par.content.name
+                    })
+                    + ') '
+                    + ';');
             } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + (fromPort.name) + '();');
             } else {
+                add('confusion')
                 // warn('Loose connection', [fromNode]);
             }
             // try {
