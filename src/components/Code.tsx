@@ -241,10 +241,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
             if (expected.length !== received.length) {
                 warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [node])
+                return
             }
 
             expected.forEach((ex: any, index: number) => {
-                const expectedType = returnTypes.find((rt: any) => ex.startsWith(rt))
+                console.log('ex', ex, index)
+                const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt))
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
 
                 if (expectedType !== receivedType) {
@@ -256,7 +258,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 //     if (ex.startsWith(type)) {
                 //     }
                 // });
-                console.log('ex', ex, index)
             });
 
 
