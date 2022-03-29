@@ -28,7 +28,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add("")
             add('// Constants')
             constants.forEach((constant: any) => {
-                add(`#define ${constant.content.name} ${constant.content.value} //${constant.name}`)
+                add(`#define ${constant.content.returnType} ${constant.content.name} ${constant.content.value}`)
             });
         }
     }
@@ -107,7 +107,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         });
     }
     function warnAboutMultipleUsePorts(nodes: any) {
-        nodes.filter((node: any) => ['variable', 'parameter', 'port'].includes(node.extras.type))
+        nodes.filter((node: any) => paramTypes.includes(node.extras.type))
             .forEach((node: any) => {
                 node.ports.forEach((port: any) => {
                     if (port.links.length > 1) {
