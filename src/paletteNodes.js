@@ -397,19 +397,7 @@ export default [{
         ]
     },
     {
-        name: 'Constant Integer',
-        color: 'pink',
-        extras: {
-            type: 'constant'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
-    }, {
-        name: 'Constant Boolean',
+        name: 'Constant(s)',
         color: 'pink',
         extras: {
             type: 'constant'

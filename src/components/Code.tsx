@@ -234,7 +234,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
             console.log(params)
             params.forEach((p: any) => {
-                if (p.extras.type === 'parameter') {
+                if (p.extras.type === 'parameter' || p.extras.type === 'constant') {
                     received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
                 }
             });
