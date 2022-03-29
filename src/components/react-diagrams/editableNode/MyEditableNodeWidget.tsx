@@ -17,6 +17,8 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Button } from '@material-ui/core';
 
 
+const returnTypes = ['byte', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
+
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
 		background-color: ${(p) => p.background};
@@ -167,6 +169,29 @@ export class MyEditableNodeWidget extends React.Component<
               </div>
             </div>
           </div>}
+          {this.props.nodeModel.content.hasReturnType && <div className={"editable-node"}
+            ref={divElement => (this.divElement = divElement)}>
+            <div className="editable-border">
+              <div className="editable-header">
+                <div
+                  onDoubleClick={() => {
+                    this._editableObjectDoubleClick("returnType");
+                  }}
+                >
+                  <SelectableField
+                    elementKey="returnType"
+                    options={returnTypes}
+                    editingKey={this.state.editingKey}
+                    beingEdited={this.state.editingSomething}
+                    content={this.props.nodeModel.content.returnType}
+                    onChange={this._contentOnChange}
+                    onBlurOrEnter={this._onBlurOrEnter}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>}
+
           <S.TitleName>
             {this.props.nodeModel.getOptions().name}:
             {this.props.nodeModel.content.hasUsages &&

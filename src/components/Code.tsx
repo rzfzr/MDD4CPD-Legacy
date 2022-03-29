@@ -12,6 +12,9 @@ import GoClass from './GoClass';
 import { processDynamic } from "../components/goBuilder"
 
 
+const paramTypes = ['variable', 'constant', 'parameter', 'port']
+
+
 function generateCode(model: any): { code: string, problems: any[] } {
 
     // #region Reviewed Functions
@@ -309,7 +312,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const fromNode = getNode(fromPort.parentNode);
         const toPort = getPort(link.target, link.targetPort); if (!toPort) return
         const toNode = getNode(toPort.parentNode);
-        const paramTypes = ['variable', 'constant', 'parameter', 'port']
 
         const params: any[] = []
         if (paramTypes.includes(toNode?.extras?.type)) {
