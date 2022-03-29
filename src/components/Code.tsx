@@ -221,14 +221,21 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
             const expected = port.name.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
+            const received: any[] = []
 
-            if (expected.length !== params.length) {
-                warn(`This function call "${port.name}" is receiving ${params.length} parameters instead of the expected ${expected.length}`, [getNode(port.parentNode)])
+            params.forEach((p: any) => {
+                if (p.extras.type === 'parameter') {
+                    received.push(...p.content.value.split(','))
+                }
+            });
+
+            if (expected.length !== received.length) {
+                warn(`This function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [getNode(port.parentNode)])
             }
 
 
             console.log('expected', expected)
-            console.log('got', params)
+            console.log('received', received)
 
 
             // try {
