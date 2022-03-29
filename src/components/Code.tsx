@@ -115,8 +115,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function warnAboutLooseLinks(links: any) {
         links.forEach((link: any) => {
             const fromPort = getPort(link.source, link.sourcePort);
-            const fromNode = getNode(fromPort.parentNode)
-            console.log('fromPort', fromPort)
+            const fromNode = getNode(fromPort?.parentNode)
             const toPort = getPort(link.target, link.targetPort);
             if (!toPort) {
                 warn('Loose link', [fromNode]);
@@ -180,6 +179,21 @@ function generateCode(model: any): { code: string, problems: any[] } {
             return null;
         }
     }
+    /**
+     * Only to be used for paramTypes !
+     */
+    function getOutPort(inPort: any) {
+        try {
+            const node = getNode(inPort.parentNode)
+            const portPosition = node.portsInOrder.indexOf(inPort.id)
+            const outPortId = node.portsOutOrder[portPosition]
+            const outPort = node.ports.find((p: { id: any; }) => p.id === outPortId)
+            return outPort
+        } catch (error) {
+            return null
+        }
+    }
+
     function getNode(nodeID: string) {
         return nodes.find((n: any) => n.id === nodeID);
     }
@@ -205,36 +219,47 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
     // #region Unreviewed Functions
     function processLink(l: any) {
-        function callWithParameters(node: any, ...contents: any) {
-            try {
-                if (node.extras.type === 'constant') {
-                    contents.push(node.content.name);
-                } else {
-                    contents.push(node.content.value);
-                }
-            } catch (error) {
-                console.log('error, no parameter?');
+        function callWithParameters(port: any, params: any) {
+            const expected = port.name.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
+
+            if (expected.length !== params.length) {
+                warn(`This function call "${port.name}" is receiving ${params.length} parameters instead of the expected ${expected.length}`, [getNode(port.parentNode)])
             }
-            node.ports.forEach((port: any) => {
-                port.links.forEach((l: any) => {
-                    const link = getLink(l);
-                    const toPort = getPort(link.target, link.targetPort);
-                    const toNode = getNode(toPort.parentNode);
-                    if (!toNode) {
-                    } else if (toNode?.id === node?.id) { //skip as it is the previous link
-                        if (toNode.instance) {
-                            add(toNode.instance + '.' + toPort.name.split("(").shift() + '(' + contents + ');');
-                        }
-                    } else if (toNode?.extras?.type === 'built-in') {
-                        add(toPort.name.split("(").shift() + '(' + contents + ');');
-                    } else if (!toNode?.instance) { //points to another variable/port
-                        callWithParameters(toNode, ...contents);
-                    } else { //points to a class instance, we hope it is a method call
-                        //todo: check for parameter type and numbers
-                        add(toNode.instance + '.' + (toPort.name.split("(").shift()) + '(' + contents + ');');
-                    }
-                });
-            });
+
+
+            console.log('expected', expected)
+            console.log('got', params)
+
+
+            // try {
+            //     if (node.extras.type === 'constant') {
+            //         contents.push(node.content.name);
+            //     } else {
+            //         contents.push(node.content.value);
+            //     }
+            // } catch (error) {
+            //     console.log('error, no parameter?');
+            // }
+            // node.ports.forEach((port: any) => {
+            //     port.links.forEach((l: any) => {
+            //         const link = getLink(l);
+            //         const toPort = getPort(link.target, link.targetPort);
+            //         const toNode = getNode(toPort?.parentNode);
+            //         if (!toNode) {
+            //         } else if (toNode?.id === node?.id) { //skip as it is the previous link
+            //             if (toNode.instance) {
+            //                 add(toNode.instance + '.' + toPort.name.split("(").shift() + '(' + contents + ');');
+            //             }
+            //         } else if (toNode?.extras?.type === 'built-in') {
+            //             add(toPort.name.split("(").shift() + '(' + contents + ');');
+            //         } else if (!toNode?.instance) { //points to another variable/port
+            //             callWithParameters(toNode, ...contents);
+            //         } else { //points to a class instance, we hope it is a method call
+            //             //todo: check for parameter type and numbers
+            //             add(toNode.instance + '.' + (toPort.name.split("(").shift()) + '(' + contents + ');');
+            //         }
+            //     });
+            // });
         }
         function getCoditionalValue(conditionNode: any, portName: any): string {
             try {
@@ -265,54 +290,83 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
         }
 
-        const link = getLink(l);
-        const toPort = getPort(link.target, link.targetPort);
-        if (!toPort)
-            return;
-        const toNode = getNode(toPort.parentNode);
+        const link = getLink(l); if (!link) return
         const fromPort = getPort(link.source, link.sourcePort);
         const fromNode = getNode(fromPort.parentNode);
+        const toPort = getPort(link.target, link.targetPort); if (!toPort) return
+        const toNode = getNode(toPort.parentNode);
+        const paramTypes = ['variable', 'constant', 'parameter', 'port']
 
-        if (toNode?.extras?.type === 'built-in') {
-            add(toPort.name + '()');
-        } else if (toNode?.name === "Function") {
-            add(toNode.content.value, '(', ');');
-        } else if (toNode?.name === "Condition") {
-            const xValue = getCoditionalValue(toNode, 'x');
-            const yValue = getCoditionalValue(toNode, 'y');
+        if (paramTypes.includes(toNode?.extras?.type)) {
+            const params = []
+            params.push(toNode)
 
-            const outcome2 = getOutcome(toNode);
-            const toNode2 = getParent(outcome2);
+            let nextFromPort = getOutPort(toPort)
+            let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
+            let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
+            let nextToNode = getNode(nextToPort.parentNode)
 
-            const outcome3 = getOutcome(toNode, 'False');
-            const toNode3 = getParent(outcome3);
+            while (paramTypes.includes(nextToNode?.extras?.type)) {
+                params.push(nextToNode)
 
-            add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
-            if (toNode2) {
-                callWithParameters(toNode2);
+                nextFromPort = getOutPort(nextToPort)
+                nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
+                nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
+                nextToNode = getNode(nextToPort.parentNode)
+            }
+
+            console.log('going to call', nextToPort.name)
+            console.log('with the following params', params.map((p: any) => p.content.value))
+            callWithParameters(nextToPort, params)
+
+
+            /*
+                1. Get passed value (while in chain)
+                2. Check if matches size and type with function call (when arriving at function call)
+
+            */
+
+
+        }
+
+        // if (toNode?.extras?.type === 'built-in') {
+        //     add(toPort.name + '()');
+        // } else if (toNode?.name === "Function") {
+        //     add(toNode.content.value, '(', ');');
+        // } else if (toNode?.name === "Condition") {
+        //     const xValue = getCoditionalValue(toNode, 'x');
+        //     const yValue = getCoditionalValue(toNode, 'y');
+
+        //     const outcome2 = getOutcome(toNode);
+        //     const toNode2 = getParent(outcome2);
+
+        //     const outcome3 = getOutcome(toNode, 'False');
+        //     const toNode3 = getParent(outcome3);
+
+        //     add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
+        //     if (toNode2) {
+        //         callWithParameters(toNode2);
+        //     } else {
+        //         add('/* Lacking code to be executed if conditional is true */');
+        //     }
+        //     if (toNode3) {
+        //         add('} else {');
+        //         callWithParameters(toNode3);
+        //     }
+        //     add("}\n");
+        // } else {
+        if (['variable', 'constant', 'parameter', 'port'].includes(toNode?.extras?.type)) {
+            // callWithParameters(toNode);
+        } else { //is a component or function?
+            if (toNode?.instance) {
+                add(toNode.instance + '.' + (toPort.name) + '();');
+            } else if (fromNode?.instance) {
+                add(fromNode.instance + '.' + (fromPort.name) + '();');
             } else {
-                add('/* Lacking code to be executed if conditional is true */');
-            }
-            if (toNode3) {
-                add('} else {');
-                callWithParameters(toNode3);
-            }
-            add("}\n");
-        } else {
-            if (['variable', 'constant', 'parameter'].includes(toNode?.extras?.type)) {
-                callWithParameters(toNode);
-            } else if (['port'].includes(toNode?.extras?.type)) {
-                callWithParameters(toNode);
-            } else { //is a component or function?
-                if (toNode?.instance) {
-                    add(toNode.instance + '.' + (toPort.name) + '();');
-                } else if (fromNode?.instance) {
-                    add(fromNode.instance + '.' + (fromPort.name) + '();');
-                } else {
-                    warn('Loose connection', [fromNode]);
-                }
+                warn('Loose connection', [fromNode]);
             }
         }
+        // }
     }
 
     // function oldRemoveTypes(name: string): string {
