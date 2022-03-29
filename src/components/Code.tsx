@@ -12,6 +12,11 @@ import GoClass from './GoClass';
 import { processDynamic } from "../components/goBuilder"
 
 
+const returnTypes = ['byte', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
+
+const ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh']
+
+
 const paramTypes = ['variable', 'constant', 'parameter', 'port']
 
 
@@ -227,15 +232,33 @@ function generateCode(model: any): { code: string, problems: any[] } {
             const received: any[] = []
             const node = getNode(port.parentNode)
 
+            console.log(params)
             params.forEach((p: any) => {
                 if (p.extras.type === 'parameter') {
-                    received.push(...p.content.value.split(','))
+                    received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
                 }
             });
 
             if (expected.length !== received.length) {
-                warn(`This function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [node])
+                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [node])
             }
+
+            expected.forEach((ex: any, index: number) => {
+                const expectedType = returnTypes.find((rt: any) => ex.startsWith(rt))
+                const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
+
+                if (expectedType !== receivedType) {
+                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, [node])
+                }
+
+                // returnTypes.forEach(type => {
+
+                //     if (ex.startsWith(type)) {
+                //     }
+                // });
+                console.log('ex', ex, index)
+            });
+
 
 
             console.log('expected', expected)
@@ -246,7 +269,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + (fromPort.name) + '();');
             } else {
-                warn('Loose connection', [fromNode]);
+                // warn('Loose connection', [fromNode]);
             }
             // try {
             //     if (node.extras.type === 'constant') {
