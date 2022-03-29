@@ -141,34 +141,13 @@ export class MyEditableNodeWidget extends React.Component<
     });
   }
   render() {
+    console.log('rendering', this.props)
     return (
       <S.Node
         data-default-node-name={this.props.nodeModel.getOptions().name}
         selected={this.props.nodeModel.isSelected()}
         background={this.props.nodeModel.getOptions().color}>
         <S.Title>
-          {this.props.nodeModel.content.hasName && <div className={"editable-node"}
-            ref={divElement => (this.divElement = divElement)}>
-            <div className="editable-border">
-              <div className="editable-header">
-                <div
-                  onDoubleClick={() => {
-                    this._editableObjectDoubleClick("name");
-                  }}
-                >
-                  <EditableSingleField
-                    node={this.props.nodeModel}
-                    elementKey="name"
-                    editingKey={this.state.editingKey}
-                    beingEdited={this.state.editingSomething}
-                    content={this.props.nodeModel.content.name}
-                    onChange={this._contentOnChange}
-                    onBlurOrEnter={this._onBlurOrEnter}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>}
           {this.props.nodeModel.content.hasReturnType && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
@@ -184,6 +163,28 @@ export class MyEditableNodeWidget extends React.Component<
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
                     content={this.props.nodeModel.content.returnType}
+                    onChange={this._contentOnChange}
+                    onBlurOrEnter={this._onBlurOrEnter}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>}
+          {this.props.nodeModel.content.hasUsername && <div className={"editable-node"}
+            ref={divElement => (this.divElement = divElement)}>
+            <div className="editable-border">
+              <div className="editable-header">
+                <div
+                  onDoubleClick={() => {
+                    this._editableObjectDoubleClick("name");
+                  }}
+                >
+                  <EditableSingleField
+                    node={this.props.nodeModel}
+                    elementKey="name"
+                    editingKey={this.state.editingKey}
+                    beingEdited={this.state.editingSomething}
+                    content={this.props.nodeModel.content.name}
                     onChange={this._contentOnChange}
                     onBlurOrEnter={this._onBlurOrEnter}
                   />
