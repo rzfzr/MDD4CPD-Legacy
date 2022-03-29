@@ -222,6 +222,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         function callWithParameters(port: any, params: any) {
             const expected = port.name.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
             const received: any[] = []
+            const node = getNode(port.parentNode)
 
             params.forEach((p: any) => {
                 if (p.extras.type === 'parameter') {
@@ -230,14 +231,20 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
 
             if (expected.length !== received.length) {
-                warn(`This function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [getNode(port.parentNode)])
+                warn(`This function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [node])
             }
 
 
             console.log('expected', expected)
             console.log('received', received)
 
-
+            if (toNode?.instance) {
+                add(node.instance + '.' + (port.name) + '();');
+            } else if (fromNode?.instance) {
+                add(fromNode.instance + '.' + (fromPort.name) + '();');
+            } else {
+                warn('Loose connection', [fromNode]);
+            }
             // try {
             //     if (node.extras.type === 'constant') {
             //         contents.push(node.content.name);
@@ -304,8 +311,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const toNode = getNode(toPort.parentNode);
         const paramTypes = ['variable', 'constant', 'parameter', 'port']
 
+        const params: any[] = []
         if (paramTypes.includes(toNode?.extras?.type)) {
-            const params = []
             params.push(toNode)
 
             let nextFromPort = getOutPort(toPort)
@@ -325,14 +332,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
             console.log('going to call', nextToPort.name)
             console.log('with the following params', params.map((p: any) => p.content.value))
             callWithParameters(nextToPort, params)
-
-
-            /*
-                1. Get passed value (while in chain)
-                2. Check if matches size and type with function call (when arriving at function call)
-
-            */
-
+        } else { //is a component or function?
+            callWithParameters(toPort, params)
 
         }
 
@@ -361,19 +362,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         //         callWithParameters(toNode3);
         //     }
         //     add("}\n");
-        // } else {
-        if (['variable', 'constant', 'parameter', 'port'].includes(toNode?.extras?.type)) {
-            // callWithParameters(toNode);
-        } else { //is a component or function?
-            if (toNode?.instance) {
-                add(toNode.instance + '.' + (toPort.name) + '();');
-            } else if (fromNode?.instance) {
-                add(fromNode.instance + '.' + (fromPort.name) + '();');
-            } else {
-                warn('Loose connection', [fromNode]);
-            }
-        }
-        // }
+        // } 
     }
 
     // function oldRemoveTypes(name: string): string {
