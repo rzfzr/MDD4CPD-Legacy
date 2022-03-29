@@ -260,6 +260,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + params.map((par: any) => {
                         if (par.extras.type === 'parameter') return par.content.value
                         if (par.extras.type === 'constant') return par.content.name
+                        return 'error'
                     })
                     + ') '
                     + ';');

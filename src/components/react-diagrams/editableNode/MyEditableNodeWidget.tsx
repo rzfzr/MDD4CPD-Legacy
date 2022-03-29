@@ -16,8 +16,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import { Button } from '@material-ui/core';
 
-
-const returnTypes = ['byte', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
+const returnTypes = ['byte', 'uint8_t', 'uint16_t', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
 
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
