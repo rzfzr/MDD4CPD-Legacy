@@ -327,14 +327,15 @@ export default [{
         color: 'orange',
         extras: {
             type: 'component',
-            library: 'Servo.h'
+            library: 'Servo.h',
+            link: 'arduino.cc/reference/en/libraries/servo/'
         },
         methods: [
+            'uint8_t attach(int pin)',
+            'uint8_t attach(int pin, int min, int max)',
             'void detach()',
-            'void write(int)',
-            'void writeMicroseconds(int)',
-            'uint8_t attach(int)',
-            'uint8_t attach(int, int, int)',
+            'void write(int value)',
+            'void writeMicroseconds(int value)',
             'int read()',
             'int readMicroseconds()',
             'bool attached()',
