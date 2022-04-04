@@ -216,20 +216,24 @@ export class MyEditableNodeWidget extends React.Component<
                   }}> + </Button>
 
                   <Button onClick={() => {
-                    if (this.props.nodeModel.portsIn.length === 1) {
-                      return
-                    }
+                    const nameIn = 'void'
 
                     let isFound = false
                     let index = this.props.nodeModel.portsIn.length - 1;
-                    for (; index >= 0; index--) {
+                    for (; index >= 1; index--) {
                       const portIn = this.props.nodeModel.portsIn[index]
+                      const portOut = this.props.nodeModel.portsOut[index]
                       if (!isFound) {
-                        if (Object.keys(portIn.links).length !== 0) {
+                        if (Object.keys(portIn.links).length !== 0 ||
+                          Object.keys(portOut.links).length !== 0) {
                           return
                         }
-                        this.props.nodeModel.removePort(portIn)
-                        isFound = true
+                        // console.log('innn', portIn)
+                        if (portIn.options.label.startsWith(nameIn)) {
+                          this.props.nodeModel.removePort(portIn)
+                          this.props.nodeModel.removePort(portOut)
+                          isFound = true
+                        }
                       }
                     }
                     this.props.engine.repaintCanvas();
@@ -238,9 +242,10 @@ export class MyEditableNodeWidget extends React.Component<
               }
               Usages:
               <Button onClick={() => {
-                const next = this.props.nodeModel.portsIn.length
-                let nameIn = this.props.nodeModel.portsIn[0].getOptions().label
-                let nameOut = this.props.nodeModel.portsOut[0].getOptions().label
+                const nameIn = this.props.nodeModel.portsIn[0].getOptions().label
+                const nameOut = this.props.nodeModel.portsOut[0].getOptions().label
+
+                const next = this.props.nodeModel.portsIn.filter(port => port.getOptions().label?.startsWith(nameIn)).length
 
                 this.props.nodeModel.addInPort(nameIn + '-' + next, true)
                 this.props.nodeModel.addOutPort(nameOut + '-' + next, true)
@@ -248,13 +253,11 @@ export class MyEditableNodeWidget extends React.Component<
               }}> + </Button>
 
               <Button onClick={() => {
-                if (this.props.nodeModel.portsIn.length === 1) {
-                  return
-                }
+                const nameIn = this.props.nodeModel.portsIn[0].getOptions().label
 
                 let isFound = false
                 let index = this.props.nodeModel.portsIn.length - 1;
-                for (; index >= 0; index--) {
+                for (; index >= 1; index--) {
                   const portIn = this.props.nodeModel.portsIn[index]
                   const portOut = this.props.nodeModel.portsOut[index]
                   if (!isFound) {
@@ -262,9 +265,12 @@ export class MyEditableNodeWidget extends React.Component<
                       Object.keys(portOut.links).length !== 0) {
                       return
                     }
-                    this.props.nodeModel.removePort(portIn)
-                    this.props.nodeModel.removePort(portOut)
-                    isFound = true
+                    // console.log('innn', portIn)
+                    if (portIn.options.label.startsWith(nameIn)) {
+                      this.props.nodeModel.removePort(portIn)
+                      this.props.nodeModel.removePort(portOut)
+                      isFound = true
+                    }
                   }
                 }
                 this.props.engine.repaintCanvas();
