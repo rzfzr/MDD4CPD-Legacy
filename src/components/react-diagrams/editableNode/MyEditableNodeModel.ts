@@ -70,6 +70,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 break;
             case 'Variable(s)':
                 content.hasReturnType = true
+                content.hasUsages = true
+                content.hasUsername = true
                 break;
             default:
                 content.value = 'value'

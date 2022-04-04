@@ -377,10 +377,10 @@ export default [{
             type: 'variable'
         },
         ins: [
-            'void setValue(int)',
+            'in',
         ],
         outs: [
-            'int getValue()',
+            'out',
         ]
     },
     {
