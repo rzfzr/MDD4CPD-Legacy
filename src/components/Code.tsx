@@ -260,8 +260,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
             });
 
-
-            console.log('cutting', received)
             if (node?.instance) {
                 add(node.instance
                     + '.'
@@ -350,7 +348,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         if (paramTypes.includes(toNode?.extras?.type)) {
             params.push(toNode)
 
-            let nextFromPort = getOutPort(toPort)
+            let nextFromPort = getOutPort(toPort); if (!nextFromPort) return
             let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
             let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
             let nextToNode = getNode(nextToPort.parentNode)
@@ -358,7 +356,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             while (paramTypes.includes(nextToNode?.extras?.type)) {
                 params.push(nextToNode)
 
-                nextFromPort = getOutPort(nextToPort)
+                nextFromPort = getOutPort(nextToPort); if (!nextFromPort) return
                 nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
                 nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
                 nextToNode = getNode(nextToPort.parentNode)

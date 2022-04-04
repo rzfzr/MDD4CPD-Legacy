@@ -39,7 +39,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         //Custom setup for diffent types
         const content = { name: 'userName', hasUsername: hasUserName, value: '0', hasValue: hasUserValue, hasUsages: false, hasReturnType: false, returnType: 'byte' }
         this.selectableOptions = ['something', 'went wrong'];
-        console.log('data', data)
         switch (data.name) {
             case 'bool':
                 content.value = 'true'
