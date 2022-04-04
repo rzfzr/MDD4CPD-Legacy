@@ -238,7 +238,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
             const node = getNode(port.parentNode)
-            const expected = port.name.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
+            const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
             const received: any[] = []
 
             params.forEach((p: any) => {
@@ -253,29 +253,40 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
 
             expected.forEach((ex: any, index: number) => {
-                const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt))
+                const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt)) || node.content?.returnType
+
+
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
                 if (expectedType !== receivedType) {
                     warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, [node])
                 }
             });
 
+            function formattedParameters(params: any) {
+                return params.map((par: any) => {
+                    if (par.extras.type === 'parameter') return par.content.value
+                    if (par.extras.type === 'constant') return par.content.name
+                    if (par.extras.type === 'variable') return par.content.name
+                    return 'error on node type'
+                })
+            }
+
             if (node?.instance) {
                 add(node.instance
                     + '.'
                     + port.name.substring(port.name.indexOf(' ') + 1, port.name.indexOf('('))
                     + '('
-                    + params.map((par: any) => {
-                        if (par.extras.type === 'parameter') return par.content.value
-                        if (par.extras.type === 'constant') return par.content.name
-                        if (par.extras.type === 'variable') return par.content.name
-                        return 'error on node type'
-                    })
+                    + formattedParameters(params)
                     + ') '
                     + ';');
             } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + (fromPort.name) + '();');
+
+
+            } else if (port.name.startsWith('void setValue')) {
+                add(node.content.name + ' = ' + formattedParameters(params))
             } else {
+                console.warn('confusion at ', port, node, fromNode)
                 add('confusion')
                 // warn('Loose connection', [fromNode]);
             }
@@ -309,34 +320,34 @@ function generateCode(model: any): { code: string, problems: any[] } {
             //     });
             // });
         }
-        function getCoditionalValue(conditionNode: any, portName: any): string {
-            try {
-                let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
-                let link = getLink(linkID);
-                let port = getPort(link.source, link.sourcePort);
-                let parent = getParent(port);
+        // function getCoditionalValue(conditionNode: any, portName: any): string {
+        //     try {
+        //         let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
+        //         let link = getLink(linkID);
+        //         let port = getPort(link.source, link.sourcePort);
+        //         let parent = getParent(port);
 
-                if (['variable', 'port'].includes(parent.extras.type)) {
-                    return parent.content.value;
-                }
-                else if (['component'].includes(parent.extras.type)) {
-                    return parent.instance + '.' + port.name;
-                } else {
-                    return add('Unknown extras.type');
-                }
-            } catch (error) {
-                return '/* Lacking Value */';
-            }
-        }
-        function getOutcome(conditionNode: any, ifThis = 'True') {
-            try {
-                let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
-                let link = getLink(linkID);
-                return getPort(link.target, link.targetPort);
-            } catch (error) {
-                return { label: '// Lacking Outcome' };
-            }
-        }
+        //         if (['variable', 'port'].includes(parent.extras.type)) {
+        //             return parent.content.value;
+        //         }
+        //         else if (['component'].includes(parent.extras.type)) {
+        //             return parent.instance + '.' + port.name;
+        //         } else {
+        //             return add('Unknown extras.type');
+        //         }
+        //     } catch (error) {
+        //         return '/* Lacking Value */';
+        //     }
+        // }
+        // function getOutcome(conditionNode: any, ifThis = 'True') {
+        //     try {
+        //         let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
+        //         let link = getLink(linkID);
+        //         return getPort(link.target, link.targetPort);
+        //     } catch (error) {
+        //         return { label: '// Lacking Outcome' };
+        //     }
+        // }
 
         const link = getLink(l); if (!link) return
         const fromPort = getPort(link.source, link.sourcePort);
@@ -353,7 +364,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
             let nextToNode = getNode(nextToPort.parentNode)
 
-            while (paramTypes.includes(nextToNode?.extras?.type)) {
+            while (paramTypes.includes(nextToNode?.extras?.type && nextToPort.label.startsWith('void setValue'))) {
                 params.push(nextToNode)
 
                 nextFromPort = getOutPort(nextToPort); if (!nextFromPort) return
@@ -362,8 +373,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 nextToNode = getNode(nextToPort.parentNode)
             }
 
-            console.log('going to call', nextToPort.name)
-            console.log('with the following params', params.map((p: any) => p.content.value))
+            // console.log('going to call', nextToPort.name)
+            // console.log('with the following params', params.map((p: any) => p.content.value))
             callWithParameters(nextToPort, params)
         } else { //is a component or function?
             callWithParameters(toPort, params)
@@ -443,6 +454,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
 
     // #region Generator Lifecycle
+    console.warn('----- Starting Code Generation -----')
     addHeaderComments()
     warnAboutNumberOfControllers()
     warnAboutPortUsage()
