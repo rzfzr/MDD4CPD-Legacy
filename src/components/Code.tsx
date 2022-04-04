@@ -32,6 +32,15 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
         }
     }
+    function addVariableDeclarations(constants: any) {
+        if (variables.length > 0) {
+            add("")
+            add('// Variables')
+            constants.forEach((constant: any) => {
+                add(`${constant.content.returnType} ${constant.content.name} = ${constant.content.value}`)
+            });
+        }
+    }
     function addFunctionDeclarations(functions: any) {
         if (functions.length > 0) {
             add('// Functions')
@@ -416,7 +425,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
     // #region Shared Variables
     let code = ''
-
     const problems: any[] = []
 
     const links: any[] = getLinksFromModel(model)
@@ -428,6 +436,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         constant.content.name = constant.content.name.toUpperCase()
         return constant
     })
+    const variables: any[] = nodes.filter(node => node.extras?.type === 'variable')
 
     const usedDigital: any[] = [...new Set(nodes.filter(node => node.name === 'Digital Port'))]
     const usedAnalog: any[] = [...new Set(nodes.filter(node => node.name === 'Analog Port'))]
@@ -445,6 +454,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     addLibraries()
     addFunctionDeclarations(logics.filter(l => l.name === 'Function'))
     addConstantDeclarations(constants)
+    addVariableDeclarations(variables)
     addLifecycleMethods()
     // #endregion
     return { code: indentCode(code), problems };
