@@ -47,7 +47,7 @@ export class MyPortLabel extends React.Component<MyPortLabelProps> {
         const hasLink = Object.keys(this.props?.port?.links).length !== 0
         const hasHiddenLabel = this.props?.port?.getOptions().extras.hasHiddenLabel
         let isVoid = false
-        if (this.props?.port?.getOptions().label?.startsWith('void')) {
+        if (this.props?.port?.getOptions().name?.startsWith('void')) {
             if (this.props?.port?.getOptions().alignment === "right") {
                 isVoid = true
             }

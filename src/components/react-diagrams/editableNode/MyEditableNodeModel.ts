@@ -109,13 +109,13 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return port;
     }
 
-    addInPort(label: string, after = true, hasHiddenLabel = false): MyPortModel {
+    addInPort(name: string, after = true): MyPortModel {
         const p = new MyPortModel({
             in: true,
-            name: hasHiddenLabel ? label + ' ' : label,
-            label: label,
+            name: name,
+            label: name,
             alignment: PortModelAlignment.LEFT,
-            hasHiddenLabel: hasHiddenLabel
+            hasHiddenLabel: false
         });
         if (!after) {
             this.portsIn.splice(0, 0, p);
@@ -123,13 +123,13 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return this.addPort(p);
     }
 
-    addOutPort(label: string, after = true): MyPortModel {
+    addOutPort(name: string, after = true, hasHiddenLabel = false): MyPortModel {
         const p = new MyPortModel({
             in: false,
-            name: label,
-            label: label,
+            name: name,
+            label: hasHiddenLabel ? name + ' ' : name,
             alignment: PortModelAlignment.RIGHT,
-            hasHiddenLabel: false
+            hasHiddenLabel: hasHiddenLabel
         });
         if (!after) {
             this.portsOut.splice(0, 0, p);
@@ -138,8 +138,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     }
 
     addBiPort(label: string, after = true): MyPortModel {
-        this.addOutPort(label, after)
-        return this.addInPort(label, after, true)
+        this.addOutPort(label, after, true)
+        return this.addInPort(label, after)
     }
 
     addExtras(extras: any): any {

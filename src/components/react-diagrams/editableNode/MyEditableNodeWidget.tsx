@@ -205,6 +205,37 @@ export class MyEditableNodeWidget extends React.Component<
               delayHide={500}
               effect="solid"
             >
+
+
+              {this.props.nodeModel.extras?.type === 'variable' &&
+                <div>Setters:
+
+                  <Button onClick={() => {
+                    this.props.nodeModel.addBiPort('void setValue(<T> value)', true)
+                    this.props.engine.repaintCanvas();
+                  }}> + </Button>
+
+                  <Button onClick={() => {
+                    if (this.props.nodeModel.portsIn.length === 1) {
+                      return
+                    }
+
+                    let isFound = false
+                    let index = this.props.nodeModel.portsIn.length - 1;
+                    for (; index >= 0; index--) {
+                      const portIn = this.props.nodeModel.portsIn[index]
+                      if (!isFound) {
+                        if (Object.keys(portIn.links).length !== 0) {
+                          return
+                        }
+                        this.props.nodeModel.removePort(portIn)
+                        isFound = true
+                      }
+                    }
+                    this.props.engine.repaintCanvas();
+                  }}> - </Button>
+                </div>
+              }
               Usages:
               <Button onClick={() => {
                 const next = this.props.nodeModel.portsIn.length
