@@ -217,19 +217,23 @@ export class MyEditableNodeWidget extends React.Component<
               }}> + </Button>
 
               <Button onClick={() => {
-                if (this.props.nodeModel.portsIn.length > 1) {
-                  let found = false
-                  let index = this.props.nodeModel.portsIn.length - 1;
-                  for (; index >= 0; index--) {
-                    const portIn = this.props.nodeModel.portsIn[index]
-                    const portOut = this.props.nodeModel.portsOut[index]
-                    if (!found &&
-                      (Object.keys(portIn.links).length === 0 ||
-                        Object.keys(portOut.links).length === 0)) {
-                      this.props.nodeModel.removePort(portIn)
-                      this.props.nodeModel.removePort(portOut)
-                      found = true
+                if (this.props.nodeModel.portsIn.length === 1) {
+                  return
+                }
+
+                let isFound = false
+                let index = this.props.nodeModel.portsIn.length - 1;
+                for (; index >= 0; index--) {
+                  const portIn = this.props.nodeModel.portsIn[index]
+                  const portOut = this.props.nodeModel.portsOut[index]
+                  if (!isFound) {
+                    if (Object.keys(portIn.links).length !== 0 ||
+                      Object.keys(portOut.links).length !== 0) {
+                      return
                     }
+                    this.props.nodeModel.removePort(portIn)
+                    this.props.nodeModel.removePort(portOut)
+                    isFound = true
                   }
                 }
                 this.props.engine.repaintCanvas();
