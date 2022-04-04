@@ -371,7 +371,7 @@ export default [{
         ]
     },
     {
-        name: 'Variable Integer',
+        name: 'Variable(s)',
         color: 'pink',
         extras: {
             type: 'variable'
@@ -381,19 +381,6 @@ export default [{
         ],
         outs: [
             'int getValue()',
-        ]
-    },
-    {
-        name: 'Variable Boolean',
-        color: 'pink',
-        extras: {
-            type: 'variable'
-        },
-        ins: [
-            'void setValue(bool)',
-        ],
-        outs: [
-            'bool',
         ]
     },
     {

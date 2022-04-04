@@ -228,12 +228,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
+            const node = getNode(port.parentNode)
             const expected = port.name.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
             const received: any[] = []
-            const node = getNode(port.parentNode)
 
             params.forEach((p: any) => {
-                if (p.extras.type === 'parameter' || p.extras.type === 'constant') {
+                if (p.extras.type === 'parameter' || p.extras.type === 'constant' || p.extras.type === 'variable') {
                     received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
                 }
             });
@@ -251,6 +251,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
             });
 
+
             console.log('cutting', received)
             if (node?.instance) {
                 add(node.instance
@@ -260,7 +261,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + params.map((par: any) => {
                         if (par.extras.type === 'parameter') return par.content.value
                         if (par.extras.type === 'constant') return par.content.name
-                        return 'error'
+                        if (par.extras.type === 'variable') return par.content.name
+                        return 'error on node type'
                     })
                     + ') '
                     + ';');

@@ -68,6 +68,9 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 content.value = '=='
                 this.selectableOptions = ['==', '!=', '<', '>', '<=', '>=', '<=>']
                 break;
+            case 'Variable(s)':
+                content.hasReturnType = true
+                break;
             default:
                 content.value = 'value'
                 break;
