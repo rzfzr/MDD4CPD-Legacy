@@ -141,6 +141,56 @@ export default [{
         ]
     },
     {
+        name: 'Function',
+        extras: {
+            type: 'logic',
+            value: 'foo',
+            hasUsages: true,
+            hasReturnType: true,
+            // hasUsername: true,
+            hasValue: true,
+        },
+        color: 'grey',
+        outs: [
+            'call',
+        ],
+        ins: [
+            'trigger',
+        ]
+    }, {
+        name: 'Condition',
+        extras: {
+            type: 'logic',
+            selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
+            value: '=='
+        },
+        color: 'grey',
+        outs: [
+            'True',
+            'False'
+        ],
+        ins: [
+            'trigger',
+            'x',
+            'y'
+        ]
+    },
+    {
+        name: 'Loop',
+        extras: {
+            type: 'logic'
+        },
+        color: 'grey',
+        outs: [
+            'True',
+            'False'
+        ],
+        ins: [
+            'startValue',
+            'stopValue'
+        ]
+    },
+    {
         name: 'Digital I/O',
         color: 'cyan',
         extras: {
@@ -306,57 +356,6 @@ export default [{
             'out',
         ]
     },
-    {
-        name: 'Function',
-        extras: {
-            type: 'logic',
-            value: 'foo',
-            hasUsages: true,
-            hasReturnType: true,
-            // hasUsername: true,
-            hasValue: true,
-        },
-        color: 'grey',
-        outs: [
-            'call',
-        ],
-        ins: [
-            'trigger',
-        ]
-    }, {
-        name: 'Condition',
-        extras: {
-            type: 'logic',
-            selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
-            value: '=='
-        },
-        color: 'grey',
-        outs: [
-            'True',
-            'False'
-        ],
-        ins: [
-            'trigger',
-            'x',
-            'y'
-        ]
-    },
-    {
-        name: 'Loop',
-        extras: {
-            type: 'logic'
-        },
-        color: 'grey',
-        outs: [
-            'True',
-            'False'
-        ],
-        ins: [
-            'startValue',
-            'stopValue'
-        ]
-    },
-
     {
         name: 'TwoWire Interface',
         color: 'blue',
