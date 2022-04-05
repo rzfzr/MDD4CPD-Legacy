@@ -108,6 +108,7 @@ export default [{
         extras: {
             group: 'value',
             type: 'variable',
+            name: 'var',
             hasUsages: true,
             hasReturnType: true,
             hasUsername: true,
@@ -126,6 +127,7 @@ export default [{
         extras: {
             group: 'value',
             type: 'constant',
+            name: 'con',
             hasUsages: true,
             hasReturnType: true,
             hasUsername: true,

@@ -23,7 +23,16 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             name: data.name,
             color: data.color,
         });
+
+
+
+        data.extras.returnType = data.extras.returnType || 'byte'
+        data.extras.value = data.extras.value || 'value'
+
+
+
         this.extras = data.extras;
+
 
         data.methods?.forEach((method: string) => {
             this.addBiPort(method)
@@ -36,17 +45,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         });
         this.selectableOptions = data.extras.selectableOptions || false;
 
-        // this.content = {
-        //     userName: 'userName',
-        //     hasUsername: data.extras.hasUserName,
-        //     userValue: data.extras.value || 'value',
-        //     hasValue: data.extras.hasUserValue,
-        //     hasUsages: data.extras.hasUsages,
-        //     hasReturnType: data.extras.hasReturnType,
-        //     hasPortType: data.extras.hasPortType,
-        //     returnType: data.extras.returnType || 'byte',
-        //     portType: data.extras.portType || ''
-        // }
         console.log('Created', this)
     }
 
