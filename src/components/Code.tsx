@@ -244,6 +244,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
+            console.log('calling', port, params)
+
+
             const node = getNode(port.parentNode)
             const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
             const received: any[] = []
@@ -521,8 +524,10 @@ export default function Code(props: { model: string }) {
                     problems.map((p: any, index: any) => {
                         if (p.nodes.length > 0) {
                             p.nodes.forEach((node: any) => {
-                                const el = document.querySelector(`[data-nodeid='${node.id}']`)
-                                if (el) el.setAttribute('id', node.id)
+                                if (node.id) {
+                                    const el = document.querySelector(`[data-nodeid='${node.id}']`)
+                                    if (el) el.setAttribute('id', node.id)
+                                }
                             });
                         }
                         const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
