@@ -530,7 +530,7 @@ export default function Code(props: { model: string }) {
                     problems.map((p: any, index: any) => {
                         if (p.nodes.length > 0) {
                             p.nodes.forEach((node: any) => {
-                                if (node.id) {
+                                if (node?.id) {
                                     const el = document.querySelector(`[data-nodeid='${node.id}']`)
                                     if (el) el.setAttribute('id', node.id)
                                 }
