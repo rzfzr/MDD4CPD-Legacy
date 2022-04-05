@@ -42,7 +42,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             hasUsername: hasUserName,
             value: '0',
             hasValue: hasUserValue,
-            hasUsages: false,
+            hasUsages: data.extras.hasUsages || false,
             hasReturnType: false,
             hasPortType: false,
             returnType: data.extras.returnType || 'byte',
@@ -60,7 +60,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 content.portType = 'Digital'
                 content.returnType = 'int'
                 this.selectableOptions = Array.from(Array(100).keys()).map(x => x.toString())
-                //todo: add global context to get current microcontroller limit
                 break;
             case 'Constant(s)':
                 content.hasReturnType = true

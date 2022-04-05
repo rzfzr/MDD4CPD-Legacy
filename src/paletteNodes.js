@@ -235,6 +235,7 @@ export default [{
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
+            hasUsages: true,
         },
         ins: [
             'in',
@@ -248,6 +249,7 @@ export default [{
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
+            hasUsages: true,
         },
         ins: [
             'in',
@@ -261,6 +263,7 @@ export default [{
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
+            hasUsages: true,
         },
         ins: [
             'in',
@@ -274,6 +277,7 @@ export default [{
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
+            hasUsages: true,
         },
         ins: [
             'in',
