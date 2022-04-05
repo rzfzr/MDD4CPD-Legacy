@@ -245,7 +245,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             const received: any[] = []
 
             params.forEach((p: any) => {
-                if (p.extras.type === 'parameter' || p.extras.type === 'constant' || p.extras.type === 'variable') {
+                if (p.extras.type === 'parameter' || p.extras.type === 'constant' || p.extras.type === 'variable' || p.extras.type === 'port') {
                     received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
                 }
             });
@@ -268,6 +268,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             function formattedParameters(params: any) {
                 return params.map((par: any) => {
                     if (par.extras.type === 'parameter') return par.content.value
+                    if (par.extras.type === 'port') return par.content.value
                     if (par.extras.type === 'constant') return par.content.name
                     if (par.extras.type === 'variable') return par.content.name
                     return 'error on node type'

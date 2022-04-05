@@ -48,6 +48,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 content.hasUsages = true
                 content.hasPortType = true
                 content.portType = 'Digital'
+                content.returnType = 'int'
                 this.selectableOptions = Array.from(Array(100).keys()).map(x => x.toString())//todo: add global context to get current microcontroller limit
                 break;
             case 'Constant(s)':
