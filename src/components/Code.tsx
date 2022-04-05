@@ -50,7 +50,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add('// Functions')
             logics.forEach(logic => {
                 if (logic.name === "Function") {
-                    add('void ', logic.extras.value, '() {')
+                    add(`${logic.extras.returnType} ${logic.extras.value}() {`)
                     const callPort = logic.ports.find((x: any) => x.alignment === 'right')
                     callPort.links.forEach((l: any) => {
                         processLink(l)

@@ -313,7 +313,7 @@ export default [{
             value: 'foo',
             hasUsages: true,
             hasReturnType: true,
-            hasUsername: true,
+            // hasUsername: true,
             hasValue: true,
         },
         color: 'grey',
