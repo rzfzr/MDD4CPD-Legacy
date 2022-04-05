@@ -481,7 +481,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
 
     // #region Generator Lifecycle
-    console.warn('----- Starting Code Generation -----')
+    console.log('----- Starting Code Generation -----')
     addHeaderComments()
     warnAboutNumberOfControllers()
     warnAboutPortUsage()

@@ -1,5 +1,18 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default [{
+export default [
+
+    {
+        name: 'test',
+        color: 'black',
+        extras: {
+            type: 'test',
+            returnType: 'void',
+            hasUsages: true,
+        },
+        methods: [
+            'int getShit()'
+        ]
+    }, {
         name: 'Arduino Uno',
         color: 'green',
         extras: {

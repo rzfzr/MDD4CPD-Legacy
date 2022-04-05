@@ -24,24 +24,20 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             color: data.color,
         });
 
-
-
         data.extras.returnType = data.extras.returnType || 'byte'
         data.extras.value = data.extras.value || 'value'
 
-
-
         this.extras = data.extras;
 
-
-        data.methods?.forEach((method: string) => {
-            this.addBiPort(method)
+        data.methods?.forEach((biPort: string) => {
+            this.addInPort(biPort)
+            this.addOutPort(biPort + ' ', true, true)
         });
-        data.ins?.forEach((method: string) => {
-            this.addInPort(method)
+        data.ins?.forEach((inPort: string) => {
+            this.addInPort(inPort)
         });
-        data.outs?.forEach((method: string) => {
-            this.addOutPort(method)
+        data.outs?.forEach((outPort: string) => {
+            this.addOutPort(outPort)
         });
         this.selectableOptions = data.extras.selectableOptions || false;
 
@@ -103,11 +99,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.portsOut.splice(0, 0, p);
         }
         return this.addPort(p);
-    }
-
-    addBiPort(label: string, after = true): MyPortModel {
-        this.addOutPort(label, after, true)
-        return this.addInPort(label, after)
     }
 
     addExtras(extras: any): any {

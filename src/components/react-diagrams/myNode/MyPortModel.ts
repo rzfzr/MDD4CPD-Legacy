@@ -48,6 +48,7 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
+		console.log('linking ', port.getOptions().id)
 		return port.getOptions().id !== this.getOptions().id
 	}
 	createLinkModel(): MyRightAngleLinkModel {
