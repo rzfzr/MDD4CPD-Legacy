@@ -54,7 +54,9 @@ function BodyWidget(props: BodyWidgetProps) {
 	const rawModel = props.app.getDiagramEngine().getModel().serialize()
 	const stringModel = JSON.stringify(rawModel, null, 2)
 
-	const groups = [...new Set(paletteNodes.map(x => x.extras.type))]
+	const groups = [...new Set(paletteNodes.map(x => x.extras.group || x.extras.type))]
+
+	console.log(groups)
 	useEffect(() => {
 		if (stringModel !== model) {
 			setModel(stringModel);
@@ -78,7 +80,7 @@ function BodyWidget(props: BodyWidgetProps) {
 							groups.map((group) => {
 								return <div key={group} style={{ border: 'dashed white 1px', marginBottom: '20px' }}>
 									<h6 style={{ margin: '0px 0px 0px 0px' }}>{group[0].toUpperCase() + group.slice(1) + 's'}:</h6>
-									{paletteNodes.filter(n => n.extras.type === group).map((node) => {
+									{paletteNodes.filter(n => (n.extras.group === group || n.extras.type === group)).map((node) => {
 										return <TrayItemWidget key={node.name} node={node} />
 									})}
 								</div>

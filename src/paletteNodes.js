@@ -335,6 +335,7 @@ export default [{
         name: 'Port',
         color: 'white',
         extras: {
+            group: 'value',
             type: 'port'
         },
         ins: [
@@ -348,6 +349,7 @@ export default [{
         name: 'Parameter(s)',
         color: 'pink',
         extras: {
+            group: 'value',
             type: 'parameter'
         },
         ins: [
@@ -361,6 +363,7 @@ export default [{
         name: 'Variable(s)',
         color: 'pink',
         extras: {
+            group: 'value',
             type: 'variable'
         },
         ins: [
@@ -374,6 +377,7 @@ export default [{
         name: 'Constant(s)',
         color: 'pink',
         extras: {
+            group: 'value',
             type: 'constant'
         },
         ins: [
