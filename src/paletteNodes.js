@@ -63,6 +63,63 @@ export default [{
             'loop()'
         ]
     },
+
+    {
+        name: 'Port',
+        color: 'pink',
+        extras: {
+            group: 'value',
+            type: 'port'
+        },
+        ins: [
+            'in'
+        ],
+        outs: [
+            'out',
+        ]
+    },
+    {
+        name: 'Parameter(s)',
+        color: 'pink',
+        extras: {
+            group: 'value',
+            type: 'parameter'
+        },
+        ins: [
+            'in'
+        ],
+        outs: [
+            'out',
+        ]
+    },
+    {
+        name: 'Variable(s)',
+        color: 'pink',
+        extras: {
+            group: 'value',
+            type: 'variable'
+        },
+        ins: [
+            'in',
+        ],
+        outs: [
+            'out',
+        ]
+    },
+    {
+        name: 'Constant(s)',
+        color: 'pink',
+        extras: {
+            group: 'value',
+            type: 'constant'
+        },
+        ins: [
+            'in'
+        ],
+        outs: [
+            'out',
+        ]
+    },
     {
         name: 'Digital I/O',
         color: 'cyan',
@@ -329,62 +386,6 @@ export default [{
             'void setSpeed(long whatSpeed)',
             'void step(int number_of_steps)',
             'int version(void)',
-        ]
-    },
-    {
-        name: 'Port',
-        color: 'white',
-        extras: {
-            group: 'value',
-            type: 'port'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
-    },
-    {
-        name: 'Parameter(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'parameter'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
-    },
-    {
-        name: 'Variable(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'variable'
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
-    },
-    {
-        name: 'Constant(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'constant'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
         ]
     },
 ]
