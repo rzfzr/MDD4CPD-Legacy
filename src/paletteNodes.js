@@ -63,13 +63,18 @@ export default [{
             'loop()'
         ]
     },
-
     {
         name: 'Port',
         color: 'pink',
         extras: {
+            value: '0',
             group: 'value',
-            type: 'port'
+            type: 'port',
+            hasUsages: true,
+            hasPortType: true,
+            portType: 'Digital',
+            returnType: 'int',
+            selectableOptions: Array.from(Array(100).keys()).map(x => x.toString()),
         },
         ins: [
             'in'
@@ -83,7 +88,10 @@ export default [{
         color: 'pink',
         extras: {
             group: 'value',
-            type: 'parameter'
+            type: 'parameter',
+            hasUsages: true,
+            hasReturnType: true,
+            value: '0',
         },
         ins: [
             'in'
@@ -97,7 +105,10 @@ export default [{
         color: 'pink',
         extras: {
             group: 'value',
-            type: 'variable'
+            type: 'variable',
+            hasUsages: true,
+            hasReturnType: true,
+            hasUsername: true,
         },
         ins: [
             'in',
@@ -111,7 +122,10 @@ export default [{
         color: 'pink',
         extras: {
             group: 'value',
-            type: 'constant'
+            type: 'constant',
+            hasUsages: true,
+            hasReturnType: true,
+            hasUsername: true,
         },
         ins: [
             'in'
@@ -289,7 +303,11 @@ export default [{
     {
         name: 'Function',
         extras: {
-            type: 'logic'
+            type: 'logic',
+            value: 'foo',
+            hasUsages: true,
+            hasReturnType: true,
+            hasUsername: true,
         },
         color: 'grey',
         outs: [
@@ -301,7 +319,9 @@ export default [{
     }, {
         name: 'Condition',
         extras: {
-            type: 'logic'
+            type: 'logic',
+            selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
+            value: '=='
         },
         color: 'grey',
         outs: [

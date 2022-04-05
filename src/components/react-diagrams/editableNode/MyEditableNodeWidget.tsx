@@ -215,6 +215,7 @@ export class MyEditableNodeWidget extends React.Component<
           </div>}
 
           <S.TitleName>
+            {this.props.nodeModel.content.returnType}
             {this.props.nodeModel.getOptions().name}:
             {this.props.nodeModel.content.hasUsages &&
               (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().id} >
@@ -310,14 +311,10 @@ export class MyEditableNodeWidget extends React.Component<
                     this._editableObjectDoubleClick("value");
                   }}
                 >
-                  {(this.props.nodeModel.portsOut[0].options.name === 'bool' ||
-                    this.props.nodeModel.getOptions().name === 'Digital Port' ||
-                    this.props.nodeModel.getOptions().name === 'Analog Port' ||
-                    this.props.nodeModel.getOptions().name === 'Condition'
-                  ) ?
+                  {this.props.nodeModel.selectableOptions || this.props.nodeModel.content.returnType === 'bool' ?
                     <SelectableField
                       elementKey="value"
-                      options={this.props.nodeModel.selectableOptions}
+                      options={this.props.nodeModel.content.returnType === 'bool' ? ['true', 'false'] : this.props.nodeModel.selectableOptions}
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
                       content={this.props.nodeModel.content.value}

@@ -55,8 +55,6 @@ function BodyWidget(props: BodyWidgetProps) {
 	const stringModel = JSON.stringify(rawModel, null, 2)
 
 	const groups = [...new Set(paletteNodes.map(x => x.extras.group || x.extras.type))]
-
-	console.log(groups)
 	useEffect(() => {
 		if (stringModel !== model) {
 			setModel(stringModel);

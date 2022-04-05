@@ -35,60 +35,20 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         data.outs?.forEach((method: string) => {
             this.addOutPort(method)
         });
+        console.log('creating', data.extras)
+        this.selectableOptions = data.extras.selectableOptions || false;
 
-        //Custom setup for diffent types
-        const content = {
+        this.content = {
             name: 'userName',
-            hasUsername: hasUserName,
-            value: '0',
+            hasUsername: data.extras.hasUserName || hasUserName,
+            value: data.extras.value || 'no default value',
             hasValue: hasUserValue,
-            hasUsages: data.extras.hasUsages || false,
-            hasReturnType: false,
-            hasPortType: false,
+            hasUsages: data.extras.hasUsages,
+            hasReturnType: data.extras.hasReturnType,
+            hasPortType: data.extras.hasPortType,
             returnType: data.extras.returnType || 'byte',
-            portType: ''
+            portType: data.extras.portType || ''
         }
-        this.selectableOptions = ['something', 'went wrong'];
-        switch (data.name) {
-            case 'bool':
-                content.value = 'true'
-                this.selectableOptions = ['true', 'false'];
-                break;
-            case 'Port':
-                content.hasUsages = true
-                content.hasPortType = true
-                content.portType = 'Digital'
-                content.returnType = 'int'
-                this.selectableOptions = Array.from(Array(100).keys()).map(x => x.toString())
-                break;
-            case 'Constant(s)':
-                content.hasReturnType = true
-                content.hasUsages = true
-                content.hasUsername = true
-                break;
-            case 'Parameter(s)':
-                content.hasReturnType = true
-                content.hasUsages = true
-                break;
-            case 'Function':
-                content.value = 'foo'
-                content.hasReturnType = true
-                content.hasUsages = true
-                break;
-            case 'Condition':
-                content.value = '=='
-                this.selectableOptions = ['==', '!=', '<', '>', '<=', '>=', '<=>']
-                break;
-            case 'Variable(s)':
-                content.hasReturnType = true
-                content.hasUsages = true
-                content.hasUsername = true
-                break;
-            default:
-                content.value = 'value'
-                break;
-        }
-        this.content = content
     }
 
     doClone(lookupTable: {}, clone: any): void {
