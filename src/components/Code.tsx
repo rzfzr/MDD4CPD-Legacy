@@ -32,12 +32,16 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
         }
     }
-    function addVariableDeclarations(constants: any) {
+    function addVariableDeclarations(variables: any) {
         if (variables.length > 0) {
             add("")
             add('// Variables')
-            constants.forEach((constant: any) => {
-                add(`${constant.content.returnType} ${constant.content.name} = ${constant.content.value}`)
+            variables.forEach((variable: any) => {
+                let params = variable.content.value.split(',')
+                const isArray = params.length > 1
+                const count = isArray ? '[' + params.length + ']' : ''
+                params = isArray ? '{' + params.map((x: any) => x) + '}' : params
+                add(`${variable.content.returnType} ${variable.content.name}${count} = ${params};`)
             });
         }
     }
@@ -83,7 +87,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             if (line.includes("}")) {
                 level--;
             }
-            code.push(tab.repeat(level) + line);
+            code.push(tab.repeat(Math.max(level, 0)) + line);
             if (line.includes("{")) {
                 level++;
             }
@@ -285,10 +289,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + ';');
             } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + (fromPort.name) + '();');
-
-
             } else if (port.name.startsWith('void setValue')) {
-                add(node.content.name + ' = ' + formattedParameters(params))
+                let variableParams = formattedParameters(params)
+
+                // variableParams = variableParams.split(',')
+                // console.log('adding', node.content.name, variableParams)
+                add(node.content.name + ' = ' + variableParams)
             } else {
                 console.warn('confusion at ', port, node, fromNode)
                 add('confusion')
