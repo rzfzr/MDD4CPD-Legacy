@@ -233,8 +233,12 @@ export default [{
         name: 'true',
         color: 'cyan',
         extras: {
-            type: 'built-in-constant'
+            type: 'built-in-constant',
+            returnType: 'int',
         },
+        ins: [
+            'in',
+        ],
         outs: [
             'out',
         ]
@@ -242,8 +246,12 @@ export default [{
         name: 'false',
         color: 'cyan',
         extras: {
-            type: 'built-in-constant'
+            type: 'built-in-constant',
+            returnType: 'int',
         },
+        ins: [
+            'in',
+        ],
         outs: [
             'out',
         ]
@@ -251,8 +259,12 @@ export default [{
         name: 'HIGH',
         color: 'cyan',
         extras: {
-            type: 'built-in-constant'
+            type: 'built-in-constant',
+            returnType: 'int',
         },
+        ins: [
+            'in',
+        ],
         outs: [
             'out',
         ]
@@ -260,8 +272,12 @@ export default [{
         name: 'LOW',
         color: 'cyan',
         extras: {
-            type: 'built-in-constant'
+            type: 'built-in-constant',
+            returnType: 'int',
         },
+        ins: [
+            'in',
+        ],
         outs: [
             'out',
         ]

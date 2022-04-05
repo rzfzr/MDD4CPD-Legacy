@@ -11,14 +11,10 @@ import GoClass from './GoClass';
 
 import { processDynamic } from "../components/goBuilder"
 
-
 const returnTypes = ['byte', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
-
 const ordinals = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth', 'eleventh']
 
-
-const paramTypes = ['variable', 'constant', 'parameter', 'port']
-
+const paramTypes = ['variable', 'constant', 'parameter', 'port', 'built-in-constant']
 
 function generateCode(model: any): { code: string, problems: any[] } {
 
@@ -28,7 +24,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add("")
             add('// Constants')
             constants.forEach((constant: any) => {
-                add(`#define ${constant.content.returnType} ${constant.content.name} ${constant.content.value}`)
+                let params = constant.content.value.split(',')
+                const isArray = params.length > 1
+                const count = isArray ? '[' + params.length + ']' : ''
+                params = isArray ? '{' + params.map((x: any) => x) + '}' : params
+                add(`#define ${constant.content.returnType} ${constant.content.name}${count} = ${params};`)
             });
         }
     }
@@ -249,7 +249,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             const received: any[] = []
 
             params.forEach((p: any) => {
-                if (p.extras.type === 'parameter' || p.extras.type === 'constant' || p.extras.type === 'variable' || p.extras.type === 'port') {
+                if (paramTypes.includes(p.extras.type)) {
                     received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
                 }
             });
