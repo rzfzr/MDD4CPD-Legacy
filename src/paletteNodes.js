@@ -210,32 +210,6 @@ export default [{
         ]
     },
     {
-        name: 'Digital Port',
-        color: 'white',
-        extras: {
-            type: 'port'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
-    },
-    {
-        name: 'Analog Port',
-        color: 'white',
-        extras: {
-            type: 'port'
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
-    },
-    {
         name: 'Function',
         extras: {
             type: 'logic'
@@ -355,6 +329,19 @@ export default [{
             'void setSpeed(long whatSpeed)',
             'void step(int number_of_steps)',
             'int version(void)',
+        ]
+    },
+    {
+        name: 'Port',
+        color: 'white',
+        extras: {
+            type: 'port'
+        },
+        ins: [
+            'in'
+        ],
+        outs: [
+            'out',
         ]
     },
     {

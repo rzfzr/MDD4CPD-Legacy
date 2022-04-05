@@ -182,8 +182,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
     };
     function addHeaderComments() {
         add("/* Code generated for ", controller?.name);
-        add(`Analog ports ${usedAnalog.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${usedAnalog.map(port => port.content.value)})` : ""} `)
-        add(`Digital ports ${usedDigital.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${usedDigital.map(port => port.content.value)})` : ""}`, "    */")
+        const uniqueDigitals = [...new Set(usedDigital.map(u => u.content.value))]
+        const uniqueAnalogs = [...new Set(usedAnalog.map(u => u.content.value))]
+
+        add(`Analog ports ${uniqueAnalogs.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${uniqueAnalogs.map(port => port)})` : ""} `)
+        add(`Digital ports ${uniqueDigitals.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${uniqueDigitals.map(port => port)})` : ""}`, "    */")
     }
     function getLink(linkID: string) {
         return links.find(l => l.id === linkID);
@@ -447,8 +450,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
     })
     const variables: any[] = nodes.filter(node => node.extras?.type === 'variable')
 
-    const usedDigital: any[] = [...new Set(nodes.filter(node => node.name === 'Digital Port'))]
-    const usedAnalog: any[] = [...new Set(nodes.filter(node => node.name === 'Analog Port'))]
+    const usedDigital: any[] = [...new Set(nodes.filter(node => node.content?.portType === 'Digital'))]
+    const usedAnalog: any[] = [...new Set(nodes.filter(node => node.content?.portType === 'Analog'))]
     // #endregion
 
 

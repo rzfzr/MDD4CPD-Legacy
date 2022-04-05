@@ -37,16 +37,17 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         });
 
         //Custom setup for diffent types
-        const content = { name: 'userName', hasUsername: hasUserName, value: '0', hasValue: hasUserValue, hasUsages: false, hasReturnType: false, returnType: 'byte' }
+        const content = { name: 'userName', hasUsername: hasUserName, value: '0', hasValue: hasUserValue, hasUsages: false, hasReturnType: false, hasPortType: false, returnType: 'byte', portType: '' }
         this.selectableOptions = ['something', 'went wrong'];
         switch (data.name) {
             case 'bool':
                 content.value = 'true'
                 this.selectableOptions = ['true', 'false'];
                 break;
-            case 'Digital Port':
-            case 'Analog Port':
+            case 'Port':
                 content.hasUsages = true
+                content.hasPortType = true
+                content.portType = 'Digital'
                 this.selectableOptions = Array.from(Array(100).keys()).map(x => x.toString())//todo: add global context to get current microcontroller limit
                 break;
             case 'Constant(s)':

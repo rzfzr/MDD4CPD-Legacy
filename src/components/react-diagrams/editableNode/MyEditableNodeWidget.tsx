@@ -17,6 +17,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import { Button } from '@material-ui/core';
 
 const returnTypes = ['byte', 'uint8_t', 'uint16_t', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char']
+const portTypes = ['Digital', 'Analog']
 
 namespace S {
   export const Node = styled.div<{ background: string; selected: boolean }>`
@@ -161,6 +162,28 @@ export class MyEditableNodeWidget extends React.Component<
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
                     content={this.props.nodeModel.content.returnType}
+                    onChange={this._contentOnChange}
+                    onBlurOrEnter={this._onBlurOrEnter}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>}
+          {this.props.nodeModel.content.hasPortType && <div className={"editable-node"}
+            ref={divElement => (this.divElement = divElement)}>
+            <div className="editable-border">
+              <div className="editable-header">
+                <div
+                  onDoubleClick={() => {
+                    this._editableObjectDoubleClick("portType");
+                  }}
+                >
+                  <SelectableField
+                    elementKey="portType"
+                    options={portTypes}
+                    editingKey={this.state.editingKey}
+                    beingEdited={this.state.editingSomething}
+                    content={this.props.nodeModel.content.portType}
                     onChange={this._contentOnChange}
                     onBlurOrEnter={this._onBlurOrEnter}
                   />
