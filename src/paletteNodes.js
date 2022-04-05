@@ -75,7 +75,7 @@ export default [{
             portType: 'Digital',
             returnType: 'int',
             selectableOptions: Array.from(Array(100).keys()).map(x => x.toString()),
-            hasUservalue: true,
+            hasValue: true,
         },
         ins: [
             'in'
@@ -93,7 +93,7 @@ export default [{
             hasUsages: true,
             hasReturnType: true,
             value: '0',
-            hasUservalue: true,
+            hasValue: true,
         },
         ins: [
             'in'
@@ -111,7 +111,7 @@ export default [{
             hasUsages: true,
             hasReturnType: true,
             hasUsername: true,
-            hasUservalue: true,
+            hasValue: true,
         },
         ins: [
             'in',
@@ -129,7 +129,7 @@ export default [{
             hasUsages: true,
             hasReturnType: true,
             hasUsername: true,
-            hasUservalue: true,
+            hasValue: true,
         },
         ins: [
             'in'
@@ -312,7 +312,7 @@ export default [{
             hasUsages: true,
             hasReturnType: true,
             hasUsername: true,
-            hasUservalue: true,
+            hasValue: true,
         },
         color: 'grey',
         outs: [

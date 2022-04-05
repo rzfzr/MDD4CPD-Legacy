@@ -24,11 +24,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add("")
             add('// Constants')
             constants.forEach((constant: any) => {
-                let params = constant.content.value.split(',')
+                let params = constant.extras.value.split(',')
                 const isArray = params.length > 1
                 const count = isArray ? '[' + params.length + ']' : ''
                 params = isArray ? '{' + params.map((x: any) => x) + '}' : params
-                add(`#define ${constant.content.returnType} ${constant.content.name}${count} = ${params};`)
+                add(`#define ${constant.extras.returnType} ${constant.extras.name}${count} = ${params};`)
             });
         }
     }
@@ -37,11 +37,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add("")
             add('// Variables')
             variables.forEach((variable: any) => {
-                let params = variable.content.value.split(',')
+                let params = variable.extras.value.split(',')
                 const isArray = params.length > 1
                 const count = isArray ? '[' + params.length + ']' : ''
                 params = isArray ? '{' + params.map((x: any) => x) + '}' : params
-                add(`${variable.content.returnType} ${variable.content.name}${count} = ${params};`)
+                add(`${variable.extras.returnType} ${variable.extras.name}${count} = ${params};`)
             });
         }
     }
@@ -50,7 +50,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add('// Functions')
             logics.forEach(logic => {
                 if (logic.name === "Function") {
-                    add('void ', logic.content.value, '() {')
+                    add('void ', logic.extras.value, '() {')
                     const callPort = logic.ports.find((x: any) => x.alignment === 'right')
                     callPort.links.forEach((l: any) => {
                         processLink(l)
@@ -109,12 +109,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
     }
     function warnAboutPortUsage() {
         usedDigital.forEach(port => {
-            if (port.content.value >= controller?.extras.digitalPorts) {
+            if (port.extras.value >= controller?.extras.digitalPorts) {
                 warn(`This ${port.name} does not exist on this micro-controller`, [port])
             }
         });
         usedAnalog.forEach(port => {
-            if (port.content.value >= controller?.extras.analogPorts) {
+            if (port.extras.value >= controller?.extras.analogPorts) {
                 warn(`This ${port.name} does not exist on this micro-controller`, [port])
             }
         });
@@ -186,8 +186,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
     };
     function addHeaderComments() {
         add("/* Code generated for ", controller?.name);
-        const uniqueDigitals = [...new Set(usedDigital.map(u => u.content.value))]
-        const uniqueAnalogs = [...new Set(usedAnalog.map(u => u.content.value))]
+        const uniqueDigitals = [...new Set(usedDigital.map(u => u.extras.value))]
+        const uniqueAnalogs = [...new Set(usedAnalog.map(u => u.extras.value))]
 
         add(`Analog ports ${uniqueAnalogs.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${uniqueAnalogs.map(port => port)})` : ""} `)
         add(`Digital ports ${uniqueDigitals.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${uniqueDigitals.map(port => port)})` : ""}`, "    */")
@@ -250,7 +250,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
             params.forEach((p: any) => {
                 if (paramTypes.includes(p.extras.type)) {
-                    received.push(...p.content.value.split(',').map((m: any) => p.content.returnType + ' ' + m))
+                    received.push(...p.extras.value.split(',').map((m: any) => p.extras.returnType + ' ' + m))
                 }
             });
 
@@ -260,7 +260,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
 
             expected.forEach((ex: any, index: number) => {
-                const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt)) || node.content?.returnType
+                const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt)) || node.extras?.returnType
 
 
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
@@ -274,10 +274,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     switch (par.extras.type) {
                         case 'parameter':
                         case 'port':
-                            return par.content.value
+                            return par.extras.value
                         case 'constant':
                         case 'variable':
-                            return par.content.name
+                            return par.extras.name
                         case 'built-in-constant':
                             console.log(par)
                             return par.name
@@ -301,8 +301,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 let variableParams = formattedParameters(params)
 
                 // variableParams = variableParams.split(',')
-                // console.log('adding', node.content.name, variableParams)
-                add(node.content.name + ' = ' + variableParams)
+                // console.log('adding', node.extras.name, variableParams)
+                add(node.extras.name + ' = ' + variableParams)
             } else {
                 console.warn('confusion at ', port, node, fromNode)
                 add('confusion')
@@ -310,9 +310,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
             // try {
             //     if (node.extras.type === 'constant') {
-            //         contents.push(node.content.name);
+            //         contents.push(node.extras.name);
             //     } else {
-            //         contents.push(node.content.value);
+            //         contents.push(node.extras.value);
             //     }
             // } catch (error) {
             //     console.log('error, no parameter?');
@@ -330,7 +330,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             //         } else if (toNode?.extras?.type === 'built-in') {
             //             add(toPort.name.split("(").shift() + '(' + contents + ');');
             //         } else if (!toNode?.instance) { //points to another variable/port
-            //             callWithParameters(toNode, ...contents);
+            //             callWithParameters(toNode, ...extrass);
             //         } else { //points to a class instance, we hope it is a method call
             //             //todo: check for parameter type and numbers
             //             add(toNode.instance + '.' + (toPort.name.split("(").shift()) + '(' + contents + ');');
@@ -346,7 +346,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         //         let parent = getParent(port);
 
         //         if (['variable', 'port'].includes(parent.extras.type)) {
-        //             return parent.content.value;
+        //             return parent.extras.value;
         //         }
         //         else if (['component'].includes(parent.extras.type)) {
         //             return parent.instance + '.' + port.name;
@@ -392,7 +392,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             }
 
             // console.log('going to call', nextToPort.name)
-            // console.log('with the following params', params.map((p: any) => p.content.value))
+            // console.log('with the following params', params.map((p: any) => p.extras.value))
             callWithParameters(nextToPort, params)
         } else { //is a component or function?
             callWithParameters(toPort, params)
@@ -402,7 +402,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         // if (toNode?.extras?.type === 'built-in') {
         //     add(toPort.name + '()');
         // } else if (toNode?.name === "Function") {
-        //     add(toNode.content.value, '(', ');');
+        //     add(toNode.extras.value, '(', ');');
         // } else if (toNode?.name === "Condition") {
         //     const xValue = getCoditionalValue(toNode, 'x');
         //     const yValue = getCoditionalValue(toNode, 'y');
@@ -413,7 +413,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         //     const outcome3 = getOutcome(toNode, 'False');
         //     const toNode3 = getParent(outcome3);
 
-        //     add('if (', xValue, ' ' + toNode.content.value + ' ', yValue, ') {');
+        //     add('if (', xValue, ' ' + toNode.extras.value + ' ', yValue, ') {');
         //     if (toNode2) {
         //         callWithParameters(toNode2);
         //     } else {
@@ -460,13 +460,13 @@ function generateCode(model: any): { code: string, problems: any[] } {
     const components: any[] = getComponentsFromNodes(nodes)
     const controller = nodes.find(node => node.extras?.type === 'controller')
     const constants: any[] = nodes.filter(node => node.extras?.type === 'constant').map((constant) => {
-        constant.content.name = constant.content.name.toUpperCase()
+        constant.extras.name = constant.extras.name.toUpperCase()
         return constant
     })
     const variables: any[] = nodes.filter(node => node.extras?.type === 'variable')
 
-    const usedDigital: any[] = [...new Set(nodes.filter(node => node.content?.portType === 'Digital'))]
-    const usedAnalog: any[] = [...new Set(nodes.filter(node => node.content?.portType === 'Analog'))]
+    const usedDigital: any[] = [...new Set(nodes.filter(node => node.extras?.portType === 'Digital'))]
+    const usedAnalog: any[] = [...new Set(nodes.filter(node => node.extras?.portType === 'Analog'))]
     // #endregion
 
 

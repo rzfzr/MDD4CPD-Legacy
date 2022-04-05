@@ -15,8 +15,7 @@ export interface DefaultNodeModelGenerics extends NodeModelGenerics {
 export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     portsIn: MyPortModel[] = [];
     portsOut: MyPortModel[] = [];
-    content: Object;
-    extras: any;
+    extras: Object;
     selectableOptions: string[];
     constructor(data: any) {
         super({
@@ -35,20 +34,20 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         data.outs?.forEach((method: string) => {
             this.addOutPort(method)
         });
-        console.log('creating', data.extras)
         this.selectableOptions = data.extras.selectableOptions || false;
 
-        this.content = {
-            userName: 'userName',
-            hasUsername: data.extras.hasUserName,
-            userValue: data.extras.value || 'value',
-            hasValue: data.extras.hasUserValue,
-            hasUsages: data.extras.hasUsages,
-            hasReturnType: data.extras.hasReturnType,
-            hasPortType: data.extras.hasPortType,
-            returnType: data.extras.returnType || 'byte',
-            portType: data.extras.portType || ''
-        }
+        // this.content = {
+        //     userName: 'userName',
+        //     hasUsername: data.extras.hasUserName,
+        //     userValue: data.extras.value || 'value',
+        //     hasValue: data.extras.hasUserValue,
+        //     hasUsages: data.extras.hasUsages,
+        //     hasReturnType: data.extras.hasReturnType,
+        //     hasPortType: data.extras.hasPortType,
+        //     returnType: data.extras.returnType || 'byte',
+        //     portType: data.extras.portType || ''
+        // }
+        console.log('Created', this)
     }
 
     doClone(lookupTable: {}, clone: any): void {
@@ -129,12 +128,11 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             return this.getPortFromID(id);
         }) as MyPortModel[];
         this.extras = event.data.extras
-        this.content = event.data.content
         this.selectableOptions = event.data.selectableOptions
     }
 
     serialize(): any {
-        const re = {
+        return {
             ...super.serialize(),
             name: this.options.name,
             color: this.options.color,
@@ -145,13 +143,8 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
                 return port.getID();
             }),
             extras: this.extras,
-            content: this.content,
             selectableOptions: this.selectableOptions
         }
-
-        // console.log('re', re)
-
-        return re;
     }
 
     getInPorts(): MyPortModel[] {

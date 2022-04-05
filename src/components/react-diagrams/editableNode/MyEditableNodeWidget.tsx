@@ -117,7 +117,7 @@ export class MyEditableNodeWidget extends React.Component<
    */
   _contentOnChange = (evt: React.FormEvent<HTMLInputElement>) => {
 
-    this.props.nodeModel.content[this.state.editingKey] = evt.currentTarget.value;
+    this.props.nodeModel.extras[this.state.editingKey] = evt.currentTarget.value;
     this.setState({ content: evt.currentTarget.value });
   };
 
@@ -137,7 +137,7 @@ export class MyEditableNodeWidget extends React.Component<
    */
   UNSAFE_componentWillMount() {
     this.setState({
-      content: this.props.nodeModel.content
+      extras: this.props.nodeModel.extras
     });
   }
   render() {
@@ -147,7 +147,7 @@ export class MyEditableNodeWidget extends React.Component<
         selected={this.props.nodeModel.isSelected()}
         background={this.props.nodeModel.getOptions().color}>
         <S.Title>
-          {this.props.nodeModel.content.hasReturnType && <div className={"editable-node"}
+          {this.props.nodeModel.extras.hasReturnType && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
               <div className="editable-header">
@@ -161,7 +161,7 @@ export class MyEditableNodeWidget extends React.Component<
                     options={returnTypes}
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
-                    content={this.props.nodeModel.content.returnType}
+                    content={this.props.nodeModel.extras.returnType}
                     onChange={this._contentOnChange}
                     onBlurOrEnter={this._onBlurOrEnter}
                   />
@@ -169,7 +169,7 @@ export class MyEditableNodeWidget extends React.Component<
               </div>
             </div>
           </div>}
-          {this.props.nodeModel.content.hasPortType && <div className={"editable-node"}
+          {this.props.nodeModel.extras.hasPortType && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
               <div className="editable-header">
@@ -183,7 +183,7 @@ export class MyEditableNodeWidget extends React.Component<
                     options={portTypes}
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
-                    content={this.props.nodeModel.content.portType}
+                    content={this.props.nodeModel.extras.portType}
                     onChange={this._contentOnChange}
                     onBlurOrEnter={this._onBlurOrEnter}
                   />
@@ -191,7 +191,7 @@ export class MyEditableNodeWidget extends React.Component<
               </div>
             </div>
           </div>}
-          {this.props.nodeModel.content.hasUsername && <div className={"editable-node"}
+          {this.props.nodeModel.extras.hasUsername && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
               <div className="editable-header">
@@ -205,7 +205,7 @@ export class MyEditableNodeWidget extends React.Component<
                     elementKey="name"
                     editingKey={this.state.editingKey}
                     beingEdited={this.state.editingSomething}
-                    content={this.props.nodeModel.content.name}
+                    content={this.props.nodeModel.extras.name}
                     onChange={this._contentOnChange}
                     onBlurOrEnter={this._onBlurOrEnter}
                   />
@@ -216,7 +216,7 @@ export class MyEditableNodeWidget extends React.Component<
 
           <S.TitleName>
             {this.props.nodeModel.getOptions().name}:
-            {this.props.nodeModel.content.hasUsages &&
+            {this.props.nodeModel.extras.hasUsages &&
               (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().id} >
                 <OpenInNewIcon style={{ fontSize: '1rem', marginBottom: '-5px' }} />
               </a>)}
@@ -301,7 +301,7 @@ export class MyEditableNodeWidget extends React.Component<
             </ReactTooltip>
 
           </S.TitleName>
-          {this.props.nodeModel.content.hasValue && <div className={"editable-node"}
+          {this.props.nodeModel.extras.hasValue && <div className={"editable-node"}
             ref={divElement => (this.divElement = divElement)}>
             <div className="editable-border">
               <div className="editable-header">
@@ -310,13 +310,13 @@ export class MyEditableNodeWidget extends React.Component<
                     this._editableObjectDoubleClick("value");
                   }}
                 >
-                  {this.props.nodeModel.selectableOptions || this.props.nodeModel.content.returnType === 'bool' ?
+                  {this.props.nodeModel.selectableOptions || this.props.nodeModel.extras.returnType === 'bool' ?
                     <SelectableField
                       elementKey="value"
-                      options={this.props.nodeModel.content.returnType === 'bool' ? ['true', 'false'] : this.props.nodeModel.selectableOptions}
+                      options={this.props.nodeModel.extras.returnType === 'bool' ? ['true', 'false'] : this.props.nodeModel.selectableOptions}
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
-                      content={this.props.nodeModel.content.value}
+                      content={this.props.nodeModel.extras.value}
                       onChange={this._contentOnChange}
                       onBlurOrEnter={this._onBlurOrEnter}
                     />
@@ -326,7 +326,7 @@ export class MyEditableNodeWidget extends React.Component<
                       elementKey="value"
                       editingKey={this.state.editingKey}
                       beingEdited={this.state.editingSomething}
-                      content={this.props.nodeModel.content.value}
+                      content={this.props.nodeModel.extras.value}
                       onChange={this._contentOnChange}
                       onBlurOrEnter={this._onBlurOrEnter}
                     />
