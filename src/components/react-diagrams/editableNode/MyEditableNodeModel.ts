@@ -18,7 +18,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
     content: Object;
     extras: any;
     selectableOptions: string[];
-    constructor(data: any, hasUserValue: boolean, hasUserName: boolean) {
+    constructor(data: any) {
         super({
             type: 'MyEditable',
             name: data.name,
@@ -39,10 +39,10 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         this.selectableOptions = data.extras.selectableOptions || false;
 
         this.content = {
-            name: 'userName',
-            hasUsername: data.extras.hasUserName || hasUserName,
-            value: data.extras.value || 'no default value',
-            hasValue: hasUserValue,
+            userName: 'userName',
+            hasUsername: data.extras.hasUserName,
+            userValue: data.extras.value || 'value',
+            hasValue: data.extras.hasUserValue,
             hasUsages: data.extras.hasUsages,
             hasReturnType: data.extras.hasReturnType,
             hasPortType: data.extras.hasPortType,

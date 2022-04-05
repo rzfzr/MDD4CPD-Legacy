@@ -103,24 +103,8 @@ function BodyWidget(props: BodyWidgetProps) {
 									// console.log("node")
 								}
 							})
-							switch (data.extras.type) {
-								case "variable":
-								case "constant":
-									node = new MyEditableNodeModel(data, true, true);
-									break;
-								case "parameter":
-								case "port":
-								case "logic":
-									node = new MyEditableNodeModel(data, true, false);
-									break;
-								case "controller":
-								case "built-in":
-								case "built-in-constant":
-								case "component":
-								default:
-									node = new MyEditableNodeModel(data, false, false);
-									break;
-							}
+							node = new MyEditableNodeModel(data);
+
 							node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
 							props.app.getDiagramEngine().getModel().addNode(node);
 						}

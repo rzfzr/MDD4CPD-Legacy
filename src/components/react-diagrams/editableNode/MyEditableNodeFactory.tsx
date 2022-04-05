@@ -1,12 +1,15 @@
 import { MyEditableNodeWidget } from "./MyEditableNodeWidget";
 import { MyEditableNodeModel } from "./MyEditableNodeModel";
-import { AbstractReactFactory } from '@projectstorm/react-canvas-core'
+import { AbstractReactFactory, GenerateModelEvent } from '@projectstorm/react-canvas-core'
 import { DiagramEngine } from "@projectstorm/react-diagrams";
 
 export class MyEditableNodeFactory extends AbstractReactFactory<MyEditableNodeModel, DiagramEngine> {
-	generateModel(event: import("@projectstorm/react-canvas-core").GenerateModelEvent): MyEditableNodeModel {
-		return new MyEditableNodeModel({}, false, false);
+	generateModel(event: GenerateModelEvent): MyEditableNodeModel {
+		throw new Error("Method not implemented.");
 	}
+	// generateModel(event: import("@projectstorm/react-canvas-core").GenerateModelEvent): MyEditableNodeModel {
+	// 	return new MyEditableNodeModel({});
+	// }
 	constructor() {
 		super("MyEditable");
 	}
