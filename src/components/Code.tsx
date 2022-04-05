@@ -306,6 +306,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 // variableParams = variableParams.split(',')
                 // console.log('adding', node.extras.name, variableParams)
                 add(node.extras.name + ' = ' + variableParams)
+            } else if (node.extras.type === 'built-in') {
+                add(port.name.substring(port.name.indexOf(' ') + 1, port.name.indexOf('('))
+                    + '('
+                    + formattedParameters(params)
+                    + ') '
+                    + ';');
             } else {
                 console.warn('confusion at ', port, node, fromNode)
                 add('confusion')
