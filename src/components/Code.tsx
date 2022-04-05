@@ -221,9 +221,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function getNode(nodeID: string) {
         return nodes.find((n: any) => n.id === nodeID);
     }
-    function getParent(childNode: any) {
-        return nodes.find((n: any) => n.id === childNode.parentNode);
-    }
+    // function getParent(childNode: any) {
+    //     return nodes.find((n: any) => n.id === childNode.parentNode);
+    // }
     function warn(message: string, nodes: any[] = [], type: any = 'not used') {
         problems.push({ message, nodes: nodes });
         return problems;

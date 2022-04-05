@@ -215,7 +215,6 @@ export class MyEditableNodeWidget extends React.Component<
           </div>}
 
           <S.TitleName>
-            {this.props.nodeModel.content.returnType}
             {this.props.nodeModel.getOptions().name}:
             {this.props.nodeModel.content.hasUsages &&
               (<a data-tip data-for={'tip-' + this.props.nodeModel.getOptions().id} >
