@@ -40,8 +40,6 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.addOutPort(outPort)
         });
         this.selectableOptions = data.extras.selectableOptions || false;
-
-        console.log('Created', this)
     }
 
     doClone(lookupTable: {}, clone: any): void {

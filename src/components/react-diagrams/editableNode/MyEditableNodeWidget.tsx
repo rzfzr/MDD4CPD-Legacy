@@ -288,7 +288,6 @@ export class MyEditableNodeWidget extends React.Component<
                       Object.keys(portOut.links).length !== 0) {
                       return
                     }
-                    // console.log('innn', portIn)
                     if (portIn.options.label.startsWith(nameIn)) {
                       this.props.nodeModel.removePort(portIn)
                       this.props.nodeModel.removePort(portOut)

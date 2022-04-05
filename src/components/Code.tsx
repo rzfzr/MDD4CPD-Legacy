@@ -282,7 +282,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                         case 'variable':
                             return par.extras.name
                         case 'built-in-constant':
-                            console.log(par)
                             return par.name
                         default:
                             return 'error on node type'

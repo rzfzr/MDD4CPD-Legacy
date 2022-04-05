@@ -7,7 +7,6 @@ import {
 import { MyRightAngleLinkModel } from './MyRightAngleLinkModel';
 import { DeserializeEvent } from '@projectstorm/react-canvas-core';
 
-
 export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
 	in?: boolean;
@@ -48,7 +47,6 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
-		console.log('linking ', port.getOptions().id)
 		return port.getOptions().id !== this.getOptions().id
 	}
 	createLinkModel(): MyRightAngleLinkModel {
