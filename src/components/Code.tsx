@@ -271,11 +271,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
             function formattedParameters(params: any) {
                 return params.map((par: any) => {
-                    if (par.extras.type === 'parameter') return par.content.value
-                    if (par.extras.type === 'port') return par.content.value
-                    if (par.extras.type === 'constant') return par.content.name
-                    if (par.extras.type === 'variable') return par.content.name
-                    return 'error on node type'
+                    switch (par.extras.type) {
+                        case 'parameter':
+                        case 'port':
+                            return par.content.value
+                        case 'constant':
+                        case 'variable':
+                            return par.content.name
+                        case 'built-in-constant':
+                            console.log(par)
+                            return par.name
+                        default:
+                            return 'error on node type'
+                    }
                 })
             }
 
