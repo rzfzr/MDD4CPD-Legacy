@@ -66,8 +66,14 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 				>
 					{this.props.node.extras.description ?
 						<div className='miniGoAndDescriptionHolder'>
-							<GoClass
-								linkdata={[]} nodedata={[node]} arrangement='horizontal' />
+							<div className='separator'>
+
+								<GoClass linkdata={[]} nodedata={[node]} arrangement='horizontal'
+								/>
+								<div className='linkHolder'>
+									<a href={this.props.node.extras.link} target="_blank" rel="noopener noreferrer">Documentation</a>
+								</div>
+							</div>
 							<div className='descriptionHolder'>
 								{this.props.node.extras.description}
 							</div>

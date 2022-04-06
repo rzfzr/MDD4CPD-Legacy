@@ -94,7 +94,7 @@
 .miniGoAndDescriptionHolder .diagram-component {
   width: 100% !important;
   width: 300px !important;
-  height: 400px !important;
+  height: 370px !important;
 }
 
 .descriptionHolder{
@@ -103,4 +103,10 @@
   height: 400px;
   overflow: auto;
   text-align: left;
+}
+
+.linkHolder{
+  width: 300px;
+  height: 30px;
+  overflow: auto;
 }

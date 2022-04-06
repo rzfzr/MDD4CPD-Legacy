@@ -12,460 +12,460 @@ export default [{
         'loop()'
     ]
 }, {
-        name: 'Arduino Nano',
-        color: 'green',
-        extras: {
-            type: 'controller',
-            analogPorts: 6,
-            digitalPorts: 22,
-        },
-        outs: [
-            'setup()',
-            'loop()'
-        ]
+    name: 'Arduino Nano',
+    color: 'green',
+    extras: {
+        type: 'controller',
+        analogPorts: 6,
+        digitalPorts: 22,
     },
-    {
-        name: 'Arduino Mega',
-        color: 'green',
-        extras: {
-            type: 'controller',
-            analogPorts: 16,
-            digitalPorts: 54,
-        },
-        outs: [
-            'setup()',
-            'loop()'
-        ]
+    outs: [
+        'setup()',
+        'loop()'
+    ]
+},
+{
+    name: 'Arduino Mega',
+    color: 'green',
+    extras: {
+        type: 'controller',
+        analogPorts: 16,
+        digitalPorts: 54,
     },
-    {
-        name: 'Arduino Leonardo',
-        color: 'green',
-        extras: {
-            type: 'controller',
-            analogPorts: 12,
-            digitalPorts: 20,
-        },
-        outs: [
-            'setup()',
-            'loop()'
-        ]
+    outs: [
+        'setup()',
+        'loop()'
+    ]
+},
+{
+    name: 'Arduino Leonardo',
+    color: 'green',
+    extras: {
+        type: 'controller',
+        analogPorts: 12,
+        digitalPorts: 20,
     },
-    {
-        name: 'Arduino Flora',
-        color: 'green',
-        extras: {
-            type: 'controller',
-            analogPorts: 4,
-            digitalPorts: 8,
-        },
-        outs: [
-            'setup()',
-            'loop()'
-        ]
+    outs: [
+        'setup()',
+        'loop()'
+    ]
+},
+{
+    name: 'Arduino Flora',
+    color: 'green',
+    extras: {
+        type: 'controller',
+        analogPorts: 4,
+        digitalPorts: 8,
     },
-    {
-        name: 'Port',
-        color: 'pink',
-        extras: {
-            value: '0',
-            group: 'value',
-            type: 'port',
-            hasUsages: true,
-            hasPortType: true,
-            portType: 'Digital',
-            returnType: 'int',
-            selectableOptions: Array.from(Array(100).keys()).map(x => x.toString()),
-            hasValue: true,
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
+    outs: [
+        'setup()',
+        'loop()'
+    ]
+},
+{
+    name: 'Port',
+    color: 'pink',
+    extras: {
+        value: '0',
+        group: 'value',
+        type: 'port',
+        hasUsages: true,
+        hasPortType: true,
+        portType: 'Digital',
+        returnType: 'int',
+        selectableOptions: Array.from(Array(100).keys()).map(x => x.toString()),
+        hasValue: true,
     },
-    {
-        name: 'Parameter(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'parameter',
-            hasUsages: true,
-            hasReturnType: true,
-            value: '0',
-            hasValue: true,
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
+    ins: [
+        'in'
+    ],
+    outs: [
+        'out',
+    ]
+},
+{
+    name: 'Parameter(s)',
+    color: 'pink',
+    extras: {
+        group: 'value',
+        type: 'parameter',
+        hasUsages: true,
+        hasReturnType: true,
+        value: '0',
+        hasValue: true,
     },
-    {
-        name: 'Variable(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'variable',
-            name: 'var',
-            hasUsages: true,
-            hasReturnType: true,
-            hasUsername: true,
-            hasValue: true,
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
+    ins: [
+        'in'
+    ],
+    outs: [
+        'out',
+    ]
+},
+{
+    name: 'Variable(s)',
+    color: 'pink',
+    extras: {
+        group: 'value',
+        type: 'variable',
+        name: 'var',
+        hasUsages: true,
+        hasReturnType: true,
+        hasUsername: true,
+        hasValue: true,
     },
-    {
-        name: 'Constant(s)',
-        color: 'pink',
-        extras: {
-            group: 'value',
-            type: 'constant',
-            name: 'con',
-            hasUsages: true,
-            hasReturnType: true,
-            hasUsername: true,
-            hasValue: true,
-        },
-        ins: [
-            'in'
-        ],
-        outs: [
-            'out',
-        ]
+    ins: [
+        'in',
+    ],
+    outs: [
+        'out',
+    ]
+},
+{
+    name: 'Constant(s)',
+    color: 'pink',
+    extras: {
+        group: 'value',
+        type: 'constant',
+        name: 'con',
+        hasUsages: true,
+        hasReturnType: true,
+        hasUsername: true,
+        hasValue: true,
     },
-    {
-        name: 'Function',
-        extras: {
-            type: 'logic',
-            value: 'foo',
-            hasUsages: true,
-            hasReturnType: true,
-            // hasUsername: true,
-            hasValue: true,
-        },
-        color: 'grey',
-        outs: [
-            'call',
-        ],
-        ins: [
-            'trigger',
-        ]
-    }, {
-        name: 'Condition',
-        extras: {
-            type: 'logic',
-            selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
-            value: '=='
-        },
-        color: 'grey',
-        outs: [
-            'True',
-            'False'
-        ],
-        ins: [
-            'trigger',
-            'x',
-            'y'
-        ]
+    ins: [
+        'in'
+    ],
+    outs: [
+        'out',
+    ]
+},
+{
+    name: 'Function',
+    extras: {
+        type: 'logic',
+        value: 'foo',
+        hasUsages: true,
+        hasReturnType: true,
+        // hasUsername: true,
+        hasValue: true,
     },
-    {
-        name: 'Loop',
-        extras: {
-            type: 'logic'
-        },
-        color: 'grey',
-        outs: [
-            'True',
-            'False'
-        ],
-        ins: [
-            'startValue',
-            'stopValue'
-        ]
+    color: 'grey',
+    outs: [
+        'call',
+    ],
+    ins: [
+        'trigger',
+    ]
+}, {
+    name: 'Condition',
+    extras: {
+        type: 'logic',
+        selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
+        value: '=='
     },
-    {
-        name: 'Digital I/O',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void digitalWrite(int pin, int value)',
-            'void pinMode(int pin, int mode)',
-            'int digitalRead(int pin)',
-        ]
+    color: 'grey',
+    outs: [
+        'True',
+        'False'
+    ],
+    ins: [
+        'trigger',
+        'x',
+        'y'
+    ]
+},
+{
+    name: 'Loop',
+    extras: {
+        type: 'logic'
     },
-    {
-        name: 'Analog I/O',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void analoglWrite(int pin, int value)',
-            'void pinMode(int pin, int mode)',
-            'void analogReference(int type)',
+    color: 'grey',
+    outs: [
+        'True',
+        'False'
+    ],
+    ins: [
+        'startValue',
+        'stopValue'
+    ]
+},
+{
+    name: 'Digital I/O',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
+    },
+    methods: [
+        'void digitalWrite(int pin, int value)',
+        'void pinMode(int pin, int mode)',
+        'int digitalRead(int pin)',
+    ]
+},
+{
+    name: 'Analog I/O',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
+    },
+    methods: [
+        'void analoglWrite(int pin, int value)',
+        'void pinMode(int pin, int mode)',
+        'void analogReference(int type)',
 
-        ]
+    ]
+},
+{
+    name: 'Time',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Time',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void delay(int ms)',
-            'void delayMicroseconds(int us)',
-            'unsigned long micros()',
-            'unsigned long millis()',
-        ]
+    methods: [
+        'void delay(int ms)',
+        'void delayMicroseconds(int us)',
+        'unsigned long micros()',
+        'unsigned long millis()',
+    ]
+},
+{
+    name: 'Math',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Math',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void delay(int ms)',
-            'int abs(int x)',
-            'int constrain(int x, int a, int b)',
-            'int map(int value, int fromLow, int fromHigh, int toLow, int toHigh)',
-            'any? max(any x, any y)',
-            'any? min(any x, any y)',
-            'double pow(float base, float exponent)',
-            'double sq(any x)',
-            'double sqrt(any x)',
-        ]
+    methods: [
+        'void delay(int ms)',
+        'int abs(int x)',
+        'int constrain(int x, int a, int b)',
+        'int map(int value, int fromLow, int fromHigh, int toLow, int toHigh)',
+        'any? max(any x, any y)',
+        'any? min(any x, any y)',
+        'double pow(float base, float exponent)',
+        'double sq(any x)',
+        'double sqrt(any x)',
+    ]
+},
+{
+    name: 'Trigonometry',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Trigonometry',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'double cos(float rad)',
-            'double sin(float rad)',
-            'double tan(float rad)',
-        ]
+    methods: [
+        'double cos(float rad)',
+        'double sin(float rad)',
+        'double tan(float rad)',
+    ]
+},
+{
+    name: 'Random Numbers',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Random Numbers',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void randomSeed(long seed)',
-            'long random(? max)',
-            'long random(? min, ? max)',
-        ]
+    methods: [
+        'void randomSeed(long seed)',
+        'long random(? max)',
+        'long random(? min, ? max)',
+    ]
+},
+{
+    name: 'Zero, Due & MKR Family',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Zero, Due & MKR Family',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void analogReadResolution(bits bits)',
-            'void analogWriteResolution(bits bits)',
-        ]
+    methods: [
+        'void analogReadResolution(bits bits)',
+        'void analogWriteResolution(bits bits)',
+    ]
+},
+{
+    name: 'Advanced I/O',
+    color: 'cyan',
+    extras: {
+        type: 'built-in'
     },
-    {
-        name: 'Advanced I/O',
-        color: 'cyan',
-        extras: {
-            type: 'built-in'
-        },
-        methods: [
-            'void noTone(int pin)',
-            'unsigned long pulseIn(int pin, int value)',
-            'unsigned long pulseIn(int pin, int value,unsigned long timeout)',
-            'unsigned long pulseInLong(int pin, int value)',
-            'unsigned long pulseInLong(int pin, int value,unsigned long timeout)',
-            'byte shiftIn(int dataPin, int clockPin, int bitOrder)',
-            'void shiftOut(int dataPin, int clockPin, int bitOrder, byte value)',
-            'void tone(int pin, unsigned int frequency)',
-            'void tone(int pin, unsigned int frequency, unsigned long duration)',
-        ]
+    methods: [
+        'void noTone(int pin)',
+        'unsigned long pulseIn(int pin, int value)',
+        'unsigned long pulseIn(int pin, int value,unsigned long timeout)',
+        'unsigned long pulseInLong(int pin, int value)',
+        'unsigned long pulseInLong(int pin, int value,unsigned long timeout)',
+        'byte shiftIn(int dataPin, int clockPin, int bitOrder)',
+        'void shiftOut(int dataPin, int clockPin, int bitOrder, byte value)',
+        'void tone(int pin, unsigned int frequency)',
+        'void tone(int pin, unsigned int frequency, unsigned long duration)',
+    ]
+},
+{
+    name: 'true',
+    color: 'cyan',
+    extras: {
+        type: 'built-in-constant',
+        returnType: 'int',
+        hasUsages: true,
     },
-    {
-        name: 'true',
-        color: 'cyan',
-        extras: {
-            type: 'built-in-constant',
-            returnType: 'int',
-            hasUsages: true,
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
-    }, {
-        name: 'false',
-        color: 'cyan',
-        extras: {
-            type: 'built-in-constant',
-            returnType: 'int',
-            hasUsages: true,
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
-    }, {
-        name: 'HIGH',
-        color: 'cyan',
-        extras: {
-            type: 'built-in-constant',
-            returnType: 'int',
-            hasUsages: true,
-            link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
-            description: <div>
-                <div>
-                    <p>The meaning of <code>HIGH</code> (in reference to a pin) is somewhat different depending on whether a pin is set to an <code>INPUT</code> or <code>OUTPUT</code>. When a pin is configured as an <code>INPUT</code> with <code><a>pinMode()</a></code>, and read with <code><a>digitalRead()</a></code>, the Arduino (ATmega) will report <code>HIGH</code> if:</p>
-                </div>
-                <div>
-                    <ul>
-                        <li>
-                            <p>a voltage greater than 3.0V is present at the pin (5V boards)</p>
-                        </li>
-                        <li>
-                            <p>a voltage greater than 2.0V is present at the pin (3.3V boards)</p>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <p>A pin may also be configured as an INPUT with <a><code>pinMode()</code></a>, and subsequently made HIGH with <code><a>digitalWrite()</a></code>. This will enable the internal 20K pullup resistors, which will <em>pull up</em> the input pin to a <code>HIGH</code> reading unless it is pulled <code>LOW</code> by external circuitry. This can be done alternatively by passing <code>INPUT_PULLUP</code> as argument to the <a><code>pinMode()</code></a> function, as explained in more detail in the section "Defining Digital Pins modes: INPUT, INPUT_PULLUP, and OUTPUT" further below.</p>
-                </div>
-                <div>
-                    <p>When a pin is configured to OUTPUT with <a><code>pinMode()</code></a>, and set to <code>HIGH</code> with <a><code>digitalWrite()</code></a>, the pin is at:</p>
-                </div>
-                <div>
-                    <ul>
-                        <li>
-                            <p>5 volts (5V boards)</p>
-                        </li>
-                        <li>
-                            <p>3.3 volts (3.3V boards)</p>
-                        </li>
-                    </ul>
-                </div>
-                <div>
-                    <p>In this state it can source current, e.g. light an LED that is connected through a series resistor to ground.</p>
-                </div></div>
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
-    }, {
-        name: 'LOW',
-        color: 'cyan',
-        extras: {
-            type: 'built-in-constant',
-            returnType: 'int',
-            hasUsages: true,
-        },
-        ins: [
-            'in',
-        ],
-        outs: [
-            'out',
-        ]
+    ins: [
+        'in',
+    ],
+    outs: [
+        'out',
+    ]
+}, {
+    name: 'false',
+    color: 'cyan',
+    extras: {
+        type: 'built-in-constant',
+        returnType: 'int',
+        hasUsages: true,
     },
-    {
-        name: 'TwoWire Interface',
-        color: 'blue',
-        extras: {
-            type: 'component',
-            library: 'Wire.h'
-        },
-        methods: [
-            'void begin()',
-            'void beginTransmission()',
-            'void setClock()',
-            'void onReceive()',
-            'void onRequest()',
-            'byte requestFrom()',
-            'byte endTransmission()',
-            'byte write()',
-            'byte available()',
-            'byte read()'
-        ]
+    ins: [
+        'in',
+    ],
+    outs: [
+        'out',
+    ]
+}, {
+    name: 'HIGH',
+    color: 'cyan',
+    extras: {
+        type: 'built-in-constant',
+        returnType: 'int',
+        hasUsages: true,
+        link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
+        description: <div>
+            <div>
+                <p>The meaning of <code>HIGH</code> (in reference to a pin) is somewhat different depending on whether a pin is set to an <code>INPUT</code> or <code>OUTPUT</code>. When a pin is configured as an <code>INPUT</code> with <code><a>pinMode()</a></code>, and read with <code><a>digitalRead()</a></code>, the Arduino (ATmega) will report <code>HIGH</code> if:</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <p>a voltage greater than 3.0V is present at the pin (5V boards)</p>
+                    </li>
+                    <li>
+                        <p>a voltage greater than 2.0V is present at the pin (3.3V boards)</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>A pin may also be configured as an INPUT with <a><code>pinMode()</code></a>, and subsequently made HIGH with <code><a>digitalWrite()</a></code>. This will enable the internal 20K pullup resistors, which will <em>pull up</em> the input pin to a <code>HIGH</code> reading unless it is pulled <code>LOW</code> by external circuitry. This can be done alternatively by passing <code>INPUT_PULLUP</code> as argument to the <a><code>pinMode()</code></a> function, as explained in more detail in the section "Defining Digital Pins modes: INPUT, INPUT_PULLUP, and OUTPUT" further below.</p>
+            </div>
+            <div>
+                <p>When a pin is configured to OUTPUT with <a><code>pinMode()</code></a>, and set to <code>HIGH</code> with <a><code>digitalWrite()</code></a>, the pin is at:</p>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <p>5 volts (5V boards)</p>
+                    </li>
+                    <li>
+                        <p>3.3 volts (3.3V boards)</p>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>In this state it can source current, e.g. light an LED that is connected through a series resistor to ground.</p>
+            </div></div>
     },
-    {
-        name: 'PWM Servo',
-        color: 'orange',
-        extras: {
-            type: 'component',
-            library: 'Adafruit_PWMServoDriver.h'
-        },
-        methods: [
-            'void begin(uint8_t prescale=0)',
-            'void sleep()',
-            'void wakeup()',
-            'void setExtClk(uint8_t prescale)',
-            'void setPWMFreq(float freq)',
-            'void setOutputMode(bool totempole)',
-            'void setPWM(uint8_t num, uint16_t on, uint16_t off)',
-            'void setPin(uint8_t num, uint16_t val, bool invert=false)',
-            'void writeMicroseconds(uint8_t num, uint16_t Microseconds)',
-            'void setOscillatorFrequency(uint32_t freq)',
-            'uint8_t getPWM(uint8_t num)',
-            'uint8_t readPrescale()',
-            'uint32_t getOscillatorFrequency()',
-        ]
+    ins: [
+        'in',
+    ],
+    outs: [
+        'out',
+    ]
+}, {
+    name: 'LOW',
+    color: 'cyan',
+    extras: {
+        type: 'built-in-constant',
+        returnType: 'int',
+        hasUsages: true,
     },
-    {
-        name: 'Servo',
-        color: 'orange',
-        extras: {
-            type: 'component',
-            library: 'Servo.h',
-            link: 'arduino.cc/reference/en/libraries/servo/'
-        },
-        methods: [
-            'uint8_t attach(int pin)',
-            'uint8_t attach(int pin, int min, int max)',
-            'void detach()',
-            'void write(int value)',
-            'void writeMicroseconds(int value)',
-            'int read()',
-            'int readMicroseconds()',
-            'bool attached()',
-        ]
+    ins: [
+        'in',
+    ],
+    outs: [
+        'out',
+    ]
+},
+{
+    name: 'TwoWire Interface',
+    color: 'blue',
+    extras: {
+        type: 'component',
+        library: 'Wire.h'
     },
-    {
-        name: 'Stepper',
-        color: 'orange',
-        extras: {
-            type: 'component',
-            library: 'Stepper.h'
-        },
-        methods: [
-            'Stepper(int, int, int)',
-            'Stepper(int, int, int, int, int)',
-            'Stepper(int, int, int, int, int, int)',
-            'void setSpeed(long whatSpeed)',
-            'void step(int number_of_steps)',
-            'int version(void)',
-        ]
+    methods: [
+        'void begin()',
+        'void beginTransmission()',
+        'void setClock()',
+        'void onReceive()',
+        'void onRequest()',
+        'byte requestFrom()',
+        'byte endTransmission()',
+        'byte write()',
+        'byte available()',
+        'byte read()'
+    ]
+},
+{
+    name: 'PWM Servo',
+    color: 'orange',
+    extras: {
+        type: 'component',
+        library: 'Adafruit_PWMServoDriver.h'
     },
+    methods: [
+        'void begin(uint8_t prescale=0)',
+        'void sleep()',
+        'void wakeup()',
+        'void setExtClk(uint8_t prescale)',
+        'void setPWMFreq(float freq)',
+        'void setOutputMode(bool totempole)',
+        'void setPWM(uint8_t num, uint16_t on, uint16_t off)',
+        'void setPin(uint8_t num, uint16_t val, bool invert=false)',
+        'void writeMicroseconds(uint8_t num, uint16_t Microseconds)',
+        'void setOscillatorFrequency(uint32_t freq)',
+        'uint8_t getPWM(uint8_t num)',
+        'uint8_t readPrescale()',
+        'uint32_t getOscillatorFrequency()',
+    ]
+},
+{
+    name: 'Servo',
+    color: 'orange',
+    extras: {
+        type: 'component',
+        library: 'Servo.h',
+        link: 'arduino.cc/reference/en/libraries/servo/'
+    },
+    methods: [
+        'uint8_t attach(int pin)',
+        'uint8_t attach(int pin, int min, int max)',
+        'void detach()',
+        'void write(int value)',
+        'void writeMicroseconds(int value)',
+        'int read()',
+        'int readMicroseconds()',
+        'bool attached()',
+    ]
+},
+{
+    name: 'Stepper',
+    color: 'orange',
+    extras: {
+        type: 'component',
+        library: 'Stepper.h'
+    },
+    methods: [
+        'Stepper(int, int, int)',
+        'Stepper(int, int, int, int, int)',
+        'Stepper(int, int, int, int, int, int)',
+        'void setSpeed(long whatSpeed)',
+        'void step(int number_of_steps)',
+        'int version(void)',
+    ]
+},
 ]
