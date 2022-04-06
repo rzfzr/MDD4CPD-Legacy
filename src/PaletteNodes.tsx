@@ -1,17 +1,17 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [{
-        name: 'Arduino Uno',
-        color: 'green',
-        extras: {
-            type: 'controller',
-            analogPorts: 6,
-            digitalPorts: 14,
-        },
-        outs: [
-            'setup()',
-            'loop()'
-        ]
-    }, {
+    name: 'Arduino Uno',
+    color: 'green',
+    extras: {
+        type: 'controller',
+        analogPorts: 6,
+        digitalPorts: 14,
+    },
+    outs: [
+        'setup()',
+        'loop()'
+    ]
+}, {
         name: 'Arduino Nano',
         color: 'green',
         extras: {
@@ -334,6 +334,40 @@ export default [{
             type: 'built-in-constant',
             returnType: 'int',
             hasUsages: true,
+            link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
+            description: <div>
+                <div>
+                    <p>The meaning of <code>HIGH</code> (in reference to a pin) is somewhat different depending on whether a pin is set to an <code>INPUT</code> or <code>OUTPUT</code>. When a pin is configured as an <code>INPUT</code> with <code><a>pinMode()</a></code>, and read with <code><a>digitalRead()</a></code>, the Arduino (ATmega) will report <code>HIGH</code> if:</p>
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            <p>a voltage greater than 3.0V is present at the pin (5V boards)</p>
+                        </li>
+                        <li>
+                            <p>a voltage greater than 2.0V is present at the pin (3.3V boards)</p>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p>A pin may also be configured as an INPUT with <a><code>pinMode()</code></a>, and subsequently made HIGH with <code><a>digitalWrite()</a></code>. This will enable the internal 20K pullup resistors, which will <em>pull up</em> the input pin to a <code>HIGH</code> reading unless it is pulled <code>LOW</code> by external circuitry. This can be done alternatively by passing <code>INPUT_PULLUP</code> as argument to the <a><code>pinMode()</code></a> function, as explained in more detail in the section "Defining Digital Pins modes: INPUT, INPUT_PULLUP, and OUTPUT" further below.</p>
+                </div>
+                <div>
+                    <p>When a pin is configured to OUTPUT with <a><code>pinMode()</code></a>, and set to <code>HIGH</code> with <a><code>digitalWrite()</code></a>, the pin is at:</p>
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            <p>5 volts (5V boards)</p>
+                        </li>
+                        <li>
+                            <p>3.3 volts (3.3V boards)</p>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p>In this state it can source current, e.g. light an LED that is connected through a series resistor to ground.</p>
+                </div></div>
         },
         ins: [
             'in',

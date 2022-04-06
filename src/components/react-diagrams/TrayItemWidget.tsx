@@ -64,10 +64,18 @@ export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 					delayHide={500}
 					effect="solid"
 				>
-					<div className='miniGoHolder'>
-						<GoClass
-							linkdata={[]} nodedata={[node]} arrangement='horizontal' />
-					</div>
+					{this.props.node.extras.description ?
+						<div className='miniGoAndDescriptionHolder'>
+							<GoClass
+								linkdata={[]} nodedata={[node]} arrangement='horizontal' />
+							<div className='descriptionHolder'>
+								{this.props.node.extras.description}
+							</div>
+						</div>
+						: <div className='miniGoHolder'>
+							<GoClass
+								linkdata={[]} nodedata={[node]} arrangement='horizontal' />
+						</div>}
 				</ReactTooltip>
 			</S.Tray>
 		);

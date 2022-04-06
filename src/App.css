@@ -74,13 +74,33 @@
   opacity: 1 !important;
 }
 
-.miniGoHolder .diagram-component {
-  width: 100% !important;
-  width: 300px;
-  height: 300px;
+.miniGoHolder {
+  width: 400px;
+  height: 400px
 }
 
-.miniGoHolder {
-  width: 300px;
-  height: 300px
+.miniGoHolder .diagram-component {
+  width: 100% !important;
+  width: 400px;
+  height: 400px;
+}
+
+.miniGoAndDescriptionHolder {
+  display: flex;  
+  width: 800px;
+  height: 400px
+}
+
+.miniGoAndDescriptionHolder .diagram-component {
+  width: 100% !important;
+  width: 300px !important;
+  height: 400px !important;
+}
+
+.descriptionHolder{
+  display: flex;        
+  width: 500px;
+  height: 400px;
+  overflow: auto;
+  text-align: left;
 }

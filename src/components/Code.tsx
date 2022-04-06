@@ -559,8 +559,6 @@ export default function Code(props: { model: string }) {
                                 effect="solid"
                             >
                                 <div className='miniGoHolder'>
-
-
                                     <GoClass
                                         linkdata={linkdata} nodedata={nodedata} arrangement='horizontal' />
                                 </div>
