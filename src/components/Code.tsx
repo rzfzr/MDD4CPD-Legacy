@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Prism from "prismjs";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import "./prism.css";
 // import PrismEdit from "./PrismEdit";
 import Xarrow from "react-xarrows";
@@ -548,22 +548,26 @@ export default function Code(props: { model: string }) {
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
 
                             Model violation: {p.message}
-                            <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >
-                                <OpenInNewIcon style={{ fontSize: '1rem' }} />
-                            </a>
-                            <ReactTooltip
-                                className="interactableTooltip"
-                                id={'tip-' + problemId}
-                                type='light' place="bottom"
-                                delayHide={500}
-                                effect="solid"
-                            >
-                                <div className='miniGoHolder'>
-                                    <GoClass
-                                        linkdata={linkdata} nodedata={nodedata} arrangement='horizontal' />
-                                </div>
-                            </ReactTooltip>
 
+                            {p.nodes.length !== 0 &&
+                                <Fragment>
+                                    <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >
+                                        <OpenInNewIcon style={{ fontSize: '1rem' }} />
+                                    </a>
+                                    <ReactTooltip
+                                        className="interactableTooltip"
+                                        id={'tip-' + problemId}
+                                        type='light' place="bottom"
+                                        delayHide={500}
+                                        effect="solid"
+                                    >
+                                        <div className='miniGoHolder'>
+                                            <GoClass
+                                                linkdata={linkdata} nodedata={nodedata} arrangement='horizontal' />
+                                        </div>
+                                    </ReactTooltip>
+                                </Fragment>
+                            }
 
                             {p.nodes.map((node: any, index: any) => {
                                 return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
