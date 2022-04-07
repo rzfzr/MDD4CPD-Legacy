@@ -103,19 +103,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
             });
             if (!hasLink) {
-                warn('This component has no links', [node])
+                warn('This component has no links', node)
             }
         });
     }
     function warnAboutPortUsage() {
         usedDigital.forEach(port => {
             if (port.extras.value >= controller?.extras.digitalPorts) {
-                warn(`This ${port.name} does not exist on this micro-controller`, [port])
+                warn(`This ${port.name} does not exist on this micro-controller`, port)
             }
         });
         usedAnalog.forEach(port => {
             if (port.extras.value >= controller?.extras.analogPorts) {
-                warn(`This ${port.name} does not exist on this micro-controller`, [port])
+                warn(`This ${port.name} does not exist on this micro-controller`, port)
             }
         });
     }
@@ -124,10 +124,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
             .forEach((node: any) => {
                 node.ports.forEach((port: any) => {
                     if (port.links.length > 1) {
-                        warn(`This ${node.name.toLowerCase()} has more than one link in the same ${port.label} port.`, [node])
+                        warn(`This ${node.name.toLowerCase()} has more than one link in the same ${port.label} port.`, node)
                     } else {
                         if (port.links.length === 0) {
-                            warn(`This ${node.name.toLowerCase()} is not being used.`, [node])
+                            warn(`This ${node.name.toLowerCase()} is not being used.`, node)
                         }
                     }
                 });
@@ -139,7 +139,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             const fromNode = getNode(fromPort?.parentNode)
             const toPort = getPort(link.target, link.targetPort);
             if (!toPort) {
-                warn('Loose link', [fromNode]);
+                warn('Loose link', fromNode);
             }
 
         });
@@ -174,7 +174,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
             warn('No micro-controller')
         }
         if (controllers.length > 1) {
-            warn('More than one micro-controller', controllers)
+            controllers.forEach(controller => {
+                warn('More than one micro-controller', controller)
+            });
         }
     }
     function add(...message: string[]) {
@@ -224,8 +226,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // function getParent(childNode: any) {
     //     return nodes.find((n: any) => n.id === childNode.parentNode);
     // }
-    function warn(message: string, nodes: any[] = [], type: any = 'not used') {
-        problems.push({ message, nodes: nodes });
+    function warn(message: string, node: any = null, port: any = null) {
+        problems.push({ message, node, port });
         return problems;
     }
     function addLifecycleMethods() {
@@ -257,7 +259,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
 
             if (expected.length !== received.length) {
-                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, [node])
+                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, node)
                 return
             }
 
@@ -267,7 +269,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
                 if (expectedType !== receivedType) {
-                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, [node])
+                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, node)
                 }
             });
 
@@ -311,7 +313,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + ') '
                     + ';');
             } else {
-                console.warn('confusion at ', port, node, fromNode)
+                console.log('confusion at ', port, node, fromNode)
                 add('confusion')
                 // warn('Loose connection', [fromNode]);
             }
@@ -505,14 +507,7 @@ export default function Code(props: { model: string }) {
     } else {
         const generated = generateCode(JSON.parse(model))
         code = generated.code
-        let cleanProblems: any[] = []
-        generated.problems.forEach(dirty => {
-            if (cleanProblems.findIndex(p => p.message === dirty.message) === -1) {
-                const sameNodes = Array.from(new Set([].concat(...generated.problems.filter(p => p.message === dirty.message).map(p => p.nodes))))
-                cleanProblems.push({ message: dirty.message, nodes: sameNodes })
-            }
-        });
-        problems = cleanProblems
+        problems = generated.problems
     }
 
     useEffect(() => {
@@ -526,27 +521,23 @@ export default function Code(props: { model: string }) {
                 </div>
                 {
                     problems.map((p: any, index: any) => {
-                        if (p.nodes.length > 0) {
-                            p.nodes.forEach((node: any) => {
-                                if (node?.id) {
-                                    const el = document.querySelector(`[data-nodeid='${node.id}']`)
-                                    if (el) el.setAttribute('id', node.id)
-                                }
-                            });
+                        if (p.node?.id) {
+                            const el = document.querySelector(`[data-nodeid='${p.node.id}']`)
+                            if (el) el.setAttribute('id', p.node.id)
                         }
-                        const problemId = p.nodes.length > 0 ? 'problem-' + p.nodes[0].id + index : 'problem-nodeless' + index
+                        const problemId = p.node ? 'problem-' + p.node.id + index : 'problem-nodeless' + index
 
                         let nodedata: any[] = []
                         let linkdata: any[] = []
-                        p.nodes.forEach((node: any, index: number) => {
-                            const { nodes, links } = processDynamic(node, index, false)
+                        if (p.node) {
+                            const { nodes, links } = processDynamic(p.node, 0, false)
                             nodedata.push(...nodes)
                             linkdata.push(...links)
-                        });
+                        }
 
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                             Model violation: {p.message}
-                            {p.nodes.length !== 0 &&
+                            {p.node !== 0 &&
                                 <Fragment>
                                     <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >
                                         <OpenInNewIcon style={{ fontSize: '1rem' }} />
@@ -566,16 +557,15 @@ export default function Code(props: { model: string }) {
                                 </Fragment>
                             }
 
-                            {p.nodes.map((node: any, index: any) => {
-                                return <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
-                                    <Xarrow
-                                        strokeWidth={2}
-                                        start={problemId}
-                                        end={node.id}
-                                        color='yellow'
-                                    />
-                                </div>
-                            })}
+                            {p.node && <div key={index} style={{ display: "flex", justifyContent: "space-evenly", width: "100%" }}>
+                                <Xarrow
+                                    strokeWidth={2}
+                                    start={problemId}
+                                    end={p.node.id}
+                                    color='yellow'
+                                />
+                            </div>
+                            }
                         </div>
                     })
                 }
