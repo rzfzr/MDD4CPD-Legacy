@@ -1,18 +1,13 @@
-
 const startDelta = 1000
 const endDelta = 2000
 const controllerDelta = 3000
 const methodDelta = 4000
-
-
-
 
 export function transformAllIntoMethods(node: any) {
     let methods: any[] = []
     node.ports?.forEach((method: any) => {
         methods.push({ name: method.label, visibility: 'public' })
     });
-
     node.methods?.forEach((method: any) => {
         methods.push({ name: method, visibility: 'public' })
     });
@@ -24,11 +19,6 @@ export function transformAllIntoMethods(node: any) {
     });
     return methods
 }
-
-
-
-
-
 export function processDynamic(node: any, index: number, hasSupportNodes = true) {
     let nodes: any[] = []
     let links: any[] = []
