@@ -505,11 +505,8 @@ export default function Code(props: { model: string }) {
 
     if (model === "{}" || model === "") {
     } else {
-        const generated = generateCode(JSON.parse(model))
-        code = generated.code
-        problems = generated.problems
+        ({ code, problems } = generateCode(JSON.parse(model)))
     }
-
     useEffect(() => {
         Prism.highlightAll();
     }, [props])
