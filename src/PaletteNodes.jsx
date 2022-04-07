@@ -1,17 +1,18 @@
-// eslint-disable-next-line import/no-anonymous-default-export
-export default [{
-    name: 'Arduino Uno',
-    color: 'green',
-    extras: {
-        type: 'controller',
-        analogPorts: 6,
-        digitalPorts: 14,
-    },
-    outs: [
-        'setup()',
-        'loop()'
-    ]
-}, {
+/* eslint-disable */
+export default [
+    {
+        name: 'Arduino Uno',
+        color: 'green',
+        extras: {
+            type: 'controller',
+            analogPorts: 6,
+            digitalPorts: 14,
+        },
+        outs: [
+            'setup()',
+            'loop()',
+        ]
+    }, {
         name: 'Arduino Nano',
         color: 'green',
         extras: {
@@ -147,7 +148,6 @@ export default [{
             value: 'foo',
             hasUsages: true,
             hasReturnType: true,
-            // hasUsername: true,
             hasValue: true,
         },
         color: 'grey',
@@ -307,7 +307,7 @@ export default [{
             returnType: 'int',
             hasUsages: true,
             link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
-            description:<div><code>true</code> is often said to be defined as 1, which is correct, but true has a wider definition. Any integer which is non-zero is true, in a Boolean sense. So -1, 2 and -200 are all defined as true, too, in a Boolean sense.</div>
+            description: <div><code>true</code> is often said to be defined as 1, which is correct, but true has a wider definition. Any integer which is non-zero is true, in a Boolean sense. So -1, 2 and -200 are all defined as true, too, in a Boolean sense.</div>
         },
         ins: [
             'in',
@@ -322,8 +322,8 @@ export default [{
             type: 'built-in-constant',
             returnType: 'int',
             hasUsages: true,
-            link:'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
-            description:<div><code>false</code> is the easier of the two to define. false is defined as 0 (zero).</div>
+            link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
+            description: <div><code>false</code> is the easier of the two to define. false is defined as 0 (zero).</div>
         },
         ins: [
             'in',
@@ -379,7 +379,7 @@ export default [{
         outs: [
             'out',
         ]
-    },  {
+    }, {
         name: 'LOW',
         color: 'cyan',
         extras: {
@@ -470,11 +470,11 @@ export default [{
             hasUsages: true,
             link: 'https://www.arduino.cc/reference/en/language/variables/constants/constants/',
             description: <div><div>
-            <p>Pins configured as <code>OUTPUT</code> with <a><code>pinMode()</code></a> are said to be in a <em>low-impedance</em> state. This means that they can provide a substantial amount of current to other circuits. ATmega pins can source (provide current) or sink (absorb current) up to 40 mA (milliamps) of current to other devices/circuits. This makes them useful for powering LEDs because LEDs typically use less than 40 mA. Loads greater than 40 mA (e.g. motors) will require a transistor or other interface circuitry.</p>
-        </div>
-        <div>
-            <p>Pins configured as outputs can be damaged or destroyed if they are connected to either the ground or positive power rails.</p>
-        </div></div>
+                <p>Pins configured as <code>OUTPUT</code> with <a><code>pinMode()</code></a> are said to be in a <em>low-impedance</em> state. This means that they can provide a substantial amount of current to other circuits. ATmega pins can source (provide current) or sink (absorb current) up to 40 mA (milliamps) of current to other devices/circuits. This makes them useful for powering LEDs because LEDs typically use less than 40 mA. Loads greater than 40 mA (e.g. motors) will require a transistor or other interface circuitry.</p>
+            </div>
+                <div>
+                    <p>Pins configured as outputs can be damaged or destroyed if they are connected to either the ground or positive power rails.</p>
+                </div></div>
         },
         ins: [
             'in',
@@ -482,7 +482,7 @@ export default [{
         outs: [
             'out',
         ]
-    },{
+    }, {
         name: 'LED_BUILTIN',
         color: 'cyan',
         extras: {

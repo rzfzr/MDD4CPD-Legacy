@@ -5,7 +5,7 @@ import { CanvasWidget } from '@projectstorm/react-canvas-core';
 import { MyCanvasWidget } from './MyCanvasWidget';
 import styled from '@emotion/styled';
 import { MyEditableNodeModel } from './editableNode/MyEditableNodeModel';
-import PaletteNodes from '../../PaletteNodes';
+import PaletteNodes from '../../PaletteNodes.jsx';
 import { useState, useEffect } from 'react';
 import Code from '../Code';
 var ScrollArea = require('react-scrollbar').default;

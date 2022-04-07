@@ -1,5 +1,5 @@
 import GoClass from "../components/GoClass";
-import PaletteNodes from "../PaletteNodes";
+import PaletteNodes from "../PaletteNodes.jsx";
 import { processDynamic, getGoMethods, getGoProperties } from "../components/goBuilder"
 
 
