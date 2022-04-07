@@ -244,8 +244,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
-            console.log('calling', port, params)
-
+            // console.log('calling', port, params)
 
             const node = getNode(port.parentNode)
             const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
