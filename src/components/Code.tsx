@@ -540,15 +540,13 @@ export default function Code(props: { model: string }) {
                         let nodedata: any[] = []
                         let linkdata: any[] = []
                         p.nodes.forEach((node: any, index: number) => {
-                            const { nodes, links } = processDynamic(node, index)
+                            const { nodes, links } = processDynamic(node, index, false)
                             nodedata.push(...nodes)
                             linkdata.push(...links)
                         });
 
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
-
                             Model violation: {p.message}
-
                             {p.nodes.length !== 0 &&
                                 <Fragment>
                                     <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >

@@ -29,20 +29,15 @@ export function transformAllIntoMethods(node: any) {
 
 
 
-export function processDynamic(node: any, index: number) {
+export function processDynamic(node: any, index: number, hasSupportNodes = true) {
     let nodes: any[] = []
     let links: any[] = []
 
-
     nodes.push({ key: index + controllerDelta, name: 'MicroController' })
-    links.push({
-        key: index + controllerDelta,
-        from: index + startDelta,
-        to: index + controllerDelta,
-        relationship: "state"
+    nodes.push({
+        key: index,
+        name: node.name,
     })
-    nodes.push({ key: index + startDelta, category: "Start" })
-
     transformAllIntoMethods(node).forEach((method, methodIndex) => {
         links.push({
             key: index + startDelta + methodIndex * methodDelta,
@@ -51,17 +46,23 @@ export function processDynamic(node: any, index: number) {
             relationship: "state"
         })
     });
-    nodes.push({
-        key: index,
-        name: node.name,
-    })
-    links.push({
-        key: index + endDelta,
-        from: index,
-        to: index + endDelta,
-        relationship: "state"
-    })
-    nodes.push({ key: index + endDelta, category: "End" })
+
+    if (hasSupportNodes) {
+        nodes.push({ key: index + startDelta, category: "Start" })
+        links.push({
+            key: index + controllerDelta,
+            from: index + startDelta,
+            to: index + controllerDelta,
+            relationship: "state"
+        })
+        nodes.push({ key: index + endDelta, category: "End" })
+        links.push({
+            key: index + endDelta,
+            from: index,
+            to: index + endDelta,
+            relationship: "state"
+        })
+    }
 
     return { nodes, links }
 }
