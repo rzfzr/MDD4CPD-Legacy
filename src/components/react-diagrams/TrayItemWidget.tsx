@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import ReactTooltip from 'react-tooltip';
 import GoClass from '../GoClass';
+import { getGoMethods, getGoProperties } from '../goBuilder';
 
 export interface TrayItemWidgetProps {
 	node: any;
@@ -26,21 +27,11 @@ namespace S {
 
 export class TrayItemWidget extends React.Component<TrayItemWidgetProps> {
 	render() {
-		let methods: any[] = []
-		this.props.node.methods?.forEach((method: any) => {
-			methods.push({ name: method, visibility: 'public' })
-		});
-		this.props.node.ins?.forEach((method: any) => {
-			methods.push({ name: method, visibility: 'public' })
-		});
-		this.props.node.outs?.forEach((method: any) => {
-			methods.push({ name: method, visibility: 'public' })
-		});
 		const node = {
 			key: 0,
 			name: this.props.node.name,
-			methods: methods,
-
+			properties: getGoProperties(this.props.node),
+			methods: getGoMethods(this.props.node),
 		}
 		return (
 			<S.Tray
