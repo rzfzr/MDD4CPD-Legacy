@@ -1,6 +1,6 @@
 import GoClass from "../components/GoClass";
 import PaletteNodes from "../PaletteNodes";
-import { processDynamic, transformAllIntoMethods } from "../components/goBuilder"
+import { processDynamic, getGoMethods, getGoProperties } from "../components/goBuilder"
 
 
 export default function ModelsPage() {
@@ -18,14 +18,12 @@ export default function ModelsPage() {
     let linksDynamic: any[] = []
 
     PaletteNodes.forEach((node, index) => {
-
         nodesStatic.push({
             key: index,
             name: node.name,
-            methods: transformAllIntoMethods(node),
+            properties: getGoProperties(node),
+            methods: getGoMethods(node),
         })
-
-
         if (node.extras.type === 'controller') {
             linksStatic.push({ key: index, from: index, to: -2, relationship: "generalization" })
         } else {

@@ -3,7 +3,16 @@ const endDelta = 2000
 const controllerDelta = 3000
 const methodDelta = 4000
 
-export function transformAllIntoMethods(node: any) {
+export function getGoProperties(node: any) {
+    let properties: any[] = []
+    for (const [key, value] of Object.entries(node.extras)) {
+        // if (!['selectableOptions'].includes(key))
+        properties.push({ name: `${key}: ${value}`, visibility: 'private' })
+    }
+    return properties
+}
+
+export function getGoMethods(node: any) {
     let methods: any[] = []
     node.ports?.forEach((method: any) => {
         methods.push({ name: method.label, visibility: 'public' })
@@ -28,7 +37,7 @@ export function processDynamic(node: any, index: number, hasSupportNodes = true)
         key: index,
         name: node.name,
     })
-    transformAllIntoMethods(node).forEach((method, methodIndex) => {
+    getGoMethods(node).forEach((method, methodIndex) => {
         links.push({
             key: index + startDelta + methodIndex * methodDelta,
             from: index + controllerDelta,

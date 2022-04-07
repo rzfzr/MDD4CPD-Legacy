@@ -105,7 +105,8 @@ function initDiagram(arrangement: any = 'horizontal') {
                 $("PanelExpanderButton", "PROPERTIES",
                     { row: 1, column: 1, alignment: go.Spot.TopRight, visible: false },
                     new go.Binding("visible", "properties", arr => arr.length > 0)),
-                // methods
+
+
                 $(go.TextBlock, "Methods",
                     { row: 2, font: "italic 10pt sans-serif" },
                     new go.Binding("visible", "visible", v => !v).ofObject("METHODS")),
