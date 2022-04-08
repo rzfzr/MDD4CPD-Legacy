@@ -234,7 +234,9 @@ export class MyEditableNodeWidget extends React.Component<
                 <div>Setters:
 
                   <Button onClick={() => {
-                    this.props.nodeModel.addBiPort('void setValue(<T> value)', true)
+                    const name = 'void setValue(<T> value)'
+                    this.props.nodeModel.addInPort(name)
+                    this.props.nodeModel.addOutPort(name + ' ', true, true)
                     this.props.engine.repaintCanvas();
                   }}> + </Button>
 
