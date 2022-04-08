@@ -533,7 +533,7 @@ export default function Code(props: { model: string }) {
 
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
                             Model violation: {p.message}
-                            {p.node !== 0 &&
+                            {p.node &&
                                 <Fragment>
                                     <a data-tip data-for={'tip-' + problemId} style={{ float: 'left', marginRight: '6px' }} >
                                         <OpenInNewIcon style={{ fontSize: '1rem' }} />
