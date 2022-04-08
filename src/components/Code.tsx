@@ -249,29 +249,38 @@ function generateCode(model: any): { code: string, problems: any[] } {
             // console.log('calling', port, params)
 
             const node = getNode(port.parentNode)
-            const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((e: any) => e)
+            const expected = port.name?.split('(')[1].split(')')[0].split(',')
             const received: any[] = []
 
             params.forEach((p: any) => {
                 if (paramTypes.includes(p.extras.type)) {
                     received.push(...p.extras.value.split(',').map((m: any) => p.extras.returnType + ' ' + m))
                 }
-            });
+            })
 
-            if (expected.length !== received.length) {
-                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, node, port)
+            const expMin = expected.filter((e: any) => !e.includes('=')).length
+            const expMax = expected.length
+
+            if (received.length < expMin || received.length > expMax) {
+                const count = expMin === expMax ? expMin : `${expMin} to ${expMax}`
+                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${count}`, node, port)
                 return
             }
 
             expected.forEach((ex: any, index: number) => {
                 const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt)) || node.extras?.returnType
+                const re = received[index]
 
+                if (ex.includes('=') && !re) {//uses default value
 
-                const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
-                if (expectedType !== receivedType) {
-                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, node, port)
+                } else {
+                    const receivedType = returnTypes.find((rt: any) => re.startsWith(rt))
+
+                    if (expectedType !== receivedType) {
+                        warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, node, port)
+                    }
                 }
-            });
+            })
 
             function formattedParameters(params: any) {
                 return params.map((par: any) => {
@@ -296,7 +305,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + port.name.substring(port.name.indexOf(' ') + 1, port.name.indexOf('('))
                     + '('
                     + formattedParameters(params)
-                    + ') '
+                    + ')'
                     + ';');
             } else if (fromNode?.instance) {
                 add(fromNode.instance + '.' + (fromPort.name) + '();');
