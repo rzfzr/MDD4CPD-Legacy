@@ -145,17 +145,17 @@ export default [
         name: 'Function',
         extras: {
             type: 'logic',
-            value: 'foo',
+            value: 'foo()',
             hasUsages: true,
             hasReturnType: true,
             hasValue: true,
         },
         color: 'grey',
         outs: [
-            'call',
+            'out',
         ],
         ins: [
-            'trigger',
+            'trigger()',
         ]
     }, {
         name: 'Condition',
@@ -170,7 +170,7 @@ export default [
             'False'
         ],
         ins: [
-            'trigger',
+            'trigger()',
             'x',
             'y'
         ]

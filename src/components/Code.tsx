@@ -52,7 +52,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add('// Functions')
             logics.forEach(logic => {
                 if (logic.name === "Function") {
-                    add(`${logic.extras.returnType} ${logic.extras.value} () {
+                    add(`${logic.extras.returnType} ${logic.extras.value}{
                 `)
                     const callPort = logic.ports.find((x: any) => x.alignment === 'right')
                     callPort.links.forEach((l: any) => {
@@ -81,6 +81,22 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 });
             });
         }
+    }
+    function formattedParameters(params: any) {
+        return params.map((par: any) => {
+            switch (par.extras.type) {
+                case 'parameter':
+                case 'port':
+                    return par.extras.value
+                case 'constant':
+                case 'variable':
+                    return par.extras.name
+                case 'built-in-constant':
+                    return par.name
+                default:
+                    return 'error on node type'
+            }
+        })
     }
     function indentCode(original: string) {
         let code: any[] = [];
@@ -252,7 +268,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             // console.log('calling', port, params)
 
             const node = getNode(port.parentNode)
-            const expected = port.name?.split('(')[1].split(')')[0].split(',')
+            const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((x: any) => x !== '')
             const received: any[] = []
 
             params.forEach((p: any) => {
@@ -285,23 +301,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
             })
 
-            function formattedParameters(params: any) {
-                return params.map((par: any) => {
-                    switch (par.extras.type) {
-                        case 'parameter':
-                        case 'port':
-                            return par.extras.value
-                        case 'constant':
-                        case 'variable':
-                            return par.extras.name
-                        case 'built-in-constant':
-                            return par.name
-                        default:
-                            return 'error on node type'
-                    }
-                })
-            }
-
             if (node?.instance) {
                 add(node.instance
                     + '.'
@@ -324,6 +323,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + formattedParameters(params)
                     + ') '
                     + ';');
+            } else if (node.extras.type === 'logic') {
+                add(node.extras.value)
             } else {
                 console.log('confusion at ', port, node, fromNode)
                 add('confusion')
