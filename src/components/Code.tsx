@@ -259,7 +259,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
             });
 
             if (expected.length !== received.length) {
-                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, node)
+                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${expected.length}`, node, port)
                 return
             }
 
@@ -269,7 +269,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
                 const receivedType = returnTypes.find((rt: any) => received[index].startsWith(rt))
                 if (expectedType !== receivedType) {
-                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, node)
+                    warn(`The function call "${port.name}" expects its ${ordinals[index]} parameter to be of type "${expectedType}", received "${receivedType}" instead`, node, port)
                 }
             });
 
@@ -506,6 +506,7 @@ export default function Code(props: { model: string }) {
     if (model === "{}" || model === "") {
     } else {
         ({ code, problems } = generateCode(JSON.parse(model)))
+        console.log('p', problems)
     }
     useEffect(() => {
         Prism.highlightAll();
@@ -524,12 +525,10 @@ export default function Code(props: { model: string }) {
                         }
                         const problemId = p.node ? 'problem-' + p.node.id + index : 'problem-nodeless' + index
 
-                        let nodedata: any[] = []
-                        let linkdata: any[] = []
+                        let nodes: any[] = []
+                        let links: any[] = []
                         if (p.node) {
-                            const { nodes, links } = processDynamic(p.node, 0, false)
-                            nodedata.push(...nodes)
-                            linkdata.push(...links)
+                            ({ nodes, links } = processDynamic(p.node, 0, false, p.port))
                         }
 
                         return <div id={problemId} key={problemId} style={{ fontSize: '0.6em', border: 'solid white 1px' }}>
@@ -548,7 +547,7 @@ export default function Code(props: { model: string }) {
                                     >
                                         <div className='miniGoHolder'>
                                             <GoClass
-                                                linkdata={linkdata} nodedata={nodedata} arrangement='horizontal' />
+                                                linkdata={links} nodedata={nodes} arrangement='horizontal' />
                                         </div>
                                     </ReactTooltip>
                                 </Fragment>

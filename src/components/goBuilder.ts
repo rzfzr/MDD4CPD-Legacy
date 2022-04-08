@@ -28,7 +28,7 @@ export function getGoMethods(node: any) {
     });
     return methods
 }
-export function processDynamic(node: any, index: number, hasSupportNodes = true) {
+export function processDynamic(node: any, index: number, hasSupportNodes = true, badMethod: any = null) {
     let nodes: any[] = []
     let links: any[] = []
 
@@ -37,14 +37,23 @@ export function processDynamic(node: any, index: number, hasSupportNodes = true)
         key: index,
         name: node.name,
     })
-    getGoMethods(node).forEach((method, methodIndex) => {
+    if (badMethod) {
         links.push({
-            key: index + startDelta + methodIndex * methodDelta,
+            key: index + startDelta + methodDelta,
             from: index + controllerDelta,
-            to: index, text: method.name,
+            to: index, text: badMethod.name,
             relationship: "state"
         })
-    });
+    } else {
+        getGoMethods(node).forEach((method, methodIndex) => {
+            links.push({
+                key: index + startDelta + (methodIndex + 1) * methodDelta,
+                from: index + controllerDelta,
+                to: index, text: method.name,
+                relationship: "state"
+            })
+        });
+    }
 
     if (hasSupportNodes) {
         nodes.push({ key: index + startDelta, category: "Start" })

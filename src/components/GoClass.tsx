@@ -193,15 +193,17 @@ function initDiagram(arrangement: any = 'horizontal') {
                 new go.Binding("fromArrow", "relationship", convertFromArrow)),
             $(go.Shape, { scale: 1.3, fill: "white" },
                 new go.Binding("toArrow", "relationship", convertToArrow)),
-            $(go.TextBlock, "",  // the label text
+
+
+            $(go.TextBlock, "",
                 {
                     textAlign: "center",
-                    font: "9pt helvetica, arial, sans-serif",
+                    font: "12pt helvetica, arial, sans-serif",
+                    // stroke: "color" || "black",
                     margin: 4,
-                    editable: true  // enable in-place editing
+                    editable: false
                 },
-                // editing the text automatically updates the model data
-                new go.Binding("text").makeTwoWay())
+                new go.Binding("text").makeTwoWay()),
         );
 
     myDiagram.model = new go.GraphLinksModel(
