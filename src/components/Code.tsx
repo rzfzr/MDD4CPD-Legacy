@@ -41,7 +41,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 const isArray = params.length > 1
                 const count = isArray ? '[' + params.length + ']' : ''
                 params = isArray ? '{' + params.map((x: any) => x) + '}' : params
-                add(`${variable.extras.returnType} ${variable.extras.name}${count} = ${params};`)
+
+                const equals = params[0] !== '' ? '=' : ''
+                add(`${variable.extras.returnType} ${variable.extras.name}${count} ${equals} ${params}; `)
             });
         }
     }
@@ -50,7 +52,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
             add('// Functions')
             logics.forEach(logic => {
                 if (logic.name === "Function") {
-                    add(`${logic.extras.returnType} ${logic.extras.value}() {`)
+                    add(`${logic.extras.returnType} ${logic.extras.value} () {
+                `)
                     const callPort = logic.ports.find((x: any) => x.alignment === 'right')
                     callPort.links.forEach((l: any) => {
                         processLink(l)
@@ -110,12 +113,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function warnAboutPortUsage() {
         usedDigital.forEach(port => {
             if (port.extras.value >= controller?.extras.digitalPorts) {
-                warn(`This ${port.name} does not exist on this micro-controller`, port)
+                warn(`This ${port.name} does not exist on this micro - controller`, port)
             }
         });
         usedAnalog.forEach(port => {
             if (port.extras.value >= controller?.extras.analogPorts) {
-                warn(`This ${port.name} does not exist on this micro-controller`, port)
+                warn(`This ${port.name} does not exist on this micro - controller`, port)
             }
         });
     }
@@ -191,7 +194,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const uniqueDigitals = [...new Set(usedDigital.map(u => u.extras.value))]
         const uniqueAnalogs = [...new Set(usedAnalog.map(u => u.extras.value))]
 
-        add(`Analog ports ${uniqueAnalogs.length}/${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${uniqueAnalogs.map(port => port)})` : ""} `)
+        add(`Analog ports ${uniqueAnalogs.length} /${controller?.extras.analogPorts} ${usedAnalog.length > 0 ? `(${uniqueAnalogs.map(port => port)})` : ""} `)
         add(`Digital ports ${uniqueDigitals.length}/${controller?.extras.digitalPorts} ${usedDigital.length > 0 ? `(${uniqueDigitals.map(port => port)})` : ""}`, "    */")
     }
     function getLink(linkID: string) {
