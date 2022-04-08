@@ -115,6 +115,7 @@ export default [
             hasUsername: true,
             hasValue: true,
         },
+        methods: ['void declaration'],
         ins: [
             'in',
         ],
@@ -152,10 +153,12 @@ export default [
         },
         color: 'grey',
         outs: [
+            'body',
             'out',
         ],
         ins: [
-            'trigger()',
+            'void declaration',
+            'in',
         ]
     }, {
         name: 'Condition',
