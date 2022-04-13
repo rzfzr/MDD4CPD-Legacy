@@ -36,6 +36,7 @@ export default function ModelsPage() {
 
     return <>
         <GoClass linkdata={linksStatic} nodedata={nodesStatic} />
-        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic} />
+        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic}
+            diagramOptions={{ hasMinSize: true }} />
     </>
 }

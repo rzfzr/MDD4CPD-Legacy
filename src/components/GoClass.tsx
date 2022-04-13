@@ -2,7 +2,10 @@ import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 
 import './go.css';
-function initDiagram() {
+function initDiagram(options: any) {
+    console.log('initDiagram with', options)
+
+
     const $ = go.GraphObject.make;
     // go.TreeLayout.ArrangementVertical :
 
@@ -80,7 +83,7 @@ function initDiagram() {
             },
             $(go.Shape, {
                 fill: "lightcyan",
-                minSize: new go.Size(100, 200),
+                minSize: !!options?.hasMinSize ? new go.Size(100, 200) : new go.Size(10, 10),
             }),
             $(go.Panel, "Table",
                 { defaultRowSeparatorStroke: "black" },
@@ -215,10 +218,10 @@ function initDiagram() {
     return myDiagram;
 }
 
-export default function GoClass(props: { nodedata: any, linkdata: any }) {
+export default function GoClass(props: { nodedata: any, linkdata: any, diagramOptions?: any }) {
     return (
         <ReactDiagram
-            initDiagram={initDiagram}
+            initDiagram={() => initDiagram(props.diagramOptions)}
             divClassName='diagram-component'
             nodeDataArray={props.nodedata}
             linkDataArray={props.linkdata}
