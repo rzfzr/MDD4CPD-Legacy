@@ -1,5 +1,5 @@
 const startDelta = 1000
-const endDelta = 2000
+// const endDelta = 2000
 const controllerDelta = 3000
 const methodDelta = 4000
 
@@ -39,7 +39,7 @@ export function processDynamic(node: any, index: number, hasSupportNodes = true,
     })
     if (badMethod) {
         links.push({
-            key: index + startDelta + methodDelta,
+            key: index + methodDelta,
             from: index + controllerDelta,
             to: index, text: badMethod.name,
             relationship: "state"
@@ -47,7 +47,7 @@ export function processDynamic(node: any, index: number, hasSupportNodes = true,
     } else {
         getGoMethods(node).forEach((method, methodIndex) => {
             links.push({
-                key: index + startDelta + (methodIndex + 1) * methodDelta,
+                key: index + (methodIndex + 1) * methodDelta,
                 from: index + controllerDelta,
                 to: index, text: method.name,
                 relationship: "state"
@@ -55,22 +55,22 @@ export function processDynamic(node: any, index: number, hasSupportNodes = true,
         });
     }
 
-    if (hasSupportNodes) {
-        nodes.push({ key: index + startDelta, category: "Start" })
-        links.push({
-            key: index + controllerDelta,
-            from: index + startDelta,
-            to: index + controllerDelta,
-            relationship: "state"
-        })
-        nodes.push({ key: index + endDelta, category: "End" })
-        links.push({
-            key: index + endDelta,
-            from: index,
-            to: index + endDelta,
-            relationship: "state"
-        })
-    }
+    // if (hasSupportNodes) {
+    //     nodes.push({ key: index + startDelta, category: "Start" })
+    //     links.push({
+    //         key: index + controllerDelta,
+    //         from: index + startDelta,
+    //         to: index + controllerDelta,
+    //         relationship: "state"
+    //     })
+    //     nodes.push({ key: index + endDelta, category: "End" })
+    //     links.push({
+    //         key: index + endDelta,
+    //         from: index,
+    //         to: index + endDelta,
+    //         relationship: "state"
+    //     })
+    // }
 
     return { nodes, links }
 }

@@ -5,7 +5,6 @@ import './go.css';
 function initDiagram() {
     const $ = go.GraphObject.make;
     // go.TreeLayout.ArrangementVertical :
-    const actualArrangement = go.TreeLayout.ArrangementHorizontal
 
 
     const myDiagram = $(go.Diagram,
@@ -16,7 +15,8 @@ function initDiagram() {
                     path: go.TreeLayout.PathSource,  // links go from child to parent
                     setsPortSpot: false,  // keep Spot.AllSides for link connection spot
                     setsChildPortSpot: false,  // keep Spot.AllSides
-                    arrangement: actualArrangement,
+                    // arrangement: go.TreeLayout.ArrangementHorizontal,\
+                    nodeSpacing: 1000, layerSpacing: 1000
                 })
         });
 
@@ -78,7 +78,10 @@ function initDiagram() {
                 fromSpot: go.Spot.AllSides,
                 toSpot: go.Spot.AllSides
             },
-            $(go.Shape, { fill: "lightyellow" }),
+            $(go.Shape, {
+                fill: "lightcyan",
+                minSize: new go.Size(100, 200),
+            }),
             $(go.Panel, "Table",
                 { defaultRowSeparatorStroke: "black" },
                 // header
@@ -97,7 +100,7 @@ function initDiagram() {
                     new go.Binding("itemArray", "properties"),
                     {
                         row: 1, margin: 3, stretch: go.GraphObject.Fill,
-                        defaultAlignment: go.Spot.Left, background: "lightyellow",
+                        defaultAlignment: go.Spot.Left, background: "lightcyan",
                         itemTemplate: propertyTemplate
                     }
                 ),
@@ -113,7 +116,7 @@ function initDiagram() {
                     new go.Binding("itemArray", "methods"),
                     {
                         row: 2, margin: 3, stretch: go.GraphObject.Fill,
-                        defaultAlignment: go.Spot.Left, background: "lightyellow",
+                        defaultAlignment: go.Spot.Left, background: "lightcyan",
                         itemTemplate: methodTemplate
                     }
                 ),
