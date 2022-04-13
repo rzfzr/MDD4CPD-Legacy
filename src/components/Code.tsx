@@ -560,7 +560,7 @@ export default function Code(props: { model: string }) {
                                     >
                                         <div className='miniGoHolder'>
                                             <GoClass
-                                                linkdata={links} nodedata={nodes} arrangement='horizontal' />
+                                                linkdata={links} nodedata={nodes} />
                                         </div>
                                     </ReactTooltip>
                                 </Fragment>

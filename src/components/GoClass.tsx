@@ -2,11 +2,10 @@ import * as go from 'gojs';
 import { ReactDiagram } from 'gojs-react';
 
 import './go.css';
-
-function initDiagram(arrangement: any = 'horizontal') {
+function initDiagram() {
     const $ = go.GraphObject.make;
-
-    const actualArrangement = arrangement === 'vertical' ? go.TreeLayout.ArrangementVertical : go.TreeLayout.ArrangementHorizontal
+    // go.TreeLayout.ArrangementVertical :
+    const actualArrangement = go.TreeLayout.ArrangementHorizontal
 
 
     const myDiagram = $(go.Diagram,
@@ -193,13 +192,10 @@ function initDiagram(arrangement: any = 'horizontal') {
                 new go.Binding("fromArrow", "relationship", convertFromArrow)),
             $(go.Shape, { scale: 1.3, fill: "white" },
                 new go.Binding("toArrow", "relationship", convertToArrow)),
-
-
             $(go.TextBlock, "",
                 {
                     textAlign: "center",
                     font: "12pt helvetica, arial, sans-serif",
-                    // stroke: "color" || "black",
                     margin: 4,
                     editable: false
                 },
@@ -216,8 +212,7 @@ function initDiagram(arrangement: any = 'horizontal') {
     return myDiagram;
 }
 
-
-export default function GoClass(props: { nodedata: any, linkdata: any, arrangement: string }) {
+export default function GoClass(props: { nodedata: any, linkdata: any }) {
     return (
         <ReactDiagram
             initDiagram={initDiagram}

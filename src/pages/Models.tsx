@@ -35,7 +35,7 @@ export default function ModelsPage() {
     });
 
     return <>
-        <GoClass linkdata={linksStatic} nodedata={nodesStatic} arrangement='horizontal' />
-        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic} arrangement='vertical' />
+        <GoClass linkdata={linksStatic} nodedata={nodesStatic} />
+        <GoClass linkdata={linksDynamic} nodedata={nodesDynamic} />
     </>
 }
