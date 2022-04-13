@@ -9,9 +9,8 @@ import PaletteNodes from '../../PaletteNodes.jsx';
 import { useState, useEffect } from 'react';
 import Code from '../Code';
 var ScrollArea = require('react-scrollbar').default;
-export interface BodyWidgetProps {
-	app: Application;
-}
+
+const app = new Application();
 
 namespace S {
 	export const Body = styled.div`
@@ -47,11 +46,11 @@ namespace S {
 
 }
 
-function BodyWidget(props: BodyWidgetProps) {
+function BodyWidget() {
 	const [model, setModel] = useState("{}")
 	const [rerender, setRerender] = React.useState(false);
 
-	const rawModel = props.app.getDiagramEngine().getModel().serialize()
+	const rawModel = app.getDiagramEngine().getModel().serialize()
 	const stringModel = JSON.stringify(rawModel, null, 2)
 
 	const groups = [...new Set(PaletteNodes.map(x => x.extras.group || x.extras.type))]
@@ -93,7 +92,7 @@ function BodyWidget(props: BodyWidgetProps) {
 						if (data) {
 							let node: any = {};
 
-							props.app.getDiagramEngine().getModel().registerListener({
+							app.getDiagramEngine().getModel().registerListener({
 								linksUpdated: (l: any) => {
 									setRerender(!rerender);
 									// console.log("link\n");
@@ -105,8 +104,8 @@ function BodyWidget(props: BodyWidgetProps) {
 							})
 							node = new MyEditableNodeModel(data);
 
-							node.setPosition(props.app.getDiagramEngine().getRelativeMousePoint(event));
-							props.app.getDiagramEngine().getModel().addNode(node);
+							node.setPosition(app.getDiagramEngine().getRelativeMousePoint(event));
+							app.getDiagramEngine().getModel().addNode(node);
 						}
 						setRerender(!rerender);
 					}}
@@ -119,7 +118,7 @@ function BodyWidget(props: BodyWidgetProps) {
 				>
 					<div style={{ width: '100%', height: '100%' }}>
 						<MyCanvasWidget >
-							<CanvasWidget engine={props.app.getDiagramEngine()} />
+							<CanvasWidget engine={app.getDiagramEngine()} />
 						</MyCanvasWidget>
 					</div>
 				</S.Layer>
