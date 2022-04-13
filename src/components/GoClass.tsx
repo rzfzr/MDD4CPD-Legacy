@@ -14,11 +14,11 @@ function initDiagram(options: any) {
         {
             layout: $(go.TreeLayout,
                 { // this only lays out in trees nodes connected by "generalization" links
-                    angle: 180,
+                    angle: options?.isTree ? 90 : 180,
                     path: go.TreeLayout.PathSource,  // links go from child to parent
                     setsPortSpot: false,  // keep Spot.AllSides for link connection spot
                     setsChildPortSpot: false,  // keep Spot.AllSides
-                    // arrangement: go.TreeLayout.ArrangementHorizontal,\
+                    arrangement: options?.isTree ? go.TreeLayout.ArrangementHorizontal : undefined,
                     nodeSpacing: 1000, layerSpacing: 1000
                 })
         });
