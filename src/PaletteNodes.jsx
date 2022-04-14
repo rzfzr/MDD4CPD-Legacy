@@ -578,7 +578,29 @@ export default [
             'Stepper(int, int, int, int, int, int)',
             'void setSpeed(long whatSpeed)',
             'void step(int number_of_steps)',
-            'int version(void)',
+            'int version()',
         ]
     },
+    {
+        name: 'Aafruit_BMP085',
+        color: 'orange',
+        extras: {
+            type: 'component',
+            library: 'Adafruit_BMP085.h',
+            link: 'https://randomnerdtutorials.com/guide-for-bmp180-barometric-sensor-with-arduino/',
+            description: 'Barometric pressure and temperature sensor, by Adafruit'
+        },
+        methods: [
+            'bool begin(uint8_t mode = BMP085_ULTRAHIGHRES, TwoWire *wire = &Wire)',
+            'float readTemperature()',
+            'int32_t readPressure',
+            'int32_t readSealevelPressure(float altitude_meters = 0)',
+            'float readAltitude(float sealevelPressure = 101325)',
+            'int16_t readRawTemperature()',
+            'uint32_t readRawPressure()',
+        ]
+    },
+
+
+
 ]

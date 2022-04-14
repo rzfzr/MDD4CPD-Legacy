@@ -16,7 +16,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import { Button } from '@material-ui/core';
 
-const returnTypes = ['byte', 'uint8_t', 'uint16_t', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char', 'string']
+const returnTypes = ['byte', 'uint8_t', 'uint16_t', 'int32_t', 'unsigned int', 'unsigned long', 'int', 'long', 'bool', 'float', 'double', 'char', 'string']
 const portTypes = ['Digital', 'Analog']
 
 namespace S {
