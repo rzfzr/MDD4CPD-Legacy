@@ -416,27 +416,14 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return { toPort: undefined, params }
                 let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return { toPort: undefined, params }
 
-
-
-
                 let nextToNode = getNode(nextToPort.parentNode)
 
-
-
-
-                while (paramTypes.includes(nextToNode?.extras?.type)) {
-                    params.push(nextToNode)
-
-                    nextFromPort = getOutPort(nextToPort); if (!nextFromPort) return { toPort: undefined, params }
-                    nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return { toPort: undefined, params }
-                    nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return { toPort: undefined, params }
-                    nextToNode = getNode(nextToPort.parentNode)
+                if (paramTypes.includes(nextToNode?.extras?.type)) {
+                    return resolveTarget(nextToPort, params)
                 }
-
                 return { toPort: nextToPort, params }
             }
             return { toPort: undefined, params }
-
         }
 
         const target: any = resolveTarget(toPort, params)
