@@ -12,6 +12,7 @@ import MapIcon from '@material-ui/icons/Map';
 // import PaletteIcon from '@material-ui/icons/Palette';
 import SettingsIcon from '@mui/icons-material/Settings';
 import TransformIcon from '@mui/icons-material/Transform';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 
 export default function SimpleBottomNavigation() {
     const pathname = window.location.pathname; // in case user visits the path directly. The BottomNavBar is able to follow suit.
@@ -31,6 +32,7 @@ export default function SimpleBottomNavigation() {
                 <BottomNavigationAction component={Link} label="Models" to="/mdd4/models" icon={<MapIcon />} />
                 <BottomNavigationAction component={Link} label="Transformations" to="/mdd4/transformations" icon={<TransformIcon />} />
                 {/* <BottomNavigationAction component={Link} label="Palette" to="/mdd4/palette" icon={<PaletteIcon />} /> */}
+                <BottomNavigationAction component={Link} label="Manual" to="/mdd4/manual" icon={<MenuBookIcon />} />
                 <BottomNavigationAction component={Link} label="Editor" to="/mdd4/editor" icon={<EditIcon />} />
                 <BottomNavigationAction component={Link} label="Settings" to="/mdd4/settings" icon={<SettingsIcon />} />
             </BottomNavigation>
