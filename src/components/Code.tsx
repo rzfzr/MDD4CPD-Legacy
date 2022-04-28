@@ -268,16 +268,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
             console.log('callWithParmeters', port, params)
             const node = getNode(port.parentNode)
 
-
-
             const expected = port.name?.split('(')[1]?.split(')')[0]?.split(',')?.filter((x: any) => x !== '')
+            if (!expected) return
 
-
-            if (!expected) {
-                return
-            }
-
-            console.log('le expected', expected)
             const received: any[] = []
 
             params.forEach((p: any) => {
@@ -410,12 +403,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
             if (paramTypes.includes(toNode?.extras?.type)) {
                 params.push(toNode)
-                console.log('pussing to params', params)
 
                 let nextFromPort = getOutPort(toPort); if (!nextFromPort) return { toPort: undefined, params }
                 let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return { toPort: undefined, params }
                 let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return { toPort: undefined, params }
-
                 let nextToNode = getNode(nextToPort.parentNode)
 
                 if (paramTypes.includes(nextToNode?.extras?.type)) {
