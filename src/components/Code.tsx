@@ -265,10 +265,19 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
-            // console.log('calling', port, params)
-
+            console.log('callWithParmeters', port, params)
             const node = getNode(port.parentNode)
-            const expected = port.name?.split('(')[1].split(')')[0].split(',').filter((x: any) => x !== '')
+
+
+
+            const expected = port.name?.split('(')[1]?.split(')')[0]?.split(',')?.filter((x: any) => x !== '')
+
+
+            if (!expected) {
+                return
+            }
+
+            console.log('le expected', expected)
             const received: any[] = []
 
             params.forEach((p: any) => {
@@ -393,33 +402,47 @@ function generateCode(model: any): { code: string, problems: any[] } {
         const fromPort = getPort(link.source, link.sourcePort);
         const fromNode = getNode(fromPort.parentNode);
         const toPort = getPort(link.target, link.targetPort); if (!toPort) return
-        const toNode = getNode(toPort.parentNode);
 
         const params: any[] = []
-        if (paramTypes.includes(toNode?.extras?.type)) {
-            params.push(toNode)
 
-            let nextFromPort = getOutPort(toPort); if (!nextFromPort) return
-            let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
-            let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
-            let nextToNode = getNode(nextToPort.parentNode)
+        function resolveTarget(toPort: any, params: any[]): { toPort: any, params: any[] } {
+            const toNode = getNode(toPort.parentNode);
 
-            while (paramTypes.includes(nextToNode?.extras?.type && nextToPort.label.startsWith('void setValue'))) {
-                params.push(nextToNode)
+            if (paramTypes.includes(toNode?.extras?.type)) {
+                params.push(toNode)
+                console.log('pussing to params', params)
 
-                nextFromPort = getOutPort(nextToPort); if (!nextFromPort) return
-                nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return
-                nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return
-                nextToNode = getNode(nextToPort.parentNode)
+                let nextFromPort = getOutPort(toPort); if (!nextFromPort) return { toPort: undefined, params }
+                let nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return { toPort: undefined, params }
+                let nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return { toPort: undefined, params }
+
+
+
+
+                let nextToNode = getNode(nextToPort.parentNode)
+
+
+
+
+                while (paramTypes.includes(nextToNode?.extras?.type)) {
+                    params.push(nextToNode)
+
+                    nextFromPort = getOutPort(nextToPort); if (!nextFromPort) return { toPort: undefined, params }
+                    nextLink = getLink(nextFromPort.links[0]); if (!nextLink) return { toPort: undefined, params }
+                    nextToPort = getPort(nextLink.target, nextLink.targetPort); if (!nextToPort) return { toPort: undefined, params }
+                    nextToNode = getNode(nextToPort.parentNode)
+                }
+
+                return { toPort: nextToPort, params }
             }
-
-            // console.log('going to call', nextToPort.name)
-            // console.log('with the following params', params.map((p: any) => p.extras.value))
-            callWithParameters(nextToPort, params)
-        } else { //is a component or function?
-            callWithParameters(toPort, params)
+            return { toPort: undefined, params }
 
         }
+
+        const target: any = resolveTarget(toPort, params)
+        if (target.toPort)
+            callWithParameters(target.toPort, target.params)
+
 
         // if (toNode?.extras?.type === 'built-in') {
         //     add(toPort.name + '()');

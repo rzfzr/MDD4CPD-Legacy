@@ -3,9 +3,7 @@ import { ReactDiagram } from 'gojs-react';
 
 import './go.css';
 function initDiagram(options: any) {
-    console.log('initDiagram with', options)
-
-
+    // console.log('initDiagram with', options)
     const $ = go.GraphObject.make;
     // go.TreeLayout.ArrangementVertical :
 
