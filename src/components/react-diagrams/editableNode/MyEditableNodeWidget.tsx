@@ -131,14 +131,11 @@ export class MyEditableNodeWidget extends React.Component<
     if (this.props.nodeModel.getOptions().name === 'Function') {
       let prev = this.props.nodeModel.extras.value//get previous
       prev = prev.replaceAll(' ', '')
-
       prev = prev.substring(0, prev.indexOf('(') === -1 ? prev.length : prev.indexOf('('))//strip params if existent
       this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
-      // this.set
-
+      console.log('hey', this.props.nodeModel)
 
     }
-    console.log('hey', this.props.nodeModel)
 
     this.setState({
       editingSomething: false,
@@ -281,8 +278,10 @@ export class MyEditableNodeWidget extends React.Component<
               }
               Usages:
               <Button onClick={() => {
-                const nameIn = this.props.nodeModel.portsIn[0].getOptions().label
-                const nameOut = this.props.nodeModel.portsOut[0].getOptions().label
+                const portIndex = this.props.nodeModel.getOptions().name === 'Function' ? 1 : 0
+
+                const nameIn = this.props.nodeModel.portsIn[portIndex].getOptions().label
+                const nameOut = this.props.nodeModel.portsOut[portIndex].getOptions().label
 
                 const next = this.props.nodeModel.portsIn.filter(port => port.getOptions().label?.startsWith(nameIn)).length
 
@@ -292,11 +291,13 @@ export class MyEditableNodeWidget extends React.Component<
               }}> + </Button>
 
               <Button onClick={() => {
-                const nameIn = this.props.nodeModel.portsIn[0].getOptions().label
+                const portIndex = this.props.nodeModel.getOptions().name === 'Function' ? 1 : 0
+
+                const nameIn = this.props.nodeModel.portsIn[portIndex].getOptions().label
 
                 let isFound = false
                 let index = this.props.nodeModel.portsIn.length - 1;
-                for (; index >= 1; index--) {
+                for (; index >= portIndex + 1; index--) {
                   const portIn = this.props.nodeModel.portsIn[index]
                   const portOut = this.props.nodeModel.portsOut[index]
                   if (!isFound) {
