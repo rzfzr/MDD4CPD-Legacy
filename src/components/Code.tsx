@@ -414,7 +414,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
                 return { toPort: nextToPort, params }
             }
-            return { toPort: undefined, params }
+            return { toPort: toPort, params }
         }
 
         const target: any = resolveTarget(toPort, params)
@@ -527,7 +527,7 @@ export default function Code(props: { model: string }) {
     }, [props])
     return (
         <div className="Code">
-            {/* <div style={{ border: problems.length !== 0 ? 'solid yellow 2px' : 'dotted black 2px' }}>
+            <div style={{ border: problems.length !== 0 ? 'solid yellow 2px' : 'dotted black 2px' }}>
                 <div style={{ border: problems.length !== 0 ? 'solid yellow 1px' : 'dotted white 1px', fontSize: '1em' }}>
                     {problems.length} Problems!
                 </div>
@@ -579,7 +579,7 @@ export default function Code(props: { model: string }) {
                         </div>
                     })
                 }
-            </div> */}
+            </div>
             <pre style={{
                 height: '100%', overflow: 'auto'
             }}>
