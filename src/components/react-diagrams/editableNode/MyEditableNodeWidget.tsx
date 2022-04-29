@@ -116,7 +116,6 @@ export class MyEditableNodeWidget extends React.Component<
    * Usually, you update the model and the state
    */
   _contentOnChange = (evt: React.FormEvent<HTMLInputElement>) => {
-
     this.props.nodeModel.extras[this.state.editingKey] = evt.currentTarget.value;
     this.setState({ content: evt.currentTarget.value });
   };
@@ -126,6 +125,21 @@ export class MyEditableNodeWidget extends React.Component<
    * Usually, you change the states to make the fields know it's not in edit mode
    */
   _onBlurOrEnter = () => {
+
+
+
+    if (this.props.nodeModel.getOptions().name === 'Function') {
+      let prev = this.props.nodeModel.extras.value//get previous
+      prev = prev.replaceAll(' ', '')
+
+      prev = prev.substring(0, prev.indexOf('(') === -1 ? prev.length : prev.indexOf('('))//strip params if existent
+      this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
+      // this.set
+
+
+    }
+    console.log('hey', this.props.nodeModel)
+
     this.setState({
       editingSomething: false,
       editingKey: ""
