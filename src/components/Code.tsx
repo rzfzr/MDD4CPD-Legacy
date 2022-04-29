@@ -50,19 +50,23 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function addFunctionDeclarations(functions: any) {
         if (functions.length > 0) {
             add('// Functions')
-            logics.forEach(logic => {
-                if (logic.name === "Function") {
-                    add(`${logic.extras.returnType} ${logic.extras.value}{
-                `)
-                    const callPort = logic.ports.find((x: any) => x.alignment === 'right')
-                    callPort.links.forEach((l: any) => {
-                        processLink(l)
-                    });
-                    add('}')
+            functions.forEach((logic: any) => {
+                if (getPort(logic.id, logic.portsInOrder[0]).links.length === 0) {
+                    declareFunction(logic)
                 }
             });
         }
     }
+    function declareFunction(logic: any) {
+        add(`${logic.extras.returnType} ${logic.extras.value}{
+            `)
+        const callPort = logic.ports.find((x: any) => x.alignment === 'right')
+        callPort.links.forEach((l: any) => {
+            processLink(l)
+        });
+        add('}')
+    }
+
     function addLibraries() {
         const libraries: any[] = [...new Set(components.map(component => component.extras.library))]
 
@@ -265,11 +269,25 @@ function generateCode(model: any): { code: string, problems: any[] } {
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
-            console.log('callWithParmeters', port, params)
             const node = getNode(port.parentNode)
 
-            const expected = port.name?.split('(')[1]?.split(')')[0]?.split(',')?.filter((x: any) => x !== '')
-            if (!expected) return
+            console.log('callWithParmeters', port, node, params)
+
+
+            if (node?.name === 'Function') {
+                // console.log('check in port')
+                if (port.name === 'void declaration') {
+                    declareFunction(node)
+                    return
+                }
+
+
+
+
+            }
+
+
+            const expected = port.name?.split('(')[1]?.split(')')[0]?.split(',')?.filter((x: any) => x !== '') || []
 
             const received: any[] = []
 
