@@ -56,7 +56,7 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
             this.portsOut.splice(this.portsOut.indexOf(port), 1);
         }
     }
-
+    //todo add changeport?
     addPort<T extends MyPortModel>(port: T): T {
         super.addPort(port);
         if (port.getOptions().in) {

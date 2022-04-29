@@ -128,6 +128,9 @@ export class MyEditableNodeWidget extends React.Component<
 
     if (this.props.nodeModel.getOptions().name === 'Function') {
 
+      this.props.nodeModel.addInPort('testing 123', true)
+      this.props.engine.repaintCanvas();
+
       //remove whitespaces from function name
       this.props.nodeModel.extras.value = this.props.nodeModel.extras.value.replaceAll(' ', '')
 
@@ -138,8 +141,8 @@ export class MyEditableNodeWidget extends React.Component<
         if (name === 'declare') return
         name = name.substring(name.indexOf('in('))//removes previous returnType
         name = this.props.nodeModel.extras.returnType + ' ' + name //adds new
-        port.getOptions().name = name//must set both, will change when accepting parameter or returnType void
-        port.getOptions().label = name
+        // port.getOptions().name = name//must set both, will change when accepting parameter or returnType void
+        // port.getOptions().label = name
 
         //this will be used for treating parameters
         // const pos = name.indexOf('-') !== -1 ? name.indexOf('-') : name.length
@@ -147,6 +150,7 @@ export class MyEditableNodeWidget extends React.Component<
         // this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
 
       });
+
 
     }
 

@@ -47,10 +47,10 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
+		console.log('checking if can link', port)
 		return port.getOptions().id !== this.getOptions().id
 	}
 	createLinkModel(): MyRightAngleLinkModel {
-
 		function hsl2rgb(h: any, s: any, l: any) {
 			let a = s * Math.min(l, 1 - l);
 			let f = (n: any, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
