@@ -271,12 +271,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
         function callWithParameters(port: any, params: any) {
             const node = getNode(port.parentNode)
 
-            console.log('callWithParmeters', port, node, params)
+            // console.log('callWithParmeters', port, node, params)
 
 
             if (node?.name === 'Function') {
                 // console.log('check in port')
-                if (port.name === 'void declaration') {
+                if (port.name === 'declare') {
                     declareFunction(node)
                     return
                 }

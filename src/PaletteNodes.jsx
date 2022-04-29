@@ -157,7 +157,7 @@ export default [
             'out',
         ],
         ins: [
-            'void declaration',
+            'declare',
             'in',
         ]
     }, {
