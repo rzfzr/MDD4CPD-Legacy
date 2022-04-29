@@ -146,7 +146,7 @@ export default [
         name: 'Function',
         extras: {
             type: 'logic',
-            value: 'foo()',
+            value: 'foo',
             hasUsages: true,
             hasReturnType: true,
             hasValue: true,
@@ -158,7 +158,7 @@ export default [
         ],
         ins: [
             'declare',
-            'in',
+            'byte in()',
         ]
     }, {
         name: 'Condition',

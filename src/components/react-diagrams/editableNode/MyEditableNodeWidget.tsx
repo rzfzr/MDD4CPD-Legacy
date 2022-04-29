@@ -126,14 +126,27 @@ export class MyEditableNodeWidget extends React.Component<
    */
   _onBlurOrEnter = () => {
 
-
-
     if (this.props.nodeModel.getOptions().name === 'Function') {
-      let prev = this.props.nodeModel.extras.value//get previous
-      prev = prev.replaceAll(' ', '')
-      prev = prev.substring(0, prev.indexOf('(') === -1 ? prev.length : prev.indexOf('('))//strip params if existent
-      this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
-      console.log('hey', this.props.nodeModel)
+
+      //remove whitespaces from function name
+      this.props.nodeModel.extras.value = this.props.nodeModel.extras.value.replaceAll(' ', '')
+
+      //add returnType to inPorts labels
+      this.props.nodeModel.getInPorts().forEach(port => {
+        let name = port.getOptions().name
+
+        if (name === 'declare') return
+        name = name.substring(name.indexOf('in('))//removes previous returnType
+        name = this.props.nodeModel.extras.returnType + ' ' + name //adds new
+        port.getOptions().name = name//must set both, will change when accepting parameter or returnType void
+        port.getOptions().label = name
+
+        //this will be used for treating parameters
+        // const pos = name.indexOf('-') !== -1 ? name.indexOf('-') : name.length
+        // const newName = name.substring(0, name.indexOf('(')) + name.substring(name.indexOf(')'))
+        // this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
+
+      });
 
     }
 
