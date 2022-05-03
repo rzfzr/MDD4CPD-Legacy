@@ -85,6 +85,20 @@ export class MyEditableNodeModel extends NodeModel<DefaultNodeModelGenerics> {
         return this.addPort(p);
     }
 
+
+    renamePort(oldName: string, newName: string): void {
+        const portInIndex = this.portsIn.findIndex(p => p.getOptions().name === oldName)
+
+        this.portsIn[portInIndex].getOptions().name = newName
+        this.portsIn[portInIndex].getOptions().label = newName
+
+        this.ports[newName] = this.ports[oldName];
+        delete this.ports[oldName];
+    }
+
+
+
+
     addOutPort(name: string, after = true, hasHiddenLabel = false): MyPortModel {
         const p = new MyPortModel({
             in: false,
