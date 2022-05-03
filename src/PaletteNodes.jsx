@@ -146,9 +146,10 @@ export default [
         name: 'Function',
         extras: {
             type: 'logic',
+            returnType: 'void',
             value: 'foo',
             hasUsages: true,
-            hasReturnType: true,
+            // hasReturnType: true,
             hasValue: true,
         },
         color: 'grey',
@@ -158,7 +159,7 @@ export default [
         ],
         ins: [
             'declare',
-            'byte in()',
+            'in',
         ]
     }, {
         name: 'Condition',

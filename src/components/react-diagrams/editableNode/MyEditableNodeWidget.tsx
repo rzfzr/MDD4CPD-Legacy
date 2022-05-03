@@ -127,27 +127,25 @@ export class MyEditableNodeWidget extends React.Component<
   _onBlurOrEnter = () => {
 
     if (this.props.nodeModel.getOptions().name === 'Function') {
-
-
-      //remove whitespaces from function name
+      //   //remove whitespaces from function name
       this.props.nodeModel.extras.value = this.props.nodeModel.extras.value.replaceAll(' ', '')
+      //   this.props.engine.repaintCanvas();
 
-      //add returnType to inPorts labels
-      this.props.nodeModel.getInPorts().forEach(port => {
-        const name = port.getOptions().name
-        if (name === 'declare') return
+      //   //add returnType to inPorts labels
+      //   this.props.nodeModel.getInPorts().forEach(port => {
+      //     const name = port.getOptions().name
+      //     if (name === 'declare') return
 
-        let newName = name.substring(name.indexOf('in('))//removes previous returnType
-        newName = this.props.nodeModel.extras.returnType + ' ' + newName //adds new
+      //     let newName = name.substring(name.indexOf('in('))//removes previous returnType
+      //     newName = this.props.nodeModel.extras.returnType + ' ' + newName //adds new
 
-
-        this.props.nodeModel.renamePort(name, newName)
-      });
-      this.props.engine.repaintCanvas();
-      //this will be used for treating parameters
-      // const pos = name.indexOf('-') !== -1 ? name.indexOf('-') : name.length
-      // const newName = name.substring(0, name.indexOf('(')) + name.substring(name.indexOf(')'))
-      // this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
+      //     this.props.nodeModel.renamePort(name, newName)
+      //   });
+      //   this.props.engine.repaintCanvas();
+      //   //this will be used for treating parameters
+      //   // const pos = name.indexOf('-') !== -1 ? name.indexOf('-') : name.length
+      //   // const newName = name.substring(0, name.indexOf('(')) + name.substring(name.indexOf(')'))
+      //   // this.props.nodeModel.extras.value = prev + `(${this.props.nodeModel.extras.returnType} x)`//add new
     }
 
     this.setState({
