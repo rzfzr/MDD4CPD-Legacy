@@ -291,13 +291,15 @@ export class MyEditableNodeWidget extends React.Component<
               <Button onClick={() => {
                 const portIndex = this.props.nodeModel.getOptions().name === 'Function' ? 1 : 0
 
-                const nameIn = this.props.nodeModel.portsIn[portIndex].getOptions().label
-                const nameOut = this.props.nodeModel.portsOut[portIndex].getOptions().label
+                const nameIn = this.props.nodeModel.portsIn[portIndex]?.getOptions()?.label
+                const nameOut = this.props.nodeModel.portsOut[portIndex]?.getOptions()?.label
 
                 const next = this.props.nodeModel.portsIn.filter(port => port.getOptions().label?.startsWith(nameIn)).length
 
-                this.props.nodeModel.addInPort(nameIn + '-' + next, true)
-                this.props.nodeModel.addOutPort(nameOut + '-' + next, true)
+                if (nameIn)
+                  this.props.nodeModel.addInPort(nameIn + '-' + next, true)
+                if (nameOut)
+                  this.props.nodeModel.addOutPort(nameOut + '-' + next, true)
                 this.props.engine.repaintCanvas();
               }}> + </Button>
 
@@ -311,14 +313,15 @@ export class MyEditableNodeWidget extends React.Component<
                 for (; index >= portIndex + 1; index--) {
                   const portIn = this.props.nodeModel.portsIn[index]
                   const portOut = this.props.nodeModel.portsOut[index]
+
                   if (!isFound) {
-                    if (Object.keys(portIn.links).length !== 0 ||
-                      Object.keys(portOut.links).length !== 0) {
+                    if (Object.keys(portIn.links).length !== 0) {
                       return
                     }
                     if (portIn.options.label.startsWith(nameIn)) {
                       this.props.nodeModel.removePort(portIn)
-                      this.props.nodeModel.removePort(portOut)
+                      if (portOut)
+                        this.props.nodeModel.removePort(portOut)
                       isFound = true
                     }
                   }

@@ -155,7 +155,7 @@ export default [
         color: 'grey',
         outs: [
             'body',
-            'out',
+            // 'out',
         ],
         ins: [
             'declare',
