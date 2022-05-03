@@ -270,20 +270,12 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
             const node = getNode(port.parentNode)
-
-            // console.log('callWithParmeters', port, node, params)
-
-
+            console.log('callWithParmeters', port, node, params)
             if (node?.name === 'Function') {
-                // console.log('check in port')
                 if (port.name === 'declare') {
                     declareFunction(node)
                     return
                 }
-
-
-
-
             }
 
 
@@ -344,7 +336,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     + ') '
                     + ';');
             } else if (node.extras.type === 'logic') {
-                add(node.extras.value)
+                if (node.name === 'Function') {
+                    add(node.extras.value + '()')
+                } else {
+                    add(node.extras.value)
+                }
             } else {
                 console.log('confusion at ', port, node, fromNode)
                 add('confusion')
