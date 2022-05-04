@@ -58,8 +58,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         }
     }
     function declareFunction(logic: any) {
-        add(`${logic.extras.returnType} ${logic.extras.value}(){
-            `)
+        add(`${logic.extras.returnType} ${logic.extras.value}(){`)
         const callPort = logic.ports.find((x: any) => x.alignment === 'right')
         callPort.links.forEach((l: any) => {
             processLink(l)
