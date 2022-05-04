@@ -166,6 +166,18 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
         });
     }
+    function warnAboutExpectedVersusReceived(port: any, node: any, expected: any[], received: any[]) {
+        const expMin = expected.filter((e: any) => !e.includes('=')).length
+        const expMax = expected.length
+
+        if (received.length < expMin || received.length > expMax) {
+            const count = expMin === expMax ? expMin : `${expMin} to ${expMax}`
+            warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${count}`, node, port)
+            return 'error'
+        }
+        return 'ok'
+    }
+
     function getLinksFromModel(model: any) {
         const temp: any[] = []
         Object.entries(model.layers[0].models).forEach((link: any) => {
@@ -265,6 +277,10 @@ function generateCode(model: any): { code: string, problems: any[] } {
     }
     // #endregion
 
+
+
+
+
     // #region Unreviewed Functions
     function processLink(l: any) {
         function callWithParameters(port: any, params: any) {
@@ -279,7 +295,6 @@ function generateCode(model: any): { code: string, problems: any[] } {
 
 
             const expected = port.name?.split('(')[1]?.split(')')[0]?.split(',')?.filter((x: any) => x !== '') || []
-
             const received: any[] = []
 
             params.forEach((p: any) => {
@@ -288,14 +303,8 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 }
             })
 
-            const expMin = expected.filter((e: any) => !e.includes('=')).length
-            const expMax = expected.length
+            if (warnAboutExpectedVersusReceived(port, node, expected, received) === 'error') return
 
-            if (received.length < expMin || received.length > expMax) {
-                const count = expMin === expMax ? expMin : `${expMin} to ${expMax}`
-                warn(`The function call "${port.name}" is receiving ${received.length} parameters instead of the expected ${count}`, node, port)
-                return
-            }
 
             expected.forEach((ex: any, index: number) => {
                 const expectedType = returnTypes.find((rt: any) => ex.trim().startsWith(rt)) || node.extras?.returnType
@@ -337,7 +346,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
             } else if (node.extras.type === 'logic') {
                 if (node.name === 'Function') {
                     add(node.extras.value + '()')
+                } else if (node.name === 'Condition') {
+
+
                 } else {
+                    console.log('almost confused', node)
                     add(node.extras.value)
                 }
             } else {
