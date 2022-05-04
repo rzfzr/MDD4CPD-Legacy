@@ -257,9 +257,9 @@ function generateCode(model: any): { code: string, problems: any[] } {
     function getNode(nodeID: string) {
         return nodes.find((n: any) => n.id === nodeID);
     }
-    // function getParent(childNode: any) {
-    //     return nodes.find((n: any) => n.id === childNode.parentNode);
-    // }
+    function getParent(childNode: any) {
+        return nodes.find((n: any) => n.id === childNode.parentNode);
+    }
     function warn(message: string, node: any = null, port: any = null) {
         problems.push({ message, node, port });
         return problems;
@@ -348,7 +348,26 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     add(node.extras.value + '()')
                 } else if (node.name === 'Condition') {
 
+                    const xValue = getCoditionalValue(node, 'void set(T xValue)');
+                    const yValue = getCoditionalValue(node, 'void set(T yValue)');
 
+                    const outcome2 = getOutcome(node);
+                    const toNode2 = getParent(outcome2);
+
+                    const outcome3 = getOutcome(node, 'False');
+                    const toNode3 = getParent(outcome3);
+
+                    add('if (', xValue, ' ' + node.extras.value + ' ', yValue, ') {');
+                    if (toNode2) {
+                        // callWithParameters(toNode2);
+                    } else {
+                        add('/* Lacking code to be executed if conditional is true */');
+                    }
+                    if (toNode3) {
+                        add('} else {');
+                        // callWithParameters(toNode3);
+                    }
+                    add("}\n");
                 } else {
                     console.log('almost confused', node)
                     add(node.extras.value)
@@ -388,34 +407,34 @@ function generateCode(model: any): { code: string, problems: any[] } {
             //     });
             // });
         }
-        // function getCoditionalValue(conditionNode: any, portName: any): string {
-        //     try {
-        //         let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
-        //         let link = getLink(linkID);
-        //         let port = getPort(link.source, link.sourcePort);
-        //         let parent = getParent(port);
+        function getCoditionalValue(conditionNode: any, portName: any): string {
+            try {
+                let linkID = conditionNode.ports.find((p: any) => p.name === portName).links[0];
+                let link = getLink(linkID);
+                let port = getPort(link.source, link.sourcePort);
+                let parent = getParent(port);
 
-        //         if (['variable', 'port'].includes(parent.extras.type)) {
-        //             return parent.extras.value;
-        //         }
-        //         else if (['component'].includes(parent.extras.type)) {
-        //             return parent.instance + '.' + port.name;
-        //         } else {
-        //             return add('Unknown extras.type');
-        //         }
-        //     } catch (error) {
-        //         return '/* Lacking Value */';
-        //     }
-        // }
-        // function getOutcome(conditionNode: any, ifThis = 'True') {
-        //     try {
-        //         let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
-        //         let link = getLink(linkID);
-        //         return getPort(link.target, link.targetPort);
-        //     } catch (error) {
-        //         return { label: '// Lacking Outcome' };
-        //     }
-        // }
+                if (paramTypes.includes(parent.extras.type)) {
+                    return parent.extras.value;
+                }
+                else if (['component'].includes(parent.extras.type)) {
+                    return parent.instance + '.' + port.name;
+                } else {
+                    return add('/* Unknown extras.type */');
+                }
+            } catch (error) {
+                return '/* Lacking Value */';
+            }
+        }
+        function getOutcome(conditionNode: any, ifThis = 'True') {
+            try {
+                let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
+                let link = getLink(linkID);
+                return getPort(link.target, link.targetPort);
+            } catch (error) {
+                return { label: '// Lacking Outcome' };
+            }
+        }
 
         const link = getLink(l); if (!link) return
         const fromPort = getPort(link.source, link.sourcePort);
@@ -453,26 +472,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
         // } else if (toNode?.name === "Function") {
         //     add(toNode.extras.value, '(', ');');
         // } else if (toNode?.name === "Condition") {
-        //     const xValue = getCoditionalValue(toNode, 'x');
-        //     const yValue = getCoditionalValue(toNode, 'y');
 
-        //     const outcome2 = getOutcome(toNode);
-        //     const toNode2 = getParent(outcome2);
-
-        //     const outcome3 = getOutcome(toNode, 'False');
-        //     const toNode3 = getParent(outcome3);
-
-        //     add('if (', xValue, ' ' + toNode.extras.value + ' ', yValue, ') {');
-        //     if (toNode2) {
-        //         callWithParameters(toNode2);
-        //     } else {
-        //         add('/* Lacking code to be executed if conditional is true */');
-        //     }
-        //     if (toNode3) {
-        //         add('} else {');
-        //         callWithParameters(toNode3);
-        //     }
-        //     add("}\n");
         // } 
     }
 

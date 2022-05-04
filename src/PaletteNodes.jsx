@@ -174,8 +174,8 @@ export default [
             'else'
         ],
         ins: [
-            'void set(T value)',
-            'void set(T value)'
+            'void set(T xValue)',
+            'void set(T yValue)'
         ]
     },
     {
