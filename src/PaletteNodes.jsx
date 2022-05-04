@@ -170,13 +170,12 @@ export default [
         },
         color: 'grey',
         outs: [
-            'True',
-            'False'
+            'body',
+            'else'
         ],
         ins: [
-            'trigger()',
-            'x',
-            'y'
+            'void set(T value)',
+            'void set(T value)'
         ]
     },
     {
