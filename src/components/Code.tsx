@@ -351,20 +351,25 @@ function generateCode(model: any): { code: string, problems: any[] } {
                     const xValue = getCoditionalValue(node, 'void set(T xValue)');
                     const yValue = getCoditionalValue(node, 'void set(T yValue)');
 
-                    const outcome2 = getOutcome(node);
-                    const toNode2 = getParent(outcome2);
+                    const outcomePort2 = getOutcome(node);
+                    const toNode2 = getParent(outcomePort2);
 
-                    const outcome3 = getOutcome(node, 'False');
-                    const toNode3 = getParent(outcome3);
+                    const outcomePort3 = getOutcome(node, 'else');
+                    const toNode3 = getParent(outcomePort3);
 
                     add('if (', xValue, ' ' + node.extras.value + ' ', yValue, ') {');
                     if (toNode2) {
-                        // callWithParameters(toNode2);
+                        outcomePort2.links.forEach((l: any) => {
+                            processLink(l)
+                        })
                     } else {
                         add('/* Lacking code to be executed if conditional is true */');
                     }
                     if (toNode3) {
                         add('} else {');
+                        outcomePort3.links.forEach((l: any) => {
+                            processLink(l)
+                        })
                         // callWithParameters(toNode3);
                     }
                     add("}\n");
@@ -426,7 +431,7 @@ function generateCode(model: any): { code: string, problems: any[] } {
                 return '/* Lacking Value */';
             }
         }
-        function getOutcome(conditionNode: any, ifThis = 'True') {
+        function getOutcome(conditionNode: any, ifThis = 'body') {
             try {
                 let linkID = conditionNode.ports.find((p: any) => p.name === ifThis).links[0];
                 let link = getLink(linkID);
