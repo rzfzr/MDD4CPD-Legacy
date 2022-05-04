@@ -166,7 +166,8 @@ export default [
         extras: {
             type: 'logic',
             selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
-            value: '=='
+            value: '==',
+            hasValue: true
         },
         color: 'grey',
         outs: [
@@ -179,14 +180,17 @@ export default [
         ]
     },
     {
-        name: 'Loop',
+        name: 'While Loop',
         extras: {
-            type: 'logic'
+            type: 'logic',
+            selectableOptions: ['==', '!=', '<', '>', '<=', '>=', '<=>'],
+            value: '==',
+            hasValue: true
         },
         color: 'grey',
         outs: [
-            'True',
-            'False'
+            'body',
+            'else'
         ],
         ins: [
             'startValue',
