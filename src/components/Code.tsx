@@ -145,10 +145,11 @@ function generateCode(model: any): { code: string, problems: any[] } {
         nodes.filter((node: any) => paramTypes.includes(node.extras.type))
             .forEach((node: any) => {
                 node.ports.forEach((port: any) => {
+                    console.log('checking ', port)
                     if (port.links.length > 1) {
                         warn(`This ${node.name.toLowerCase()} has more than one link in the same ${port.label} port.`, node)
                     } else {
-                        if (port.links.length === 0) {
+                        if (port.name !== 'in' && port.links.length === 0) {
                             warn(`This ${node.name.toLowerCase()} is not being used.`, node)
                         }
                     }
