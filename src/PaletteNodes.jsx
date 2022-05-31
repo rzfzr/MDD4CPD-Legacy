@@ -586,7 +586,7 @@ export default [
         ]
     },
     {
-        name: 'Aafruit_BMP085',
+        name: 'Adafruit_BMP085',
         color: 'orange',
         extras: {
             type: 'component',
@@ -603,6 +603,19 @@ export default [
             'int16_t readRawTemperature()',
             'uint32_t readRawPressure()',
         ]
+    },
+
+
+    {
+        name: 'SoftwareWire',
+        color: 'orange',
+        extras: {
+            type: 'component',
+            library: 'Adafruit_BMP085.h',
+            link: 'https://www.arduino.cc/reference/en/libraries/softwarewire/',
+            description: 'Creates a software I2C/TWI bus on every pins.'
+        },
+        methods: []
     },
 
 
