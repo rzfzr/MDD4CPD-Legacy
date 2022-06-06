@@ -611,7 +611,7 @@ export default [
         color: 'orange',
         extras: {
             type: 'component',
-            library: 'Adafruit_BMP085.h',
+            library: 'Wire.h',
             link: 'https://www.arduino.cc/reference/en/libraries/softwarewire/',
             description: 'Creates a software I2C/TWI bus on every pins.'
         },
