@@ -307,6 +307,35 @@ export default [
         ]
     },
     {
+        name: 'Serial',
+        color: 'cyan',
+        extras: {
+            type: 'built-in'
+        },
+        methods: [
+            'int available()',
+            'int availableForWrite()',
+            'void begin(long speed)',
+            'void end()',
+            'bool find(char target)',
+            'bool findUntil(char target)',
+            'void flush()',
+            'float parseFloat()',
+            'int parseInt()',
+            'int peek()',
+            'size_t print(int val)',
+            'size_t println(int val)',
+            'int read()',
+            'size_t readBytes(char buffer, int length)',
+            'size_t readBytesUntil(char character, char buffer, int length)',
+            'String readString()',
+            'String readStringUntil()',
+            'void setTimeout(long time)',
+            'size_t write(byte val)',
+            'void serialEvent()'
+        ]
+    },
+    {
         name: 'true',
         color: 'cyan',
         extras: {
