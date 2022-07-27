@@ -1,50 +1,42 @@
-// from https://github.com/Testato/SoftwareWire
-
-// Stress test for SoftwareWire library.
-// Tested with an Arduino Uno connected to an Arduino Uno.
-// This is the sketch for the Master Arduino using the software i2c.
-
-// Use define to switch between the Arduino Wire and the SoftwareWire.
 #define TEST_SOFTWAREWIRE
-
-
 #ifdef TEST_SOFTWAREWIRE
-
 #include "SoftwareWire.h"
 
-// SoftwareWire constructor.
-// Parameters:
-//   (1) pin for the software sda
-//   (2) pin for the software scl
-//   (3) use internal pullup resistors. Default true. Set to false to disable them.
-//   (4) allow the Slave to stretch the clock pulse. Default true. Set to false for faster code.
-
-// This stress test uses A4 and A5, that makes it easy to switch between the (hardware) Wire
-// and the (software) SoftwareWire libraries.
-// myWire: sda = A4, scl = A5, turn on internal pullups, allow clock stretching by Slave
 SoftwareWire myWire( 32, 33);
-
 #else
-
-// Make code work with normal Wire library.
 #include <Arduino.h>
 #include <Wire.h>
-#define myWire Wire         // use the real Arduino Wire library instead of the SoftwareWire.
-
+#define myWire Wire
 #endif
 
+class Serial1{
+private:
+    byte port;
 
-void setup()
-{
-  Serial.begin(9600);      // start serial port
-  Serial.println(F("\nMaster"));
+public:
+    Serial1(byte port)    {
+        this->port = port;
+        init();
+    }
+    void init()    {
+        Serial.begin(port);
+        myWire.begin()
+    }
+    void transmit(byte x, byte y,byte z)    {
+        myWire.beginTransmission(x);
+        myWire.write( y, z);
+        return myWire.endTransmission()
+    }
+    void error(i)    {
+        Serial.print(F("first error at i = "));
+        Serial.println(i);
+        return true
+    }
+};
 
-  myWire.begin();          // join i2c bus as master
-}
+Serial1 serial1 = Serial1(9600);
 
-
-void loop()
-{
+void loop(){
   Serial.println(F("Test with 200 transmissions of writing 10 bytes each"));
   byte buf[20] = { 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, };
   int err = 0;
@@ -52,19 +44,15 @@ void loop()
   boolean firsterr = false;
   for( int i=0; i<200; i++)
   {
-    myWire.beginTransmission(4);
-    myWire.write( buf, 10);
-    if( myWire.endTransmission() != 0)
+    if( serial1.transmit(4,buf,10) != 0)
     {
       err++;
       if( !firsterr)
       {
-        Serial.print(F("first error at i = "));
-        Serial.println(i);
-        firsterr = true;
+        firsterr = serial1.error;
       }
     }
-    delayMicroseconds(100);  // Even the normal Arduino Wire library needs some delay when the Slave disables interrupts.
+    delayMicroseconds(100); 
   }
   unsigned long millis2 = millis();
   Serial.print(F("total time: "));

@@ -1,3 +1,5 @@
+// from https://github.com/Testato/SoftwareWire
+
 // Stress test for SoftwareWire library.
 // Tested with an Arduino Uno connected to an Arduino Uno.
 // This is the sketch for the Slave Arduino using the hardware I2C.
