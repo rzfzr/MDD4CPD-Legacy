@@ -650,12 +650,17 @@ export default function Code(props: { model: string }) {
   const model = props.model;
   let code = "";
   let problems: any[] = [];
+  let uniqueProblems: any[] = [];
 
   if (model === "{}" || model === "") {
   } else {
     ({ code, problems } = generateCode(JSON.parse(model)));
-    // console.log('p', problems)
+
+    uniqueProblems = problems.filter((problem, index, self) => {
+      return index === self.findIndex((p) => p.message === problem.message);
+    });
   }
+
   useEffect(() => {
     Prism.highlightAll();
   }, [props]);
@@ -676,20 +681,28 @@ export default function Code(props: { model: string }) {
         >
           {problems.length} Problems!
         </div>
-        {problems.map((p: any, index: any) => {
-          if (p.node?.id) {
-            const el = document.querySelector(`[data-nodeid='${p.node.id}']`);
-            if (el) el.setAttribute("id", p.node.id);
-          }
-          const problemId = p.node
-            ? "problem-" + p.node.id + index
-            : "problem-nodeless" + index;
+        {uniqueProblems.map((p: any, index: any) => {
+          const problemNodes = problems
+            .filter((problem) => problem.message === p.message)
+            .map((problem) => problem.node);
+
+          console.log(problemNodes);
 
           let nodes: any[] = [];
           let links: any[] = [];
-          if (p.node) {
-            ({ nodes, links } = processDynamic(p.node, 0, false, p.port));
-          }
+
+          problemNodes.forEach((pn) => {
+            if (pn?.id) {
+              const el = document.querySelector(`[data-nodeid='${pn.id}']`);
+              if (el) el.setAttribute("id", pn.id);
+
+              ({ nodes, links } = processDynamic(pn, 0, false, p.port));
+            }
+          });
+
+          const problemId = p.node
+            ? "problem-" + p.node.id + index
+            : "problem-nodeless" + index;
 
           return (
             <div
@@ -699,7 +712,7 @@ export default function Code(props: { model: string }) {
             >
               Model violation: {p.message}
               {p.node && (
-                <Fragment>
+                <>
                   <a
                     data-tip
                     data-for={"tip-" + problemId}
@@ -719,9 +732,9 @@ export default function Code(props: { model: string }) {
                       <GoClass linkdata={links} nodedata={nodes} />
                     </div>
                   </ReactTooltip>
-                </Fragment>
+                </>
               )}
-              {p.node && (
+              {problemNodes.map((pn) => (
                 <div
                   key={index}
                   style={{
@@ -733,11 +746,11 @@ export default function Code(props: { model: string }) {
                   <Xarrow
                     strokeWidth={2}
                     start={problemId}
-                    end={p.node.id}
+                    end={pn.id}
                     color="yellow"
                   />
                 </div>
-              )}
+              ))}
             </div>
           );
         })}
