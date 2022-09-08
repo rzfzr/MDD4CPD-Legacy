@@ -48,15 +48,21 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 	}
 
 	canLinkToPort(port: PortModel): boolean {
-		console.log('checking if can link', port)
+		// console.log('checking if can link', port)
 		return port.getOptions().id !== this.getOptions().id
 	}
 	createLinkModel(): MyRightAngleLinkModel {
-		function hsl2rgb(h: any, s: any, l: any) {
-			let a = s * Math.min(l, 1 - l);
-			let f = (n: any, k = (n + h / 30) % 12) => l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-			return [f(0), f(8), f(4)];
+		function genColor(seed: any) {
+			let color: any = Math.floor((Math.abs(Math.sin(seed) * 16777215)));
+			color = color.toString(16);
+			// pad any colors shorter than 6 characters with leading 0s
+			while (color.length < 6) {
+				color = '0' + color;
+			}
+			console.log('generated color', color, 'with seed', seed)
+			return color;
 		}
+
 		let link = new MyRightAngleLinkModel()
 
 
@@ -68,8 +74,14 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		// 	})
 		// );
 		link.setWidth(5)
-		link.setColor('rgb(' + hsl2rgb(Math.random() * 360, 100, 100) +
-			')')
+
+		setTimeout(() => {
+			const seed = Object.keys(link.getSourcePort().links).length
+			if (seed) {
+				link.setColor('#' + genColor(3 + seed))
+			}
+		}, 500);
+
 		return link
 	}
 }
