@@ -60,13 +60,13 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		let link = new MyRightAngleLinkModel()
 
 
-		console.log('creating link model')
+		// console.log('creating link model')
 		// link.getOptions().testName = 'Test';
-		link.addLabel(
-			new EditableLabelModel({
-				value: 'Hello, I am label!'
-			})
-		);
+		// link.addLabel(
+		// 	new EditableLabelModel({
+		// 		value: 'Hello, I am label!'
+		// 	})
+		// );
 		link.setWidth(5)
 		link.setColor('rgb(' + hsl2rgb(Math.random() * 360, 100, 100) +
 			')')
