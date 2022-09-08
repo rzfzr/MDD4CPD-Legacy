@@ -4,6 +4,7 @@ import { MyEditableNodeFactory } from './editableNode/MyEditableNodeFactory';
 import {
 	RightAngleLinkFactory,
 } from '@projectstorm/react-diagrams';
+import { EditableLabelFactory } from './custom-link-label/EditableLabelFactory';
 
 export class Application {
 	protected activeModel: any;//SRD.DiagramModel
@@ -14,6 +15,7 @@ export class Application {
 
 		this.diagramEngine.getNodeFactories().registerFactory(new MyEditableNodeFactory());
 		this.diagramEngine.getLinkFactories().registerFactory(new RightAngleLinkFactory());
+		this.diagramEngine.getLabelFactories().registerFactory(new EditableLabelFactory());
 
 		this.newModel();
 	}

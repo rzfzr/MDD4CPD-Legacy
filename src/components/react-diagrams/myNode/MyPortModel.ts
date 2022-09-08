@@ -6,6 +6,7 @@ import {
 } from '@projectstorm/react-diagrams-core';
 import { MyRightAngleLinkModel } from './MyRightAngleLinkModel';
 import { DeserializeEvent } from '@projectstorm/react-canvas-core';
+import { EditableLabelModel } from '../custom-link-label/EditableLabelModel';
 
 export interface MyPortModelOptions extends PortModelOptions {
 	label?: string;
@@ -57,6 +58,15 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 			return [f(0), f(8), f(4)];
 		}
 		let link = new MyRightAngleLinkModel()
+
+
+		console.log('creating link model')
+		// link.getOptions().testName = 'Test';
+		link.addLabel(
+			new EditableLabelModel({
+				value: 'Hello, I am label!'
+			})
+		);
 		link.setWidth(5)
 		link.setColor('rgb(' + hsl2rgb(Math.random() * 360, 100, 100) +
 			')')
