@@ -184,7 +184,7 @@ function generateCode(model: any): { code: string; problems: any[] } {
       .filter((node: any) => paramTypes.includes(node.extras.type))
       .forEach((node: any) => {
         node.ports.forEach((port: any) => {
-          console.log("checking ", port);
+          // console.log("checking ", port);
           if (port.links.length > 1) {
             warn(
               `This ${node.name.toLowerCase()} has more than one link in the same ${port.label
@@ -681,7 +681,7 @@ export default function Code(props: { model: string }) {
             .filter((problem) => problem.message === p.message)
             .map((problem) => problem.node);
 
-          console.log(problemNodes);
+          // console.log(problemNodes);
 
           let nodes: any[] = [];
           let links: any[] = [];
