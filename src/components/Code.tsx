@@ -187,8 +187,7 @@ function generateCode(model: any): { code: string; problems: any[] } {
           console.log("checking ", port);
           if (port.links.length > 1) {
             warn(
-              `This ${node.name.toLowerCase()} has more than one link in the same ${
-                port.label
+              `This ${node.name.toLowerCase()} has more than one link in the same ${port.label
               } port.`,
               node
             );
@@ -283,17 +282,13 @@ function generateCode(model: any): { code: string; problems: any[] } {
     const uniqueAnalogs = [...new Set(usedAnalog.map((u) => u.extras.value))];
 
     add(
-      `Analog ports ${uniqueAnalogs.length} /${
-        controller?.extras.analogPorts
-      } ${
-        usedAnalog.length > 0 ? `(${uniqueAnalogs.map((port) => port)})` : ""
+      `Analog ports ${uniqueAnalogs.length} /${controller?.extras.analogPorts
+      } ${usedAnalog.length > 0 ? `(${uniqueAnalogs.map((port) => port)})` : ""
       } `
     );
     add(
-      `Digital ports ${uniqueDigitals.length}/${
-        controller?.extras.digitalPorts
-      } ${
-        usedDigital.length > 0 ? `(${uniqueDigitals.map((port) => port)})` : ""
+      `Digital ports ${uniqueDigitals.length}/${controller?.extras.digitalPorts
+      } ${usedDigital.length > 0 ? `(${uniqueDigitals.map((port) => port)})` : ""
       }`,
       "    */"
     );
@@ -408,15 +403,15 @@ function generateCode(model: any): { code: string; problems: any[] } {
       if (node?.instance) {
         add(
           node.instance +
-            "." +
-            port.name.substring(
-              port.name.indexOf(" ") + 1,
-              port.name.indexOf("(")
-            ) +
-            "(" +
-            formattedParameters(params) +
-            ")" +
-            ";"
+          "." +
+          port.name.substring(
+            port.name.indexOf(" ") + 1,
+            port.name.indexOf("(")
+          ) +
+          "(" +
+          formattedParameters(params) +
+          ")" +
+          ";"
         );
       } else if (fromNode?.instance) {
         add(fromNode.instance + "." + fromPort.name + "();");
@@ -432,10 +427,10 @@ function generateCode(model: any): { code: string; problems: any[] } {
             port.name.indexOf(" ") + 1,
             port.name.indexOf("(")
           ) +
-            "(" +
-            formattedParameters(params) +
-            ")" +
-            ";"
+          "(" +
+          formattedParameters(params) +
+          ")" +
+          ";"
         );
       } else if (node.extras.type === "logic") {
         if (node.name === "Function") {
@@ -734,23 +729,26 @@ export default function Code(props: { model: string }) {
                   </ReactTooltip>
                 </>
               )}
-              {problemNodes.map((pn) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-evenly",
-                    width: "100%",
-                  }}
-                >
-                  <Xarrow
-                    strokeWidth={2}
-                    start={problemId}
-                    end={pn.id}
-                    color="yellow"
-                  />
-                </div>
-              ))}
+              {problemNodes.map((pn) => {
+                if (pn?.id) return (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-evenly",
+                      width: "100%",
+                    }}
+                  >
+                    <Xarrow
+                      strokeWidth={2}
+                      start={problemId}
+                      end={pn.id}
+                      color="yellow"
+                    />
+                  </div>
+                )
+                return <></>;
+              })}
             </div>
           );
         })}
@@ -763,6 +761,6 @@ export default function Code(props: { model: string }) {
       >
         <code className="language-clike">{code}</code>
       </pre>
-    </div>
+    </div >
   );
 }
