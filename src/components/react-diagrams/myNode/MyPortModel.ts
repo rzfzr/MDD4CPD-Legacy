@@ -76,10 +76,21 @@ export class MyPortModel extends PortModel<DefaultPortModelGenerics> {
 		link.setWidth(5)
 
 		setTimeout(() => {
-			const seed = Object.keys(link.getSourcePort().links).length
-			if (seed) {
-				link.setColor('#' + genColor(3 + seed))
+			try {
+				const ports = Object.values(link.getSourcePort().getParent().getPorts())
+				const linkQuantity = Object.values(ports).map(port => Object.keys(port.links).length)
+					.reduce((acc: any, l: any) => { return acc + l }, 0)
+
+				if (linkQuantity) {
+					link.setColor('#' + genColor(3 + linkQuantity))
+				} else {
+					throw (new Error('no links'))
+				}
+			} catch (error) {
+				link.setColor('#f42921')
+
 			}
+
 		}, 500);
 
 		return link
