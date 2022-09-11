@@ -36,7 +36,7 @@ namespace S {
   export const Code = styled.div`
 		position: absolute;
 		background-color: #2d2d2d ;
-		left:50%;
+		left:60%;
 		top:0;
 		right:0;
 		bottom:0;
