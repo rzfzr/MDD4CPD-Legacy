@@ -13,7 +13,8 @@ export default function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Routes >
+        <EditorPage />
+        {/* <Routes >
           <Route path='/mdd4/' element={<HomePage />} />
           <Route path='/mdd4/models' element={<ModelsPage />} />
           <Route path='/mdd4/transformations' element={<TransformationsPage />} />
@@ -21,7 +22,7 @@ export default function App() {
           <Route path='/mdd4/editor' element={<EditorPage />} />
           <Route path='/mdd4/settings' element={<SettingsPage />} />
         </Routes>
-        <NavigationBar />
+        <NavigationBar /> */}
       </header>
     </div>
   );

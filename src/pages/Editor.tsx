@@ -69,7 +69,7 @@ function EditorPage() {
             className="area"
             contentClassName="content"
             horizontal={false}
-            style={{ height: '95vh' }}
+            style={{ height: '100vh' }}
             smoothScrolling={true}
             verticalScrollbarStyle={{ backgroundColor: 'white' }}
           >
