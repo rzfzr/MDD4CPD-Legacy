@@ -3,6 +3,7 @@ export default [
     {
         name: 'Arduino Uno',
         color: 'green',
+        highlighted: true,
         extras: {
             type: 'controller',
             analogPorts: 6,
@@ -88,6 +89,7 @@ export default [
     {
         name: 'Parameter(s)',
         color: 'pink',
+        highlighted: true,
         extras: {
             group: 'value',
             type: 'parameter',
@@ -200,6 +202,7 @@ export default [
     {
         name: 'Digital I/O',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in'
         },
@@ -225,6 +228,7 @@ export default [
     {
         name: 'Time',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in'
         },
@@ -370,6 +374,7 @@ export default [
     }, {
         name: 'HIGH',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
@@ -418,6 +423,7 @@ export default [
     }, {
         name: 'LOW',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
@@ -500,6 +506,7 @@ export default [
     }, {
         name: 'OUTPUT',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
@@ -521,6 +528,7 @@ export default [
     }, {
         name: 'LED_BUILTIN',
         color: 'cyan',
+        highlighted: true,
         extras: {
             type: 'built-in-constant',
             returnType: 'int',
