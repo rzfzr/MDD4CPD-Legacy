@@ -1,8 +1,5 @@
 # MDD4CPD
-Model Driven Methodology For Cyber-Physical Devices
-
-More info about this here: https://dl.acm.org/doi/abs/10.1145/3535511.3535542
-
+:warning: This project has moved to a [new repository](https://github.com/GSEKM/MDD4CPD), due to a tech stack and collaborator change.
 
 ## Tool Architectural Flow
 ```mermaid
@@ -11,7 +8,3 @@ graph TD;
     CodeGenerator-->ArduinoCode;
     CodeGenerator-->CodeComments;
 ```
-
-## Master's Thesis
-
-[Document is hosted here](documents/thesis.pdf)
